@@ -20,6 +20,7 @@
     <!-- Styles -->
     <link href="{{ url('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/frontend.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/date-picker.css') }}" rel="stylesheet">
 
 </head>
 <body>
@@ -193,6 +194,8 @@
     <script src="{{url('js/scripts.js?ver=1.9.0')}}"></script>
     {{-- <script src="{{url('js/chart-ecommerce.js')}}"></script> --}}
     <script src="{{url('js/parsley.min.js')}}"></script>
+    <script src="{{url('js/date-picker.js')}}"></script>
+    <script src="{{url('js/script.js')}}"></script>
     @stack('footerScripts')
     <script src="{{url('js/common.js?t='.time())}}"></script>
 
