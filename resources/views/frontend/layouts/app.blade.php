@@ -9,8 +9,6 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
-    <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -61,7 +59,7 @@
         </header>
 
         <!-- START: Login Modal -->
-        <div class="login-modal-wrap" style="display: none">
+        <div class="login-modal-wrap">
             <div class="login-modal-overlay">&nbsp;</div>
             <div class="login-modal">
                 <div class="login-modal-left">
@@ -72,13 +70,14 @@
                         <h2 class="login-modal-heading">Login account</h2>
                     </div>
                     {!! NoCaptcha::renderJs() !!}
-                    <form>
+                    <form method="POST" action="{{ url('post-login') }}" data-validate="parsley" autocomplete="off">
+                        @csrf
                         <div class="login-form-item">
                             <div class="input-group">
                                 <div class="input-group-icon">
                                     <i class="far fa-user"></i>
                                 </div>
-                                <input class="form-control" id="username" type="text" placeholder="Username">
+                                <input class="form-control" id="username" name="email" type="text" placeholder="Username/Email" required>
                             </div>
                         </div>
                         <div class="login-form-item">
@@ -86,7 +85,7 @@
                                 <div class="input-group-icon">
                                     <i class="fas fa-key"></i>
                                 </div>
-                                <input class="form-control" id="password" type="password" placeholder="******************">
+                                <input class="form-control" id="password" name="password" type="password" placeholder="******************">
                                 <i class="fa fa-eye" id="togglePassword"></i>
                             </div>
                         </div>
@@ -94,7 +93,7 @@
                             {!! app('captcha')->display() !!}
                         </div>
                         <div class="login-form-item login-form-button">
-                            <button type="button" class="primary-button">Login</button>
+                            <button type="submit" class="primary-button">Login</button>
                         </div>
                     </form>
                     <p class="footer-b">
@@ -186,7 +185,38 @@
             </div>
         </footer>
     </div>
+
+    <script src="{{url('js/bundle.js?ver=1.9.0')}}"></script>
+    <script src="{{url('js/scripts.js?ver=1.9.0')}}"></script>
+    {{-- <script src="{{url('js/chart-ecommerce.js')}}"></script> --}}
+    <script src="{{url('js/parsley.min.js')}}"></script>
+    @stack('footerScripts')
+    <script src="{{url('js/common.js?t='.time())}}"></script>
+
+    <style type="text/css">
+        #g-recaptcha-response {
+          display: block !important;
+          position: absolute;
+          margin: -78px 0 0 0 !important;
+          width: 302px !important;
+          height: 76px !important;
+          z-index: -999999;
+          opacity: 0;
+        }
+    </style>
+
     <script>
+        $(document).ready(function () {
+            $("form").parsley();
+        });
+
+        window.addEventListener('load', () => {
+          const $recaptcha = document.querySelector('#g-recaptcha-response');
+          if ($recaptcha) {
+            $recaptcha.setAttribute('required', 'required');
+          }
+        })
+
         $(function() {
             // Mobile navigation toggle
             $('.mobile-navigation-button').click(function() {
