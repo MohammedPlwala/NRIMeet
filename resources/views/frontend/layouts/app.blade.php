@@ -29,7 +29,7 @@
             <div class="top-header">
                 <div class="row">
                 <div class="logo-1">
-                    <a href="/frontend/" title=""><img src="{{url('images/PBD.png')}}" alt="PBD" /></a>
+                    <a href="{{url('/frontend/')}}" title=""><img src="{{url('images/PBD.png')}}" alt="PBD" /></a>
                 </div>
                 <div class="logo-6"><img src="{{url('images/Group-64421.png')}}" alt="Group-64421" /></div>
                 <div class="logo-2"><img src="{{url('images/azadi-75.png')}}" alt="azadi-75" /></div>
@@ -42,26 +42,26 @@
             <div class="navigation">
                 <ul>
                     <li class="nav-item">
-                        <a href="/frontend/">Accommodation</a>
+                        <a href="{{url('/frontend/')}}">Accommodation</a>
                     </li>
                     <li class="nav-item">
-                        <a href="/frontend/mahakal-lok-darshan">Mahakal Lok Darshan</a>
+                        <a href="{{url('/frontend/mahakal-lok-darshan')}}">Mahakal Lok Darshan</a>
                     </li>
                     <li class="nav-item">
-                        <a href="/frontend/user-my-booking">My Bookings</a>
+                        <a href="{{url('/frontend/user-my-booking')}}">My Bookings</a>
                     </li>
                     <li class="nav-item">
-                        <a href="/frontend/contact-us">Contact Us</a>
+                        <a href="{{url('/frontend/contact-us')}}">Contact Us</a>
                     </li>
                     <li class="nav-item">
-                        <a href="/frontend/my-account/customer-logout/">Log Out</a>
+                        <a href="{{url('/frontend/my-account/customer-logout/')}}">Log Out</a>
                     </li>
                 </ul>
             </div>
         </header>
 
         <!-- START: Login Modal -->
-    <div class="login-modal-wrap">
+        <div class="login-modal-wrap" style="display: none">
             <div class="login-modal-overlay">&nbsp;</div>
             <div class="login-modal">
                 <div class="login-modal-left">
@@ -175,11 +175,11 @@
         <footer class="footer">
             <div class="footer-container">
                 <p class="footer-nav">
-                    <a href="/frontend/about-us">About Us</a> | 
-                    <a href="/frontend/privacy-policy">Privacy Policy</a> | 
-                    <a href="frontend/booking-policy">Booking Policy</a> | 
-                    <a href="/frontend/terms-and-conditions">Terms &amp; Conditions</a> | 
-                    <a href="/frontend/refund-cancellation-policy">Refund &amp; Cancellation Policy</a> 
+                    <a href="{{url('/frontend/about-us')}}">About Us</a> | 
+                    <a href="{{url('/frontend/privacy-policy')}}">Privacy Policy</a> | 
+                    <a href="{{url('/frontend/booking-policy')}}">Booking Policy</a> | 
+                    <a href="{{url('/frontend/terms-and-conditions')}}">Terms &amp; Conditions</a> | 
+                    <a href="{{url('/frontend/refund-cancellation-policy')}}">Refund &amp; Cancellation Policy</a> 
                 </p>
                 <p class="sohohotel-footer-message">Copyright © 2022, Madhya Pradesh State Tourism Development Corporation Ltd. All Rights Reserved.</p>
                 <p class="sohohotel-footer-message" style="width: 100%;">Visitor: 70046</p>
