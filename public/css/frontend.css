@@ -814,7 +814,7 @@ body {
   font-family: 'Work Sans', sans-serif;
   line-height: 1 !important;
 }
-h1, h2, h3, h4, h5, h6 {
+h1, h2, h3, h4, h5, h6, textarea, input {
   font-family: 'Work Sans', sans-serif;
 }
 /* Login Modal */
@@ -855,7 +855,7 @@ h1, h2, h3, h4, h5, h6 {
   transform: translate(-50%, -50%);
 }
 .login-modal-wrap .login-modal .login-modal-header{
-  padding: 27px 0 7px 0;
+  padding: 27px 0 27px 0;
 }
 .login-modal-wrap .login-modal .login-modal-header .login-modal-heading{
   font-size: 28px;
@@ -946,6 +946,9 @@ h1, h2, h3, h4, h5, h6 {
   transform: translateY(-50%);
   z-index: 10;
 }
+.login-modal-wrap .login-modal .login-form-item.login-form-button{
+  margin-bottom: 10px;
+}
 .login-modal-wrap .login-modal .login-form-item .primary-button{
   text-transform: uppercase;
 }
@@ -954,10 +957,10 @@ h1, h2, h3, h4, h5, h6 {
   color: #ffffff;
   font-weight: 600;
   font-size: 15px;
-  height: 40px;
+  height: 44px;
   border-radius: 5px !important;
   border: 1px solid;
-  padding: 5px 20px;
+  padding: 6px 22px;
 }
 
 .container p {
@@ -1287,6 +1290,18 @@ header.header {
     margin: 10px auto;
     display: block;
     height: auto;
+  }
+}
+@media only screen and (max-width: 768px) {
+  .login-modal-wrap .login-modal .login-modal-left{
+    display: none;
+  }
+  .login-modal-wrap .login-modal .login-modal-right{
+    width: 100%;
+    padding: 10px 20px;
+  }
+  .login-modal-wrap .login-modal .login-modal-header{
+    padding: 10px 0 20px 0;
   }
 }
 @media only screen and (max-width: 600px) {

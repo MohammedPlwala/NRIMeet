@@ -93,7 +93,7 @@
                         <div class="login-form-item">
                             {!! app('captcha')->display() !!}
                         </div>
-                        <div class="login-form-item">
+                        <div class="login-form-item login-form-button">
                             <button type="button" class="primary-button">Login</button>
                         </div>
                     </form>
