@@ -20,6 +20,9 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+// Route::get('/frontend', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::get('/', '\Modules\Dashboard\Http\Controllers\DashboardController@index');
+
 Route::get('razorpay-payment', [RazorpayPaymentController::class, 'index']);
 Route::post('razorpay-payment', [RazorpayPaymentController::class, 'store'])->name('razorpay.payment.store');
