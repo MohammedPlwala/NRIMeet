@@ -22,11 +22,6 @@
     </script>
     <script src="{{url('js/jquery-3.5.1.min.js?t='.time())}}"></script>
     <script src="https://code.jquery.com/jquery-migrate-3.3.1.min.js" integrity="sha256-APllMc0V4lf/Rb5Cz4idWUCYlBDG3b0EcN1Ushd3hpE=" crossorigin="anonymous"></script>
-
-    <script src="{{url('js/firebase-app.js?t='.time()) }}"></script>
-    <script src="{{url('js/firebase-auth.js?t='.time()) }}"></script>
-    <script src="{{url('js/firebase-firestore.js?t='.time()) }}"></script>
-    <script src="{{url('js/firebase-database.js?t='.time()) }}"></script>
     <script src="{{url('js/print.min.js?t='.time())}}"></script>
 
     @stack('headerScripts')
@@ -234,7 +229,7 @@
                 <div class="nk-footer">
                     <div class="container-fluid">
                         <div class="nk-footer-wrap">
-                            <div class="nk-footer-copyright"> &copy; 2020 Profitley.
+                            <div class="nk-footer-copyright"> &copy; {{ date('Y') }} NRIMeet.
                             </div>
                             <div class="nk-footer-links">
                                 <ul class="nav nav-sm">
@@ -256,7 +251,6 @@
     <script src="{{url('js/scripts.js?ver=1.9.0')}}"></script>
     {{-- <script src="{{url('js/chart-ecommerce.js')}}"></script> --}}
     <script src="{{url('js/parsley.min.js')}}"></script>
-    <script src="{{url('js/top-notifications.js')}}"></script>
     @stack('footerScripts')
     <script src="{{url('js/common.js?t='.time())}}"></script>
     <script src="{{url('js/jquery.simplePagination.js')}}"></script>
