@@ -1,5 +1,6 @@
 {
     "Blog": true,
     "Dashboard": true,
-    "Frontend": true
+    "Frontend": true,
+    "Hotel": true
 }
