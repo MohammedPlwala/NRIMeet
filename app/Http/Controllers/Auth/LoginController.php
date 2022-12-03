@@ -44,6 +44,11 @@ class LoginController extends Controller
     public function postLogin(Request $request)
     {
 
+        request()->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
+
         $loginData['email'] = $request->email;
         $loginData['password'] = $request->password;
         $loginData['token'] = 'pbd2O23trmGRtc8QBgVk9LUP';
@@ -59,11 +64,7 @@ class LoginController extends Controller
         );
 
         curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
-        // $data = json_encode($loginData);
-
-
         curl_setopt($curl, CURLOPT_POSTFIELDS, $loginData);
-        
 
         //for debug only!
         curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
@@ -72,15 +73,54 @@ class LoginController extends Controller
         $result = curl_exec($curl);
         curl_close($curl);
         $result = json_decode($result);
+
+
+        if(isset($result->resultflag) && $result->resultflag == 1){
+
+            $userDetails = $result->details;
+
+            $checkUser = User::where('email',$request->email)->first();
+            if($checkUser){
+                $credentials = ['email'=>$request->get('email'),'password'=>'123456'];
+                if (Auth::attempt($credentials)) {
+                    $user = Auth::user();
+                }
+            }else{
+                $newUser = new User();
+                $newUser->full_name = $userDetails->full_name;
+                $newUser->email = $userDetails->email;
+                $newUser->password = \Hash::make('123456');
+                $newUser->gender = $userDetails->gender;
+                $newUser->mobile = $userDetails->mobile;
+                $newUser->address = $userDetails->address;
+                $newUser->nationality = $userDetails->nationality;
+                $newUser->country = $userDetails->country;
+                $newUser->zip = $userDetails->zip;
+                $newUser->identity_type = $userDetails->identity_type;
+                $newUser->identity_number = $userDetails->identity_number;
+                $newUser->date_of_birth = date('Y-m-d',strtotime($userDetails->date_of_birth));
+                if($newUser->save()){
+                    $credentials = ['email'=>$request->get('email'),'password'=>'123456'];
+                    if (Auth::attempt($credentials)) {
+                        $user = Auth::user();
+                    }
+                }else{
+                    return redirect('/')->with('error', 'Invalid username or password');
+                }
+            }
+
+            return redirect()->intended('/');
+
+        }else{
+            return redirect('/')->with('error', 'Invalid username or password');
+        }
+
         echo "<pre>";
         print_r($result);
         die;
 
         
-        request()->validate([
-            'email' => 'required|email',
-            'password' => 'required',
-        ]);
+        
      
         $credentials = ['email'=>$request->get('email'),'password'=>$request->get('password')];
         if (Auth::attempt($credentials)) {

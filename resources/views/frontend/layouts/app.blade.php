@@ -59,6 +59,7 @@
             </div>
         </header>
 
+        @guest
         <!-- START: Login Modal -->
         <div class="login-modal-wrap">
             <div class="login-modal-overlay">&nbsp;</div>
@@ -112,6 +113,7 @@
             </div>
         </div>
         <!-- END: Login Modal -->
+        @endguest
 
         <?php /* ?>
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
