@@ -61,7 +61,7 @@
 
         @guest
         <!-- START: Login Modal -->
-        <div class="login-modal-wrap">
+        <!-- <div class="login-modal-wrap">
             <div class="login-modal-overlay">&nbsp;</div>
             <div class="login-modal">
                 <div class="login-modal-left">
@@ -111,7 +111,7 @@
                     </p>
                 </div>
             </div>
-        </div>
+        </div> -->
         <!-- END: Login Modal -->
         @endguest
 
@@ -193,6 +193,7 @@
     <script src="{{url('js/scripts.js?ver=1.9.0')}}"></script>
     {{-- <script src="{{url('js/chart-ecommerce.js')}}"></script> --}}
     <script src="{{url('js/parsley.min.js')}}"></script>
+    <script src="{{url('js/date-picker.js')}}"></script>
     @stack('footerScripts')
     <script src="{{url('js/common.js?t='.time())}}"></script>
 
