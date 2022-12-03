@@ -25,6 +25,18 @@ class FrontendController extends Controller
     {
         return view('frontend::privacyPolicy');
     }
+    public function bookingPolicy()
+    {
+        return view('frontend::bookingPolicy');
+    }
+    public function termsAndConditions()
+    {
+        return view('frontend::termsAndConditions');
+    }
+    public function refundCancellationPolicy()
+    {
+        return view('frontend::refundCancellationPolicy');
+    }
 
     /**
      * Show the form for creating a new resource.

@@ -15,4 +15,7 @@ Route::prefix('frontend')->group(function() {
     Route::get('/', 'FrontendController@index');
     Route::get('about-us', 'FrontendController@about');
     Route::get('privacy-policy', 'FrontendController@privacyPolicy');
+    Route::get('booking-policy', 'FrontendController@bookingPolicy');
+    Route::get('terms-and-conditions', 'FrontendController@termsAndConditions');
+    Route::get('refund-cancellation-policy', 'FrontendController@refundCancellationPolicy');
 });
