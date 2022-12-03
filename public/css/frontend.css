@@ -855,7 +855,7 @@ h1, h2, h3, h4, h5, h6 {
   transform: translate(-50%, -50%);
 }
 .login-modal-wrap .login-modal .login-modal-header{
-  padding: 27px 15px 7px 15px;
+  padding: 27px 0 7px 0;
 }
 .login-modal-wrap .login-modal .login-modal-header .login-modal-heading{
   font-size: 28px;
@@ -868,7 +868,20 @@ h1, h2, h3, h4, h5, h6 {
 }
 .login-modal-wrap .login-modal .login-modal-right{
   width: 50%;
-  padding: 10px 20px;
+  padding: 10px 35px;
+}
+.login-modal-wrap .login-modal .login-modal-right .footer-b{
+  padding: 0;
+  font-size: 12px;
+  line-height: 18px;
+  margin-top: 0px;
+}
+.login-modal-wrap .login-modal .login-modal-right .footer-b a {
+  color: #1e306a;
+  text-decoration: underline;
+}
+.login-modal-wrap .login-modal .login-modal-right .footer-b a:hover{
+  text-decoration: none;
 }
 .login-modal-wrap .login-modal input.form-control{
   width: 100%;
@@ -879,6 +892,62 @@ h1, h2, h3, h4, h5, h6 {
 }
 .login-modal-wrap .login-modal .login-form-item{
   margin-bottom: 20px;
+}
+.login-modal-wrap .login-modal .login-form-item .input-group{
+  position: relative;
+  display: flex;
+}
+.login-modal-wrap .login-modal .login-form-item .input-group .input-group-icon{
+  background-color: #eee;
+  color: #555;
+  max-width: 40px;
+  min-width: 40px;
+  border: 1px solid #ccc;
+  border-right: 0;
+  font-size: 14px;
+  padding: 6px 0;
+  text-align: center;
+  border-radius: 4px;
+  border-bottom-right-radius: 0;
+  border-top-right-radius: 0;
+  align-items: center;
+  height: auto;
+  align-self: stretch;
+  display: flex;
+  width: 100%;
+  justify-content: center;
+}
+.login-modal-wrap .login-modal .login-form-item .input-group input.form-control{
+  flex-grow: 1;
+  min-width: 1px;
+  margin: 0;
+  position: relative;
+  z-index: 2;
+  width: 100%!important;
+  margin-bottom: 0;
+  height: 50px;
+  padding: 6px 12px;
+  font-size: 14px;
+  line-height: 3.428571;
+  background-image: none;
+  border: 1px solid #ccc;
+  border-radius: 0 4px 4px 0;
+  -webkit-box-shadow: inset 0 1px 1px rgb(0 0 0 / 8%);
+  box-shadow: inset 0 1px 1px rgb(0 0 0 / 8%);
+  -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+  -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+  transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+}
+.login-modal-wrap .login-modal .login-form-item .input-group #togglePassword{
+  cursor: pointer;
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+}
+.login-modal-wrap .login-modal .login-form-item .primary-button{
+  text-transform: uppercase;
 }
 .primary-button{
   background-color: #1e306a;

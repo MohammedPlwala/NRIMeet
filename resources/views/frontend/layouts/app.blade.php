@@ -60,43 +60,7 @@
             </div>
         </header>
 
-        <!-- START: Login Modal -->
-        <div class="login-modal-wrap">
-            <div class="login-modal-overlay">&nbsp;</div>
-            <div class="login-modal">
-                <div class="login-modal-left">
-                    <div class="img-div"></div>
-                </div>
-                <div class="login-modal-right">
-                    <div class="login-modal-header">
-                        <h2 class="login-modal-heading">Login account</h2>
-                    </div>
-                    <form>
-                        <div class="login-form-item">
-                            <input class="form-control" id="username" type="text" placeholder="Username">
-                        </div>
-                        <div class="login-form-item">
-                            <input class="form-control" id="password" type="password" placeholder="******************">
-                        </div>
-                        <div class="login-form-item">
-                            <button type="button" class="primary-button">Sign In</button>
-                        </div>
-                    </form>
-                    <p class="footer-b">
-                        Our representatives are <br>available to assist you 24*7
-
-                        <br><br>
-                        Contact Us: <a href="tel:+91 731 244 4404" target="_blank">+91 731 244 4404</a><br>
-                        WhatsApp Support: <a href="https://api.whatsapp.com/send?phone=+919893908123&amp;text=Welcome%20to%20Pravasi%20Bharatiya%20Divas%202023" target="_blank">+91 9893908123</a>
-                        <br><br>
-
-                        Note: Only the registered delegates of PBD can access this website for accommodation. 
-                        If not registered, please <a href="https://pbdindia.gov.in/registration" target="_blank">click here </a>to get registered for Pravasi Bharatiya Divas.
-                    </p>
-                </div>
-            </div>
-        </div>
-        <!-- END: Login Modal -->
+        
 
         <?php /* ?>
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
