@@ -17,6 +17,11 @@ class FrontendController extends Controller
         return view('frontend::index');
     }
 
+    public function booking()
+    {
+        return view('frontend::booking');
+    }
+
     public function about()
     {
         return view('frontend::about');

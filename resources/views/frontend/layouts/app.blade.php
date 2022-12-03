@@ -20,6 +20,7 @@
     <!-- Styles -->
     <link href="{{ url('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/frontend.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/date-picker.css') }}" rel="stylesheet">
 
 </head>
 <body>
@@ -61,7 +62,7 @@
 
         @guest
         <!-- START: Login Modal -->
-        <!-- <div class="login-modal-wrap">
+        <div class="login-modal-wrap">
             <div class="login-modal-overlay">&nbsp;</div>
             <div class="login-modal">
                 <div class="login-modal-left">
@@ -111,7 +112,7 @@
                     </p>
                 </div>
             </div>
-        </div> -->
+        </div>
         <!-- END: Login Modal -->
         @endguest
 
@@ -194,6 +195,7 @@
     {{-- <script src="{{url('js/chart-ecommerce.js')}}"></script> --}}
     <script src="{{url('js/parsley.min.js')}}"></script>
     <script src="{{url('js/date-picker.js')}}"></script>
+    <script src="{{url('js/script.js')}}"></script>
     @stack('footerScripts')
     <script src="{{url('js/common.js?t='.time())}}"></script>
 

@@ -1,10 +1,23 @@
-var shbdp_format = 'DD/MM/YYYY';
-	var shbdp_format_placeholder = 'DD/MM/YYYY';
-	var shb_booking_page_url = 'https://pbdaccommodation.mptourism.com/bookings/';
-	var shb_err_msg_dates = 'Please select a check in and check out date';
-	var shb_err_msg_guests = 'Please select at least 1 guest';
-	var shb_datepicker_daynames = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
-	var shb_datepicker_monthnames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+var shbdp_format = "DD/MM/YYYY";
+var shbdp_format_placeholder = "DD/MM/YYYY";
+var shb_booking_page_url = "https://pbdaccommodation.mptourism.com/bookings/";
+var shb_err_msg_dates = "Please select a check in and check out date";
+var shb_err_msg_guests = "Please select at least 1 guest";
+var shb_datepicker_daynames = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
+var shb_datepicker_monthnames = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+];
 
 jQuery(document).ready(function ($) {
     "use strict";
@@ -641,4 +654,69 @@ function shbdp_off_screen(input) {
         // not off screen
         return false;
     }
+}
+
+// Add Room
+
+jQuery("form").attr("autocomplete", "off");
+function add_another_room() {
+    jQuery(".show_filter_2_room").toggle();
+    if (jQuery(".show_filter_2_room").css("display") == "none") {
+        jQuery("#add_another_room").html("+ ADD ANOTHER ROOM");
+        jQuery(".add_another_room").css("background", "#1e306a");
+        jQuery('input[name="shb-guestclass-add-another-107"]').val("0");
+        jQuery('input[name="shb-guestclass-add-another-108"]').val("0");
+    } else {
+        jQuery("#add_another_room").html("X REMOVE THE ROOM");
+        jQuery(".add_another_room").css("background", "#cf2156");
+        jQuery('input[name="shb-guestclass-add-another-107"]').val("0");
+        jQuery('input[name="shb-guestclass-add-another-108"]').val("0");
+    }
+    jQuery("#other-shb-qty-display-107").html("0");
+    jQuery("#other-shb-qty-display-108").html("0");
+    var shb_guestclass_total = 0;
+
+    jQuery(".desktop .shb-guestclass").each(function (i, obj) {
+        shb_guestclass_total = shb_guestclass_total + parseInt(obj.value);
+    });
+    jQuery(".desktop .shb-guestclass-total").html(shb_guestclass_total);
+}
+function shb_booking_continue() {
+    jQuery("#guests_info_front_form").find('[type="submit"]').trigger("click");
+}
+jQuery("#price-min").mouseout(function () {
+    var value = jQuery(this).val();
+    if (value > 2999) {
+        jQuery("#price-min").val(value);
+    } else {
+        jQuery("#price-min").val(3000);
+    }
+});
+jQuery("#price-max").mouseout(function () {
+    var value = jQuery(this).val();
+    if (value > 2999 && value < 23000) {
+        jQuery("#price-max").val(value);
+    } else {
+        jQuery("#price-max").val(23000);
+    }
+});
+jQuery(".nav-item").on("click", function (e) {
+    e.preventDefault();
+    $(this).tab("show");
+});
+function show_rooms_custom(accommodation_id) {
+    jQuery(".show_rooms_box" + accommodation_id).toggle();
+}
+const togglePassword = document.querySelector("#togglePassword");
+const password = document.querySelector(".xoo-aff-password");
+
+if (togglePassword) {
+    togglePassword.addEventListener("click", function (e) {
+        // toggle the type attribute
+        const type =
+            password.getAttribute("type") === "password" ? "text" : "password";
+        password.setAttribute("type", type);
+        // toggle the eye slash icon
+        this.classList.toggle("fa-eye-slash");
+    });
 }

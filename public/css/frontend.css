@@ -400,11 +400,12 @@ header.header {
   opacity: 0.7;
 }
 .shb-booking-form-style-1 .shb-guestclass-select-dropdown{
+  border: #1e306a 2px solid;
+  width: 100%;
+  max-width: 390px;
   position: absolute;
   top: 94px;
   left: 0px;
-  width: 100%;
-  max-width: 390px;
   padding: 10px 26px;
   background: #fff;
   -moz-box-shadow: 0px 12px 12px 5px rgba(0, 0, 0, 0.09);
@@ -414,6 +415,12 @@ header.header {
   display: none;
   border-top: #dedede 1px solid;
   box-sizing: border-box;
+}
+
+.sohohotel-content-wrapper p {
+  color: #656a70;
+  margin: 0 0 30px 0;
+  font-size: 15px;
 }
 
 /* Client Logos */
@@ -455,6 +462,78 @@ header.header {
 .mobile-navigation-button{
   display: none;
 }
+
+
+
+
+.shb-guestclass-select-dropdown .shb-guestclass-select-section label {
+  float: left;
+  color: #181b20;
+  margin: 0;
+  font-size: 13px;
+    display: block;
+}
+
+.shb-booking-step-wrapper {
+	position: relative;
+	margin: 0 0 40px 0;
+}
+
+.shb-booking-step-wrapper .shb-booking-step {
+	float: left;
+	width: 25%;
+}
+
+.shb-booking-step-wrapper .shb-booking-step.shb-booking-step-current a:first-child {
+	background: #b99470;
+	border: #b99470 2px solid;
+	color: #fff;
+}
+
+.shb-booking-step-wrapper .shb-booking-step a:first-child {
+	background: #fff;
+	border: #dedede 2px solid;
+	color: #181b20;
+	width: 40px;
+	height: 40px;
+	display: block;
+	text-align: center;
+	margin: 0 auto 12px auto;
+	-webkit-border-radius: 100%;
+	-moz-border-radius: 100%;
+	-o-border-radius: 100%;
+	border-radius: 100%;
+	line-height: 1;
+	padding: 10px 0 0 0;
+}
+
+.shb-booking-step-wrapper .shb-booking-step a:last-child {
+	text-align: center;
+	display: block;
+	font-size: 15px;
+	color: #181b20;
+}
+
+.shb-booking-step-wrapper .shb-booking-step-line {
+	position: absolute;
+	background: #dedede;
+	height: 2px;
+	width: 75%;
+	top: 20px;
+	left:0;
+	right:0;
+	margin-left:auto;
+	margin-right:auto;
+	z-index: -1;
+}
+
+.shb-booking-step-wrapper .shb-booking-step-line div {
+	background: #b99470;
+	height: 2px;
+}
+
+
+
 @media only screen and (min-width: 601px) {
   .d-hide{
     display: none;

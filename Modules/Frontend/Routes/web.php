@@ -13,6 +13,7 @@
 
 Route::prefix('frontend')->group(function() {
     Route::get('/', 'FrontendController@index');
+    Route::get('booking', 'FrontendController@booking');
     Route::get('about-us', 'FrontendController@about');
     Route::get('privacy-policy', 'FrontendController@privacyPolicy');
     Route::get('booking-policy', 'FrontendController@bookingPolicy');

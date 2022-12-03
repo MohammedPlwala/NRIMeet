@@ -1,0 +1,160 @@
+.shbdp-cal-wrapper {
+	width: 50%;
+	/*max-width: 100%;*/
+	background: #fff;
+	-moz-box-shadow: 0px 12px 12px 5px rgba(0, 0, 0, 0.09);
+	-webkit-box-shadow: 0px 12px 12px 5px rgba(0, 0, 0, 0.09);
+	box-shadow: 0px 12px 12px 5px rgba(0, 0, 0, 0.1);
+	padding: 26px;
+	z-index: 99;
+	display: none;
+	position: absolute;
+	border-top: #dedede 1px solid;
+	line-height: 160%;
+}
+
+.shbdp-cal-wrapper .shbdp-cal .shbdp-item {
+	display: none;
+}
+
+.shbdp-cal-wrapper .shbdp-cal .shbdp-item-open-1,
+.shbdp-cal-wrapper .shbdp-cal .shbdp-item-open-2 {
+	width: 100%;/*calc(50% - 13px);*/
+	display: block;
+}
+
+.shbdp-cal-wrapper .shbdp-cal .shbdp-item-open-1 {
+	float: left;
+}
+
+.shbdp-cal-wrapper .shbdp-cal .shbdp-item-open-2 {
+	float: right;
+}
+
+.shbdp-cal-wrapper .shbdp-nav-prev {
+	position: absolute;
+	top: 26px;
+	left: 26px;
+}
+
+.shbdp-cal-wrapper .shbdp-nav-next {
+	position: absolute;
+	top: 26px;
+	right: 26px;
+}
+
+
+.shbdp-cal-wrapper .shbdp-cal .shbdp-month-title {
+	text-align: center;
+	padding: 0px 0px 15px 0px;
+	font-size: 15px;
+}
+
+.shbdp-cal-wrapper .shbdp-cal table {
+	margin: 0;
+    width: 100%;
+}
+
+.shbdp-cal-wrapper .shbdp-cal table tbody td {
+	background: #fff;
+	text-align: center;
+	border-right: none;
+	border-bottom: none;
+	padding: 10px 7px;
+	font-size: 15px;
+	-webkit-transition: all 0.2s ease-in-out;
+	-moz-transition: all 0.2s ease-in-out;
+	-o-transition: all 0.2s ease-in-out;
+	-ms-transition: all 0.2s ease-in-out;
+	transition: all 0.2s ease-in-out;
+}
+
+.shbdp-cal-wrapper .shbdp-cal table tbody td.shbdp-datepicker-date {
+	border: #e8e8e8 1px solid;
+	box-sizing: border-box;
+	cursor: pointer;
+}
+
+.shbdp-cal-wrapper .shbdp-cal table tbody td.shbdp-datepicker-date.shbdp-cal-unavailable,
+.shbdp-cal-wrapper .shbdp-cal table tbody td.shbdp-datepicker-date.shbdp-cal-unavailable:hover {
+	background-image: url(images/x.png);
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: 10px;
+	color: rgba(255, 255, 255, 0);
+	cursor: default;
+	-webkit-transition: all 0s ease-in-out;
+	-moz-transition: all 0s ease-in-out;
+	-o-transition: all 0s ease-in-out;
+	-ms-transition: all 0s ease-in-out;
+	transition: all 0s ease-in-out;
+}
+
+.shbdp-cal-wrapper .shbdp-cal table tbody td.shbdp-cal-available,
+.shbdp-cal-wrapper .shbdp-cal table tbody td.shbdp-cal-available-checkout-only-live {
+	background: #fff;
+}
+
+.shbdp-cal-wrapper .shbdp-cal table tbody td.shbdp-cal-available-checkout-only {
+	background: #fff;
+}
+
+.shbdp-cal-wrapper .shbdp-cal table tbody td.shbdp-selected-hover,
+.shbdp-cal-wrapper .shbdp-cal table tbody td.shbdp-cal-selected-date,
+.shbdp-cal-wrapper .shbdp-cal table tbody td.shbdp-cal-selected-date-live {
+	border: #1e306a 1px solid;
+	background: #1e306a;
+	color: #fff;
+}
+
+.shbdp-cal-wrapper .shbdp-cal table tbody td.shbdp-cal-selected-checkin,
+.shbdp-cal-wrapper .shbdp-cal table tbody td.shbdp-cal-selected-checkout,
+.shbdp-cal-wrapper .shbdp-cal table tbody td.shbdp-cal-selected-checkout.shbdp-cal-available-checkout-only,
+.shbdp-cal-wrapper .shbdp-cal table tbody td.shbdp-cal-selected-checkout.shbdp-cal-available-checkout-only:hover,
+.shbdp-cal-wrapper .shbdp-cal table tbody td.shbdp-cal-available:hover,
+.shbdp-cal-wrapper .shbdp-cal table tbody td.shbdp-cal-available-checkout-only-live:hover {
+	border: #284087 1px solid;
+	background-image: none;
+	background: #284087;
+	color: #fff;
+	cursor: pointer;
+}
+
+.shbdp-cal-wrapper .shbdp-cal table tbody td.shbdp-cal-disabled,
+.shbdp-cal-wrapper .shbdp-cal table tbody td.shbdp-cal-disabled-temp,
+.shbdp-cal-wrapper .shbdp-cal table tbody td.shbdp-cal-disabled-temp:hover,
+.shbdp-cal-wrapper .shbdp-cal table tbody td.shbdp-cal-disabled:hover,
+.shbdp-cal-wrapper .shbdp-cal table tbody td.shbdp-cal-disabled-temp:hover {
+	background: #fff;
+	color: #cacccd;
+	cursor: default;
+	border: #e8e8e8 1px solid;
+}
+
+@media only screen and (max-width: 1000px) { 
+
+	.shbdp-cal-wrapper {
+		width: 100%;
+		border: #b99470 2px solid;
+		box-sizing: border-box;
+	}
+	
+	.shbdp-cal-wrapper .shbdp-cal .shbdp-item-open-1,
+	.shbdp-cal-wrapper .shbdp-cal .shbdp-item-open-2 {
+		float: none;
+		width: 100%;
+		margin: 0 0 30px 0;
+	}
+
+}
+.shbdp-cal-wrapper{
+	width: 606px;
+}
+.shbdp-cal-wrapper .shbdp-cal .shbdp-item-open-1, .shbdp-cal-wrapper .shbdp-cal .shbdp-item-open-2 {
+  width: calc(100%);
+  display: block;
+}
+.shbdp-cal-wrapper .shbdp-cal table tbody td.shbdp-cal-disabled, .shbdp-cal-wrapper .shbdp-cal table tbody td.shbdp-cal-disabled-temp, .shbdp-cal-wrapper .shbdp-cal table tbody td.shbdp-cal-disabled-temp:hover, .shbdp-cal-wrapper .shbdp-cal table tbody td.shbdp-cal-disabled:hover, .shbdp-cal-wrapper .shbdp-cal table tbody td.shbdp-cal-disabled-temp:hover{
+	border:0px;
+}
+
