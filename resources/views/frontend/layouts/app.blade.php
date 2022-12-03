@@ -13,15 +13,92 @@
     <script src="{{ asset('js/app.js') }}" defer></script>
 
     <!-- Fonts -->
-    <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 
     <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/frontend.css') }}" rel="stylesheet">
 
 </head>
 <body>
-    <div id="app">
+    <div id="app" class="site-wrapper">
+        <header class="header">
+            <div class="top-header">
+                <div class="row">
+                <div class="logo-1">
+                    <a href="/frontend/" title=""><img src="{{url('images/PBD.png')}}" alt="PBD" /></a>
+                </div>
+                <div class="logo-6"><img src="{{url('images/Group-64421.png')}}" alt="Group-64421" /></div>
+                <div class="logo-2"><img src="{{url('images/azadi-75.png')}}" alt="azadi-75" /></div>
+                <div class="logo-3"><img src="{{url('images/MP.png')}}" alt="MP" /></div>
+                <div class="logo-4"><img src="{{url('images/Hotels-resorts.png')}}" alt="Hotels-resorts" /></div>
+                <div class="logo-5"><img src="{{url('images/MP-t.png')}}" alt="MP-t" /></div>
+                </div>
+            </div>
+            <a href="javascript:void(0)" class="mobile-navigation-button"><i class="fas fa-bars"></i></a>
+            <div class="navigation">
+                <ul>
+                    <li class="nav-item">
+                        <a href="/frontend/">Accommodation</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/frontend/mahakal-lok-darshan">Mahakal Lok Darshan</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/frontend/user-my-booking">My Bookings</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/frontend/contact-us">Contact Us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/frontend/my-account/customer-logout/">Log Out</a>
+                    </li>
+                </ul>
+            </div>
+        </header>
+
+        <!-- START: Login Modal -->
+        <div class="login-modal-wrap">
+            <div class="login-modal-overlay">&nbsp;</div>
+            <div class="login-modal">
+                <div class="login-modal-left">
+                    <div class="img-div"></div>
+                </div>
+                <div class="login-modal-right">
+                    <div class="login-modal-header">
+                        <h2 class="login-modal-heading">Login account</h2>
+                    </div>
+                    <form>
+                        <div class="login-form-item">
+                            <input class="form-control" id="username" type="text" placeholder="Username">
+                        </div>
+                        <div class="login-form-item">
+                            <input class="form-control" id="password" type="password" placeholder="******************">
+                        </div>
+                        <div class="login-form-item">
+                            <button type="button" class="primary-button">Sign In</button>
+                        </div>
+                    </form>
+                    <p class="footer-b">
+                        Our representatives are <br>available to assist you 24*7
+
+                        <br><br>
+                        Contact Us: <a href="tel:+91 731 244 4404" target="_blank">+91 731 244 4404</a><br>
+                        WhatsApp Support: <a href="https://api.whatsapp.com/send?phone=+919893908123&amp;text=Welcome%20to%20Pravasi%20Bharatiya%20Divas%202023" target="_blank">+91 9893908123</a>
+                        <br><br>
+
+                        Note: Only the registered delegates of PBD can access this website for accommodation. 
+                        If not registered, please <a href="https://pbdindia.gov.in/registration" target="_blank">click here </a>to get registered for Pravasi Bharatiya Divas.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <!-- END: Login Modal -->
+
+        <?php /* ?>
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
@@ -33,9 +110,7 @@
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav me-auto">
-
-                    </ul>
+                    <ul class="navbar-nav me-auto"></ul>
 
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ms-auto">
@@ -75,12 +150,34 @@
                 </div>
             </div>
         </nav>
-        <h1 class="text-3xl font-bold underline">
-    Hello world!
-  </h1>
-        <main class="py-4">
+        <?php */ ?>
+        <!-- <h1 class="text-3xl font-bold underline">
+            Hello world!
+        </h1> -->
+        <main>
             @yield('content')
         </main>
+        <footer class="footer">
+            <div class="footer-container">
+                <p class="footer-nav">
+                    <a href="/frontend/about-us">About Us</a> | 
+                    <a href="/frontend/privacy-policy">Privacy Policy</a> | 
+                    <a href="frontend/booking-policy">Booking Policy</a> | 
+                    <a href="/frontend/terms-and-conditions">Terms &amp; Conditions</a> | 
+                    <a href="/frontend/refund-cancellation-policy">Refund &amp; Cancellation Policy</a> 
+                </p>
+                <p class="sohohotel-footer-message">Copyright © 2022, Madhya Pradesh State Tourism Development Corporation Ltd. All Rights Reserved.</p>
+                <p class="sohohotel-footer-message" style="width: 100%;">Visitor: 70046</p>
+            </div>
+        </footer>
     </div>
+    <script>
+        $(function() {
+            // Mobile navigation toggle
+            $('.mobile-navigation-button').click(function() {
+                $('.navigation').slideToggle("slow");
+            });
+        });
+    </script>
 </body>
 </html>

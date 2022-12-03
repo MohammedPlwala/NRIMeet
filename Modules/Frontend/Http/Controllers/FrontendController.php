@@ -17,6 +17,15 @@ class FrontendController extends Controller
         return view('frontend::index');
     }
 
+    public function about()
+    {
+        return view('frontend::about');
+    }
+    public function privacyPolicy()
+    {
+        return view('frontend::privacyPolicy');
+    }
+
     /**
      * Show the form for creating a new resource.
      * @return Renderable
