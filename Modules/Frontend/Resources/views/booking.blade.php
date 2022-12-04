@@ -1,7 +1,8 @@
 @extends('frontend.layouts.app')
 
 @section('content')
-
+    {{-- {{ $date_from }} --}}
+    {{-- {{ $date_to }} --}}
     <div class="flex">
         <div class="flex-1 w-30">
             <!-- BEGIN .shb-booking-page-sidebar -->
@@ -194,9 +195,13 @@
                                             </tbody>
                                         </table>
                                     </div>
-                                </div><input type="hidden" class="shbdp-checkin" name="shbdp-checkin"
-                                    value=""><input type="hidden" class="shbdp-checkout" name="shbdp-checkout"
-                                    value=""><input type="hidden" class="shbdp-min" value=""><input
+                                </div>
+                                <input type="hidden" class="shbdp-checkin" name="date_from"
+                                    value="{{ $searchData['date_from'] }}" data-from="{{ $searchData['date_from'] }}">
+                                    <input type="hidden" class="shbdp-checkout" name="date_to"
+                                    value="{{ $searchData['date_to'] }}" data-to="{{ $searchData['date_from'] }}">
+                                    <input type="hidden" class="shbdp-min" value="">
+                                    <input
                                     type="hidden" class="shbdp-max" value="">
                             </div>
 

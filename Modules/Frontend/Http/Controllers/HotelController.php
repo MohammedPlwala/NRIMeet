@@ -32,6 +32,6 @@ class HotelController extends Controller
 							'room_two_adult' => $request->room_two_adult,
 							'room_two_child' => $request->room_two_child,
     					);
-    	return view('frontend::booking',['date_from' => $request->date_from]);
+    	return view('frontend::booking',['searchData' => $searchData]);
     }
 }
