@@ -180,10 +180,104 @@ class HotelController extends Controller
                     $room->room_two_adult = $cartData['room_two_adult'];
                     $room->room_two_child = $cartData['room_two_child'];
                 }
-                $room->hotel = $hotel->toArray();
+                $room->hotel = $hotel;
             }
         }
+
+        // echo "<pre>"; 
+        // print_r($rooms); 
+        // print_r($cartData); 
+        // die;
+
         return view('frontend::bookingSummary',['rooms' => $rooms, 'cartData' => $cartData]);
+    }
+
+    public function saveGuest(Request $request){
+
+        $user = \Auth::user();
+
+        $cartData = Session::get('cartData');
+        $cartRooms = $cartData['rooms'];
+
+        $room_one_adult = $cartData['room_one_adult'];
+        $room_one_child = $cartData['room_one_child'];
+
+        $room_two_adult = $cartData['room_two_adult'];
+        $room_two_child = $cartData['room_two_child'];
+        $rooms = $request->rooms;
+
+        $bookingData = $roomsData = array();
+        $total = 0;
+
+        foreach ($rooms as $key => $room) {
+            $data = json_decode($room['data'],true);
+            $title = $room['title'];
+            $first_name = $room['first_name'];
+            $last_name = $room['last_name'];
+            $child_title = $room['child_title'];
+            $child_first_name = $room['child_first_name'];
+            $child_last_name = $room['child_last_name'];
+
+            $guest_one_name = $guest_two_name = $guest_three_name = $child_name = "";
+            
+            for ($i=0; $i < $room_one_adult ; $i++) { 
+                if($i == 0){
+                    if(isset($title[$i])){
+                        $guest_one_name = $title[$i].' '.$first_name[$i].' '.$last_name[$i];
+                    }
+                }
+
+                if($i == 1){
+                    if(isset($title[$i])){
+                        $guest_two_name = $title[$i].' '.$first_name[$i].' '.$last_name[$i];
+                    }
+                }
+
+                if($i == 2){
+                    if(isset($title[$i])){
+                        $guest_three_name = $title[$i].' '.$first_name[$i].' '.$last_name[$i];
+                    }
+                }
+            }
+
+            for ($i=0; $i < $room_one_child ; $i++) {
+                if($i == 0){
+                    if(isset($child_title[$i])){
+                        $child_name = $child_title[$i].' '.$child_first_name[$i].' '.$child_last_name[$i];
+                    }
+                }
+            }
+
+            $total += $cartData['nights']*$data['rate'];
+
+            $roomsData[] =  array(
+                                'guests' => $room_one_adult+$room_one_child,
+                                'adults' => $room_one_adult,
+                                'childs' => $room_one_child,
+                                'guest_one_name' => $guest_one_name,
+                                'guest_two_name' => $guest_two_name,
+                                'guest_three_name' => $guest_three_name,
+                                'child_name' => $child_name,
+                                'room_id' => $data['id'],
+                                'amount' => ($cartData['nights']*$data['rate']),
+                                'extra_bed' => 0,
+                                'extra_bed_cost' => 0,
+                            );
+        }
+        $tax = ($total*(18/100));
+        $bookingData =  array(
+                            'user_id' => $user->id,
+                            'hotel_id' => $cartData['hotel_id'],
+                            'check_in_date' => date('Y-m-d',strtotime($cartData['date_from'])),
+                            'check_out_date' => date('Y-m-d',strtotime($cartData['date_to'])),
+                            'nights' => $cartData['nights'],
+                            'amount' => $total,
+                            'sub_total' => $total-$tax,
+                            'tax' => $tax,
+                            'tax_percentage' => 18,
+                            'rooms' => $roomsData,
+
+                        );
     }
 
     public function createOrderNumber()
