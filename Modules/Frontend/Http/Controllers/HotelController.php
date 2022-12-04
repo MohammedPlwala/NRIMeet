@@ -61,7 +61,7 @@ class HotelController extends Controller
             $guests += Session::get('room_two_adult');
 
         if(Session::get('room_two_adult') > 0)
-            $childs += Session::get('room_two_adult');
+            $childs += Session::get('room_two_child');
 
 
         \Session::put('guests', $guests);
@@ -74,11 +74,12 @@ class HotelController extends Controller
             $nights = $diff/86400;
         }
 
-        \Session::put('nights', $nights);
-
         if(Session::has('room_two_adult') && Session::get('room_two_adult') > 0){
             $roomsCount++;
         }
+
+        \Session::put('nights', $nights);
+        \Session::put('roomsCount', $roomsCount);
 
         $hotels =   HotelRoom::from('hotels as h')
                     ->select('id','name','image','classification','description','location','airport_distance','venue_distance','website','contact_person','contact_number')
@@ -117,7 +118,25 @@ class HotelController extends Controller
 
         if(Session::has('cartData')){
             $cartData = Session::get('cartData');
-            array_push($cartData['rooms'],$room);
+            if(isset($cartData['rooms'])){
+                array_push($cartData['rooms'],$room);
+            }else{
+                $cartData = array(
+                            'hotel_id' => $room->hotel_id,
+                            'nights' => Session::get('nights'),
+                            'date_from' => Session::get('date_from'),
+                            'date_to' => Session::get('date_to'),
+                            'guests' => Session::get('guests'),
+                            'childs' => Session::get('childs'),
+                            'room_one_adult' => Session::get('room_one_adult'),
+                            'room_one_child' => Session::get('room_one_child'),
+                            'room_two_adult' => Session::get('room_two_adult'),
+                            'room_two_child' => Session::get('room_two_child'),
+                            'rooms' =>  array(
+                                            $room
+                                        )
+                        );
+            }
         }else{
             $cartData = array(
                             'hotel_id' => $room->hotel_id,
@@ -131,9 +150,40 @@ class HotelController extends Controller
                                         )
                         );
         }
-
         Session::put('cartData', $cartData);
-        return true;
+
+
+        $roomsCount = Session::get('roomsCount');
+        $cartRooms = $cartData['rooms'];
+        $addRooms = false;
+        
+        if(count($cartRooms) < $roomsCount){
+            $addRooms = true;
+        }
+
+        return array('success' => true,'addRooms' => $addRooms);
+    }
+
+    public function bookingSummary(Request $request)
+    {
+        $user = \Auth::user();
+        $cartData = Session::get('cartData');
+        $rooms = $cartData['rooms'];
+
+        $hotel = Hotel::findorfail($cartData['hotel_id']);
+        if($hotel){
+            foreach ($rooms as $key => $room) {
+                if($key == 0){
+                    $room->room_one_adult = $cartData['room_one_adult'];
+                    $room->room_one_child = $cartData['room_one_child'];
+                }else{
+                    $room->room_two_adult = $cartData['room_two_adult'];
+                    $room->room_two_child = $cartData['room_two_child'];
+                }
+                $room->hotel = $hotel->toArray();
+            }
+        }
+        return view('frontend::bookingSummary',['rooms' => $rooms, 'cartData' => $cartData]);
     }
 
     public function createOrderNumber()

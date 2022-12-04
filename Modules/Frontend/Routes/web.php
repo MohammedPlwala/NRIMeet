@@ -16,11 +16,15 @@ Route::post('search', 'HotelController@search');
 Route::get('search', 'HotelController@search');
 Route::post('add-room', 'HotelController@addRoom');
 
+Route::group(['middleware' => 'auth:web'], function(){
+	Route::get('booking-summary', 'HotelController@bookingSummary');
+});
+
+
 Route::get('booking', 'FrontendController@booking');
 Route::get('mahakal-lok-darshan', 'FrontendController@mahakalLokDarshan');
 Route::get('user-my-booking', 'FrontendController@myBookings');
 Route::get('contact-us', 'FrontendController@contactUs');
-Route::get('booking-summary', 'FrontendController@bookingSummary');
 Route::get('about-us', 'FrontendController@about');
 Route::get('privacy-policy', 'FrontendController@privacyPolicy');
 Route::get('booking-policy', 'FrontendController@bookingPolicy');

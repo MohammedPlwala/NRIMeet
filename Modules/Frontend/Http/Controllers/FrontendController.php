@@ -26,10 +26,7 @@ class FrontendController extends Controller
     {
         return view('frontend::contactUs');
     }
-    public function bookingSummary()
-    {
-        return view('frontend::bookingSummary');
-    }
+    
     public function about()
     {
         return view('frontend::about');

@@ -414,8 +414,13 @@
             method: "POST",
             cache: false,
             success: function(data) {
-                console.log(data);
-                
+                if(data.success){
+                    if(data.addRooms){
+                        alert('Please add one more room');
+                    }else{
+                        window.location.href = root_url + '/booking-summary';
+                    }
+                }
             }
         });
     });
