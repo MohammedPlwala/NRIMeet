@@ -30,7 +30,7 @@
                             <select name="shb-hotal-rating" id="shb-hotal-rating" class="form-control form-control-lg">
                                 <option value="">Select Rating</option>
                                 <!-- END <option    value="1 Star">1 Star</option>
-          <option    value="2 Star">2 Star</option> -->
+                      <option    value="2 Star">2 Star</option> -->
                                 <option value="5 Star">5 Star</option>
                                 <option value="4 Star">4 Star</option>
                                 <option value="3 Star">3 Star</option>
@@ -198,11 +198,10 @@
                                 </div>
                                 <input type="hidden" class="shbdp-checkin" name="date_from"
                                     value="{{ $searchData['date_from'] }}" data-from="{{ $searchData['date_from'] }}">
-                                    <input type="hidden" class="shbdp-checkout" name="date_to"
+                                <input type="hidden" class="shbdp-checkout" name="date_to"
                                     value="{{ $searchData['date_to'] }}" data-to="{{ $searchData['date_from'] }}">
-                                    <input type="hidden" class="shbdp-min" value="">
-                                    <input
-                                    type="hidden" class="shbdp-max" value="">
+                                <input type="hidden" class="shbdp-min" value="">
+                                <input type="hidden" class="shbdp-max" value="">
                             </div>
 
 
@@ -222,8 +221,7 @@
                                         <button type="button" class="shb-qty-increase">+</button>
                                     </div>
 
-                                    <input type="hidden" name="room_one_adult" class="shb-guestclass"
-                                        value="1">
+                                    <input type="hidden" name="room_one_adult" class="shb-guestclass" value="1">
 
                                     <!-- END .shb-guestclass-select-section -->
                                 </div>
@@ -240,8 +238,7 @@
                                         <button type="button" class="shb-qty-increase">+</button>
                                     </div>
 
-                                    <input type="hidden" name="room_one_child" class="shb-guestclass"
-                                        value="0">
+                                    <input type="hidden" name="room_one_child" class="shb-guestclass" value="0">
 
                                     <!-- END .shb-guestclass-select-section -->
                                 </div>
@@ -260,8 +257,7 @@
                                         <button type="button" class="shb-qty-increase">+</button>
                                     </div>
 
-                                    <input type="hidden" name="room_two_adult" class="shb-guestclass"
-                                        value="0">
+                                    <input type="hidden" name="room_two_adult" class="shb-guestclass" value="0">
 
                                     <!-- END .shb-guestclass-select-section -->
                                 </div>
@@ -278,8 +274,7 @@
                                         <button type="button" class="shb-qty-increase">+</button>
                                     </div>
 
-                                    <input type="hidden" name="room_two_child" class="shb-guestclass"
-                                        value="0">
+                                    <input type="hidden" name="room_two_child" class="shb-guestclass" value="0">
 
                                     <!-- END .shb-guestclass-select-section -->
                                 </div>
@@ -339,40 +334,69 @@
 
                             <!-- END .shb-booking-form-style-1 -->
                         </form>
-
-                        <ul>
-                            <li>
-                                <div class="hotal-rooms">
-                                    <div class="hotal-image">
-                                        <img src="" />
-                                    </div>
-                                    <div class="hotal-detail">
-                                        <h2>Sheraton Grand Palace</h2>
-                                        <span class="status">Available</span>
-                                        <span class="room-cat-drop">Room Category</span>
-                                        <p>One of the best luxury hotels in Indore, WOW is the epitome of luxury. Drawing
-                                            inspiration for its décor from the Peacock, India’s national bird, WOW oozes
-                                            oomph & panache. Its interior provokes a sense of lively ambiance with
-                                            pigmenting bright emeralds, cobalt blues and turquoises, embedded with golden
-                                            hues. </p>
-                                        <ul>
-                                            <li><a href="https://www.google.com/maps/place/WOW+Hotel+-+Hotel+in+Indore/@22.7488125,75.8937421,15z/data=!4m2!3m1!1s0x0:0x9279e450afac0e96?sa=X&amp;hl=en&amp;ved=2ahUKEwikxPaT5IX7AhVNcWwGHdBhA3AQ_BJ6BQjcARAF"
-                                                    ><i class="fas fa-map-marker-alt"></i></a>Location </li>
-                                            <li><strong>Airport</strong>: 19KM</li>
-                                            <li><strong>Venue:</strong> 3.5KM</li>
-                                            <li><a href="https://www.wowhotel.com/" target="_blank"><i
-                                                        class="fas fa-globe"></i>Website </a> </li>
-                                            <li><i class="fa fa-star" aria-hidden="true"></i><span>Rating: </span>5 Star
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
-
                     </div>
+                    <ul>
+                        <li>
+                            <div class="hotal-rooms">
+                                <div class="hotal-image">
+                                    <a>
+                                        <img src="https://pbdaccommodation.mptourism.com/wp-content/uploads/2022/10/WOW-Hotel.jpg"
+                                            alt="WOW Hotel">
+                                    </a>
+                                </div>
+                                <div class="hotal-detail">
+                                    <h2> <a>Wow hotel</a></h2>
+                                    <span class="status">Available</span>
+                                    <span class="room-cat-drop">Room Category</span>
+                                    <p>One of the best luxury hotels in Indore, WOW is the epitome of luxury. Drawing
+                                        inspiration for its décor from the Peacock, India’s national bird, WOW oozes
+                                        oomph & panache. Its interior provokes a sense of lively ambiance with
+                                        pigmenting bright emeralds, cobalt blues and turquoises, embedded with golden
+                                        hues. </p>
+                                    <ul class="info">
+                                        <li><a
+                                                href="https://www.google.com/maps/place/WOW+Hotel+-+Hotel+in+Indore/@22.7488125,75.8937421,15z/data=!4m2!3m1!1s0x0:0x9279e450afac0e96?sa=X&amp;hl=en&amp;ved=2ahUKEwikxPaT5IX7AhVNcWwGHdBhA3AQ_BJ6BQjcARAF"><i
+                                                    class="fas fa-map-marker-alt"></i></a>Location </li>
+                                        <li><strong>Airport</strong>: 19KM</li>
+                                        <li><strong>Venue:</strong> 3.5KM</li>
+                                        <li><a href="https://www.wowhotel.com/" target="_blank"><i
+                                                    class="fas fa-globe"></i>Website </a> </li>
+                                        <li><i class="fa fa-star" aria-hidden="true"></i><span>Rating: </span>5 Star
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="rates">
+                                <ul>
+                                    <li>
+                                        <div class="booking-rate-info">
+                                            <div class="search_left">
+                                                <h3 class="custom_the_title"><a href="#">Suite</a></h3>
+                                                <span class="custom_shb_short_description">Room type: King bed Room
+                                                    Including Breakfast</span>
+                                            </div>
+                                            <div class="search_center">
+                                                <h3 class="custom_the_per_night"><a href="javascript:void(0)"
+                                                        class="per_night"> ₹11,900<span> / Night</span><span
+                                                            class="tax_inclusive">Tax Inclusive</span></a></h3>
+                                            </div>
+                                            <div class="search_right">
+
+                                                <input type="submit" value="Book  ₹21,600"
+                                                    class="shb-booking-accommodation-select-room"
+                                                    data-accommodation="1195" data-rate="1198">
+
+                                                <input type="hidden" name="shb_accommodation_selected"
+                                                    value="1195"><input type="hidden" name="shb_rate_selected"
+                                                    value="1198">
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
-
     @endsection
