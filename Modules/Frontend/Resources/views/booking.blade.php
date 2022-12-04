@@ -309,6 +309,23 @@
 
                             <!-- END .shb-booking-form-style-1 -->
                         </form>
+
+                        <ul>
+                            <li>
+                                <div class="hotal-rooms">
+                                    <div class="hotal-image"> 
+                                        <img src="" />
+                                    </div>
+                                    <div class="hotal-detail"> 
+                                        <h2>Sheraton Grand Palace</h2>
+                                        <span class="status">Available</span>
+                                        <span class="room-cat-drop">Room Category</span>
+                                        
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    
                     </div>
                 </div>
             </div>
