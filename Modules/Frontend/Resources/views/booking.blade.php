@@ -3,31 +3,33 @@
 @section('content')
     {{-- {{ $date_from }} --}}
     {{-- {{ $date_to }} --}}
-    <div class="flex">
-        <div class="flex-1 w-30">
+    <div class="mt-14"> </div>
+    <div class="container mx-auto mt-14">
+    <div class="flex flex-row">
+        <div class="basis-1/4">
             <!-- BEGIN .shb-booking-page-sidebar -->
             <div class="shb-booking-page-sidebar customer_filter">
                 <!-- //v2care -->
                 <div class="custom_filter_main_div">
                     <form id="search" action="https://pbdaccommodation.mptourism.com/bookings/" method="get">
                         <div class="custom_filter_innder_div">
-                            <label for="shb-hotal-name" class="filter_label">Hotel name</label>
+                            <label for="shb-hotal-name" class="filter_label  mb-2 block">Hotel name</label>
                             <input id="s" name="shb-hotal-name" id="shb-hotal-name" type="text"
-                                placeholder="Search by Hotel Name" value="" />
+                                placeholder="Search by Hotel Name" value=""  class="block text-sm mb-2shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mb-5"/>
                         </div>
                         <div class="custom_rangeslider">
-                            <label for="shb-hotal-rating" class="filter_label">Price</label>
+                            <label for="shb-hotal-rating" class="filter_label  mb-2 block">Price</label>
                             <div class="range-slider">
-                                <span class="rangeValues"></span>
+                                <span class="rangeValues block mb-4 text-center"></span>
                                 <input value="3000" min="3000" max="23000" step="500" type="range"
-                                    name="shb-hotal-price-min">
+                                    name="shb-hotal-price-min" >
                                 <input value="23000" min="3000" max="23000" step="500" type="range"
                                     name="shb-hotal-price-max">
                             </div>
                         </div>
-                        <div class="custom_filter_innder_div" style="margin-top: 76px;">
-                            <label for="shb-hotal-rating" class="filter_label">Rating</label>
-                            <select name="shb-hotal-rating" id="shb-hotal-rating" class="form-control form-control-lg">
+                        <div class="custom_filter_innder_div">
+                            <label for="shb-hotal-rating" class="filter_label mb-2 block">Rating</label>
+                            <select name="shb-hotal-rating" id="shb-hotal-rating" class="form-control form-control-lg block text-sm mb-2shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                                 <option value="">Select Rating</option>
                                 <!-- END <option    value="1 Star">1 Star</option>
                       <option    value="2 Star">2 Star</option> -->
@@ -40,26 +42,27 @@
                             <br>
                         </div>
 
-                        <div class="custom_filter_innder_div filter_sortby">
-                            <label class="filter_label">Sort By</label>
+                        <div class="custom_filter_innder_div filter_sortby mb-7">
+                            <label class="filter_label mb-2 block">Sort By</label>
                             <label for="price_low_to_high"><input type="radio" id="price_low_to_high"
-                                    onchange="this.form.submit()" name="shb-orderby" value="p1">Price Low to
+                                    onchange="this.form.submit()" name="shb-orderby" value="p1" class="mr-2 mt-1">Price Low to
                                 High</label>
                             <label for="price_high_to_low"><input type="radio" id="price_high_to_low"
-                                    onchange="this.form.submit()" name="shb-orderby" value="p2">Price High to
+                                    onchange="this.form.submit()" name="shb-orderby" value="p2" class="mr-2 mt-1">Price High to
                                 Low</label>
                             <label for="rating_5_star_to_1_star"><input type="radio" id="rating_5_star_to_1_star"
-                                    onchange="this.form.submit()" name="shb-orderby" value="r2">Rating 5 Star Deluxe to
+                                    onchange="this.form.submit()" name="shb-orderby" value="r2" class="mr-2 mt-1">Rating 5 Star Deluxe to
                                 3 Star</label>
                             <label for="rating_1_star_to_5_star"><input type="radio" id="rating_1_star_to_5_star"
-                                    onchange="this.form.submit()" name="shb-orderby" value="r1">Rating 3 Star to 5 Star
+                                    onchange="this.form.submit()" name="shb-orderby" value="r1" class="mr-2 mt-1">Rating 3 Star to 5 Star
                                 Deluxe</label>
 
                         </div>
-                        <a href="https://pbdaccommodation.mptourism.com/bookings/" class="hotel-search-button_clear">Clear
-                            All</a>
-                        <input type="submit" class="hotel-search-button" name="" value="Search">
-
+                        <div class="flex justify-between content-end">
+                            <a href="https://pbdaccommodation.mptourism.com/bookings/" class="hotel-search-button_clear self-end">Clear
+                                All</a>
+                            <input type="submit" class="hotel-search-button px-4 py-2 font-semibold text-sm bg-cyan-500 text-white rounded-full shadow-sm" name="" value="Search">
+                        </div>
                     </form>
                 </div>
             </div>
@@ -67,7 +70,7 @@
 
             <!-- END .shb-booking-page-sidebar -->
         </div>
-        <div class="flex-1 w-70">
+        <div class="basis-3/4 pl-10">
             <div class="shb-booking-page-main">
                 <div class="shb-booking-step-wrapper shb-clearfix">
                     <div class="shb-booking-step shb-booking-step-current"><a
@@ -80,8 +83,7 @@
                         <div style="width:0%;"></div>
                     </div>
                 </div>
-                <div class="pt-14"></div>
-                <div class="pt-14"></div>
+              
                 <div class="pt-14"></div>
                 <div class="col">
                     <div class="booking-form-wrap desktop">
@@ -400,5 +402,6 @@
                 </div>
             </div>
         </div>
-
-    @endsection
+       
+    </div>
+        @endsection
