@@ -41,19 +41,19 @@
             <a href="javascript:void(0)" class="mobile-navigation-button"><i class="fas fa-bars"></i></a>
             <div class="navigation">
                 <ul>
-                    <li class="nav-item">
+                    <li>
                         <a href="{{url('/frontend/')}}">Accommodation</a>
                     </li>
-                    <li class="nav-item">
+                    <li>
                         <a href="{{url('/frontend/mahakal-lok-darshan')}}">Mahakal Lok Darshan</a>
                     </li>
-                    <li class="nav-item">
+                    <li>
                         <a href="{{url('/frontend/user-my-booking')}}">My Bookings</a>
                     </li>
-                    <li class="nav-item">
+                    <li>
                         <a href="{{url('/frontend/contact-us')}}">Contact Us</a>
                     </li>
-                    <li class="nav-item">
+                    <li>
                         <a href="{{url('/frontend/my-account/customer-logout/')}}">Log Out</a>
                     </li>
                 </ul>
@@ -80,7 +80,7 @@
                                 <div class="input-group-icon">
                                     <i class="far fa-user"></i>
                                 </div>
-                                <input class="form-control" id="username" name="email" type="text" placeholder="Username/Email" required>
+                                <input class="form-control" id="username" name="email" type="text" placeholder="Username/Email" required />
                             </div>
                         </div>
                         <div class="login-form-item">
@@ -88,7 +88,7 @@
                                 <div class="input-group-icon">
                                     <i class="fas fa-key"></i>
                                 </div>
-                                <input class="form-control" id="password" name="password" type="password" placeholder="******************">
+                                <input class="form-control" id="password" name="password" type="password" placeholder="******************" required />
                                 <i class="fa fa-eye" id="togglePassword"></i>
                             </div>
                         </div>

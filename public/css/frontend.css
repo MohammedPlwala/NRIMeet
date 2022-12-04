@@ -9,6 +9,10 @@ h1, h2, h3, h4, h5, h6, textarea, input {
 .static-content{
   padding: 0 15px;
 }
+.heading1{
+  font-size: 40px;
+  margin: 0 0 25px 0;
+}
 /* Login Modal */
 .login-modal-wrap{
   top: 0;
@@ -88,6 +92,7 @@ h1, h2, h3, h4, h5, h6, textarea, input {
 .login-modal-wrap .login-modal .login-form-item .input-group{
   position: relative;
   display: flex;
+  flex-wrap: wrap;
 }
 .login-modal-wrap .login-modal .login-form-item .input-group .input-group-icon{
   background-color: #eee;
@@ -110,7 +115,7 @@ h1, h2, h3, h4, h5, h6, textarea, input {
   justify-content: center;
 }
 .login-modal-wrap .login-modal .login-form-item .input-group input.form-control{
-  flex-grow: 1;
+  flex: 1;
   min-width: 1px;
   margin: 0;
   position: relative;
@@ -394,7 +399,7 @@ header.header {
   margin: 0 auto;
   display: block;
   border-radius: 5px;
-  height: 100%;
+  height: 99%;
 }
 .shb-booking-form-style-1 .shb-booking-form-col input[type="submit"]:hover{
   opacity: 0.7;
@@ -413,7 +418,6 @@ header.header {
   box-shadow: 0px 12px 12px 5px rgb(0 0 0 / 10%);
   z-index: 9;
   display: none;
-  border-top: #dedede 1px solid;
   box-sizing: border-box;
 }
 
@@ -421,6 +425,108 @@ header.header {
   color: #656a70;
   margin: 0 0 30px 0;
   font-size: 15px;
+}
+.shb-booking-form-style-1 .shb-guestclass-select-dropdown p{
+  margin-bottom: 5px !important;
+  line-height: 180%;
+}
+.shb-guestclass-select-dropdown .shb-guestclass-select-section {
+  font-size: 15px;
+  padding: 10px 0 10px 0 !important;
+  border-top: #dedede 1px solid;
+}
+.shb-guestclass-select-dropdown .shb-guestclass-select-section .shb-qty-selection {
+  float: right;
+  margin: 3px 0 0 0;
+}
+.shb-guestclass-select-dropdown .shb-guestclass-select-section .shb-qty-selection .shb-qty-decrease, .shb-guestclass-select-dropdown .shb-guestclass-select-section .shb-qty-selection .shb-qty-increase {
+  -webkit-border-radius: 100%;
+  -moz-border-radius: 100%;
+  -o-border-radius: 100%;
+  border-radius: 100%;
+  border: #dedede 1px solid;
+  width: 35px;
+  height: 35px;
+  text-align: center;
+  cursor: pointer;
+  background: #fff;
+  font-size: 15px;
+}
+.shb-guestclass-select-dropdown .shb-guestclass-select-section .shb-qty-selection .shb-qty-decrease{
+  float: left;
+}
+.shb-guestclass-select-dropdown .shb-guestclass-select-section .shb-qty-selection .shb-qty-display{
+  width: 35px;
+  height: 35px;
+  text-align: center;
+  padding: 10px 0 0 0;
+  float: left;
+}
+.shb-guestclass-select-dropdown .shb-guestclass-select-section .shb-qty-selection .shb-qty-increase{
+  float: left;
+}
+.shb-guestclass-select-dropdown .shb-guestclass-select-section label span {
+  display: block;
+  color: #656a70;
+  padding: 8px 0 0 0;
+}
+.shb-guestclass-select-dropdown .shb-qty-done {
+  width: 100%;
+  text-align: center;
+  padding: 38px 30px;
+  font-size: 14px;
+  border: none;
+  background: #1e306a;
+  color: #fff;
+  font-weight: 500;
+  padding: 15px 0;
+  margin: 5px 0 10px 0;
+  cursor: pointer;
+  width: 65px;
+  display: block;
+}
+.shb-qty-ok.shb-qty-done {
+  float: right !important;
+  display: inline-block !important;
+  font-family: 'Work Sans', sans-serif;
+  border-radius: 3px;
+}
+.add_another_room {
+  width: 55% !important;
+  float: left;
+  text-align: center;
+  font-size: 14px;
+  border: none;
+  background: rgb(30, 48, 106);
+  color: #fff;
+  font-weight: normal;
+  padding: 15px 0;
+  margin: 5px 0 10px 0;
+  cursor: pointer;
+  display: block;
+  font-family: 'Work Sans', sans-serif;
+  border-radius: 3px;
+}
+.show_filter_2_room {
+  display: none;
+}
+
+/* 1.0 - Clear */
+.shb-clearfix {
+	zoom: 1;
+}
+
+.shb-clearfix:before, .shb-clearfix:after {
+	content: "";
+	display: table;
+}
+
+.shb-clearfix:after {
+	clear: both;
+}
+
+.shb-clearboth {
+	clear: both;
 }
 
 /* Client Logos */
@@ -533,6 +639,16 @@ header.header {
 }
 
 
+/* Parsley Errors */
+.parsley-errors-list{
+  flex-grow: 1;
+  flex-basis: 100%;
+  margin-top: 5px;
+}
+.parsley-errors-list .parsley-required{
+  font-size: 12px;
+  color: #F00;
+}
 
 @media only screen and (min-width: 601px) {
   .d-hide{
