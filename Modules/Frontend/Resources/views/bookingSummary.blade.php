@@ -95,44 +95,56 @@
             <h5>Guests</h5>
             <p>Adults 1</p>
             <div class="Guests_info_front_box">
-              <select required="" name="shb_guest_info_detail[1][107][1][Title]">
+              <select required name="shb_guest_info_detail[1][107][1][Title]">
                 <!--<option value="">Select Title</option> -->
                 <option value="Mr">Mr.</option>
                 <option value="Miss">Miss</option>
                 <option value="Mrs">Mrs.</option>
-              </select> 
-              <input type="text" maxlength="25" required="" name="shb_guest_info_detail[1][107][1][First]" value="" placeholder="First Name">
-              <input type="text" maxlength="25" required="" name="shb_guest_info_detail[1][107][1][Last]" value="" placeholder="Last Name">
+              </select>
+              <div class="form-item">
+                <input type="text" maxlength="25" required name="shb_guest_info_detail[1][107][1][First]" value="" placeholder="First Name">
+              </div>
+              <div class="form-item">
+                <input type="text" maxlength="25" required name="shb_guest_info_detail[1][107][1][Last]" value="" placeholder="Last Name">
+              </div>
             </div>
             <p>Adults 2</p>
             <div class="Guests_info_front_box">
-              <select required="" name="shb_guest_info_detail[1][107][2][Title]">
+              <select required name="shb_guest_info_detail[1][107][2][Title]">
                 <!--<option value="">Select Title</option> -->
                 <option value="Mr">Mr.</option>
                 <option value="Miss">Miss</option>
                 <option value="Mrs">Mrs.</option>
-              </select> 
-              <input type="text" maxlength="25" required="" name="shb_guest_info_detail[1][107][2][First]" value="" placeholder="First Name">
-              <input type="text" maxlength="25" required="" name="shb_guest_info_detail[1][107][2][Last]" value="" placeholder="Last Name">
+              </select>
+              <div class="form-item">
+                <input type="text" maxlength="25" required name="shb_guest_info_detail[1][107][2][First]" value="" placeholder="First Name">
+              </div>
+              <div class="form-item">
+                <input type="text" maxlength="25" required name="shb_guest_info_detail[1][107][2][Last]" value="" placeholder="Last Name">
+              </div>
             </div>
             <h5>Children</h5>
             <p>Children 1</p>
             <div class="Guests_info_front_box">
-              <select required="" name="shb_guest_info_detail[1][108][1][Title]">
+              <select required name="shb_guest_info_detail[1][108][1][Title]">
                 <!--<option value="">Select Title</option> -->
                 <option value="Mr">Mr.</option>
                 <option value="Miss">Miss</option>
                 <option value="Mrs">Mrs.</option>
-              </select> 
-              <input type="text" maxlength="25" required="" name="shb_guest_info_detail[1][108][1][First]" value="" placeholder="First Name">
-              <input type="text" maxlength="25" required="" name="shb_guest_info_detail[1][108][1][Last]" value="" placeholder="Last Name">
+              </select>
+              <div class="form-item">
+                <input type="text" maxlength="25" required name="shb_guest_info_detail[1][108][1][First]" value="" placeholder="First Name" />
+              </div>
+              <div class="form-item">
+                <input type="text" maxlength="25" required name="shb_guest_info_detail[1][108][1][Last]" value="" placeholder="Last Name" />
+              </div>
             </div>
             <p>
               <label>Special Request</label>
               <textarea maxlength="200" rows="1" name="shb_guest_info_comment"></textarea>
             </p>
             <p>
-              <input type="checkbox" data-mess=" Please accept the terms and conditions to proceed further with the booking process." name="agree_on" required="" /> I Agree on <a target="_blank" href="about-us/">About Us</a> | <a target="_blank" href="privacy-policy/">Privacy Policy</a> | <a target="_blank" href="booking-policy/">Booking Policy</a> | <a target="_blank" href="terms-and-conditions/">Terms and conditions</a> | <a target="_blank" href="refund-cancellation-policy/">Refund &amp; Cancellation Policy</a> </p>
+              <input type="checkbox" data-mess=" Please accept the terms and conditions to proceed further with the booking process." name="agree_on" required /> I Agree on <a target="_blank" href="about-us/">About Us</a> | <a target="_blank" href="privacy-policy/">Privacy Policy</a> | <a target="_blank" href="booking-policy/">Booking Policy</a> | <a target="_blank" href="terms-and-conditions/">Terms and conditions</a> | <a target="_blank" href="refund-cancellation-policy/">Refund &amp; Cancellation Policy</a> </p>
               <br>
             <div class="sav_next">
               <input type="submit" value="Save and Next" class="primary-button md" />
