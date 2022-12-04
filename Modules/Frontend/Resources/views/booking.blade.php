@@ -4,58 +4,81 @@
 
     <div class="flex">
         <div class="flex-1 w-30">
-           <!-- BEGIN .shb-booking-page-sidebar -->
-		<div class="shb-booking-page-sidebar customer_filter"> 
-			<!-- //v2care -->
-						<div class="custom_filter_main_div">
-				<form id="search" action="https://pbdaccommodation.mptourism.com/bookings/" method="get">
-									    <div class="custom_filter_innder_div">			    	
-				        <label for="shb-hotal-name" class="filter_label">Hotel name</label>
-						<input id="s" name="shb-hotal-name" id="shb-hotal-name" type="text" placeholder="Search by Hotel Name" value="" />
-					</div>
-					<div class="custom_rangeslider">
-						<label for="shb-hotal-rating" class="filter_label">Price</label>
-												         							<div class="range-slider">
-							  <span class="rangeValues"></span>
-							  <input value="3000" min="3000" max="23000" step="500" type="range" name="shb-hotal-price-min">
-							  <input value="23000" min="3000" max="23000" step="500" type="range" name="shb-hotal-price-max">  
-							</div> 
-					</div>
-					    <div class="custom_filter_innder_div" style="margin-top: 76px;">
-						 	<label for="shb-hotal-rating" class="filter_label">Rating</label>
-						 						       <select name="shb-hotal-rating" id="shb-hotal-rating" class="form-control form-control-lg">
-					       	 <option value="">Select Rating</option>
-						    <!-- END <option    value="1 Star">1 Star</option>
-						    <option    value="2 Star">2 Star</option> -->
-						    <option    value="5 Star">5 Star</option>
-							<option    value="4 Star">4 Star</option>
-							<option    value="3 Star">3 Star</option>
-						    
-						    
-						  </select>
-						  <br>
-						</div>
+            <!-- BEGIN .shb-booking-page-sidebar -->
+            <div class="shb-booking-page-sidebar customer_filter">
+                <!-- //v2care -->
+                <div class="custom_filter_main_div">
+                    <form id="search" action="https://pbdaccommodation.mptourism.com/bookings/" method="get">
+                        <div class="custom_filter_innder_div">
+                            <label for="shb-hotal-name" class="filter_label">Hotel name</label>
+                            <input id="s" name="shb-hotal-name" id="shb-hotal-name" type="text"
+                                placeholder="Search by Hotel Name" value="" />
+                        </div>
+                        <div class="custom_rangeslider">
+                            <label for="shb-hotal-rating" class="filter_label">Price</label>
+                            <div class="range-slider">
+                                <span class="rangeValues"></span>
+                                <input value="3000" min="3000" max="23000" step="500" type="range"
+                                    name="shb-hotal-price-min">
+                                <input value="23000" min="3000" max="23000" step="500" type="range"
+                                    name="shb-hotal-price-max">
+                            </div>
+                        </div>
+                        <div class="custom_filter_innder_div" style="margin-top: 76px;">
+                            <label for="shb-hotal-rating" class="filter_label">Rating</label>
+                            <select name="shb-hotal-rating" id="shb-hotal-rating" class="form-control form-control-lg">
+                                <option value="">Select Rating</option>
+                                <!-- END <option    value="1 Star">1 Star</option>
+          <option    value="2 Star">2 Star</option> -->
+                                <option value="5 Star">5 Star</option>
+                                <option value="4 Star">4 Star</option>
+                                <option value="3 Star">3 Star</option>
 
-						<div class="custom_filter_innder_div filter_sortby">							
-						 							 	<label class="filter_label">Sort By</label>
-						 	<label for="price_low_to_high"><input type="radio" id="price_low_to_high" onchange="this.form.submit()"  name="shb-orderby" value="p1">Price Low to High</label>
-						 	<label for="price_high_to_low"><input type="radio" id="price_high_to_low" onchange="this.form.submit()"  name="shb-orderby" value="p2">Price High to Low</label>
-						 	<label for="rating_5_star_to_1_star"><input type="radio" id="rating_5_star_to_1_star" onchange="this.form.submit()"  name="shb-orderby" value="r2">Rating 5 Star Deluxe to 3 Star</label>
-							 <label for="rating_1_star_to_5_star"><input type="radio" id="rating_1_star_to_5_star" onchange="this.form.submit()"  name="shb-orderby" value="r1">Rating 3 Star to 5 Star Deluxe</label>
-						 	
-						</div>
-					  <a href="https://pbdaccommodation.mptourism.com/bookings/" class="hotel-search-button_clear">Clear All</a>
-					<input type="submit" class="hotel-search-button" name="" value="Search">  
- 
-				</form>
-			</div>
-        </div>
-						
-		<!-- END .shb-booking-page-sidebar -->
+
+                            </select>
+                            <br>
+                        </div>
+
+                        <div class="custom_filter_innder_div filter_sortby">
+                            <label class="filter_label">Sort By</label>
+                            <label for="price_low_to_high"><input type="radio" id="price_low_to_high"
+                                    onchange="this.form.submit()" name="shb-orderby" value="p1">Price Low to
+                                High</label>
+                            <label for="price_high_to_low"><input type="radio" id="price_high_to_low"
+                                    onchange="this.form.submit()" name="shb-orderby" value="p2">Price High to
+                                Low</label>
+                            <label for="rating_5_star_to_1_star"><input type="radio" id="rating_5_star_to_1_star"
+                                    onchange="this.form.submit()" name="shb-orderby" value="r2">Rating 5 Star Deluxe to
+                                3 Star</label>
+                            <label for="rating_1_star_to_5_star"><input type="radio" id="rating_1_star_to_5_star"
+                                    onchange="this.form.submit()" name="shb-orderby" value="r1">Rating 3 Star to 5 Star
+                                Deluxe</label>
+
+                        </div>
+                        <a href="https://pbdaccommodation.mptourism.com/bookings/" class="hotel-search-button_clear">Clear
+                            All</a>
+                        <input type="submit" class="hotel-search-button" name="" value="Search">
+
+                    </form>
+                </div>
+            </div>
+
+
+            <!-- END .shb-booking-page-sidebar -->
         </div>
         <div class="flex-1 w-70">
             <div class="shb-booking-page-main">
-                <div class="shb-booking-step-wrapper shb-clearfix"><div class="shb-booking-step shb-booking-step-current"><a href="https://pbdaccommodation.mptourism.com/bookings/?shb-step=1">1</a><a href="https://pbdaccommodation.mptourism.com/bookings/?shb-step=1">Rooms</a></div><div class="shb-booking-step "><a href="#">2</a><a href="#">Booking Summary</a></div><div class="shb-booking-step "><a href="#">3</a><a href="#">Payment</a></div><div class="shb-booking-step "><a href="#">4</a><a href="#">Complete</a></div><div class="shb-booking-step-line"><div style="width:0%;"></div></div></div>
+                <div class="shb-booking-step-wrapper shb-clearfix">
+                    <div class="shb-booking-step shb-booking-step-current"><a
+                            href="https://pbdaccommodation.mptourism.com/bookings/?shb-step=1">1</a><a
+                            href="https://pbdaccommodation.mptourism.com/bookings/?shb-step=1">Rooms</a></div>
+                    <div class="shb-booking-step "><a href="#">2</a><a href="#">Booking Summary</a></div>
+                    <div class="shb-booking-step "><a href="#">3</a><a href="#">Payment</a></div>
+                    <div class="shb-booking-step "><a href="#">4</a><a href="#">Complete</a></div>
+                    <div class="shb-booking-step-line">
+                        <div style="width:0%;"></div>
+                    </div>
+                </div>
                 <div class="pt-14"></div>
                 <div class="pt-14"></div>
                 <div class="pt-14"></div>
@@ -171,11 +194,10 @@
                                             </tbody>
                                         </table>
                                     </div>
-
-                                </div><input type="hidden" class="shbdp-checkin" name="date_from" value="2023-01-06"><input
-                                    type="hidden" class="shbdp-checkout" name="date_to" value=""><input
-                                    type="hidden" class="shbdp-min" value=""><input type="hidden" class="shbdp-max"
-                                    value="">
+                                </div><input type="hidden" class="shbdp-checkin" name="shbdp-checkin"
+                                    value=""><input type="hidden" class="shbdp-checkout" name="shbdp-checkout"
+                                    value=""><input type="hidden" class="shbdp-min" value=""><input
+                                    type="hidden" class="shbdp-max" value="">
                             </div>
 
 
@@ -316,19 +338,33 @@
                         <ul>
                             <li>
                                 <div class="hotal-rooms">
-                                    <div class="hotal-image"> 
+                                    <div class="hotal-image">
                                         <img src="" />
                                     </div>
-                                    <div class="hotal-detail"> 
+                                    <div class="hotal-detail">
                                         <h2>Sheraton Grand Palace</h2>
                                         <span class="status">Available</span>
                                         <span class="room-cat-drop">Room Category</span>
-                                        
+                                        <p>One of the best luxury hotels in Indore, WOW is the epitome of luxury. Drawing
+                                            inspiration for its décor from the Peacock, India’s national bird, WOW oozes
+                                            oomph & panache. Its interior provokes a sense of lively ambiance with
+                                            pigmenting bright emeralds, cobalt blues and turquoises, embedded with golden
+                                            hues. </p>
+                                        <ul>
+                                            <li><a href="https://www.google.com/maps/place/WOW+Hotel+-+Hotel+in+Indore/@22.7488125,75.8937421,15z/data=!4m2!3m1!1s0x0:0x9279e450afac0e96?sa=X&amp;hl=en&amp;ved=2ahUKEwikxPaT5IX7AhVNcWwGHdBhA3AQ_BJ6BQjcARAF"
+                                                    ><i class="fas fa-map-marker-alt"></i></a>Location </li>
+                                            <li><strong>Airport</strong>: 19KM</li>
+                                            <li><strong>Venue:</strong> 3.5KM</li>
+                                            <li><a href="https://www.wowhotel.com/" target="_blank"><i
+                                                        class="fas fa-globe"></i>Website </a> </li>
+                                            <li><i class="fa fa-star" aria-hidden="true"></i><span>Rating: </span>5 Star
+                                            </li>
+                                        </ul>
                                     </div>
                                 </div>
                             </li>
                         </ul>
-                    
+
                     </div>
                 </div>
             </div>
