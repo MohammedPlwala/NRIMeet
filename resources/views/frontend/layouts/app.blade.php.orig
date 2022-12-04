@@ -41,6 +41,21 @@
             <a href="javascript:void(0)" class="mobile-navigation-button"><i class="fas fa-bars"></i></a>
             <div class="navigation">
                 <ul>
+<<<<<<< HEAD
+                    <li class="nav-item">
+                        <a href="{{ url('/') }}">Accommodation</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ url('/mahakal-lok-darshan') }}">Mahakal Lok Darshan</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{url('/user-my-booking')}}">My Bookings</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{url('/contact-us')}}">Contact Us</a>
+                    </li>
+                    <li class="nav-item">
+=======
                     <li>
                         <a href="{{url('/')}}">Accommodation</a>
                     </li>
@@ -54,6 +69,7 @@
                         <a href="{{url('/contact-us')}}">Contact Us</a>
                     </li>
                     <li>
+>>>>>>> 3c5be2a3b5c18f435baee9dc2c6db92b15a67bac
                         <a href="{{url('/my-account/customer-logout/')}}">Log Out</a>
                     </li>
                 </ul>

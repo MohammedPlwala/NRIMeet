@@ -13,8 +13,11 @@
 
 Route::get('/', 'HotelController@index');
 Route::post('search', 'HotelController@search');
+<<<<<<< HEAD
 Route::get('search', 'HotelController@search');
 
+=======
+>>>>>>> 3c5be2a3b5c18f435baee9dc2c6db92b15a67bac
 Route::get('booking', 'FrontendController@booking');
 Route::get('mahakal-lok-darshan', 'FrontendController@mahakalLokDarshan');
 Route::get('about-us', 'FrontendController@about');

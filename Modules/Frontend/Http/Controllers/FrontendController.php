@@ -13,6 +13,11 @@ class FrontendController extends Controller
         return view('frontend::booking');
     }
 
+
+    public function mahakalLokDarshan()
+    {
+        return view('frontend::mahakalLokDarshan');
+    }
     public function about()
     {
         return view('frontend::about');
