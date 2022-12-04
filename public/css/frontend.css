@@ -1281,8 +1281,22 @@ a.shb-booking-continue{
   padding-top: 2rem;
   display: flex;
   width: 100%;
-
+  position: relative;
 }
+.hotal-rooms.disabled:after {
+  position: absolute;
+  content: '';
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  display: flex;
+  background: #ffffff99;
+  align-items: center;
+  justify-content: center;
+}
+
 .hotal-rooms .hotal-image{
   width: 30%;
   position: relative;
