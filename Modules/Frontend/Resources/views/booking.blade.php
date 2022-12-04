@@ -351,7 +351,7 @@
                                             <span class="status">Available</span>
                                         </h2>
                                         
-                                        <span class="room-cat-drop">Room Category</span>
+                                        <span class="room-cat-drop">Room Category <i class="fas fa-chevron-down"></i></span>
                                         <p>{{ $hotel->description }} </p>
                                         <ul class="info">
                                             <li><a href="{{ $hotel->location }}"><i class="fas fa-map-marker-alt"></i></a>Location </li>
