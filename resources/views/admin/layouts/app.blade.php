@@ -167,15 +167,6 @@
                                             </div>
                                             <div class="dropdown-inner">
                                                 <ul class="link-list">
-                                                    <li><a href="{{ url('profile') }}"><em class="icon ni ni-user-alt"></em><span>View Profile</span></a></li>
-                                                    <li><a href="{{ url('profile/setting') }}"><em class="icon ni ni-setting-alt"></em><span>Account Setting</span></a></li>
-                                                    @if(isset($organization_type) && $organization_type == 'MULTIPLE')
-                                                    <li><a href="{{ url('administration/organization') }}"><em class="icon ni ni-setting-alt"></em><span>Organization</span></a></li>
-                                                    @endif
-                                                </ul>
-                                            </div>
-                                            <div class="dropdown-inner">
-                                                <ul class="link-list">
                                                     <li>
                                                         <a href="{{ route('logout') }}" onclick="event.preventDefault();
                                                          document.getElementById('logout-form').submit();"><em class="icon ni ni-signout"></em><span>Sign out</span></a>
