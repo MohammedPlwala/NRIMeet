@@ -13,6 +13,12 @@ h1, h2, h3, h4, h5, h6, textarea, input {
   font-size: 40px;
   margin: 0 0 25px 0;
 }
+.heading3{
+  font-size: 20px;
+  color: #181b20;
+  margin: 0 0 25px 0;
+  font-weight: 400;
+}
 /* Login Modal */
 .login-modal-wrap{
   top: 0;
@@ -724,6 +730,24 @@ textarea{
   font-family: 'Work Sans', sans-serif;
   line-height: 1.2;
 }
+.form-label{
+  margin: 0;
+  padding: 0;
+  line-height: 2;
+  display: block;
+  font-size: 12px;
+  color: #656a70;
+}
+.form-label span.required{
+  color: red;
+  font-weight: normal;
+  border: 0!important;
+  text-decoration: none;
+}
+
+.custom-form .form-item input[type="text"]{
+  margin: 0;
+}
 
 /* Booking Summary CSS */
 .marquee {
@@ -966,6 +990,27 @@ a.shb-booking-continue{
 }
 .Guests_info_front_box .form-item input[type="text"]{
   margin-bottom: 0;
+}
+
+#order_review{
+  margin: 20px 0 0 0;
+}
+table.shop_table{
+  border: none;
+  margin: 0 -1px 24px 0;
+  text-align: left;
+  width: 100%;
+  border-collapse: separate;
+  border-radius: 5px;
+  font-size: 14px;
+  color: #424242;
+}
+table.shop_table tr{
+  background: #fff;
+}
+table.shop_table th, body table.shop_table td{
+  padding: 7px 20px 7px 20px !important;
+  font-weight: normal;
 }
 
 
