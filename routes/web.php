@@ -21,7 +21,7 @@ Route::get('/', function () {
 Auth::routes();
 
 // Route::get('/frontend', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::get('/', '\Modules\Frontend\Http\Controllers\FrontendController@index');
+Route::get('/', '\Modules\Frontend\Http\Controllers\HotelController@index');
 Route::get('/admin', '\Modules\Dashboard\Http\Controllers\DashboardController@index');
 Route::post('post-login', 'App\Http\Controllers\Auth\LoginController@postLogin'); 
 Route::get('razorpay-payment', [RazorpayPaymentController::class, 'index']);

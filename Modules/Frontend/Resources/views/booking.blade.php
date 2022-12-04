@@ -1,6 +1,7 @@
 @extends('frontend.layouts.app')
 
 @section('content')
+
     <div class="flex">
         <div class="flex-1 w-30">
            <!-- BEGIN .shb-booking-page-sidebar -->
@@ -49,7 +50,6 @@
 				</form>
 			</div>
         </div>
-					
 						
 		<!-- END .shb-booking-page-sidebar -->
         </div>
@@ -171,11 +171,14 @@
                                             </tbody>
                                         </table>
                                     </div>
-                                </div><input type="hidden" class="shbdp-checkin" name="shbdp-checkin" value=""><input
-                                    type="hidden" class="shbdp-checkout" name="shbdp-checkout" value=""><input
+
+                                </div><input type="hidden" class="shbdp-checkin" name="date_from" value="2023-01-06"><input
+                                    type="hidden" class="shbdp-checkout" name="date_to" value=""><input
                                     type="hidden" class="shbdp-min" value=""><input type="hidden" class="shbdp-max"
                                     value="">
                             </div>
+
+
 
                             <!-- BEGIN .shb-guestclass-select-dropdown -->
                             <div class="shb-guestclass-select-dropdown">
@@ -192,7 +195,7 @@
                                         <button type="button" class="shb-qty-increase">+</button>
                                     </div>
 
-                                    <input type="hidden" name="shb-guestclass-107" class="shb-guestclass"
+                                    <input type="hidden" name="room_one_adult" class="shb-guestclass"
                                         value="1">
 
                                     <!-- END .shb-guestclass-select-section -->
@@ -210,7 +213,7 @@
                                         <button type="button" class="shb-qty-increase">+</button>
                                     </div>
 
-                                    <input type="hidden" name="shb-guestclass-108" class="shb-guestclass"
+                                    <input type="hidden" name="room_one_child" class="shb-guestclass"
                                         value="0">
 
                                     <!-- END .shb-guestclass-select-section -->
@@ -230,7 +233,7 @@
                                         <button type="button" class="shb-qty-increase">+</button>
                                     </div>
 
-                                    <input type="hidden" name="shb-guestclass-add-another-107" class="shb-guestclass"
+                                    <input type="hidden" name="room_two_adult" class="shb-guestclass"
                                         value="0">
 
                                     <!-- END .shb-guestclass-select-section -->
@@ -248,7 +251,7 @@
                                         <button type="button" class="shb-qty-increase">+</button>
                                     </div>
 
-                                    <input type="hidden" name="shb-guestclass-add-another-108" class="shb-guestclass"
+                                    <input type="hidden" name="room_two_child" class="shb-guestclass"
                                         value="0">
 
                                     <!-- END .shb-guestclass-select-section -->
@@ -313,4 +316,5 @@
                 </div>
             </div>
         </div>
+
     @endsection

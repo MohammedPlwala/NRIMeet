@@ -7,9 +7,9 @@
         <img src="{{ url('images/mobile-slider-2.png') }}" alt="mobile-slider-2" class="d-hide" />
     </div>
     <div class="booking-form-wrap desktop">
-        <form action="/bookings/" method="post"
+        <form action="{{ url('/search') }}" method="post"
             class="shb-booking-form-style-1 shb-booking-form-1-column-4 shb-clearfix" autocomplete="off">
-
+            @csrf
             <div class="shbdp-cal-wrapper shbdp-clearfix" data-panels="2" style="top: 93px; left: 0px; display: none;">
                 <div class="shbdp-clearboth"></div>
                 <div class="shbdp-cal">
@@ -87,8 +87,8 @@
                             </tbody>
                         </table>
                     </div>
-                </div><input type="hidden" class="shbdp-checkin" name="shbdp-checkin" value=""><input type="hidden"
-                    class="shbdp-checkout" name="shbdp-checkout" value=""><input type="hidden" class="shbdp-min"
+                </div><input type="hidden" class="shbdp-checkin" name="date_from" value=""><input type="hidden"
+                    class="shbdp-checkout" name="date_to" value=""><input type="hidden" class="shbdp-min"
                     value=""><input type="hidden" class="shbdp-max" value="">
             </div>
 
@@ -107,7 +107,7 @@
                         <button type="button" class="shb-qty-increase">+</button>
                     </div>
 
-                    <input type="hidden" name="shb-guestclass-107" class="shb-guestclass" value="1">
+                    <input type="hidden" name="room_one_adult" class="shb-guestclass" value="1">
 
                     <!-- END .shb-guestclass-select-section -->
                 </div>
@@ -124,7 +124,7 @@
                         <button type="button" class="shb-qty-increase">+</button>
                     </div>
 
-                    <input type="hidden" name="shb-guestclass-108" class="shb-guestclass" value="0">
+                    <input type="hidden" name="room_one_child" class="shb-guestclass" value="0">
 
                     <!-- END .shb-guestclass-select-section -->
                 </div>
@@ -143,7 +143,7 @@
                         <button type="button" class="shb-qty-increase">+</button>
                     </div>
 
-                    <input type="hidden" name="shb-guestclass-add-another-107" class="shb-guestclass" value="0">
+                    <input type="hidden" name="room_two_adult" class="shb-guestclass" value="0">
 
                     <!-- END .shb-guestclass-select-section -->
                 </div>
@@ -160,7 +160,7 @@
                         <button type="button" class="shb-qty-increase">+</button>
                     </div>
 
-                    <input type="hidden" name="shb-guestclass-add-another-108" class="shb-guestclass" value="0">
+                    <input type="hidden" name="room_two_child" class="shb-guestclass" value="0">
 
                     <!-- END .shb-guestclass-select-section -->
                 </div>

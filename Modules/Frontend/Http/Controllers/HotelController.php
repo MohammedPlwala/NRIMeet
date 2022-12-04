@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Hotel\Http\Controllers;
+namespace Modules\Frontend\Http\Controllers;
 
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
@@ -18,6 +18,20 @@ class HotelController extends Controller
      */
     public function index(Request $request)
     {
-        return view('hotel::index');
+        return view('frontend::index');
+    }
+
+    public function search(Request $request)
+    {
+
+    	$searchData = 	array(
+							'date_from' => $request->date_from,
+							'date_to' => $request->date_to,
+							'room_one_adult' => $request->room_one_adult,
+							'room_one_child' => $request->room_one_child,
+							'room_two_adult' => $request->room_two_adult,
+							'room_two_child' => $request->room_two_child,
+    					);
+    	return view('frontend::booking',['date_from' => $request->date_from]);
     }
 }
