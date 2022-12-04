@@ -24,14 +24,24 @@ class HotelController extends Controller
     public function search(Request $request)
     {
 
-    	$searchData = 	array(
-							'date_from' => $request->date_from,
-							'date_to' => $request->date_to,
-							'room_one_adult' => $request->room_one_adult,
-							'room_one_child' => $request->room_one_child,
-							'room_two_adult' => $request->room_two_adult,
-							'room_two_child' => $request->room_two_child,
-    					);
-    	return view('frontend::booking',['date_from' => $request->date_from]);
+
+        \Session::put('date_from', $request->date_from);
+        \Session::put('date_to', $request->date_to);
+        \Session::put('room_one_adult', $request->room_one_adult);
+        \Session::put('room_one_child', $request->room_one_child);
+        \Session::put('room_two_adult', $request->room_two_adult);
+        \Session::put('room_two_child', $request->room_two_child);
+
+    	// $searchData = 	array(
+		// 					'date_from' => $request->date_from,
+		// 					'date_to' => $request->date_to,
+		// 					'room_one_adult' => $request->room_one_adult,
+		// 					'room_one_child' => $request->room_one_child,
+		// 					'room_two_adult' => $request->room_two_adult,
+		// 					'room_two_child' => $request->room_two_child,
+    	// 				);
+
+
+    	return view('frontend::booking',['searchData' => $searchData]);
     }
 }
