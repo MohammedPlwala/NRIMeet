@@ -13,6 +13,7 @@
 
 Route::get('/', 'HotelController@index');
 Route::post('search', 'HotelController@search');
+Route::get('search', 'HotelController@search');
 
 Route::get('booking', 'FrontendController@booking');
 

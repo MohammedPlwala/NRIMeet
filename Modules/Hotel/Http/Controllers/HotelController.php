@@ -71,7 +71,7 @@ class HotelController extends Controller
 
                 $hotelRooms = new HotelRoom();
                 $hotelRooms->hotel_id = $hotel->id;
-                $hotelRooms->name = $column[2].'-'.$column[0].'-'.$column[4];
+                $hotelRooms->name = $column[2];
                 // $hotelRooms->name = $column[2];
                 $hotelRooms->type_id = $type_id;
                 $hotelRooms->description = '';

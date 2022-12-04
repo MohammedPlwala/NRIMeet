@@ -7,7 +7,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>17th Pravasi Bharatiya Divas 2023 Accommodation</title>
 
 
     <!-- Fonts -->
@@ -29,7 +29,7 @@
             <div class="top-header">
                 <div class="row">
                 <div class="logo-1">
-                    <a href="{{url('/frontend/')}}" title=""><img src="{{url('images/PBD.png')}}" alt="PBD" /></a>
+                    <a href="{{url('/')}}" title=""><img src="{{url('images/PBD.png')}}" alt="PBD" /></a>
                 </div>
                 <div class="logo-6"><img src="{{url('images/Group-64421.png')}}" alt="Group-64421" /></div>
                 <div class="logo-2"><img src="{{url('images/azadi-75.png')}}" alt="azadi-75" /></div>
@@ -42,19 +42,19 @@
             <div class="navigation">
                 <ul>
                     <li class="nav-item">
-                        <a href="{{url('/frontend/')}}">Accommodation</a>
+                        <a href="{{ url('/') }}">Accommodation</a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{url('/frontend/mahakal-lok-darshan')}}">Mahakal Lok Darshan</a>
+                        <a href="{{ url('/mahakal-lok-darshan') }}">Mahakal Lok Darshan</a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{url('/frontend/user-my-booking')}}">My Bookings</a>
+                        <a href="{{url('/user-my-booking')}}">My Bookings</a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{url('/frontend/contact-us')}}">Contact Us</a>
+                        <a href="{{url('/contact-us')}}">Contact Us</a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{url('/frontend/my-account/customer-logout/')}}">Log Out</a>
+                        <a href="{{url('/my-account/customer-logout/')}}">Log Out</a>
                     </li>
                 </ul>
             </div>

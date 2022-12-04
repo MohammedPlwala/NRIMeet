@@ -197,9 +197,9 @@
                                     </div>
                                 </div>
                                 <input type="hidden" class="shbdp-checkin" name="date_from"
-                                    value="{{ $searchData['date_from'] }}" data-from="{{ $searchData['date_from'] }}">
+                                    value="{{ \Session::get('date_from') }}" data-from="{{ \Session::get('date_from') }}">
                                     <input type="hidden" class="shbdp-checkout" name="date_to"
-                                    value="{{ $searchData['date_to'] }}" data-to="{{ $searchData['date_from'] }}">
+                                    value="{{ \Session::get('date_to') }}" data-to="{{ \Session::get('date_to') }}">
                                     <input type="hidden" class="shbdp-min" value="">
                                     <input
                                     type="hidden" class="shbdp-max" value="">
