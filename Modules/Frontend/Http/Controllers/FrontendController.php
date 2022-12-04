@@ -8,20 +8,16 @@ use Illuminate\Routing\Controller;
 
 class FrontendController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     * @return Renderable
-     */
-    public function index()
-    {
-        return view('frontend::index');
-    }
-
     public function booking()
     {
         return view('frontend::booking');
     }
 
+
+    public function mahakalLokDarshan()
+    {
+        return view('frontend::mahakalLokDarshan');
+    }
     public function about()
     {
         return view('frontend::about');

@@ -29,7 +29,7 @@
             <div class="top-header">
                 <div class="row">
                 <div class="logo-1">
-                    <a href="{{url('/frontend/')}}" title=""><img src="{{url('images/PBD.png')}}" alt="PBD" /></a>
+                    <a href="{{url('/')}}" title=""><img src="{{url('images/PBD.png')}}" alt="PBD" /></a>
                 </div>
                 <div class="logo-6"><img src="{{url('images/Group-64421.png')}}" alt="Group-64421" /></div>
                 <div class="logo-2"><img src="{{url('images/azadi-75.png')}}" alt="azadi-75" /></div>
@@ -42,19 +42,19 @@
             <div class="navigation">
                 <ul>
                     <li>
-                        <a href="{{url('/frontend/')}}">Accommodation</a>
+                        <a href="{{url('/')}}">Accommodation</a>
                     </li>
                     <li>
-                        <a href="{{url('/frontend/mahakal-lok-darshan')}}">Mahakal Lok Darshan</a>
+                        <a href="{{url('/mahakal-lok-darshan')}}">Mahakal Lok Darshan</a>
                     </li>
                     <li>
-                        <a href="{{url('/frontend/user-my-booking')}}">My Bookings</a>
+                        <a href="{{url('/user-my-booking')}}">My Bookings</a>
                     </li>
                     <li>
-                        <a href="{{url('/frontend/contact-us')}}">Contact Us</a>
+                        <a href="{{url('/contact-us')}}">Contact Us</a>
                     </li>
                     <li>
-                        <a href="{{url('/frontend/my-account/customer-logout/')}}">Log Out</a>
+                        <a href="{{url('/my-account/customer-logout/')}}">Log Out</a>
                     </li>
                 </ul>
             </div>
@@ -178,11 +178,11 @@
         <footer class="footer">
             <div class="footer-container">
                 <p class="footer-nav">
-                    <a href="{{url('/frontend/about-us')}}">About Us</a> | 
-                    <a href="{{url('/frontend/privacy-policy')}}">Privacy Policy</a> | 
-                    <a href="{{url('/frontend/booking-policy')}}">Booking Policy</a> | 
-                    <a href="{{url('/frontend/terms-and-conditions')}}">Terms &amp; Conditions</a> | 
-                    <a href="{{url('/frontend/refund-cancellation-policy')}}">Refund &amp; Cancellation Policy</a> 
+                    <a href="{{url('/about-us')}}">About Us</a> | 
+                    <a href="{{url('/privacy-policy')}}">Privacy Policy</a> | 
+                    <a href="{{url('/booking-policy')}}">Booking Policy</a> | 
+                    <a href="{{url('/terms-and-conditions')}}">Terms &amp; Conditions</a> | 
+                    <a href="{{url('/refund-cancellation-policy')}}">Refund &amp; Cancellation Policy</a> 
                 </p>
                 <p class="sohohotel-footer-message">Copyright © 2022, Madhya Pradesh State Tourism Development Corporation Ltd. All Rights Reserved.</p>
                 <p class="sohohotel-footer-message" style="width: 100%;">Visitor: 70046</p>
@@ -191,11 +191,11 @@
     </div>
 
     <script src="{{url('js/bundle.js?ver=1.9.0')}}"></script>
-    <script src="{{url('js/scripts.js?ver=1.9.0')}}"></script>
+    {{-- <script src="{{url('js/scripts.js?ver=1.9.0')}}"></script> --}}
     {{-- <script src="{{url('js/chart-ecommerce.js')}}"></script> --}}
     <script src="{{url('js/parsley.min.js')}}"></script>
     <script src="{{url('js/date-picker.js')}}"></script>
-    <script src="{{url('js/script.js')}}"></script>
+    {{-- <script src="{{url('js/script.js')}}"></script> --}}
     @stack('footerScripts')
     <script src="{{url('js/common.js?t='.time())}}"></script>
 
