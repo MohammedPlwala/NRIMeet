@@ -65,8 +65,16 @@
                     </div>
                     <input type="hidden" name="shb_accommodation_selected" value="1">
                     <input type="hidden" name="shb_additionalfee_selected" value="1129">
-                  <!-- END .shb-booking-additionalfee-result-wrapper -->
                   </form>
+                  <!-- END .shb-booking-additionalfee-result-wrapper -->
+                  <!-- <div class="shb-booking-your-stay-item shb-booking-your-stay-item-child shb-clearfix">												
+                    <div class="shb-booking-your-stay-item-info">
+                      <h4 class="shb-clearfix"><a href="#">Extra Bed</a><span> ₹2,500</span></h4>
+                      <p class="shb-booking-your-stay-item-info-detail"></p>									
+                      <p><a href="https://pbdaccommodation.mptourism.com/bookings/?shb-step=2&amp;shb-delete-fee=1&amp;shb-delete-feeroom=2">Remove</a></p>									
+                    </div>
+                  </div> -->
+                  <!-- END .shb-booking-your-stay-item -->
                 </div>
                 <!-- BEGIN .shb-booking-your-stay-controls -->
                 <div class="shb-booking-your-stay-controls shb-clearfix">
@@ -150,6 +158,20 @@
               <input type="submit" value="Save and Next" class="primary-button md" />
             </div>
           </form>
+        </div>
+
+        <!-- Billing Details -->
+        <div>
+        <div class="columns-3">
+          <div class="form-item">
+            <label>First name <abbr class="required" title="required">*</abbr></label>
+            <input type="text" name="" value="" placeholder="First Name" required />
+          </div>
+          <div class="form-item">
+            <label>Last name <abbr class="required" title="required">*</abbr></label>
+            <input type="text" name="" value="" placeholder="Last Name" required />
+          </div>
+        </div>
         </div>
       </div>
     </div>
