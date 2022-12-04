@@ -337,68 +337,88 @@
                         </form>
                     </div>
                     <ul>
-                        <li>
-                            <div class="hotal-rooms">
-                                <div class="hotal-image">
-                                    <a>
-                                        <img src="https://pbdaccommodation.mptourism.com/wp-content/uploads/2022/10/WOW-Hotel.jpg"
-                                            alt="WOW Hotel">
-                                    </a>
+                        @forelse ($hotels as $key => $hotel)
+                            <li>
+                                <div class="hotal-rooms">
+                                    <div class="hotal-image">
+                                        <a>
+                                            <img src="https://pbdaccommodation.mptourism.com/wp-content/uploads/2022/10/WOW-Hotel.jpg"
+                                                alt="WOW Hotel">
+                                        </a>
+                                    </div>
+                                    <div class="hotal-detail">
+                                        <h2> <a>{{ $hotel->name }}</a></h2>
+                                        <span class="status">Available</span>
+                                        <span class="room-cat-drop">Room Category</span>
+                                        <p>{{ $hotel->description }} </p>
+                                        <ul class="info">
+                                            <li><a href="{{ $hotel->location }}"><i class="fas fa-map-marker-alt"></i></a>Location </li>
+                                            <li><strong>Airport</strong>: {{ $hotel->airport_distance }}KM</li>
+                                            <li><strong>Venue:</strong> {{ $hotel->venue_distance }}KM</li>
+                                            <li><a href="{{ $hotel->website }}" target="_blank"><i class="fas fa-globe"></i>Website </a> </li>
+                                            <li><i class="fa fa-star" aria-hidden="true"></i><span>Rating: </span>{{ $hotel->classification }}
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </div>
-                                <div class="hotal-detail">
-                                    <h2> <a>Wow hotel</a></h2>
-                                    <span class="status">Available</span>
-                                    <span class="room-cat-drop">Room Category</span>
-                                    <p>One of the best luxury hotels in Indore, WOW is the epitome of luxury. Drawing
-                                        inspiration for its décor from the Peacock, India’s national bird, WOW oozes
-                                        oomph & panache. Its interior provokes a sense of lively ambiance with
-                                        pigmenting bright emeralds, cobalt blues and turquoises, embedded with golden
-                                        hues. </p>
-                                    <ul class="info">
-                                        <li><a
-                                                href="https://www.google.com/maps/place/WOW+Hotel+-+Hotel+in+Indore/@22.7488125,75.8937421,15z/data=!4m2!3m1!1s0x0:0x9279e450afac0e96?sa=X&amp;hl=en&amp;ved=2ahUKEwikxPaT5IX7AhVNcWwGHdBhA3AQ_BJ6BQjcARAF"><i
-                                                    class="fas fa-map-marker-alt"></i></a>Location </li>
-                                        <li><strong>Airport</strong>: 19KM</li>
-                                        <li><strong>Venue:</strong> 3.5KM</li>
-                                        <li><a href="https://www.wowhotel.com/" target="_blank"><i
-                                                    class="fas fa-globe"></i>Website </a> </li>
-                                        <li><i class="fa fa-star" aria-hidden="true"></i><span>Rating: </span>5 Star
+                                <div class="rates">
+                                    <ul>
+
+                                        @forelse ($hotel->rooms as $key => $room)
+                                        <li>
+                                            <div class="booking-rate-info">
+                                                <div class="search_left">
+                                                    <h3 class="custom_the_title"><a href="#">{{ $room->room_type }}</a></h3>
+                                                    <span class="custom_shb_short_description">Room type: {{ $room->name }}</span>
+                                                </div>
+                                                <div class="search_center">
+                                                    <h3 class="custom_the_per_night"><a href="javascript:void(0)"
+                                                            class="per_night"> ₹{{ $room->rate }}<span> / Night</span><span
+                                                                class="tax_inclusive">Tax Inclusive</span></a></h3>
+                                                </div>
+                                                <div class="search_right">
+                                                    <a href="javascript::void(0)" class="bookRoom"
+                                                         data-room="{{ $room }}"> Book  ₹{{ Session::get('nights')*$room->rate }} </a>
+                                                </div>
+                                            </div>
                                         </li>
+                                        @empty
+                                        @endforelse
+
+                                        
                                     </ul>
                                 </div>
-                            </div>
-                            <div class="rates">
-                                <ul>
-                                    <li>
-                                        <div class="booking-rate-info">
-                                            <div class="search_left">
-                                                <h3 class="custom_the_title"><a href="#">Suite</a></h3>
-                                                <span class="custom_shb_short_description">Room type: King bed Room
-                                                    Including Breakfast</span>
-                                            </div>
-                                            <div class="search_center">
-                                                <h3 class="custom_the_per_night"><a href="javascript:void(0)"
-                                                        class="per_night"> ₹11,900<span> / Night</span><span
-                                                            class="tax_inclusive">Tax Inclusive</span></a></h3>
-                                            </div>
-                                            <div class="search_right">
-
-                                                <input type="submit" value="Book  ₹21,600"
-                                                    class="shb-booking-accommodation-select-room"
-                                                    data-accommodation="1195" data-rate="1198">
-
-                                                <input type="hidden" name="shb_accommodation_selected"
-                                                    value="1195"><input type="hidden" name="shb_rate_selected"
-                                                    value="1198">
-                                            </div>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
+                            </li>
+                        @empty
+                        @endforelse
                     </ul>
                 </div>
             </div>
         </div>
 
-    @endsection
+
+<script type="text/javascript">
+    var root_url = "<?php echo Request::root(); ?>";
+    // $('.brand-init').on('click', '.editItem', function() {
+    $('.bookRoom').click(function() {
+        var room = $(this).attr('data-room');
+        var hotel = $(this).attr('data-hotel');
+
+        $.ajax({
+            url: root_url + '/add-room',
+            data: {
+                'room': room,
+                "_token": "{{ csrf_token() }}",
+            },
+            //dataType: "html",
+            method: "POST",
+            cache: false,
+            success: function(data) {
+                console.log(data);
+                
+            }
+        });
+    });
+</script>
+
+@endsection

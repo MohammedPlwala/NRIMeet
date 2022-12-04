@@ -9,6 +9,9 @@ use Illuminate\Routing\Controller;
 use Modules\Hotel\Entities\RoomType;
 use Modules\Hotel\Entities\Hotel;
 use Modules\Hotel\Entities\HotelRoom;
+use Modules\Hotel\Entities\Booking;
+use Modules\Hotel\Entities\BookingRoom;
+use Modules\Hotel\Entities\BillingDetail;
 use Session;
 
 class HotelController extends Controller
@@ -25,6 +28,7 @@ class HotelController extends Controller
     public function search(Request $request)
     {
 
+        Session::put('cartData', '');
         if(isset($request->date_from)){
             \Session::put('date_from', $request->date_from);
         }
@@ -44,12 +48,37 @@ class HotelController extends Controller
             \Session::put('room_two_child', $request->room_two_child);
         }
 
-        $roomsCount = 1;
+        $roomsCount = $nights =  1;
+        $guests = $childs = 0;
+
+        if(Session::get('room_one_adult') > 0)
+            $guests += Session::get('room_one_adult');
+
+        if(Session::get('room_one_child') > 0)
+            $childs += Session::get('room_one_child');
+
+        if(Session::get('room_two_adult') > 0)
+            $guests += Session::get('room_two_adult');
+
+        if(Session::get('room_two_adult') > 0)
+            $childs += Session::get('room_two_adult');
+
+
+        \Session::put('guests', $guests);
+        \Session::put('childs', $childs);
+
+        if(Session::has('date_from') && Session::has('date_to')){
+            $date_from = Session::get('date_from');
+            $date_to = Session::get('date_to');
+            $diff = strtotime($date_to) - strtotime( $date_from);
+            $nights = $diff/86400;
+        }
+
+        \Session::put('nights', $nights);
 
         if(Session::has('room_two_adult') && Session::get('room_two_adult') > 0){
             $roomsCount++;
         }
-
 
         $hotels =   HotelRoom::from('hotels as h')
                     ->select('id','name','image','classification','description','location','airport_distance','venue_distance','website','contact_person','contact_number')
@@ -61,7 +90,7 @@ class HotelController extends Controller
         if(!empty($hotels->toArray())){
             foreach ($hotels as $key => $hotel) {
                 $rooms =    HotelRoom::from('hotel_rooms as hr')
-                            ->select('hr.id','type_id','hr.name','description','count','rate','extra_bed_available','extra_bed_rate','rt.name as room_type')
+                            ->select('hr.id','hr.hotel_id','type_id','hr.name','description','count','rate','extra_bed_available','extra_bed_rate','rt.name as room_type')
                             ->join('room_types as rt','rt.id','=','hr.type_id')
                             ->where('hotel_id',$hotel->id)
                             ->where('hr.status','active')
@@ -71,13 +100,52 @@ class HotelController extends Controller
                 if(!empty($rooms->toArray())){
                     $hotel->rooms = $rooms;
                 }else{
-                    $hotel = array();
+                    unset($hotels[$key]);
                 }
             }
         }else{
-            $hotel = array();
+            $hotels = array();
         }
 
-    	return view('frontend::booking');
+    	return view('frontend::booking',['hotels' => $hotels]);
+    }
+
+    public function addRoom(Request $request){
+        $room = json_decode($request->room);
+        $hotelId= $room->hotel_id;
+        $nights = Session::get('nights');
+
+        if(Session::has('cartData')){
+            $cartData = Session::get('cartData');
+            array_push($cartData['rooms'],$room);
+        }else{
+            $cartData = array(
+                            'hotel_id' => $room->hotel_id,
+                            'nights' => Session::get('nights'),
+                            'date_from' => Session::get('date_from'),
+                            'date_to' => Session::get('date_to'),
+                            'guests' => Session::get('guests'),
+                            'childs' => Session::get('childs'),
+                            'rooms' =>  array(
+                                            $room
+                                        )
+                        );
+        }
+
+        Session::put('cartData', $cartData);
+        return true;
+    }
+
+    public function createOrderNumber()
+    {
+        // Get the last created order
+        $lastOrder = Booking::orderBy('id', 'desc')->first();
+        $number = 0;
+
+        if ($lastOrder) {
+            $number = substr($lastOrder->order_id, 4);
+        }
+
+        return 'PBD-' . sprintf('%06d', intval($number) + 1);
     }
 }

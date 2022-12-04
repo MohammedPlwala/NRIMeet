@@ -14,6 +14,7 @@
 Route::get('/', 'HotelController@index');
 Route::post('search', 'HotelController@search');
 Route::get('search', 'HotelController@search');
+Route::post('add-room', 'HotelController@addRoom');
 
 Route::get('booking', 'FrontendController@booking');
 Route::get('mahakal-lok-darshan', 'FrontendController@mahakalLokDarshan');
