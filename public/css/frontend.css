@@ -1307,13 +1307,17 @@ a.shb-booking-continue{
 
 .hotal-detail > h2{
   font-size: 20px;
-    margin: 0 0 25px 0;
+    margin: 0 0 35px 0;
     font-family: 'Work Sans', sans-serif;
     font-weight: 500;
     color: #181b20;
+    position: relative;
 }
 
 .status{
+  position: absolute;
+  left: 0;
+  bottom: -30px;
   margin-bottom: 5px;
     color: #fff !important;
     font-weight: 500 !important;
@@ -1339,7 +1343,7 @@ a.shb-booking-continue{
 
 .hotal-detail p{
   color: #656a70;
-  margin: 0 0 30px 0;
+  margin: 0 0 1.5rem 0;
 }
 
 .hotal-detail .info li{
@@ -1356,6 +1360,32 @@ a.shb-booking-continue{
 .hotal-detail .info li strong{
 color: #181b20;
 font-weight: 400;
+}
+
+.rates li{
+  padding-top: 1.25rem;
+  padding-bottom: 0.725rem;
+  border-bottom: #dedede 1px solid;
+}
+.rates .per_night{
+  font-size: 16px;
+  font-weight: 500;
+  margin-top: 6px;
+  display: block;
+}
+.rates .tax_inclusive{
+  display: block;
+  font-size: 12px;
+  font-weight: 400;
+  margin-top: 5px;
+}
+
+.rates .search_left{
+  width: 40%;
+}
+
+.hotel-search-button{
+  background: #1e306a;
 }
 
 .search_left h3.custom_the_title a{

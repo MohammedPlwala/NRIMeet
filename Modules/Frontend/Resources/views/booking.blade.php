@@ -1,8 +1,6 @@
 @extends('frontend.layouts.app')
 
 @section('content')
-    {{-- {{ $date_from }} --}}
-    {{-- {{ $date_to }} --}}
     <div class="mt-14"> </div>
     <div class="container mx-auto mt-14">
     <div class="flex flex-row">
@@ -341,7 +339,7 @@
                     <ul>
                         @forelse ($hotels as $key => $hotel)
                             <li>
-                                <div class="hotal-rooms">
+                                <div class="hotal-rooms disabled">
                                     <div class="hotal-image">
                                         <a>
                                             <img src="https://pbdaccommodation.mptourism.com/wp-content/uploads/2022/10/WOW-Hotel.jpg"
@@ -349,8 +347,10 @@
                                         </a>
                                     </div>
                                     <div class="hotal-detail">
-                                        <h2> <a>{{ $hotel->name }}</a></h2>
-                                        <span class="status">Available</span>
+                                        <h2> <a>{{ $hotel->name }}</a>
+                                            <span class="status">Available</span>
+                                        </h2>
+                                        
                                         <span class="room-cat-drop">Room Category</span>
                                         <p>{{ $hotel->description }} </p>
                                         <ul class="info">
@@ -361,35 +361,33 @@
                                             <li><i class="fa fa-star" aria-hidden="true"></i><span>Rating: </span>{{ $hotel->classification }}
                                             </li>
                                         </ul>
+                                        <div class="rates hidden">
+                                            <ul>
+                                                @forelse ($hotel->rooms as $key => $room)
+                                                <li>
+                                                    <div class="booking-rate-info flex content-center justify-between">
+                                                        <div class="search_left w-70">
+                                                            <h3 class="custom_the_title"><a href="#">{{ $room->room_type }}</a></h3>
+                                                            <span class="custom_shb_short_description">Room type: {{ $room->name }}</span>
+                                                        </div>
+                                                        <div class="search_center">
+                                                            <h3 class="custom_the_per_night"><a href="javascript:void(0)"
+                                                                    class="per_night"> ₹{{ $room->rate }}<span> / Night</span><span
+                                                                        class="tax_inclusive">Tax Inclusive</span></a></h3>
+                                                        </div>
+                                                        <div class="search_right">
+                                                            <a href="javascript::void(0)" class="bookRoom hotel-search-button px-4 py-2 font-semibold text-sm bg-slate-900 text-white rounded-full shadow-sm"
+                                                                 data-room="{{ $room }}"> Book  ₹{{ Session::get('nights')*$room->rate }} </a>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                @empty
+                                                @endforelse
+                                            </ul>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="rates">
-                                    <ul>
-
-                                        @forelse ($hotel->rooms as $key => $room)
-                                        <li>
-                                            <div class="booking-rate-info">
-                                                <div class="search_left">
-                                                    <h3 class="custom_the_title"><a href="#">{{ $room->room_type }}</a></h3>
-                                                    <span class="custom_shb_short_description">Room type: {{ $room->name }}</span>
-                                                </div>
-                                                <div class="search_center">
-                                                    <h3 class="custom_the_per_night"><a href="javascript:void(0)"
-                                                            class="per_night"> ₹{{ $room->rate }}<span> / Night</span><span
-                                                                class="tax_inclusive">Tax Inclusive</span></a></h3>
-                                                </div>
-                                                <div class="search_right">
-                                                    <a href="javascript::void(0)" class="bookRoom"
-                                                         data-room="{{ $room }}"> Book  ₹{{ Session::get('nights')*$room->rate }} </a>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        @empty
-                                        @endforelse
-
-                                        
-                                    </ul>
-                                </div>
+                                
                             </li>
                         @empty
                         @endforelse
@@ -419,6 +417,13 @@
             }
         });
     });
+
+    $('.room-cat-drop').click(function() {
+       var elem = $(this).closest('.hotal-rooms')
+       elem.find('.rates').slideToggle('slow')
+    })
+    
+
 </script>
 
     @endsection
