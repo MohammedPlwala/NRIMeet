@@ -1,5 +1,6 @@
 <?php
-
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\RazorpayPaymentController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -18,6 +19,8 @@ Route::post('add-room', 'HotelController@addRoom');
 
 Route::group(['middleware' => 'auth:web'], function(){
 	Route::get('booking-summary', 'HotelController@bookingSummary');
+	Route::post('booking-summary', 'HotelController@saveGuest');
+	Route::get('booking-razorpay-payment', [RazorpayPaymentController::class, 'index']);
 });
 
 
