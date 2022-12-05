@@ -1189,6 +1189,13 @@ table.shop_table td:last-child{
   text-rendering: optimizeLegibility;
   color: #1e306a;
 }
+.shb-booking-summary-item-inner{
+  padding-top: 12px;
+  border-bottom: solid 1px #d1d1d1;
+}
+.shb-booking-summary-item-inner:last-child{
+  border-bottom: none;
+}
 .my_account_guest_box{
   width: 100%;
   display: block;
