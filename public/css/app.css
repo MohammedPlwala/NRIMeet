@@ -583,6 +583,9 @@ video {
 .mt-1 {
   margin-top: 0.25rem;
 }
+.mb-10 {
+  margin-bottom: 2.5rem;
+}
 .block {
   display: block;
 }
@@ -633,9 +636,6 @@ video {
 }
 .basis-3\/4 {
   flex-basis: 75%;
-}
-.resize {
-  resize: both;
 }
 .appearance-none {
   -webkit-appearance: none;
@@ -949,8 +949,9 @@ video {
          column-gap: 3rem;
   }
 
-  .md\:gap-y-4 {
-    row-gap: 1rem;
+  .md\:gap-x-5 {
+    -moz-column-gap: 1.25rem;
+         column-gap: 1.25rem;
   }
 
   .md\:border-t-0 {
