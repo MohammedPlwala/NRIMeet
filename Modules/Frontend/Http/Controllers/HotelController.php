@@ -175,6 +175,10 @@ class HotelController extends Controller
         $hotel = Hotel::findorfail($cartData['hotel_id']);
         if($hotel){
             foreach ($rooms as $key => $room) {
+                if(!isset($room->extra_bed_required)){
+                    $room->extra_bed_required = 0;
+                }
+
                 if($key == 0){
                     $room->room_one_adult = $cartData['room_one_adult'];
                     $room->room_one_child = $cartData['room_one_child'];
@@ -186,10 +190,22 @@ class HotelController extends Controller
             }
         }
 
-        // echo "<pre>"; 
-        // print_r($rooms); 
-        // print_r($cartData); 
-        // die;
+        // print_r($request->all());
+        // print_r($cartData);
+
+        if(isset($request->type)){
+            $room = $cartData['rooms'][$request->key];
+            if($request->type == 'add'){
+                $room->extra_bed_required = 1;
+            }else{
+                $room->extra_bed_required = 0;
+            }
+        }
+
+
+        Session::put('cartData', $cartData);
+        $cartData = Session::get('cartData');
+        $rooms = $cartData['rooms'];
 
         return view('frontend::bookingSummary',['rooms' => $rooms, 'cartData' => $cartData]);
     }
@@ -199,6 +215,7 @@ class HotelController extends Controller
         $user = \Auth::user();
 
         $cartData = Session::get('cartData');
+
         $cartRooms = $cartData['rooms'];
 
         $room_one_adult = $cartData['room_one_adult'];
@@ -257,6 +274,12 @@ class HotelController extends Controller
             }
 
             $total += $cartData['nights']*$data['rate'];
+            $extra_bed = $extra_bed_cost = 0;
+            if($data['extra_bed_required'] == 1){
+                $total += $data['extra_bed_rate'];
+                $extra_bed = 1;
+                $extra_bed_cost = $data['extra_bed_rate'];
+            }
 
             $roomsData[] =  array(
                                 'guests' => $room_one_adult+$room_one_child,
@@ -267,9 +290,9 @@ class HotelController extends Controller
                                 'guest_three_name' => $guest_three_name,
                                 'child_name' => $child_name,
                                 'room_id' => $data['id'],
-                                'amount' => ($cartData['nights']*$data['rate']),
-                                'extra_bed' => 0,
-                                'extra_bed_cost' => 0,
+                                'amount' => (($cartData['nights']*$data['rate'])+$extra_bed_cost),
+                                'extra_bed' => $extra_bed,
+                                'extra_bed_cost' => $extra_bed_cost,
                             );
         }
         $tax = ($total*(18/100));
@@ -287,7 +310,6 @@ class HotelController extends Controller
                             'rooms' => $roomsData,
 
                         );
-
 
         return view('frontend::payment',['bookingData' => $bookingData]);
     }

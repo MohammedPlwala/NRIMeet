@@ -99,23 +99,23 @@
                                     <tr class="cart_item">
                                         <td class="product-name">Reservation</td>
                                         <td class="product-total">
-                                            <span class="woocommerce-Price-amount amount"><bdi><span class="woocommerce-Price-currencySymbol">₹</span>9,152.54</bdi></span>
+                                            <span class="woocommerce-Price-amount amount"><bdi><span class="woocommerce-Price-currencySymbol">₹</span>{{ $bookingData['sub_total'] }}</bdi></span>
                                         </td>
                                     </tr>
                                 </tbody>
                                 <tfoot>
                                     <tr class="cart-subtotal">
                                         <th>Subtotal</th>
-                                        <td><span class="woocommerce-Price-amount amount"><bdi><span class="woocommerce-Price-currencySymbol">₹</span>9,152.54</bdi></span></td>
+                                        <td><span class="woocommerce-Price-amount amount"><bdi><span class="woocommerce-Price-currencySymbol">₹</span>{{ $bookingData['sub_total'] }}</bdi></span></td>
                                     </tr>     
                                     <tr class="tax-rate tax-rate-2">
                                         <th>GST 18%</th>
-                                        <td><span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">₹</span>1,647.46</span></td>
+                                        <td><span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">₹</span>{{ $bookingData['tax'] }}</span></td>
                                     </tr> 
                                     <tr class="order-total">
                                         <th>Total</th>
                                         <td>  
-                                            <strong><span class="woocommerce-Price-amount amount"><bdi><span class="woocommerce-Price-currencySymbol">₹</span>10,800.00</bdi></span></strong>
+                                            <strong><span class="woocommerce-Price-amount amount"><bdi><span class="woocommerce-Price-currencySymbol">₹</span>{{ $bookingData['amount'] }}</bdi></span></strong>
                                         </td>
                                     </tr>
                                 </tfoot>
@@ -125,7 +125,7 @@
                     
 
                     @csrf
-                    <input type="text" name="bookingData" value="{{ json_encode($bookingData) }}">
+                    <input type="hidden" name="bookingData" value="{{ json_encode($bookingData) }}">
                     <script src="https://checkout.razorpay.com/v1/checkout.js"
                             data-key="{{ env('RAZORPAY_KEY') }}"
                             {{-- data-amount="{{ $bookingData['amount']*100 }}" --}}

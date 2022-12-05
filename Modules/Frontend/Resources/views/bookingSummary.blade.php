@@ -11,6 +11,7 @@
             </marquee>
         </div>
     </div>
+
     <div class="container">
         <div class="shb-booking-page-wrapper shb-clearfix">
             <div class="shb-booking-page-main full-width">
@@ -35,6 +36,9 @@
 	                            	$childs = $room->room_two_child;
 	                            }
                             	$total += $cartData['nights']*$room->rate;
+                                if($room->extra_bed_required){
+                                    $total += $room->extra_bed_rate;
+                                }
 	                            
                             @endphp
 
@@ -68,10 +72,15 @@
                                         <!-- END .shb-booking-your-stay-item -->
                                     </div>
                                 </div>
+                                @if($room->extra_bed_available)
+                                @php
+                                    $extraBed = url('booking-summary').'?type=remove&key='.$key.'&extra_bed_rate='.$room->extra_bed_rate;
+                                @endphp
+                                
                                 <div class="sidebar_right">
                                     <a href="https://pbdaccommodation.mptourism.com/bookings/?shb-delete-room=1">Remove</a>
                                 </div>
-                                @if($room->extra_bed_available)
+                                
                                 <div class="custom_extra_bed">
                                     <!-- BEGIN .shb-additionalfee-result-wrapper -->
                                     <form class="shb-additionalfee-result-wrapper"
@@ -80,9 +89,18 @@
                                         <div class="shb-additionalfee-info">
                                             <h4>Extra Bed</h4>
                                             <div class="shb-additionalfee-price">
-                                                <span> ₹2,500 | Per Person</span>
-                                                <div>
-                                                    <input type="submit" value="Select" class="primary-button sm" />
+                                                <span> ₹{{ $room->extra_bed_rate }} | Per Person</span>
+                                                <div><br>
+
+                                                    @php
+                                                        $extraBedAdd = url('booking-summary').'?type=add&key='.$key.'&extra_bed_rate='.$room->extra_bed_rate;
+                                                        $extraBedRemove = url('booking-summary').'?type=remove&key='.$key.'&extra_bed_rate='.$room->extra_bed_rate;
+                                                    @endphp
+                                                    @if($room->extra_bed_required)
+                                                    <a href="{{ $extraBedRemove }}" class="primary-button sm">Remove</a>
+                                                    @else
+                                                    <a href="{{ $extraBedAdd }}" class="primary-button sm">Select</a>
+                                                    @endif
                                                 </div>
                                             </div>
                                         </div>
