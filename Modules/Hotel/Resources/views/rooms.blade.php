@@ -4,7 +4,7 @@
     <div class="nk-block-head nk-block-head-sm">
         <div class="nk-block-between">
             <div class="nk-block-head-content">
-                <h3 class="nk-block-title page-title">Hotels</h3>
+                <h3 class="nk-block-title page-title">Rooms</h3>
                 <p>You have total <span class="record_count">{{ '0' }}</span> Hotels.</p>
             </div><!-- .nk-block-head-content -->
             <div class="nk-block-head-content">
