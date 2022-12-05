@@ -6,8 +6,5 @@
     <p>
         This view is loaded from module: Dashboard
     </p>
-    {!! NoCaptcha::renderJs() !!}
-    <form>
-        {!! app('captcha')->display() !!}
-    </form>
+    
 @endsection

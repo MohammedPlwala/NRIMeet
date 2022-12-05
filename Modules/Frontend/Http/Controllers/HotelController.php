@@ -12,7 +12,9 @@ use Modules\Hotel\Entities\HotelRoom;
 use Modules\Hotel\Entities\Booking;
 use Modules\Hotel\Entities\BookingRoom;
 use Modules\Hotel\Entities\BillingDetail;
+use Modules\Hotel\Entities\Transaction;
 use Session;
+use Razorpay\Api\Api;
 
 class HotelController extends Controller
 {
@@ -214,9 +216,15 @@ class HotelController extends Controller
             $title = $room['title'];
             $first_name = $room['first_name'];
             $last_name = $room['last_name'];
-            $child_title = $room['child_title'];
-            $child_first_name = $room['child_first_name'];
-            $child_last_name = $room['child_last_name'];
+            if(isset($room['child_title'])){
+                $child_title = $room['child_title'];
+            }
+            if(isset($room['child_first_name'])){
+                $child_first_name = $room['child_first_name'];
+            }
+            if(isset($room['child_last_name'])){
+                $child_last_name = $room['child_last_name'];
+            }
 
             $guest_one_name = $guest_two_name = $guest_three_name = $child_name = "";
             
@@ -275,6 +283,7 @@ class HotelController extends Controller
                             'sub_total' => $total-$tax,
                             'tax' => $tax,
                             'tax_percentage' => 18,
+                            'special_request' => $request->special_request,
                             'rooms' => $roomsData,
 
                         );
@@ -286,6 +295,118 @@ class HotelController extends Controller
     public function payment()
     {
         return view('frontend::payment');
+    }
+
+    public function saveRazorPayPayment(Request $request)
+    {
+        $input = $request->all();
+  
+        $api = new Api(env('RAZORPAY_KEY'), env('RAZORPAY_SECRET'));
+        $payment = $api->payment->fetch($input['razorpay_payment_id']);
+  
+        if(count($input)  && !empty($input['razorpay_payment_id'])) {
+            try {
+                $response = $api->payment->fetch($input['razorpay_payment_id'])->capture(array('amount'=>$payment['amount'])); 
+
+                if($response->status == 'captured' && $response->captured == 1){
+                    \DB::beginTransaction();
+                    $bookingData = json_decode($request->bookingData);
+
+                    $booking = new Booking();
+
+                    $booking->order_id = $this->createOrderNumber();
+                    $booking->user_id = $bookingData->user_id;
+                    $booking->hotel_id = $bookingData->hotel_id;
+                    $booking->booking_type = 'Online';
+                    $booking->check_in_date = date('Y-m-d',strtotime($bookingData->check_in_date));
+                    $booking->check_out_date = date('Y-m-d',strtotime($bookingData->check_out_date));
+                    $booking->nights = $bookingData->nights;
+                    $booking->sub_total = $bookingData->sub_total;
+                    $booking->tax = $bookingData->tax;
+                    $booking->tax_percentage = $bookingData->tax_percentage;
+                    $booking->amount = $bookingData->amount;
+                    $booking->special_request = $bookingData->special_request;
+                    $booking->customer_booking_status = 'Received';
+                    $booking->booking_status = 'Payment Completed';
+                    if($booking->save()){
+                        $bookingRooms = $bookingData->rooms;
+                        foreach ($bookingRooms as $key => $bookingRoom) {
+                            $room = new BookingRoom();
+                            $room->booking_id = $booking->id;
+                            $room->room_id = $bookingRoom->room_id;
+                            $room->amount = $bookingRoom->amount;
+                            $room->guests = $bookingRoom->guests;
+                            $room->adults = $bookingRoom->adults;
+                            $room->childs = $bookingRoom->childs;
+                            $room->guest_one_name = $bookingRoom->guest_one_name;
+                            $room->guest_two_name = $bookingRoom->guest_two_name;
+                            $room->guest_three_name = $bookingRoom->guest_three_name;
+                            $room->child_name = $bookingRoom->child_name;
+                            $room->extra_bed = $bookingRoom->extra_bed;
+                            $room->extra_bed_cost = $bookingRoom->extra_bed_cost;
+                            
+                            if(!$room->save()){
+                                \DB::rollback();
+                                return redirect('booking-summary')->with('error', 'Something went wrong with booking');
+                            }
+                        }
+
+                        $billingDetail = new BillingDetail();
+
+                        $billingDetail->booking_id = $booking->id;
+                        $billingDetail->first_name = $request->billing_first_name;
+                        $billingDetail->last_name = $request->billing_last_name;
+                        $billingDetail->company_name = $request->billing_company;
+                        $billingDetail->country = $request->billing_country;
+                        $billingDetail->state_province = $request->billing_state;
+                        $billingDetail->city = $request->billing_city;
+                        $billingDetail->zip_code = $request->billing_postcode;
+                        $billingDetail->address_1 = $request->billing_address_1;
+                        $billingDetail->address_2 = $request->billing_address_2;
+                        $billingDetail->pbd_registration_number = $request->pbd_registration_no;
+                        $billingDetail->phone = $request->billing_phone;
+                        $billingDetail->email = $request->billing_email;
+                        $billingDetail->alternate_phone = $request->billing_phone2;
+                        $billingDetail->alternate_email = $request->billing_email2;
+                        if(!$billingDetail->save()){
+                            \DB::rollback();
+                            return redirect('booking-summary')->with('error', 'Something went wrong with booking');
+                        }
+
+                        $transaction = new Transaction();
+                        $transaction->booking_id = $booking->id;
+                        $transaction->transaction_id = $response->id;
+                        $transaction->payment_method = 'Razorpay';
+                        $transaction->payment_mode = 'Online';
+                        $transaction->payment_meta = json_encode($response);
+                        $transaction->status = 'confirmed';
+                        if($transaction->save()){
+                            \DB::commit();
+                            return redirect('thankyou')->with('message', 'Booking Successful.');
+                        }else{
+                            \DB::rollback();
+                            return redirect('booking-summary')->with('error', 'Something went wrong with booking');
+                        }
+                    }else{
+                        \DB::rollback();
+                        return redirect('booking-summary')->with('error', 'Something went wrong with booking');
+                    }
+                }
+  
+            } catch (Exception $e) {
+                return  $e->getMessage();
+                Session::put('error',$e->getMessage());
+                return redirect()->back();
+            }
+        }
+          
+        Session::put('success', 'Payment successful');
+        return redirect()->back();
+    }
+
+    public function bookingConfirmed(Request $request)
+    {
+        return view('frontend::thankyou');
     }
 
     public function createOrderNumber()

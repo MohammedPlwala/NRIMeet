@@ -2,5 +2,6 @@
     "Blog": true,
     "Dashboard": true,
     "Frontend": true,
-    "Hotel": true
+    "Hotel": true,
+    "User": true
 }

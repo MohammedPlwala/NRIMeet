@@ -61,7 +61,7 @@
                                                     class="fas fa-chevron-down"></i></p>
                                             <div class="shb-booking-price-expanded">
                                                 {{-- <p class="shb-clearfix"><span>Fri, Jan 06, 2023</span><span> ₹10,800</span> --}}
-                                                <p class="shb-clearfix"><span> ₹{{ $room->rate }}</span>
+                                                <p class="shb-clearfix"><span> ₹{{ $room->rate }} per night</span>
                                                 </p>
                                             </div>
                                         </div>
@@ -157,7 +157,10 @@
 		                            </div>
 		                        </div>
 	                        @endfor
-	                        <h5>Children</h5>
+
+	                        @if($childs > 0)
+	                        	<h5>Children</h5>
+	                        @endif
 	                        @for ($i = 0; $i < $childs ; $i++)
 	                        <p>Children {{ $i+1 }}</p>
 	                        <div class="Guests_info_front_box">
@@ -202,20 +205,6 @@
                             <input type="submit" value="Save and Next" class="primary-button md" />
                         </div>
                     </form>
-                </div>
-
-                <!-- Billing Details -->
-                <div>
-                    <div class="columns-3">
-                        <div class="form-item">
-                            <label>First name <abbr class="required" title="required">*</abbr></label>
-                            <input type="text" name="" value="" placeholder="First Name" required />
-                        </div>
-                        <div class="form-item">
-                            <label>Last name <abbr class="required" title="required">*</abbr></label>
-                            <input type="text" name="" value="" placeholder="Last Name" required />
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
