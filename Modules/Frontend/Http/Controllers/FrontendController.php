@@ -22,10 +22,7 @@ class FrontendController extends Controller
     {
         return view('frontend::myBookings');
     }
-    public function payment()
-    {
-        return view('frontend::payment');
-    }
+    
     public function contactUs()
     {
         return view('frontend::contactUs');

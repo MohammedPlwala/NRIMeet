@@ -129,4 +129,26 @@
             </div>
         </div>
     </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <div class="card-body text-center">
+        <form action="{{ route('razorpay.payment.store') }}" method="POST" >
+            @csrf
+            <input type="text" name="bookingData" value="{{ json_encode($bookingData) }}">
+            <script src="https://checkout.razorpay.com/v1/checkout.js"
+                    data-key="{{ env('RAZORPAY_KEY') }}"
+                    {{-- data-amount="{{ $bookingData['amount']*100 }}" --}}
+                    data-amount="{{ $bookingData['amount'] }}"
+                    data-buttontext="Pay {{ $bookingData['amount'] }} INR"
+                    data-name="ItSolutionStuff.com"
+                    data-description="Rozerpay"
+                    data-image="https://www.itsolutionstuff.com/frontTheme/images/logo.png"
+                    data-prefill.name="name"
+                    data-prefill.email="email"
+                    data-theme.color="#ff7529">
+            </script>
+        </form>
+    </div>
+
 @endsection
