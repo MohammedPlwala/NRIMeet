@@ -21,13 +21,13 @@ Route::group(['middleware' => 'auth:web'], function(){
 	Route::get('booking-summary', 'HotelController@bookingSummary');
 	Route::post('booking-summary', 'HotelController@saveGuest');
 	Route::get('booking-razorpay-payment', [RazorpayPaymentController::class, 'index']);
+	Route::get('payment', 'HotelController@payment');
 });
 
 
 Route::get('booking', 'FrontendController@booking');
 Route::get('mahakal-lok-darshan', 'FrontendController@mahakalLokDarshan');
 Route::get('user-my-booking', 'FrontendController@myBookings');
-Route::get('payment', 'FrontendController@payment');
 Route::get('contact-us', 'FrontendController@contactUs');
 Route::get('about-us', 'FrontendController@about');
 Route::get('privacy-policy', 'FrontendController@privacyPolicy');

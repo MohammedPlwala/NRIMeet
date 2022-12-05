@@ -278,6 +278,14 @@ class HotelController extends Controller
                             'rooms' => $roomsData,
 
                         );
+
+
+        return view('frontend::payment',['bookingData' => $bookingData]);
+    }
+
+    public function payment()
+    {
+        return view('frontend::payment');
     }
 
     public function createOrderNumber()
