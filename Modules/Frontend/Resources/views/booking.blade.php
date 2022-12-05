@@ -215,8 +215,7 @@
                                     <input type="hidden" class="shbdp-max" value="">
                                 </div>
 
-
-
+                                
                                 <!-- BEGIN .shb-guestclass-select-dropdown -->
                                 <div class="shb-guestclass-select-dropdown">
                                     <p>Room 1</p>
@@ -228,12 +227,12 @@
 
                                         <div class="shb-qty-selection shb-clearfix">
                                             <button type="button" class="shb-qty-decrease">-</button>
-                                            <div class="shb-qty-display">1</div>
+                                            <div class="shb-qty-display">{{ \Session::get('room_one_adult') }}</div>
                                             <button type="button" class="shb-qty-increase">+</button>
                                         </div>
 
                                         <input type="hidden" name="room_one_adult" class="shb-guestclass"
-                                            value="1">
+                                            value="{{ \Session::get('room_one_adult') }}">
 
                                         <!-- END .shb-guestclass-select-section -->
                                     </div>
@@ -246,12 +245,12 @@
 
                                         <div class="shb-qty-selection shb-clearfix">
                                             <button type="button" class="shb-qty-decrease">-</button>
-                                            <div class="shb-qty-display">0</div>
+                                            <div class="shb-qty-display">{{ \Session::get('room_one_child') }}</div>
                                             <button type="button" class="shb-qty-increase">+</button>
                                         </div>
 
                                         <input type="hidden" name="room_one_child" class="shb-guestclass"
-                                            value="0">
+                                            value="{{ \Session::get('room_one_child') }}">
 
                                         <!-- END .shb-guestclass-select-section -->
                                     </div>
@@ -266,12 +265,12 @@
 
                                         <div class="shb-qty-selection shb-clearfix">
                                             <button type="button" class="shb-qty-decrease">-</button>
-                                            <div class="shb-qty-display" id="other-shb-qty-display-107">0</div>
+                                            <div class="shb-qty-display" id="other-shb-qty-display-107">{{ \Session::get('room_two_adult') }}</div>
                                             <button type="button" class="shb-qty-increase">+</button>
                                         </div>
 
                                         <input type="hidden" name="room_two_adult" class="shb-guestclass"
-                                            value="0">
+                                            value="{{ \Session::get('room_two_adult') }}">
 
                                         <!-- END .shb-guestclass-select-section -->
                                     </div>
@@ -284,12 +283,12 @@
 
                                         <div class="shb-qty-selection shb-clearfix">
                                             <button type="button" class="shb-qty-decrease">-</button>
-                                            <div class="shb-qty-display" id="other-shb-qty-display-108">0</div>
+                                            <div class="shb-qty-display" id="other-shb-qty-display-108">{{ \Session::get('room_two_child') }}</div>
                                             <button type="button" class="shb-qty-increase">+</button>
                                         </div>
 
                                         <input type="hidden" name="room_two_child" class="shb-guestclass"
-                                            value="0">
+                                            value="{{ \Session::get('room_two_child') }}">
 
                                         <!-- END .shb-guestclass-select-section -->
                                     </div>
@@ -334,7 +333,9 @@
                                     <i class="fas fa-user-friends"></i>
                                     <div class="shb-booking-form-col-field">
                                         <label>Guests/Rooms</label>
-                                        <span><span class="shb-guestclass-total">1</span> Guest(s)</span>
+                                        <span><span class="shb-guestclass-total">
+                                            {{ \Session::get('room_one_adult') + \Session::get('room_one_child') + \Session::get('room_two_adult') + \Session::get('room_two_child') }}    
+                                        </span> Guest(s)</span>
                                     </div>
 
                                     <!-- END .shb-booking-form-col -->
