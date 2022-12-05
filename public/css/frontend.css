@@ -1,4 +1,11 @@
 /* Custom CSS */
+:root {
+  --primary-color:   #1e306a;
+  --secondary-color: #cf2156;
+  --white-color:     #FFFFFF;
+  --black-color:     #000000;
+  --gray-color:      #656a70;
+}
 body {
   font-family: 'Work Sans', sans-serif;
   line-height: 1 !important;
@@ -584,7 +591,7 @@ header.header {
   width: calc(100% - 60px);
   margin: 0 auto;
 }
-.footer .footer-container p{
+.footer .footer-container p, .footer .footer-container a{
   font-size: 15px;
   color: #fff;
 }
@@ -1065,6 +1072,110 @@ table.shop_table td {
 table.shop_table td:last-child{
   border-right: none;
 }
+.place-order{
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 20px;
+}
+
+/* START: My Bookings CSS */
+.my-bookings-section{
+  box-sizing: border-box;
+  padding-left: 15px;
+  padding-right: 15px;
+  width: 100%;
+}
+.shb-booking-summary-item{
+  width: 100%;
+  margin: 0px !important;
+  padding: 0px !important;
+  border-bottom: #c1c5cb 1px solid;
+}
+.shb-booking-summary-item h4{
+  font-size: 18px;
+  margin: 8px 0 8px 0;
+  font-weight: 400;
+}
+.shb-booking-summary-item ul{
+  list-style: none;
+  margin: 0;
+  display: flex;
+}
+.shb-booking-summary-item ul li{
+  width: 25%;
+  padding: 0px 0px 2px 0px;
+  font-size: 13px;
+  border-bottom: 0px;
+  position: relative;
+  border-color: #dedede;
+  margin: 0;
+  line-height: 160%;
+  color: #656a70;
+}
+.shb-booking-summary-item ul li:before{
+  content: "\f054";
+  font-size: 12px;
+  margin: 0 6px 0 0;
+  font-family: "Font Awesome 5 Free";
+  font-style: normal;
+  font-weight: 900;
+  text-decoration: inherit;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  color: #1e306a;
+}
+.my_account_guest_box{
+  width: 100%;
+  display: block;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+.my_account_guest_box h5{
+  font-size: 14px;
+  margin: 0px;
+  font-weight: 400;
+}
+.my_account_guest_inner{
+  display: inline-block;
+  width: 50%;
+}
+.my_account_guest_box p{
+  color: #656a70;
+  margin: 0 0 0px 0;
+  font-size: 14px;
+  line-height: 180%;
+}
+.my_account_guest_inner p.main_title_plural{
+  margin: 0px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #656a70;
+}
+
+.shb-booking-summary-item.amount_tax{
+  display: flex;
+  margin: 0px !important;
+  margin-bottom: 45px !important;
+  border-bottom: solid 3px #7a7171 !important;
+  background-color: #f9f9f9;
+  padding: 10px 20px !important;
+  width: 100%;
+}
+.shb-booking-summary-item.amount_tax p {
+  line-height: 26px;
+  font-size: 14px;
+  margin-bottom: 0px;
+  width: 33.33%;
+}
+.shb-booking-summary-item.amount_tax p:last-child {
+  text-align: right;
+}
+.shb-booking-summary-item strong {
+  font-weight: 600;
+}
+/* END: My Bookings CSS */
 
 
 @media only screen and (min-width: 601px) {
@@ -1180,6 +1291,26 @@ table.shop_table td:last-child{
   .Guests_info_front_box select {
     width: 100% !important;
     min-width: 58px;
+  }
+  .shb-booking-summary-item ul{
+    flex-wrap: wrap;
+  }
+  .shb-booking-summary-item ul li{
+    width: 50%;
+    margin-bottom: 8px;
+    font-weight: 500;
+    padding: 0px 0px 2px 0px;
+    font-size: 13px;
+    border-bottom: 0px;
+  }
+  .shb-booking-summary-item.amount_tax{
+    flex-wrap: wrap;
+  }
+  .shb-booking-summary-item.amount_tax p{
+    width: 100%;
+  }
+  .shb-booking-summary-item.amount_tax p:last-child{
+    text-align: left;
   }
 }
 @media only screen and (max-width: 600px) {
