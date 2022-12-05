@@ -6,6 +6,9 @@
   --black-color:     #000000;
   --gray-color:      #656a70;
 }
+.mb-0{
+  margin-bottom: 0 !important;
+}
 body {
   font-family: 'Work Sans', sans-serif;
   line-height: 1 !important;
@@ -584,7 +587,7 @@ header.header {
 .footer{
   background: #1e306a;
   padding: 30px 0;
-  margin: 30px 0 0 0;
+  margin: 0;
 }
 .footer .footer-container{
   max-width: 1210px;
@@ -725,10 +728,21 @@ input[type="search"]:focus,
 input[type="tel"]:focus, 
 input[type="time"]:focus, 
 input[type="url"]:focus, 
-input[type="week"]:focus, 
+input[type="week"]:focus,
+input[type="file"]:focus,
 textarea:focus,
 select:focus{
   outline: none;
+}
+input[type="file"]{
+  width: 100%;
+  font-size: 15px;
+  color: #656a70;
+  padding: 7px 0;
+  font-size: 12px;
+  margin: 0 0 25px 0;
+  font-weight: 400;
+  font-family: 'Work Sans', sans-serif;
 }
 select {
   width: 100%;
@@ -746,12 +760,6 @@ select {
   margin: 0 0 10px 0;
   font-family: 'Work Sans', sans-serif;
 }
-input[type="text"] {
-  padding: 7px 12px;
-  margin: 0 0 10px 0;
-  min-height: 35px;
-  font-size: 12px;
-}
 textarea{
   font-size: 12px;
   font-family: 'Work Sans', sans-serif;
@@ -765,11 +773,18 @@ textarea{
   font-size: 12px;
   color: #656a70;
 }
-.form-label span.required{
+.form-label span.required, .form-label2 span.required{
   color: red;
   font-weight: normal;
   border: 0!important;
   text-decoration: none;
+}
+.form-label2{
+  padding: 0;
+  line-height: 1.2;
+  display: block;
+  font-size: 13px;
+  color: #181b20;
 }
 
 .custom-form .form-item input,
@@ -777,7 +792,55 @@ textarea{
 .custom-form .form-item textarea{
   margin: 0;
 }
-
+.form-input-group{
+  display: flex;
+}
+.form-input-group #country_code{
+  width: 25%;
+}
+.form-input-group #phone_or_mobile_no{
+  flex: 1;
+}
+.form-item-box{
+  margin: 15px 0;
+  border: solid 1px #dedede;
+  padding: 15px 10px;
+}
+.form-item.large .form-label, .form-item.large .form-label2{
+  font-size: 13px;
+  display: block;
+  color: #181b20;
+}
+.form-item.large input[type="text"], 
+.form-item.large input[type="password"], 
+.form-item.large input[type="color"], 
+.form-item.large input[type="date"], 
+.form-item.large input[type="datetime-local"], 
+.form-item.large input[type="email"], 
+.form-item.large input[type="month"], 
+.form-item.large input[type="number"], 
+.form-item.large input[type="range"], 
+.form-item.large input[type="search"], 
+.form-item.large input[type="tel"], 
+.form-item.large input[type="time"], 
+.form-item.large input[type="url"], 
+.form-item.large input[type="week"], 
+.form-item.large textarea{
+  font-size: 15px;
+  color: #656a70;
+  padding: 16px 12px;
+  font-weight: 400;
+}
+.form-item.large input[type="file"]{
+  font-size: 13px;
+  color: #181b20;
+  padding: 0;
+  margin: 0;
+  font-weight: 400;
+}
+.form-button{
+  padding-top: 30px;
+}
 /* Booking Summary CSS */
 .marquee {
   background-color: #1e306a;
@@ -1176,6 +1239,76 @@ table.shop_table td:last-child{
   font-weight: 600;
 }
 /* END: My Bookings CSS */
+
+/* START: Mahakal Lok Darshan CSS */
+.mahakal-lok-darshan-wrap{
+  margin-top: -30px !important;
+  padding-top: 50px !important;
+  padding-bottom: 100px !important;
+  background-image: url(https://pbdaccommodation.mptourism.com/wp-content/uploads/2022/11/ujjain-2-1.jpg?id=2061) !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+  background-size: cover !important;
+}
+.u_heading {
+  color: #fff;
+}
+.u_heading h4 {
+  text-align: center;
+  font-size: 18px;
+  margin-bottom: 15px;
+}
+.u_heading h2 {
+  font-size: 54px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 10px;
+}
+.u_heading h6 {
+  font-size: 18px;
+  text-align: center;
+  line-height: 1.5;
+}
+.ujjain {
+  padding: 35px 35px 35px 35px;
+  border: solid 1px #f5f5f5;
+  display: block;
+  width: 90%;
+  margin: 0px auto;
+  margin-top: 35px;
+  clear: both;
+  background-color: #fff;
+  border-radius: 10px;
+}
+.ujjain strong {
+  display: block;
+  font-size: 20px;
+}
+.ujjain .wpcf7 {
+  margin-top: 20px;
+}
+.ujjain .submit_button {
+  float: left;
+  margin-top: 20px;
+}
+.mahakal_lok{
+  color: #181b20 !important;
+}
+@media only screen and (max-width: 768px) {
+  .ujjain{
+    width: 100%;
+  }
+  .u_heading {
+    color: #fff;
+    width: 90%;
+    margin: 0px auto;
+  }
+
+  .u_heading h6 br {
+    display: none;
+  }
+}
+/* END: Mahakal Lok Darshan CSS */
 
 
 @media only screen and (min-width: 601px) {
