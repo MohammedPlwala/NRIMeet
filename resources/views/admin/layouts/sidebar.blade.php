@@ -34,6 +34,26 @@ $planApprovalRequired = \Session::get('planApprovalRequired');
                             <span class="nk-menu-text">Dashboard</span>
                         </a>
                     </li><!-- .nk-menu-item -->
+
+                    <li class="nk-menu-item">
+                        <a href="{{url('admin/hotels')}}" class="nk-menu-link"><span class="nk-menu-text">Hotels</span></a>
+                    </li>
+
+                    <li class="nk-menu-item has-sub">
+                        <a href="#" class="nk-menu-link nk-menu-toggle">
+                            <span class="nk-menu-icon"><em class="icon ni ni-users-fill"></em></span>
+                            <span class="nk-menu-text">User Management</span>
+                        </a>
+                        <ul class="nk-menu-sub">
+                            <li class="nk-menu-item">
+                                <a href="{{url('/user')}}" class="nk-menu-link"><span class="nk-menu-text">Buyers</span></a>
+                            </li>
+                            <li class="nk-menu-item">
+                                <a href="{{url('/user/staff')}}" class="nk-menu-link"><span class="nk-menu-text">Staff</span></a>
+                            </li>
+                        </ul>
+                    </li>
+
                     @if(isset($userRole) && $userRole != \Config::get('constants.ROLES.SUPERUSER'))
                     @if(isset($userPermission['orders']) || isset($userPermission['invoices']) || isset($userPermission['ledger']) || isset($userPermission['targets']))
                     <li class="nk-menu-item has-sub">

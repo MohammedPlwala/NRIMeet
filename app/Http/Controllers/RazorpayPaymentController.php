@@ -37,6 +37,7 @@ class RazorpayPaymentController extends Controller
                 $response = $api->payment->fetch($input['razorpay_payment_id'])->capture(array('amount'=>$payment['amount'])); 
 
                 echo "<pre>";
+                print_r($request->all());
                 print_r($response);
                 die;
   
