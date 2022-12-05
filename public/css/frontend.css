@@ -809,10 +809,10 @@ textarea{
 .form-input-group{
   display: flex;
 }
-.form-input-group #country_code{
+.form-input-group .country-code{
   width: 25%;
 }
-.form-input-group #phone_or_mobile_no{
+.form-input-group .phone-or-mobile-no{
   flex: 1;
 }
 .form-item-box{
@@ -851,6 +851,11 @@ textarea{
   padding: 0;
   margin: 0;
   font-weight: 400;
+}
+.form-item.large select{
+  font-size: 15px;
+  color: #656a70;
+  padding: 16px 12px;
 }
 .form-button{
   padding-top: 30px;

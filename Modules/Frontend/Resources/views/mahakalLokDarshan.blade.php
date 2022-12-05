@@ -32,8 +32,12 @@
               <div class="form-item large">
                 <label class="form-label">Phone/Mobile No: <span class="required" title="required">*</span></label>
                 <div class="form-input-group">
-                  <input type="tel" name="country_code" id="country_code" value="" size="40" placeholder="Country Code" required />
-                  <input type="tel" name="phone_or_mobile_no" id="phone_or_mobile_no" value="" size="40" placeholder="Phone/Mobile No." required />
+                  <div class="country-code">
+                    <input type="tel" name="country_code" id="country_code" value="" size="40" placeholder="Country Code" required />
+                  </div>
+                  <div class="phone-or-mobile-no">
+                    <input type="tel" name="phone_or_mobile_no" id="phone_or_mobile_no" value="" size="40" placeholder="Phone/Mobile No." required />
+                  </div>
                 </div>
               </div>
               <div class="form-item large">
@@ -68,7 +72,7 @@
                   <div class="time_select">
                     <label class="form-label">Select Departure From Indore </label>
                     <span class="wpcf7-form-control-wrap" data-name="menu-998">
-                        <select name="menu-998" class="wpcf7-form-control wpcf7-select wpcf7-validates-as-required" aria-required="true" aria-invalid="false">
+                        <select name="menu-998">
                           <option value="01:30 AM BHASMARTI">01:30 AM BHASMARTI</option>
                           <option value="07:00 AM">07:00 AM</option>
                           <option value="08:00 AM">08:00 AM</option>
