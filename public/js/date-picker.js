@@ -664,13 +664,13 @@ function add_another_room() {
     if (jQuery(".show_filter_2_room").css("display") == "none") {
         jQuery("#add_another_room").html("+ ADD ANOTHER ROOM");
         jQuery(".add_another_room").css("background", "#1e306a");
-        jQuery('input[name="shb-guestclass-add-another-107"]').val("0");
-        jQuery('input[name="shb-guestclass-add-another-108"]').val("0");
+        jQuery('input[name="room_two_adult"]').val("0");
+        jQuery('input[name="room_two_child"]').val("0");
     } else {
         jQuery("#add_another_room").html("X REMOVE THE ROOM");
         jQuery(".add_another_room").css("background", "#cf2156");
-        jQuery('input[name="shb-guestclass-add-another-107"]').val("0");
-        jQuery('input[name="shb-guestclass-add-another-108"]').val("0");
+        jQuery('input[name="room_two_adult"]').val("0");
+        jQuery('input[name="room_two_child"]').val("0");
     }
     jQuery("#other-shb-qty-display-107").html("0");
     jQuery("#other-shb-qty-display-108").html("0");

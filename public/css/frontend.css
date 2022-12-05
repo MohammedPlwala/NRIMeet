@@ -698,10 +698,30 @@ textarea {
   color: #656a70;
   border: 1px solid;
   border-color: #dedede;
-  padding: 16px 12px;
+  padding: 7px 12px;
+  font-size: 12px;
+  min-height: 35px;
   margin: 0 0 25px 0;
   font-weight: 400;
   font-family: 'Work Sans', sans-serif;
+}
+input[type="text"]:focus, 
+input[type="password"]:focus, 
+input[type="color"]:focus, 
+input[type="date"]:focus, 
+input[type="datetime-local"]:focus, 
+input[type="email"]:focus, 
+input[type="month"]:focus, 
+input[type="number"]:focus, 
+input[type="range"]:focus, 
+input[type="search"]:focus, 
+input[type="tel"]:focus, 
+input[type="time"]:focus, 
+input[type="url"]:focus, 
+input[type="week"]:focus, 
+textarea:focus,
+select:focus{
+  outline: none;
 }
 select {
   width: 100%;
@@ -745,7 +765,9 @@ textarea{
   text-decoration: none;
 }
 
-.custom-form .form-item input[type="text"]{
+.custom-form .form-item input,
+.custom-form .form-item select,
+.custom-form .form-item textarea{
   margin: 0;
 }
 
@@ -991,26 +1013,57 @@ a.shb-booking-continue{
 .Guests_info_front_box .form-item input[type="text"]{
   margin-bottom: 0;
 }
-
+/* Payment page */
+#billing_details{
+  margin: 0 0 35px 0;
+}
 #order_review{
   margin: 20px 0 0 0;
 }
 table.shop_table{
   border: none;
-  margin: 0 -1px 24px 0;
+  margin: 0 0 24px 0;
   text-align: left;
   width: 100%;
   border-collapse: separate;
   border-radius: 5px;
   font-size: 14px;
   color: #424242;
+  border-spacing: 0;
 }
 table.shop_table tr{
   background: #fff;
 }
+table.shop_table tr:nth-child(2n) {
+  background: #f8f8f8;
+}
 table.shop_table th, body table.shop_table td{
   padding: 7px 20px 7px 20px !important;
   font-weight: normal;
+  line-height: 1.5em;
+}
+table.shop_table th{
+  font-weight: 400;
+  color: #fff;
+  background: #1e306a;
+  border-bottom: #e8e8e8 1px solid;
+  text-align: left;
+  vertical-align: top;
+  font-size: 14px;
+  padding: 14px 20px 14px 20px;
+  font-weight: 400;
+}
+table.shop_table td {
+  border-right: #e8e8e8 1px solid;
+  border-bottom: #e8e8e8 1px solid;
+  text-align: left;
+  vertical-align: top;
+  padding: 9px 20px;
+  line-height: 160%;
+  font-size: 15px;
+}
+table.shop_table td:last-child{
+  border-right: none;
 }
 
 

@@ -163,26 +163,26 @@ jQuery( document ).ready(function($) {
 		
 		if ($(this).hasClass('shb-qty-increase')) {			
 			var shb_new_guestclass_qty = shb_guestclass_qty + 1;
-			if(fieldType=='shb-guestclass-108'){
-				if(shb_new_guestclass_qty>2 || (parseInt($('input[name="shb-guestclass-107"]').val())+parseInt(shb_new_guestclass_qty)>4)){	
+			if(fieldType=='room_one_child'){
+				if(shb_new_guestclass_qty>2 || (parseInt($('input[name="room_one_adult"]').val())+parseInt(shb_new_guestclass_qty)>4)){	
 					return false;
 				}
 			}
-			if(fieldType=='shb-guestclass-107'){ 
-				if(shb_new_guestclass_qty>3 || (parseInt($('input[name="shb-guestclass-108"]').val())+parseInt(shb_new_guestclass_qty)>4)){
+			if(fieldType=='room_one_adult'){ 
+				if(shb_new_guestclass_qty>3 || (parseInt($('input[name="room_one_child"]').val())+parseInt(shb_new_guestclass_qty)>4)){
 					return false;
 				}	
 			}
 		}
 		if ($(this).hasClass('shb-qty-increase')) {			
 			var shb_new_guestclass_qty = shb_guestclass_qty + 1;
-			if(fieldType=='shb-guestclass-add-another-108'){
-				if(shb_new_guestclass_qty>2 || (parseInt($('input[name="shb-guestclass-add-another-107"]').val())+parseInt(shb_new_guestclass_qty)>4)){	
+			if(fieldType=='room_two_child'){
+				if(shb_new_guestclass_qty>2 || (parseInt($('input[name="room_two_adult"]').val())+parseInt(shb_new_guestclass_qty)>4)){	
 					return false;
 				}
 			}
-			if(fieldType=='shb-guestclass-add-another-107'){
-				if(shb_new_guestclass_qty>3 || (parseInt($('input[name="shb-guestclass-add-another-108"]').val())+parseInt(shb_new_guestclass_qty)>4)){
+			if(fieldType=='room_two_adult'){
+				if(shb_new_guestclass_qty>3 || (parseInt($('input[name="room_two_child"]').val())+parseInt(shb_new_guestclass_qty)>4)){
 					return false;
 				}	
 			}
