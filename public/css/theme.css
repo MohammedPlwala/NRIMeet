@@ -447,6 +447,9 @@ table.dataTable.nowrap-th .word-wrap{
 .table-head-bottom .nk-tb-item.nk-tb-head > .nk-tb-col{
     vertical-align: bottom;
 }
+.table-head-top .nk-tb-item.nk-tb-head > .nk-tb-col{
+    vertical-align: top;
+}
 .toggle-expand-content .btn-primary:focus, .toggle-expand-content .btn-primary.focus{
     background-color: #1849ba;
     border-color: #1849ba;

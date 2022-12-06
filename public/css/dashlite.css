@@ -10464,7 +10464,7 @@ body.nav-shown { overflow: hidden; }
 
 .tc-light .logo-light, .is-dark .logo-light, .is-theme .logo-light { opacity: 1; }
 
-.logo-img { max-height: 36px; }
+.logo-img { max-height: 54px; }
 
 .logo-img-lg { max-height: 60px; }
 
@@ -10637,7 +10637,7 @@ body.nav-shown { overflow: hidden; }
 
 .nk-sidebar-logo { transition: opacity .3s ease; }
 
-.nk-sidebar-logo .logo-img:not(:first-child) { position: absolute; left: 0; top: 50%; transform: translateY(-50%); }
+.nk-sidebar-logo .logo-img:not(:first-child) { position: absolute; left: -14px; top: 50%; transform: translateY(-50%); }
 
 .nk-sidebar-footer { background-color: #f5f6fa; margin-top: auto; padding: 1.75rem 24px 1.75rem; }
 
@@ -10684,7 +10684,7 @@ body.nav-shown { overflow: hidden; }
   .nk-sidebar + .nk-wrap > .nk-header-fixed, .nk-sidebar-overlay + .nk-wrap > .nk-header-fixed { left: 290px; }
   .nk-sidebar.is-compact:not(:hover) { width: 74px; }
   .nk-sidebar.is-compact:not(:hover) .logo-img { opacity: 0; transition: opacity .2s linear; }
-  .nk-sidebar.is-compact:not(:hover) .logo-img-small { opacity: 1; left: -3px; }
+  .nk-sidebar.is-compact:not(:hover) .logo-img-small { opacity: 1; }
   .nk-sidebar.is-compact:not(:hover) .user-card { position: relative; left: -5px; }
   .nk-sidebar.is-compact:not(:hover) .user-info { opacity: 0; }
   .nk-sidebar.is-compact:not(:hover) .nk-sidebar-profile .dropdown-menu { opacity: 0; }

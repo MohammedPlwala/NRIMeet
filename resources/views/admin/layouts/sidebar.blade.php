@@ -12,7 +12,7 @@ $planApprovalRequired = \Session::get('planApprovalRequired');
             <a href="{{url('/dashboard')}}" class="logo-link nk-sidebar-logo">
                 <img class="logo-light logo-img" src="{{url('images/logo-dark.png')}}" srcset="{{url('images/logo-dark.png')}}" alt="logo">
                 <img class="logo-dark logo-img" src="{{url('images/logo-dark.png')}}" srcset="{{url('images/logo-dark.png')}}" alt="logo-dark">
-                <!-- <img class="logo-small logo-img logo-img-small" src="{{url('images/logo-small.png')}}" srcset="{{url('images/logo-small2x.png 2x')}}" alt="logo-small"> -->
+                <img class="logo-small logo-img logo-img-small" src="{{url('images/logo-small.png')}}" srcset="{{url('images/logo-small2x.png 2x')}}" alt="logo-small">
             </a>
         </div>
         <div class="nk-menu-trigger mr-n2">
@@ -70,87 +70,44 @@ $planApprovalRequired = \Session::get('planApprovalRequired');
                             <span class="nk-menu-text">Reports</span>
                         </a>
                         <ul class="nk-menu-sub">
-                            <li class="nk-menu-item has-sub">
-                                <a href="#" class="nk-menu-link nk-menu-toggle">
-                                    <span class="nk-menu-text">Sales</span>
-                                </a>
-                                <ul class="nk-menu-sub">
-                                    <li class="nk-menu-item">
-                                        <a href="{{url('/report/sales-by-sales-person')}}" class="nk-menu-link"><span class="nk-menu-text">by Sales Person</span></a>
-                                    </li>
-                                    <li class="nk-menu-item">
-                                        <a href="{{url('/report/sales-by-buyers')}}" class="nk-menu-link"><span class="nk-menu-text">by Buyers</span></a>
-                                    </li>
-
-                                    <li class="nk-menu-item">
-                                        <a href="{{url('/report/sales-by-product-categories')}}" class="nk-menu-link"><span class="nk-menu-text">by Product Categories</span></a>
-                                    </li>
-                                </ul>
+                            <li class="nk-menu-item">
+                                <a href="{{url('/report/guest')}}" class="nk-menu-link"><span class="nk-menu-text">Guest</span></a>
                             </li>
                             <li class="nk-menu-item">
-                                <a href="{{url('/report/pending-sales-order')}}" class="nk-menu-link"><span class="nk-menu-text">Pending Sales Order</span></a>
+                                <a href="{{url('/report/hotel-master')}}" class="nk-menu-link"><span class="nk-menu-text">Hotel Master</span></a>
                             </li>
-                            <li class="nk-menu-item has-sub">
-                                <a href="#" class="nk-menu-link nk-menu-toggle">
-                                    <span class="nk-menu-text">Top 10</span>
-                                </a>
-                                <ul class="nk-menu-sub">
-                                    <li class="nk-menu-item">
-                                        <a href="{{url('/report/top-buyers')}}" class="nk-menu-link"><span class="nk-menu-text">Buyers</span></a>
-                                    </li>
-                                    <li class="nk-menu-item">
-                                        <a href="{{url('/report/top-sales-person')}}" class="nk-menu-link"><span class="nk-menu-text">Sales Person</span></a>
-                                    </li>
-                                    <li class="nk-menu-item">
-                                        <a href="{{url('/report/top-10-products')}}" class="nk-menu-link"><span class="nk-menu-text">Products</span></a>
-                                    </li>
-                                    <li class="nk-menu-item">
-                                        <a href="{{url('/report/top-10-categories')}}" class="nk-menu-link"><span class="nk-menu-text">Categories</span></a>
-                                    </li>
-                                </ul>
+                            <li class="nk-menu-item">
+                                <a href="{{url('/report/inventory')}}" class="nk-menu-link"><span class="nk-menu-text">Inventory</span></a>
                             </li>
-                            <li class="nk-menu-item has-sub">
-                                <a href="#" class="nk-menu-link nk-menu-toggle">
-                                    <span class="nk-menu-text">Zero Billing</span>
-                                </a>
-                                <ul class="nk-menu-sub">
-                                    <li class="nk-menu-item">
-                                        <a href="{{url('/report/zero-billing-sales-person')}}" class="nk-menu-link"><span class="nk-menu-text">Sales Person</span></a>
-                                    </li>
-                                    <li class="nk-menu-item">
-                                        <a href="{{url('/report/zero-billing-buyers')}}" class="nk-menu-link"><span class="nk-menu-text">Buyers</span></a>
-                                    </li>
-
-                                    <li class="nk-menu-item">
-                                        <a href="{{url('/report/zero-billing-items')}}" class="nk-menu-link"><span class="nk-menu-text">Items</span></a>
-                                    </li>
-                                </ul>
+                            <li class="nk-menu-item">
+                                <a href="{{url('/report/payment')}}" class="nk-menu-link"><span class="nk-menu-text">Payment</span></a>
                             </li>
-                            <li class="nk-menu-item has-sub">
-                                <a href="#" class="nk-menu-link nk-menu-toggle">
-                                    <span class="nk-menu-text">Target Achievement</span>
-                                </a>
-                                <ul class="nk-menu-sub">
-                                    <li class="nk-menu-item">
-                                        <a href="{{url('/report/target-achievement-buyers')}}" class="nk-menu-link"><span class="nk-menu-text">Buyers</span></a>
-                                    </li>
-                                    <li class="nk-menu-item">
-                                        <a href="{{url('/report/target-achievement-sales-person')}}" class="nk-menu-link"><span class="nk-menu-text">Sales Person</span></a>
-                                    </li>
-                                </ul>
+                            <li class="nk-menu-item">
+                                <a href="{{url('/report/booking')}}" class="nk-menu-link"><span class="nk-menu-text">Booking</span></a>
                             </li>
-                            <li class="nk-menu-item has-sub">
-                                <a href="#" class="nk-menu-link nk-menu-toggle">
-                                    <span class="nk-menu-text">Visits</span>
-                                </a>
-                                <ul class="nk-menu-sub">
-                                    <li class="nk-menu-item">
-                                        <a href="{{url('/report/onfield-visits')}}" class="nk-menu-link"><span class="nk-menu-text">On-Field</span></a>
-                                    </li>
-                                    <li class="nk-menu-item">
-                                        <a href="{{url('/report/offfield-visits')}}" class="nk-menu-link"><span class="nk-menu-text">Off-Field</span></a>
-                                    </li>
-                                </ul>
+                            <li class="nk-menu-item">
+                                <a href="{{url('/report/cancellation')}}" class="nk-menu-link"><span class="nk-menu-text">Cancellation</span></a>
+                            </li>
+                            <li class="nk-menu-item">
+                                <a href="{{url('/report/refund')}}" class="nk-menu-link"><span class="nk-menu-text">Refund</span></a>
+                            </li>
+                            <li class="nk-menu-item">
+                                <a href="{{url('/report/total-inventory-data')}}" class="nk-menu-link"><span class="nk-menu-text">Total Inventory Data</span></a>
+                            </li>
+                            <li class="nk-menu-item">
+                                <a href="{{url('/report/booking-summary')}}" class="nk-menu-link"><span class="nk-menu-text">Booking Summary</span></a>
+                            </li>
+                            <li class="nk-menu-item">
+                                <a href="{{url('/report/group-bookings')}}" class="nk-menu-link"><span class="nk-menu-text">Group Bookings</span></a>
+                            </li>
+                            <li class="nk-menu-item">
+                                <a href="{{url('/report/call-center')}}" class="nk-menu-link"><span class="nk-menu-text">Call Center</span></a>
+                            </li>
+                            <li class="nk-menu-item">
+                                <a href="{{url('/report/financial')}}" class="nk-menu-link"><span class="nk-menu-text">Financial</span></a>
+                            </li>
+                            <li class="nk-menu-item">
+                                <a href="{{url('/report/financial-2')}}" class="nk-menu-link"><span class="nk-menu-text">Financial 2</span></a>
                             </li>
                         </ul>
                     </li>
