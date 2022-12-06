@@ -18,10 +18,6 @@ class FrontendController extends Controller
     {
         return view('frontend::mahakalLokDarshan');
     }
-    public function myBookings()
-    {
-        return view('frontend::myBookings');
-    }
     
     public function contactUs()
     {

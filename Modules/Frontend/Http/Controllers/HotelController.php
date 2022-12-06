@@ -14,6 +14,7 @@ use Modules\Hotel\Entities\BookingRoom;
 use Modules\Hotel\Entities\BillingDetail;
 use Modules\Hotel\Entities\Transaction;
 use Session;
+use Auth;
 use Razorpay\Api\Api;
 
 class HotelController extends Controller
@@ -317,6 +318,47 @@ class HotelController extends Controller
     public function payment()
     {
         return view('frontend::payment');
+    }
+
+    public function myBookings()
+    {
+        $user = Auth::user();
+
+        $bookings = Booking::from('bookings as b')
+                            ->select('h.name as hotel_name','b.*')
+                            ->leftJoin('hotels as h','h.id','=','b.hotel_id')
+                            ->where('user_id',$user->id)
+                            ->get();
+
+        if(!empty($bookings->toArray())){
+            foreach ($bookings as $key => $booking) {
+
+                $booking->guests = $booking->childs = $booking->adults = 0;
+
+                $bookingRooms = BookingRoom::from('booking_rooms as br')
+                                ->select('hr.id','hr.hotel_id','type_id','hr.name','description','count','rate','rt.name as room_type','br.booking_id', 'br.room_id', 'br.amount', 'br.guests', 'br.adults', 'br.childs', 'br.guest_one_name', 'br.guest_two_name', 'br.guest_three_name', 'br.child_name', 'br.extra_bed', 'br.extra_bed_cost')
+
+                                ->join('hotel_rooms as hr','hr.id','=','br.room_id')
+                                ->join('room_types as rt','rt.id','=','hr.type_id')
+                                ->where('br.booking_id',$booking->id)
+                                ->get();
+
+                if(!empty($bookingRooms->toArray())){
+                    foreach ($bookingRooms as $key => $room) {
+                        $booking->guests += $room->guests;
+                        $booking->childs += $room->childs;
+                        $booking->adults += $room->adults;
+                    }
+                    $booking->rooms = $bookingRooms;
+                }
+            }
+        }
+
+        // echo "<pre>";
+        // print_r($bookings->toArray());
+        // die;
+
+        return view('frontend::myBookings',['bookings' => $bookings]);
     }
 
     public function saveRazorPayPayment(Request $request)
