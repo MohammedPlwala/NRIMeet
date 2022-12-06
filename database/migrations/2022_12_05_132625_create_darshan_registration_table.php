@@ -17,10 +17,11 @@ class CreateDarshanRegistrationTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('email');
-            $table->string('mobile');
+            $table->string('country_code');
+            $table->bigInteger('mobile');
             $table->string('registration_number');
             $table->string('country');
-            $table->string('members');
+            $table->integer('members');
             $table->string('file')->nullable();
             $table->string('departure_indore');
             $table->string('departure_ujjain');

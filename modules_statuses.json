@@ -3,5 +3,6 @@
     "Dashboard": true,
     "Frontend": true,
     "Hotel": true,
-    "User": true
+    "User": true,
+    "Report": true
 }

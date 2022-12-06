@@ -22,10 +22,9 @@
                             </li>
 
 
-                            {{-- <li class="nk-block-tools-opt">
-                                <a href="{{ url('/user/create') }}" class="btn btn-primary d-none d-md-inline-flex"><em
-                                        class="icon ni ni-plus"></em><span>Add Customer</span></a>
-                            </li> --}}
+                           <li class="nk-block-tools-opt">
+                                <a href="{{url('/admin/hotel/update')}}" class="btn btn-primary d-none d-md-inline-flex"><em class="icon ni ni-plus"></em><span>Add Hotel</span></a>
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -41,7 +40,7 @@
                 <thead>
                     <tr class="nk-tb-item nk-tb-head">
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Name</span></th>
-                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Email</span></th>
+                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Classification</span></th>
                         <th class="nk-tb-col tb-col-md"><span class="sub-text">Contact Number</span></th>
                         <th class="nk-tb-col tb-col-md w-1 text-center" nowrap="true"><span class="sub-text">Status</span>
                         </th>

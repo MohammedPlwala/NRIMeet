@@ -9,6 +9,7 @@ use Illuminate\Routing\Controller;
 use Modules\Hotel\Entities\RoomType;
 use Modules\Hotel\Entities\Hotel;
 use Modules\Hotel\Entities\HotelRoom;
+use DataTables;
 
 class HotelController extends Controller
 {
@@ -116,9 +117,99 @@ class HotelController extends Controller
      * Show the form for creating a new resource.
      * @return Renderable
      */
-    public function rooms()
+    public function rooms(Request $request)
     {
-        return view('hotel::rooms');
+
+        $data = HotelRoom::from('hotel_rooms as hr')
+                ->select('hr.id', 'hr.hotel_id', 'hr.name', 'hr.type_id', 'hr.description', 'hr.allocated_rooms', 'hr.mpt_reserve', 'hr.count', 'hr.rate', 'hr.extra_bed_available', 'hr.extra_bed_rate', 'hr.status','rt.name as room_type_name','h.name as hotel_name')
+                ->join('room_types as rt','rt.id','=','hr.type_id')
+                ->join('hotels as h','h.id','=','hr.hotel_id')
+                ->where(function ($query) use ($request) {
+                    if (!empty($request->toArray())) {
+                        if ($request->get('hotel_name') != '') {
+                            $query->where('h.name', $request->get('hotel_name'));
+                        }
+
+                        if ($request->get('room_name') != '') {
+                            $query->where('hr.name', $request->get('room_name'));
+                        }
+                    }
+                })
+                ->orderby('hr.id','desc')
+                ->get();
+
+        $roomsCount = 0;
+        if(!empty($data->toArray())){
+            $roomsCount = count($data);
+        }
+
+        if ($request->ajax()) {
+            return Datatables::of($data)
+                    ->addIndexColumn()
+                    
+                    ->addColumn('status', function ($row) {
+                        if($row->status == 'active'){
+                            $statusValue = 'Active';
+                        }else{
+                            $statusValue = 'Inactive';
+                        }
+
+                        $value = ($row->status == 'active') ? 'badge badge-success' : 'badge badge-danger';
+                        $status = '
+                            <span class="tb-sub">
+                                <span class="'.$value.'">
+                                    '.$statusValue.'
+                                </span>
+                            </span>
+                        ';
+                        return $status;
+                    })
+                    ->addColumn('rate', function ($row) {
+                        
+                        return '₹'.$row->rate;
+                    })
+                    ->addColumn('action', function($row) {
+                           $edit = url('/').'/hotel/rooms/edit'.$row->id;
+                           $delete = url('/').'/user/delete/'.$row->id;
+                           $confirm = '"Are you sure, you want to delete it?"';
+
+                            $editBtn = "<li>
+                                        <a href='".$edit."'>
+                                            <em class='icon ni ni-edit'></em> <span>Edit</span>
+                                        </a>
+                                    </li>";
+                           $editBtn = "";
+                            
+                            $deleteBtn = "<li>
+                                        <a href='".$delete."' onclick='return confirm(".$confirm.")'  class='delete'>
+                                            <em class='icon ni ni-trash'></em> <span>Delete</span>
+                                        </a>
+                                    </li>"; 
+
+                            $btn = '';
+                            $btn .= '<ul class="nk-tb-actio ns gx-1">
+                                        <li>
+                                            <div class="drodown mr-n1">
+                                                <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
+                                                <div class="dropdown-menu dropdown-menu-right">
+                                                    <ul class="link-list-opt no-bdr">
+                                        ';
+
+                           $btn .=       $editBtn."
+                                        ".$deleteBtn;
+
+                            $btn .= "</ul>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    </ul>";
+                        return $btn;
+                    })
+                    ->rawColumns(['action','status',])
+                    ->make(true);
+        }
+
+        return view('hotel::rooms')->with(compact('roomsCount'));
     }
      /**
      * Show the form for creating a new resource.
@@ -126,7 +217,10 @@ class HotelController extends Controller
      */
     public function roomUpdate()
     {
-        return view('hotel::roomUpdate');
+        $hotels = Hotel::where('status','active')->get();
+        $roomTypes = RoomType::where('status','active')->get();
+
+        return view('hotel::roomUpdate',['hotels' => $hotels,'roomTypes' => $roomTypes]);
     }
     
     
@@ -135,9 +229,11 @@ class HotelController extends Controller
      * @param Request $request
      * @return Renderable
      */
-    public function store(Request $request)
-    {
-        //
+    public function roomStore(Request $request)
+    {   
+        echo "<pre>";
+        print_r($request->all());
+        die;
     }
 
     /**
