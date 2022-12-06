@@ -9,6 +9,8 @@ use Illuminate\Routing\Controller;
 use Modules\Hotel\Entities\RoomType;
 use Modules\Hotel\Entities\Hotel;
 use Modules\Hotel\Entities\HotelRoom;
+
+use Modules\user\Entities\User;
 use DataTables;
 
 class HotelController extends Controller
@@ -169,7 +171,7 @@ class HotelController extends Controller
                         return '₹'.$row->rate;
                     })
                     ->addColumn('action', function($row) {
-                           $edit = url('/').'/hotel/rooms/edit'.$row->id;
+                           $edit = url('/').'/admin/hotel/rooms/edit/'.$row->id;
                            $delete = url('/').'/user/delete/'.$row->id;
                            $confirm = '"Are you sure, you want to delete it?"';
 
@@ -178,7 +180,6 @@ class HotelController extends Controller
                                             <em class='icon ni ni-edit'></em> <span>Edit</span>
                                         </a>
                                     </li>";
-                           $editBtn = "";
                             
                             $deleteBtn = "<li>
                                         <a href='".$delete."' onclick='return confirm(".$confirm.")'  class='delete'>
@@ -222,6 +223,16 @@ class HotelController extends Controller
 
         return view('hotel::roomUpdate',['hotels' => $hotels,'roomTypes' => $roomTypes]);
     }
+
+    public function roomEdit(Request $request,$id)
+    {
+        $hotels = Hotel::where('status','active')->get();
+        $roomTypes = RoomType::where('status','active')->get();
+        
+        $room = HotelRoom::findorfail($id);
+
+        return view('hotel::roomUpdate',['hotels' => $hotels,'roomTypes' => $roomTypes,'room' => $room]);
+    }
     
     
     /**
@@ -231,9 +242,51 @@ class HotelController extends Controller
      */
     public function roomStore(Request $request)
     {   
-        echo "<pre>";
-        print_r($request->all());
-        die;
+
+        if(isset($request->room_id)){
+            $room = HotelRoom::findorfail($request->room_id);
+            $currentCount = $room->count;
+            $currentAllocated = $room->allocated_rooms;
+            $currentMpt= $room->mpt_reserve;
+            $currentBooked = (($currentAllocated-$currentMpt)-$currentCount);
+            $newAvailable = (($request->allocated_rooms-$request->mpt_reserve)-$currentBooked);
+
+            if($request->allocated_rooms < $currentBooked){
+                return redirect('admin/hotel/rooms/edit/'.$request->room_id)->with('error', 'Allocated rooms can not be less than booked rooms');
+            }
+
+            $room->allocated_rooms = $request->allocated_rooms;
+            $room->mpt_reserve = $request->mpt_reserve;
+            $room->count = $newAvailable;
+
+            $msg = "Room updated successfully";
+
+        }else{
+            $room = new HotelRoom();
+            $room->allocated_rooms = $request->allocated_rooms;
+            $room->mpt_reserve = $request->mpt_reserve;
+            $room->count = $request->allocated_rooms-$request->mpt_reserve;
+            $msg = "Room added successfully";
+        }
+
+        $room->hotel_id = $request->hotel;
+        $room->name = $request->room_name;
+        $room->type_id = $request->room_type;
+
+        $room->rate = $request->rate;
+        $room->extra_bed_available = $request->extra_bed_available;
+
+        if($request->extra_bed_available){
+            $room->extra_bed_rate = $request->extra_bed_rate;
+        }
+        $room->status = $request->status;
+        
+        if($room->save()){
+            return redirect('/admin/hotel/rooms')->with('message', $msg);
+        }else{
+            return redirect('/admin/hotel/rooms/add')->with('error', 'Something went wrong');
+        }
+        
     }
 
     /**
@@ -254,6 +307,22 @@ class HotelController extends Controller
     public function edit($id)
     {
         return view('hotel::edit');
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     * @param int $id
+     * @return Renderable
+     */
+    public function booking()
+    {
+        $hotels = Hotel::where('status','active')->get();
+        $roomTypes = RoomType::where('status','active')->get();
+        // $guests = User::where('status','active')->get();
+        return view('hotel::booking',['hotels' => $hotels,'roomTypes' => $roomTypes, 
+        // 'guests' => $guests
+    ]);
+        
     }
 
     /**

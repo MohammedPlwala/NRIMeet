@@ -73,57 +73,24 @@
                             <div class="gy-3">
                                 <div class="row g-3 align-center">
                                     <div class="col-lg-5">
-                                        <x-inputs.verticalFormLabel label="First Name" for="firstName"
-                                            suggestion="Specify the name of the user." />
+                                        <x-inputs.verticalFormLabel label="Hotel Name" for="hotel_name"
+                                            suggestion="" />
                                     </div>
                                     <div class="col-lg-7">
-                                        <x-inputs.text value="" for="firstName" icon="user" placeholder="Name"
-                                            name="name" />
+                                        <x-inputs.text value="" for="hotel_name" icon="user" placeholder="Hotel Name" name="hotel_name" />
                                     </div>
                                 </div>
+
                                 <div class="row g-3 align-center">
                                     <div class="col-lg-5">
-                                        <x-inputs.verticalFormLabel label="Mobile Number" for="contact_number"
-                                            suggestion="Specify the mobile number of the user." />
+                                        <x-inputs.verticalFormLabel label="Room Name" for="room_name"
+                                            suggestion="" />
                                     </div>
                                     <div class="col-lg-7">
-                                        <x-inputs.text value="" for="contact_number" icon="call"
-                                            placeholder="Mobile Number" name="contact_number"
-                                            data-parsley-pattern="{{ \Config::get('constants.REGEX.VALIDATE_MOBILE_NUMBER_LENGTH') }}" />
+                                        <x-inputs.text value="" for="room_name" icon="user" placeholder="Room Name" name="room_name" />
                                     </div>
                                 </div>
-                                <div class="row g-3 align-center">
-                                    <div class="col-lg-5">
-                                        <x-inputs.verticalFormLabel label="Created at" for="createdAt"
-                                            suggestion="Select the dates of created at." />
-                                    </div>
-                                    <div class="col-lg-7">
-                                        <div class="row">
-                                            <div class="col-lg-6">
-                                                <div class="form-control-wrap">
-                                                    <div class="form-icon form-icon-left">
-                                                        <em class="icon ni ni-calendar"></em>
-                                                    </div>
-                                                    <input type="text" class="form-control date-picker"
-                                                        placeholder="Form Date" data-date-format="yyyy-mm-dd"
-                                                        id="fromDate" name="fromDate">
-                                                </div>
-                                                <!-- <div class="form-note mt-0">Form Date</div> -->
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <div class="form-control-wrap">
-                                                    <div class="form-icon form-icon-left">
-                                                        <em class="icon ni ni-calendar"></em>
-                                                    </div>
-                                                    <input type="text" class="form-control date-picker"
-                                                        placeholder="To Date" data-date-format="yyyy-mm-dd"
-                                                        id="toDate" name="toDate">
-                                                </div>
-                                                <!-- <div class="form-note mt-0">To Date</div> -->
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                
                             </div>
                         </div>
                         <input type="hidden" id="userId" name="user_id" value="0">
@@ -154,10 +121,8 @@
             NioApp.getAuditLogs('.broadcast-init', '.audit_logs', 'resourceid', logUrl, '#modalLogs');
 
             var items = [
-                '#firstName',
-                '#contact_number',
-                '#fromDate',
-                '#toDate'
+                '#room_name',
+                '#hotel_name'
             ];
             var user_table = "";
             user_table = new CustomDataTable({
@@ -165,6 +130,7 @@
                 option: {
                     processing: true,
                     serverSide: true,
+                    ordering: false,
                     ajax: {
                         type: "GET",
                         url: "{{ url('admin/hotel/rooms') }}",
