@@ -35,8 +35,19 @@ $planApprovalRequired = \Session::get('planApprovalRequired');
                         </a>
                     </li><!-- .nk-menu-item -->
 
-                    <li class="nk-menu-item">
-                        <a href="{{url('admin/hotels')}}" class="nk-menu-link"><span class="nk-menu-text">Hotels</span></a>
+                    <li class="nk-menu-item has-sub">
+                        <a href="#" class="nk-menu-link nk-menu-toggle">
+                            <span class="nk-menu-icon"><em class="icon ni ni-users-fill"></em></span>
+                            <span class="nk-menu-text">Hotels</span>
+                        </a>
+                        <ul class="nk-menu-sub">
+                            <li class="nk-menu-item">
+                                <a href="{{url('/admin/hotel')}}" class="nk-menu-link"><span class="nk-menu-text">Manage</span></a>
+                            </li>
+                            <li class="nk-menu-item">
+                                <a href="{{url('/admin/hotel/rooms')}}" class="nk-menu-link"><span class="nk-menu-text">Rooms</span></a>
+                            </li>
+                        </ul>
                     </li>
 
                     <li class="nk-menu-item has-sub">

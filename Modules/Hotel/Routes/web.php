@@ -17,7 +17,11 @@ Route::prefix('admin')->group(function() {
         Route::get('/update', 'HotelController@updateHotel');
         Route::get('/import', 'HotelController@import');
         Route::get('/rooms', 'HotelController@rooms');
-        Route::get('/rooms/update', 'HotelController@roomUpdate');
         Route::get('/rooms/add', 'HotelController@roomUpdate');
+        Route::get('/rooms/update', 'HotelController@roomUpdate');
+        
+        Route::get('/rooms/add', 'HotelController@roomUpdate');
+        Route::post('/rooms/add', 'HotelController@roomStore');
+
     });
 });

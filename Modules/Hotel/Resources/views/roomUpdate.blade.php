@@ -1,13 +1,10 @@
 @extends('admin.layouts.app')
-@php
-$userPermission = \Session::get('userPermission');
-$organization_type = \Session::get('organization_type');
-@endphp
+
 @section('content')
     <div class="nk-block-head nk-block-head-sm">
         <div class="nk-block-between">
             <div class="nk-block-head-content">
-                <h3 class="nk-block-title page-title"><a href="javascript:history.back()" class="pt-3"><em class="icon ni ni-chevron-left back-icon"></em> </a> @if (isset($user)) Edit @else Update @endif Room</h3>
+                <h3 class="nk-block-title page-title"><a href="javascript:history.back()" class="pt-3"><em class="icon ni ni-chevron-left back-icon"></em> </a> @if (isset($room)) Edit @else Add @endif Room</h3>
             </div><!-- .nk-block-head-content -->
         </div><!-- .nk-block-between -->
     </div><!-- .nk-block-head -->
@@ -21,7 +18,7 @@ $organization_type = \Session::get('organization_type');
                         <div class="sp-plan-action card-inner">
                             <div class="icon">
                                 <em class="icon ni ni-box fs-36px o-5"></em>
-                                <h5 class="o-5">Hotel <br> Information</h5>
+                                <h5 class="o-5">Room <br> Information</h5>
                             </div>
                         </div>
                     </div>
@@ -29,59 +26,123 @@ $organization_type = \Session::get('organization_type');
                         <div class="sp-plan-info card-inner">
                             <div class="row g-3 align-center">
                                 <div class="col-lg-5">
-                                    <x-inputs.verticalFormLabel label="Hotel Name" for="firstName" suggestion="Specify the first name of the user." required="true" />
+                                    <x-inputs.verticalFormLabel label="Hotel Name" for="hotel" suggestion="" required="true" />
                                 </div>
                                 <div class="col-lg-7">
-                                    <x-inputs.select value="{{ isset($user) ? $user->email : old('email') }}" for="email" icon="mail" required="true" class="" placeholder="Email" name="email" >
-                                        <option>
-                                            Hotel
-                                        </option>
+                                    <x-inputs.select for="hotel" icon="mail" required="true" class="" placeholder="Select Hotel" name="hotel" >
+                                        <option>Select Hotel</option>
+                                        @forelse($hotels as $key => $hotel)
+                                            <option value="{{ $hotel->id }}">{{ ucfirst($hotel->name) }}</option>
+                                        @empty
+                                        @endforelse
                                     </x-inputs.select>
                                 </div>
                             </div>
                             <div class="row g-3 align-center">
                                 <div class="col-lg-5">
-                                    <x-inputs.verticalFormLabel label="Room Type" for="Hotal Address" suggestion="Specify the last name of the user." required="true" />
+                                    <x-inputs.verticalFormLabel label="Room Type" for="" suggestion="" required="true" />
                                 </div>
                                 <div class="col-lg-7">
-                                    <x-inputs.select value="{{ isset($user) ? $user->email : old('email') }}" for="email" icon="mail" required="true" class="" placeholder="Email" name="email" >
-                                        <option>
-                                            Type
-                                        </option>
+                                    <x-inputs.select for="room_type" icon="mail" required="true" class="" placeholder="Select Hotel Type" name="room_type" >
+                                        <option>Select Room Type</option>
+                                        @forelse($roomTypes as $key => $roomType)
+                                            <option value="{{ $roomType->id }}">{{ ucfirst($roomType->name) }}</option>
+                                        @empty
+                                        @endforelse
                                     </x-inputs.select>
                                 </div>
                             </div>
+
                             <div class="row g-3 align-center">
                                 <div class="col-lg-5">
-                                    <x-inputs.verticalFormLabel label="Allocated Rooms" for="email" suggestion="Specify the email of the user." required="true" />
+                                    <x-inputs.verticalFormLabel label="Room Name" for="email" suggestion="" required="true" />
                                 </div>
                                 <div class="col-lg-7">
-                                    <x-inputs.number value="{{ isset($user) ? $user->email : old('email') }}" for="email" icon="home-alt" required="true" class="" placeholder="Email" name="email" />
-                                    @if ($errors->has('email'))
-                                        <span class="text-danger custom-error-text">{{ $errors->first('email') }}</span>
+                                    <x-inputs.text value="" for="room_name" icon="umbrela" required="true" class="" placeholder="Email" name="room_name" />
+                                    @if ($errors->has('room_name'))
+                                        <span class="text-danger custom-error-text">{{ $errors->first('room_name') }}</span>
+                                    @endif
+                                </div>
+                            </div>
+
+                            <div class="row g-3 align-center">
+                                <div class="col-lg-5">
+                                    <x-inputs.verticalFormLabel label="Rate" for="email" suggestion="" required="true" />
+                                </div>
+                                <div class="col-lg-7">
+                                    <x-inputs.number value="" for="rate" icon="sign-inr" required="true" class="" placeholder="Email" name="rate" />
+                                    @if ($errors->has('rate'))
+                                        <span class="text-danger custom-error-text">{{ $errors->first('rate') }}</span>
+                                    @endif
+                                </div>
+                            </div>
+
+                            <div class="row g-3 align-center">
+                                <div class="col-lg-5">
+                                    <x-inputs.verticalFormLabel label="Extra Bed Available" for="" suggestion="" required="true" />
+                                </div>
+                                <div class="col-lg-7">
+                                    <x-inputs.select for="extra_bed_available" icon="mail" required="true" class="" placeholder="Select Hotel Type" name="extra_bed_available" >
+                                        <option value="0">No</option>
+                                        <option value="1">Yes</option>
+                                    </x-inputs.select>
+                                </div>
+                            </div>
+
+                            <div class="row g-3 align-center">
+                                <div class="col-lg-5">
+                                    <x-inputs.verticalFormLabel label="Extra Bed Rate" for="email" suggestion="" required="true" />
+                                </div>
+                                <div class="col-lg-7">
+                                    <x-inputs.number value="" for="extra_bed_available" icon="sign-inr" required="true" class="" placeholder="Email" name="extra_bed_available" />
+                                    @if ($errors->has('extra_bed_available'))
+                                        <span class="text-danger custom-error-text">{{ $errors->first('extra_bed_available') }}</span>
+                                    @endif
+                                </div>
+                            </div>
+
+                            <div class="row g-3 align-center">
+                                <div class="col-lg-5">
+                                    <x-inputs.verticalFormLabel label="Allocated Rooms" for="email" suggestion="" required="true" />
+                                </div>
+                                <div class="col-lg-7">
+                                    <x-inputs.number for="allocated_rooms" icon="home-alt" required="true" class="" placeholder="0" name="allocated_rooms" />
+                                    @if ($errors->has('allocated_rooms'))
+                                        <span class="text-danger custom-error-text">{{ $errors->first('allocated_rooms') }}</span>
                                     @endif
                                 </div>
                             </div>
                             <div class="row g-3 align-center">
                                 <div class="col-lg-5">
-                                    <x-inputs.verticalFormLabel label="MPT Reserve" for="email" suggestion="Specify the email of the user." required="true" />
+                                    <x-inputs.verticalFormLabel label="MPT Reserve" for="email" suggestion="" required="true" />
                                 </div>
                                 <div class="col-lg-7">
-                                    <x-inputs.number value="{{ isset($user) ? $user->email : old('email') }}" for="email" icon="umbrela" required="true" class="" placeholder="Email" name="email" />
-                                    @if ($errors->has('email'))
-                                        <span class="text-danger custom-error-text">{{ $errors->first('email') }}</span>
+                                    <x-inputs.number value="" for="mpt_reserve" icon="umbrela" required="true" class="" placeholder="Email" name="mpt_reserve" />
+                                    @if ($errors->has('mpt_reserve'))
+                                        <span class="text-danger custom-error-text">{{ $errors->first('mpt_reserve') }}</span>
                                     @endif
                                 </div>
                             </div>
                             <div class="row g-3 align-center">
                                 <div class="col-lg-5">
-                                    <x-inputs.verticalFormLabel label="Available Rooms" for="email" suggestion="Specify the email of the user." required="true" />
+                                    <x-inputs.verticalFormLabel label="Available Rooms" for="email" suggestion="." required="true" />
                                 </div>
                                 <div class="col-lg-7">
                                    35
                                 </div>
                             </div>
-                            
+
+                            <div class="row g-3 align-center">
+                                <div class="col-lg-5">
+                                    <x-inputs.verticalFormLabel label="Status" for="" suggestion="" required="true" />
+                                </div>
+                                <div class="col-lg-7">
+                                    <x-inputs.select for="status" icon="mail" required="true" class="" placeholder="Select Hotel Type" name="status" >
+                                        <option value="active">Active</option>
+                                        <option value="inactive">Inactive</option>
+                                    </x-inputs.select>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -108,7 +169,6 @@ $organization_type = \Session::get('organization_type');
                 </div><!-- .col -->
             </div><!-- .row -->
         </div>
-        <input type="hidden" name="userFound" id="userFound" value="0">
     </form>
 
     <input type="hidden" name="role_type" id="role_type" value="{{\Config::get('constants.ROLES.BUYER')}}">

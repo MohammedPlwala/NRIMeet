@@ -5,7 +5,7 @@
         <div class="nk-block-between">
             <div class="nk-block-head-content">
                 <h3 class="nk-block-title page-title">Rooms</h3>
-                <p>You have total <span class="record_count">{{ '0' }}</span> Hotels.</p>
+                <p>You have total <span class="record_count">{{ $roomsCount }}</span> Rooms.</p>
             </div><!-- .nk-block-head-content -->
             <div class="nk-block-head-content">
                 <div class="toggle-wrap nk-block-tools-toggle">
@@ -22,10 +22,9 @@
                             </li>
 
 
-                            {{-- <li class="nk-block-tools-opt">
-                                <a href="{{ url('/user/create') }}" class="btn btn-primary d-none d-md-inline-flex"><em
-                                        class="icon ni ni-plus"></em><span>Add Customer</span></a>
-                            </li> --}}
+                            <li class="nk-block-tools-opt">
+                                <a href="{{ url('/admin/hotel/rooms/add') }}" class="btn btn-primary d-none d-md-inline-flex"><em class="icon ni ni-plus"></em><span>Add Rooms</span></a>
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -41,11 +40,14 @@
                 <thead>
                     <tr class="nk-tb-item nk-tb-head">
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Name</span></th>
-                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Email</span></th>
-                        <th class="nk-tb-col tb-col-md"><span class="sub-text">Contact Number</span></th>
+                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Type</span></th>
+                        <th class="nk-tb-col tb-col-md"><span class="sub-text">Hotel</span></th>
+                        <th class="nk-tb-col tb-col-md"><span class="sub-text">Rate</span></th>
+                        <th class="nk-tb-col tb-col-md"><span class="sub-text">Allocated Rooms</span></th>
+                        <th class="nk-tb-col tb-col-md"><span class="sub-text">MPT Reserve</span></th>
+                        <th class="nk-tb-col tb-col-md"><span class="sub-text">Available Rooms</span></th>
                         <th class="nk-tb-col tb-col-md w-1 text-center" nowrap="true"><span class="sub-text">Status</span>
                         </th>
-                        <th class="nk-tb-col tb-col-md w-1" nowrap="true"><span class="sub-text">Created At</span></th>
                         <th class="nk-tb-col nk-tb-col-tools text-right w-1" nowrap="true">
                             <span class="sub-text">Action</span>
                         </th>
@@ -143,6 +145,7 @@
     </div>
 @endsection
 @push('footerScripts')
+    <script src="{{url('js/tableFlow.js')}}"></script>
     <script type="text/javascript">
         $(function() {
             var root_url = "<?php echo url('/'); ?>";
@@ -164,21 +167,22 @@
                     serverSide: true,
                     ajax: {
                         type: "GET",
-                        url: "{{ url('user') }}",
+                        url: "{{ url('admin/hotel/rooms') }}",
                     },
-                    columns: [{
-                            "class": "nk-tb-col tb-col-lg nk-tb-col-check",
-                            data: 'DT_RowIndex',
-                            name: 'DT_RowIndex',
-                            orderable: false,
-                            searchable: false,
-                            render: function(data, type, row, meta) {
-                                return '<td class="nk-tb-col nk-tb-col-check"><div class="custom-control custom-control-sm custom-checkbox notext"><input type="checkbox" class="custom-control-input cb-check" id="cb-' +
-                                    row.id + '" value="' + row.id +
-                                    '" name="checked_items[]"><label class="custom-control-label" for="cb-' +
-                                    row.id + '"></label></div></td>'
-                            }
-                        },
+                    columns: [
+                        // {
+                        //     "class": "nk-tb-col tb-col-lg nk-tb-col-check",
+                        //     data: 'DT_RowIndex',
+                        //     name: 'DT_RowIndex',
+                        //     orderable: false,
+                        //     searchable: false,
+                        //     render: function(data, type, row, meta) {
+                        //         return '<td class="nk-tb-col nk-tb-col-check"><div class="custom-control custom-control-sm custom-checkbox notext"><input type="checkbox" class="custom-control-input cb-check" id="cb-' +
+                        //             row.id + '" value="' + row.id +
+                        //             '" name="checked_items[]"><label class="custom-control-label" for="cb-' +
+                        //             row.id + '"></label></div></td>'
+                        //     }
+                        // },
                         {
                             "class": "nk-tb-col tb-col-lg",
                             data: 'name',
@@ -186,26 +190,45 @@
                         },
                         {
                             "class": "nk-tb-col tb-col-lg",
-                            data: 'email',
-                            name: 'email'
+                            data: 'room_type_name',
+                            name: 'room_type_name'
                         },
                         {
                             "class": "nk-tb-col tb-col-lg",
-                            data: 'phone_number',
-                            name: 'phone_number'
+                            data: 'hotel_name',
+                            name: 'hotel_name'
+                        },
+
+                        {
+                            "class": "nk-tb-col tb-col-lg",
+                            data: 'rate',
+                            name: 'rate'
+                        },
+
+                        {
+                            "class": "nk-tb-col tb-col-lg",
+                            data: 'allocated_rooms',
+                            name: 'allocated_rooms'
+                        },
+
+                        {
+                            "class": "nk-tb-col tb-col-lg",
+                            data: 'mpt_reserve',
+                            name: 'mpt_reserve'
                         },
                         {
-                            "class": "nk-tb-col tb-col-lg text-center",
+                            "class": "nk-tb-col tb-col-lg",
+                            data: 'count',
+                            name: 'count'
+                        },
+
+                        {
+                            "class": "nk-tb-col tb-col-lg",
                             data: 'status',
                             name: 'status'
                         },
                         {
                             "class": "nk-tb-col tb-col-lg",
-                            data: 'created_at',
-                            name: 'created_at'
-                        },
-                        {
-                            "class": "nk-tb-col tb-col-lg text-right",
                             data: 'action',
                             name: 'action',
                             orderable: false,
