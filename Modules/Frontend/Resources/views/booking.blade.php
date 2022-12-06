@@ -13,7 +13,7 @@
     <div class="mt-14"> </div>
     <div class="container mx-auto mt-14">
         <div class="flex flex-row">
-            <div class="basis-1/4">
+            <div class="lg:basis-1/4 lg:block hidden">
                 <!-- BEGIN .shb-booking-page-sidebar -->
                 <div class="shb-booking-page-sidebar customer_filter">
                     <!-- //v2care -->
@@ -86,7 +86,7 @@
 
                 <!-- END .shb-booking-page-sidebar -->
             </div>
-            <div class="basis-3/4 pl-10">
+            <div class="lg:basis-3/4 booking-right-column">
                 <div class="shb-booking-page-main">
                     <div class="shb-booking-step-wrapper shb-clearfix">
                         <div class="shb-booking-step shb-booking-step-current"><a
@@ -99,8 +99,6 @@
                             <div style="width:0%;"></div>
                         </div>
                     </div>
-
-                    <div class="pt-14"></div>
                     <div class="col">
                         <div class="booking-form-wrap desktop">
                             <form action="{{ url('/search') }}" method="post"
@@ -366,9 +364,9 @@
                                 <!-- END .shb-booking-form-style-1 -->
                             </form>
                         </div>
-                        <ul>
+                        <ul class="hotal-rooms-wrap">
                             @forelse ($hotels as $key => $hotel)
-                                <li>
+                                <li class="hotal-rooms-item">
                                     <div class="hotal-rooms" id="hotel-{{ $hotel->id }}">
                                         <div class="hotal-image">
                                             <a>
@@ -415,10 +413,8 @@
                                                                                 Inclusive</span></a></h3>
                                                                 </div>
                                                                 <div class="search_right">
-                                                                    <a href="javascript::void(0)"
-                                                                        class="bookRoom hotel-search-button px-4 py-2 font-semibold text-sm bg-slate-900 text-white rounded-full shadow-sm"
-                                                                        data-room="{{ $room }}"> Book
-                                                                        ₹{{ Session::get('nights') * $room->rate }} </a>
+                                                                    <!-- <p class="custom_hotel_sold_out">Sold-out</p> -->
+                                                                    <a href="javascript::void(0)" class="bookRoom hotel-search-button px-4 py-2 font-semibold text-sm bg-slate-900 text-white rounded-5 shadow-sm" data-room="{{ $room }}"> Book ₹{{ Session::get('nights') * $room->rate }} </a>
                                                                 </div>
                                                             </div>
                                                         </li>
