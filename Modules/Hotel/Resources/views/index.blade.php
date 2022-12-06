@@ -22,10 +22,9 @@
                             </li>
 
 
-                            {{-- <li class="nk-block-tools-opt">
-                                <a href="{{ url('/user/create') }}" class="btn btn-primary d-none d-md-inline-flex"><em
-                                        class="icon ni ni-plus"></em><span>Add Customer</span></a>
-                            </li> --}}
+                           <li class="nk-block-tools-opt">
+                                <a href="{{url('/admin/hotel/update')}}" class="btn btn-primary d-none d-md-inline-flex"><em class="icon ni ni-plus"></em><span>Add Hotel</span></a>
+                            </li>
                         </ul>
                     </div>
                 </div>
