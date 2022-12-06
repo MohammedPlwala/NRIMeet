@@ -7,11 +7,11 @@ $organization_type = \Session::get('organization_type');
     <div class="nk-block-head nk-block-head-sm">
         <div class="nk-block-between">
             <div class="nk-block-head-content">
-                <h3 class="nk-block-title page-title"><a href="javascript:history.back()" class="pt-3"><em class="icon ni ni-chevron-left back-icon"></em> </a> @if (isset($user)) Edit @else Update @endif Hotel</h3>
+                <h3 class="nk-block-title page-title"><a href="javascript:history.back()" class="pt-3"><em class="icon ni ni-chevron-left back-icon"></em> </a> @if (isset($hotel)) Edit @else Add @endif Hotel</h3>
             </div><!-- .nk-block-head-content -->
         </div><!-- .nk-block-between -->
     </div><!-- .nk-block-head -->
-    <form role="form" method="post" enctype="multipart/form-data"  >
+    <form role="form" method="post" enctype="multipart/form-data" action="{{ url('admin/hotel/add') }}" >
         @csrf
      
         <div class="nk-block">
@@ -32,7 +32,7 @@ $organization_type = \Session::get('organization_type');
                                     <x-inputs.verticalFormLabel label="Hotel Name" for="hotelName" suggestion="Specify the hotel name." required="true" />
                                 </div>
                                 <div class="col-lg-7">
-                                    <x-inputs.text value="" for="hotelName" class="" icon="building-fill" required="true" placeholder="Hotel Name" name="hotelName" />
+                                    <x-inputs.text value="{{ isset($hotel) ? $hotel->name : '' }}" for="hotelName" class="" icon="building-fill" required="true" placeholder="Hotel Name" name="hotelName" />
                                 </div>
                             </div>
                             <div class="row g-3 align-center">
@@ -40,7 +40,7 @@ $organization_type = \Session::get('organization_type');
                                     <x-inputs.verticalFormLabel label="Classification" for="classification" suggestion="Specify the hotel classification." required="true" />
                                 </div>
                                 <div class="col-lg-7">
-                                    <x-inputs.text value="" for="classification" class="" icon="building-fill" required="true" placeholder="Classification Name" name="classification" />
+                                    <x-inputs.text value="{{ isset($hotel) ? $hotel->classification : '' }}" for="classification" class="" icon="building-fill" required="true" placeholder="Classification Name" name="classification" />
                                 </div>
                             </div>
                             <div class="row g-3 align-center">
@@ -48,7 +48,7 @@ $organization_type = \Session::get('organization_type');
                                     <x-inputs.verticalFormLabel label="Location" for="location" suggestion="Specify the hotel location." required="true" />
                                 </div>
                                 <div class="col-lg-7">
-                                    <x-inputs.text value="" for="location" class="" icon="map-pin-fill" required="true" placeholder="Location" name="location" />
+                                    <x-inputs.text value="{{ isset($hotel) ? $hotel->location : '' }}" for="location" class="" icon="map-pin-fill" required="true" placeholder="Location" name="location" />
                                 </div>
                             </div>
                             <div class="row g-3 align-center">
@@ -56,7 +56,7 @@ $organization_type = \Session::get('organization_type');
                                     <x-inputs.verticalFormLabel label="Airport Distance" for="airport_distance" suggestion="Specify the hotel airport distance." required="true" />
                                 </div>
                                 <div class="col-lg-7">
-                                    <x-inputs.text value="" for="airport_distance" class="" icon="map-pin-fill" required="true" placeholder="Airport Distance" name="airport_distance" />
+                                    <x-inputs.text value="{{ isset($hotel) ? $hotel->airport_distance : '' }}" for="airport_distance" class="" icon="map-pin-fill" required="true" placeholder="Airport Distance" name="airport_distance" />
                                 </div>
                             </div>
                             <div class="row g-3 align-center">
@@ -64,7 +64,7 @@ $organization_type = \Session::get('organization_type');
                                     <x-inputs.verticalFormLabel label="Website" for="website" suggestion="Specify the hotel website." required="true" />
                                 </div>
                                 <div class="col-lg-7">
-                                    <x-inputs.text value="" for="website" class="" icon="b-edge" required="true" placeholder="Website Name" name="website" />
+                                    <x-inputs.text value="{{ isset($hotel) ? $hotel->website : '' }}" for="website" class="" icon="b-edge" required="true" placeholder="Website Name" name="website" />
                                 </div>
                             </div>
                             <div class="row g-3 align-center">
@@ -72,7 +72,7 @@ $organization_type = \Session::get('organization_type');
                                     <x-inputs.verticalFormLabel label="Venue Distance" for="venue_distance" suggestion="Specify the hotel venue distance." required="true" />
                                 </div>
                                 <div class="col-lg-7">
-                                    <x-inputs.text value="" for="venue_distance" class="" icon="map-pin-fill" required="true" placeholder="Venue Distance" name="venue_distance" />
+                                    <x-inputs.text value="{{ isset($hotel) ? $hotel->venue_distance : '' }}" for="venue_distance" class="" icon="map-pin-fill" required="true" placeholder="Venue Distance" name="venue_distance" />
                                 </div>
                             </div>
                             <div class="row g-3 align-center">
@@ -80,7 +80,7 @@ $organization_type = \Session::get('organization_type');
                                     <x-inputs.verticalFormLabel label="Contact Person" for="contact_person" suggestion="Specify the venue distance." required="true" />
                                 </div>
                                 <div class="col-lg-7">
-                                    <x-inputs.text value="" for="contact_person" class="" icon="user-fill" required="true" placeholder="Contact Person Name" name="contact_person" />
+                                    <x-inputs.text value="{{ isset($hotel) ? $hotel->contact_person : '' }}" for="contact_person" class="" icon="user-fill" required="true" placeholder="Contact Person Name" name="contact_person" />
                                 </div>
                             </div>
                             <div class="row g-3 align-center">
@@ -88,7 +88,7 @@ $organization_type = \Session::get('organization_type');
                                     <x-inputs.verticalFormLabel label="Contact Number" for="contact_number" suggestion="Specify the contact number." required="true" />
                                 </div>
                                 <div class="col-lg-7">
-                                    <x-inputs.text value="" for="contact_number" class="" icon="contact-fill" required="true" placeholder="Contact Number" name="contact_number" />
+                                    <x-inputs.text value="{{ isset($hotel) ? $hotel->contact_number : '' }}" for="contact_number" class="" icon="contact-fill" required="true" placeholder="Contact Number" name="contact_number" />
                                 </div>
                             </div>
                             <div class="row g-3 align-center">
@@ -96,15 +96,36 @@ $organization_type = \Session::get('organization_type');
                                     <x-inputs.verticalFormLabel label="Image" for="image" suggestion="Specify the hotel image." required="true" />
                                 </div>
                                 <div class="col-lg-7">
-                                    <input value="" type="file" for="image" class="" icon="img-fill" required="true" placeholder="Image" name="image" />
+                                    <input value="" type="file" for="image" class="" icon="img-fill" @if(isset($hotel))  @else required="true" @endif  placeholder="Image" name="image" />
+                                    @if(isset($hotel))
+                                        <img height="150" width="150" src="{{ url('uploads/hotels/'.$hotel->image) }}">
+                                    @endif
                                 </div>
+
+
                             </div>
                             <div class="row g-3 align-center">
                                 <div class="col-lg-5">
                                     <x-inputs.verticalFormLabel label="Description" for="description" suggestion="Specify the hotel description." required="true" />
                                 </div>
                                 <div class="col-lg-7">
-                                    <x-inputs.textarea value="" for="description" class="" icon="notes-alt" required="true" placeholder="Description" name="description" />
+                                    <x-inputs.textarea value="{{ isset($hotel) ? $hotel->description : '' }}" for="description" class="" icon="notes-alt" required="true" placeholder="Description" name="description" />
+                                </div>
+                            </div>
+
+                            <div class="row g-3 align-center">
+                                <div class="col-lg-5">
+                                    <x-inputs.verticalFormLabel label="Status" for="" suggestion="" required="true" />
+                                </div>
+                                <div class="col-lg-7">
+                                    <x-inputs.select for="status" icon="mail" required="true" class="" placeholder="Select Hotel Type" name="status" >
+                                        <option 
+                                        @if (isset($hotel) && $hotel->status == 'active') selected  @endif
+                                        value="active">Active</option>
+                                        <option 
+                                        @if (isset($hotel) && $hotel->status == 'inactive') selected  @endif
+                                        value="inactive">Inactive</option>
+                                    </x-inputs.select>
                                 </div>
                             </div>
                             
@@ -117,8 +138,8 @@ $organization_type = \Session::get('organization_type');
       
          
         <div class="nk-block">
-            @isset($user)
-                <input type="hidden" name="userId" id="userId" value="{{ $user->id }}">
+            @isset($hotel)
+                <input type="hidden" name="hotel_id" id="hotel_id" value="{{ $hotel->id }}">
             @endisset
             <div class="row">
                 <div class="col-md-12">

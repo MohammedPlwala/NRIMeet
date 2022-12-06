@@ -446,7 +446,7 @@ class HotelController extends Controller
                         $transaction->status = 'confirmed';
                         if($transaction->save()){
                             \DB::commit();
-                            return redirect('thankyou')->with('message', 'Booking Successful.');
+                            return redirect('thankyou?booking_id='.$booking->id)->with('message', 'Booking Successful.');
                         }else{
                             \DB::rollback();
                             return redirect('booking-summary')->with('error', 'Something went wrong with booking');
@@ -470,6 +470,20 @@ class HotelController extends Controller
 
     public function bookingConfirmed(Request $request)
     {
+
+        if(isset($request->booking_id)){
+            $booking_rooms = BookingRoom::where('booking_id',$request->booking_id)->get();
+            if(!empty($booking_rooms->toArray())){
+                foreach ($booking_rooms as $key => $booking_room) {
+                    $hotelRoom = HotelRoom::findorfail($booking_room->room_id);
+                    if($hotelRoom){
+                        $hotelRoom->count = $hotelRoom->count-1;
+                        $hotelRoom->save();
+                    }
+                }
+            }
+        }
+
         Session::forget('cartData');
         Session::forget('date_from');
         Session::forget('date_to');

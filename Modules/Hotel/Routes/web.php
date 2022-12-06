@@ -14,16 +14,24 @@
 Route::prefix('admin')->group(function() {
     Route::prefix('hotel')->group(function() {
         Route::get('/', 'HotelController@index');
-        Route::get('/update', 'HotelController@updateHotel');
         Route::get('/import', 'HotelController@import');
-        Route::get('/rooms', 'HotelController@rooms');
-        Route::get('/rooms/add', 'HotelController@roomUpdate');
+
+        Route::get('/add', 'HotelController@create');
+        Route::get('/edit/{hotel_id}', 'HotelController@edit');
+        Route::post('/add', 'HotelController@store');
+        Route::get('/delete/{hotel_id}', 'HotelController@destroy');
         
-        Route::get('/rooms/add', 'HotelController@roomUpdate');
-        Route::post('/rooms/add', 'HotelController@roomStore');
-        Route::get('/rooms/edit/{room_id}', 'HotelController@roomEdit');
-
-        Route::get('/booking', 'HotelController@booking');
-
+        Route::prefix('rooms')->group(function() {
+            Route::get('/', 'HotelController@rooms');
+            Route::get('/add', 'HotelController@roomUpdate');
+            Route::post('/add', 'HotelController@roomStore');
+            Route::get('/edit/{room_id}', 'HotelController@roomEdit');
+            Route::get('/delete/{room_id}', 'HotelController@destroyRoom');
+        });
+    });
+    
+    Route::prefix('bookings')->group(function() {
+        Route::get('/', 'HotelController@bookingList');
+        Route::get('/add', 'HotelController@createBooking');
     });
 });

@@ -26,3 +26,11 @@ Route::get('/admin', '\Modules\Dashboard\Http\Controllers\DashboardController@in
 Route::post('post-login', 'App\Http\Controllers\Auth\LoginController@postLogin'); 
 Route::get('razorpay-payment', [RazorpayPaymentController::class, 'index']);
 Route::post('razorpay-payment', [RazorpayPaymentController::class, 'store'])->name('razorpay.payment.store');
+
+Route::get('clear', function() {
+    Artisan::call('cache:clear');
+    Artisan::call('config:clear');
+    Artisan::call('config:cache');
+    Artisan::call('view:clear');
+    return "Cleared!";
+});
