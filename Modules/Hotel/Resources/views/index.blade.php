@@ -44,7 +44,6 @@
                         <th class="nk-tb-col tb-col-md"><span class="sub-text">Contact Number</span></th>
                         <th class="nk-tb-col tb-col-md w-1 text-center" nowrap="true"><span class="sub-text">Status</span>
                         </th>
-                        <th class="nk-tb-col tb-col-md w-1" nowrap="true"><span class="sub-text">Created At</span></th>
                         <th class="nk-tb-col nk-tb-col-tools text-right w-1" nowrap="true">
                             <span class="sub-text">Action</span>
                         </th>
@@ -70,55 +69,12 @@
                             <div class="gy-3">
                                 <div class="row g-3 align-center">
                                     <div class="col-lg-5">
-                                        <x-inputs.verticalFormLabel label="First Name" for="firstName"
-                                            suggestion="Specify the name of the user." />
+                                        <x-inputs.verticalFormLabel label="Hotel Name" for="hotelName"
+                                            suggestion="" />
                                     </div>
                                     <div class="col-lg-7">
-                                        <x-inputs.text value="" for="firstName" icon="user" placeholder="Name"
+                                        <x-inputs.text value="" for="hotelName" icon="user" placeholder="Name"
                                             name="name" />
-                                    </div>
-                                </div>
-                                <div class="row g-3 align-center">
-                                    <div class="col-lg-5">
-                                        <x-inputs.verticalFormLabel label="Mobile Number" for="contact_number"
-                                            suggestion="Specify the mobile number of the user." />
-                                    </div>
-                                    <div class="col-lg-7">
-                                        <x-inputs.text value="" for="contact_number" icon="call"
-                                            placeholder="Mobile Number" name="contact_number"
-                                            data-parsley-pattern="{{ \Config::get('constants.REGEX.VALIDATE_MOBILE_NUMBER_LENGTH') }}" />
-                                    </div>
-                                </div>
-                                <div class="row g-3 align-center">
-                                    <div class="col-lg-5">
-                                        <x-inputs.verticalFormLabel label="Created at" for="createdAt"
-                                            suggestion="Select the dates of created at." />
-                                    </div>
-                                    <div class="col-lg-7">
-                                        <div class="row">
-                                            <div class="col-lg-6">
-                                                <div class="form-control-wrap">
-                                                    <div class="form-icon form-icon-left">
-                                                        <em class="icon ni ni-calendar"></em>
-                                                    </div>
-                                                    <input type="text" class="form-control date-picker"
-                                                        placeholder="Form Date" data-date-format="yyyy-mm-dd"
-                                                        id="fromDate" name="fromDate">
-                                                </div>
-                                                <!-- <div class="form-note mt-0">Form Date</div> -->
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <div class="form-control-wrap">
-                                                    <div class="form-icon form-icon-left">
-                                                        <em class="icon ni ni-calendar"></em>
-                                                    </div>
-                                                    <input type="text" class="form-control date-picker"
-                                                        placeholder="To Date" data-date-format="yyyy-mm-dd"
-                                                        id="toDate" name="toDate">
-                                                </div>
-                                                <!-- <div class="form-note mt-0">To Date</div> -->
-                                            </div>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -142,6 +98,7 @@
     </div>
 @endsection
 @push('footerScripts')
+    <script src="{{url('js/tableFlow.js')}}"></script>
     <script type="text/javascript">
         $(function() {
             var root_url = "<?php echo url('/'); ?>";
@@ -150,10 +107,7 @@
             NioApp.getAuditLogs('.broadcast-init', '.audit_logs', 'resourceid', logUrl, '#modalLogs');
 
             var items = [
-                '#firstName',
-                '#contact_number',
-                '#fromDate',
-                '#toDate'
+                '#hotelName'
             ];
             var user_table = "";
             user_table = new CustomDataTable({
@@ -163,21 +117,9 @@
                     serverSide: true,
                     ajax: {
                         type: "GET",
-                        url: "{{ url('user') }}",
+                        url: "{{ url('admin/hotel') }}",
                     },
-                    columns: [{
-                            "class": "nk-tb-col tb-col-lg nk-tb-col-check",
-                            data: 'DT_RowIndex',
-                            name: 'DT_RowIndex',
-                            orderable: false,
-                            searchable: false,
-                            render: function(data, type, row, meta) {
-                                return '<td class="nk-tb-col nk-tb-col-check"><div class="custom-control custom-control-sm custom-checkbox notext"><input type="checkbox" class="custom-control-input cb-check" id="cb-' +
-                                    row.id + '" value="' + row.id +
-                                    '" name="checked_items[]"><label class="custom-control-label" for="cb-' +
-                                    row.id + '"></label></div></td>'
-                            }
-                        },
+                    columns: [
                         {
                             "class": "nk-tb-col tb-col-lg",
                             data: 'name',
@@ -185,23 +127,18 @@
                         },
                         {
                             "class": "nk-tb-col tb-col-lg",
-                            data: 'email',
-                            name: 'email'
+                            data: 'classification',
+                            name: 'classification'
                         },
                         {
                             "class": "nk-tb-col tb-col-lg",
-                            data: 'phone_number',
-                            name: 'phone_number'
+                            data: 'contact_number',
+                            name: 'contact_number'
                         },
                         {
                             "class": "nk-tb-col tb-col-lg text-center",
                             data: 'status',
                             name: 'status'
-                        },
-                        {
-                            "class": "nk-tb-col tb-col-lg",
-                            data: 'created_at',
-                            name: 'created_at'
                         },
                         {
                             "class": "nk-tb-col tb-col-lg text-right",

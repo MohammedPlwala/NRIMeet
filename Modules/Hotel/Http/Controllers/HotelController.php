@@ -92,9 +92,88 @@ class HotelController extends Controller
      * Display a listing of the resource.
      * @return Renderable
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('hotel::index');
+
+        $data = Hotel::from('hotels as h')
+                ->select('h.*')
+                ->where(function ($query) use ($request) {
+                    if (!empty($request->toArray())) {
+                        if ($request->get('name') != '') {
+                            $query->where('h.name', $request->get('name'));
+                        }
+                    }
+                })
+                ->orderby('h.id','desc')
+                ->get();
+
+        $hotelsCount = 0;
+        if(!empty($data->toArray())){
+            $hotelsCount = count($data);
+        }
+
+        if ($request->ajax()) {
+            return Datatables::of($data)
+                    ->addIndexColumn()
+                    
+                    ->addColumn('status', function ($row) {
+                        if($row->status == 'active'){
+                            $statusValue = 'Active';
+                        }else{
+                            $statusValue = 'Inactive';
+                        }
+
+                        $value = ($row->status == 'active') ? 'badge badge-success' : 'badge badge-danger';
+                        $status = '
+                            <span class="tb-sub">
+                                <span class="'.$value.'">
+                                    '.$statusValue.'
+                                </span>
+                            </span>
+                        ';
+                        return $status;
+                    })
+                    ->addColumn('action', function($row) {
+                           $edit = url('/').'/admin/hotel/edit/'.$row->id;
+                           $delete = url('/').'/admin/hotel/delete/'.$row->id;
+                           $confirm = '"Are you sure, you want to delete it?"';
+
+                            $editBtn = "<li>
+                                        <a href='".$edit."'>
+                                            <em class='icon ni ni-edit'></em> <span>Edit</span>
+                                        </a>
+                                    </li>";
+                            
+                            $deleteBtn = "<li>
+                                        <a href='".$delete."' onclick='return confirm(".$confirm.")'  class='delete'>
+                                            <em class='icon ni ni-trash'></em> <span>Delete</span>
+                                        </a>
+                                    </li>"; 
+
+                            $btn = '';
+                            $btn .= '<ul class="nk-tb-actio ns gx-1">
+                                        <li>
+                                            <div class="drodown mr-n1">
+                                                <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
+                                                <div class="dropdown-menu dropdown-menu-right">
+                                                    <ul class="link-list-opt no-bdr">
+                                        ';
+
+                           $btn .=       $editBtn."
+                                        ".$deleteBtn;
+
+                            $btn .= "</ul>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    </ul>";
+                        return $btn;
+                    })
+                    ->rawColumns(['action','status',])
+                    ->make(true);
+        }
+
+        return view('hotel::index')->with(compact('hotelsCount'));
     }
 
     /**
@@ -103,16 +182,75 @@ class HotelController extends Controller
      */
     public function create()
     {
-        return view('hotel::create');
+        return view('hotel::updateHotel');
     }
 
     /**
      * Show the form for creating a new resource.
      * @return Renderable
      */
-    public function updateHotel()
+    public function edit($id)
     {
-        return view('hotel::updateHotel');
+        $hotel = Hotel::findorfail($id);
+        return view('hotel::updateHotel',['hotel' => $hotel]);
+    }
+
+    public function store(Request $request)
+    {   
+
+        if(isset($request->hotel_id)){
+            $hotel = Hotel::findorfail($request->hotel_id);
+            $msg = "Hotel updated successfully";
+        }else{
+            $hotel = new Hotel();
+            $msg = "Hotel added successfully";
+        }
+
+        $hotel->name = $request->hotelName;
+        $hotel->classification = $request->classification;
+        $hotel->location = $request->location;
+        $hotel->airport_distance = $request->airport_distance;
+        $hotel->website = $request->website;
+        $hotel->venue_distance = $request->venue_distance;
+        $hotel->contact_person = $request->contact_person;
+        $hotel->contact_number = $request->contact_number;
+        $hotel->description = $request->description;
+        $hotel->status = $request->status;
+
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            $fileNameWithExt = $file->getClientOriginalName();
+            $fileName = pathinfo($fileNameWithExt, PATHINFO_FILENAME);
+            $fileName = preg_replace("/[^A-Za-z0-9 ]/", '', $fileName);
+            $fileName = preg_replace("/\s+/", '-', $fileName);
+            $extension = $file->getClientOriginalExtension();
+            $fileName = $fileName.'_'.time().'.'.$extension;
+            $destinationPath = public_path("uploads/hotels/");
+            //Move Uploaded File
+            $file->move($destinationPath,$fileName);
+            $hotel->image = $fileName;
+       }
+        
+        if($hotel->save()){
+            return redirect('/admin/hotel')->with('message', $msg);
+        }else{
+            return redirect('/admin/hotel/add')->with('error', 'Something went wrong');
+        }
+        
+    }
+
+    public function destroy(Request $request,$id){
+        $hotel = Hotel::findorfail($id);
+        if($hotel->forceDelete()){
+            return redirect('/admin/hotel')->with('message', 'Deleted Successfully');
+        }
+    }
+
+    public function destroyRoom(Request $request,$id){
+        $room = HotelRoom::findorfail($id);
+        if($room->forceDelete()){
+            return redirect('/admin/hotel/rooms')->with('message', 'Deleted Successfully');
+        }
     }
 
      /**
@@ -172,7 +310,7 @@ class HotelController extends Controller
                     })
                     ->addColumn('action', function($row) {
                            $edit = url('/').'/admin/hotel/rooms/edit/'.$row->id;
-                           $delete = url('/').'/user/delete/'.$row->id;
+                           $delete = url('/').'/admin/hotel/rooms/delete/'.$row->id;
                            $confirm = '"Are you sure, you want to delete it?"';
 
                             $editBtn = "<li>
@@ -290,26 +428,6 @@ class HotelController extends Controller
     }
 
     /**
-     * Show the specified resource.
-     * @param int $id
-     * @return Renderable
-     */
-    public function show($id)
-    {
-        return view('hotel::show');
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     * @param int $id
-     * @return Renderable
-     */
-    public function edit($id)
-    {
-        return view('hotel::edit');
-    }
-
-    /**
      * Show the form for editing the specified resource.
      * @param int $id
      * @return Renderable
@@ -325,24 +443,4 @@ class HotelController extends Controller
         
     }
 
-    /**
-     * Update the specified resource in storage.
-     * @param Request $request
-     * @param int $id
-     * @return Renderable
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     * @param int $id
-     * @return Renderable
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }
