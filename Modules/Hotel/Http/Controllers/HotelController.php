@@ -10,7 +10,7 @@ use Modules\Hotel\Entities\RoomType;
 use Modules\Hotel\Entities\Hotel;
 use Modules\Hotel\Entities\HotelRoom;
 
-use Modules\user\Entities\User;
+// use Modules\user\Entities\User;
 use DataTables;
 
 class HotelController extends Controller
