@@ -6,7 +6,7 @@
         <img src="{{ url('images/PBD2023-slider.png') }}" alt="PBD2023-slider" class="m-hide" />
         <img src="{{ url('images/mobile-slider-2.png') }}" alt="mobile-slider-2" class="d-hide" />
     </div>
-    <div class="booking-form-wrap desktop">
+    <div class="booking-form-wrap booking-form-wrap-home desktop">
         <form action="{{ url('/search') }}" method="post"
             class="shb-booking-form-style-1 shb-booking-form-1-column-4 shb-clearfix" autocomplete="off">
             @csrf

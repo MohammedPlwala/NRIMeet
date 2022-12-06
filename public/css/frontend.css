@@ -61,7 +61,7 @@
   padding-bottom: 2.5rem !important;
 }
 body {
-  font-family: 'Work Sans', sans-serif;
+  font-family: 'Work Sans', sans-serif !important;
   line-height: 1 !important;
 }
 h1, h2, h3, h4, h5, h6, textarea, input {
@@ -70,6 +70,14 @@ h1, h2, h3, h4, h5, h6, textarea, input {
 body ol, body ul{
   margin-top: 0;
   margin-bottom: 0;
+}
+.line{
+  background-color: #ebebeb;
+  height: 1px;
+  width: 100%;
+}
+.line-space{
+  margin: 100px 0 80px 0;
 }
 .static-content{
   padding: 0 15px 35px 15px;
@@ -348,7 +356,7 @@ body ol, body ul{
 }
 .container{
   max-width: 1240px !important;
-  width: calc(100% - 30px) !important;
+  width: 100% !important;
   margin: 0 auto;
 }
 header.header {
@@ -511,7 +519,7 @@ header.header {
 .booking-form-wrap{
   background-color: #FFF;
   position: relative;
-  top: -45px;
+  top: 0;
   z-index: 99;
   left: 0;
   right: 0;
@@ -529,6 +537,9 @@ header.header {
   width: 100%;
   margin: 0 auto;
   display: table;
+}
+.booking-form-wrap.booking-form-wrap-home{
+  top: -45px;
 }
 .shb-booking-form-style-1 .shb-booking-form-col{
   width: 25%;
@@ -772,8 +783,8 @@ header.header {
 }
 
 .shb-booking-step-wrapper .shb-booking-step.shb-booking-step-current a:first-child {
-	background: #b99470;
-	border: #b99470 2px solid;
+	background: var(--primary-color);
+	border: var(--primary-color) 2px solid;
 	color: #fff;
 }
 
@@ -815,7 +826,7 @@ header.header {
 }
 
 .shb-booking-step-wrapper .shb-booking-step-line div {
-	background: #b99470;
+	background: var(--primary-color);
 	height: 2px;
 }
 
@@ -1510,6 +1521,10 @@ table.shop_table td:last-child{
 }
 /* END: Contact Us CSS */
 
+.about-content-row{
+  margin-bottom: 100px;
+}
+
 /* START: Thank You Pag CSS */
 .thankyou-wrap{
   padding: 80px 0;
@@ -1578,7 +1593,32 @@ table.shop_table td:last-child{
     display: block !important;
   }
 }
+@media only screen and (max-width: 1023px) {
+  .booking-right-column{
+    padding-left: 0 !important;
+  }
+}
 @media only screen and (max-width: 991px) {
+  .navigation{
+    width: calc(100% - 25px);
+  }
+  .navigation ul{
+    justify-content: space-between;
+  }
+  .navigation li a{
+    padding-left: 10px;
+    padding-right: 10px;
+    font-size: 14px;
+  }
+  .main-banner{
+    height: auto;
+  }
+  .main-banner img{
+    position: static;
+    top: 0;
+    left: 0;
+    transform: translate(0, 0);
+  }
   .shb-booking-form-style-1 .shb-booking-form-col{
     width: 100%;
     float: none;
@@ -1597,6 +1637,17 @@ table.shop_table td:last-child{
     margin: 10px auto;
     display: block;
     height: auto;
+  }
+  body .hotal-rooms{
+    flex-direction: column;
+  }
+  body .hotal-rooms .hotal-image{
+    width: 100%;
+    margin-bottom: 30px;
+  }
+  body .hotal-detail{
+    width: 100%;
+    margin-left: 0;
   }
 }
 @media only screen and (max-width: 768px) {
@@ -1714,6 +1765,31 @@ table.shop_table td:last-child{
   }
   .contact-option-list li span.icon{
     margin-right: 6px;
+  }
+  .about-content-row{
+    margin-bottom: 30px;
+  }
+  .about-content-row .about-content{
+    order: 1;
+  }
+  .about-content-row .about-img{
+    order: 2;
+  }
+  body .rates li{
+    padding-top: 0.725rem;
+  }
+  .rates .booking-rate-info{
+    flex-wrap: wrap;
+  }
+  .rates .search_left{
+    width: 100%;
+    flex-basis: 100%;
+  }
+  .rates .search_center{
+    flex: 1;
+  }
+  body .custom_shb_short_description{
+    font-size: 14px;
   }
 }
 @media only screen and (max-width: 600px) {
@@ -1846,7 +1922,7 @@ table.shop_table td:last-child{
     left: 0;
     transform: translate(0, 0);
   }
-  .booking-form-wrap{
+  .booking-form-wrap, .booking-form-wrap.booking-form-wrap-home{
     top: 0;
   }
   .client-logos{
@@ -1865,6 +1941,9 @@ table.shop_table td:last-child{
   }
   .footer .footer-container p{
     line-height: 20px;
+  }
+  .shb-booking-step-wrapper .shb-booking-step a:last-child{
+    font-size: 13px;
   }
 }
 @media only screen and (max-width: 1024px) {
@@ -1909,8 +1988,20 @@ table.shop_table td:last-child{
 
 
 /* Booking */
+.booking-right-column{
+  padding-left: 2.5rem;
+}
+.hotal-rooms-wrap{
+  margin-top: 40px;
+}
+.hotal-rooms-wrap .hotal-rooms-item{
+  position: relative;
+  border-bottom: #dedede 1px solid;
+  margin: 0 0 30px 0;
+  padding: 0 0 30px 0;
+}
 .hotal-rooms {
-  padding-top: 2rem;
+  padding-top: 0;
   display: flex;
   width: 100%;
   position: relative;
@@ -1946,18 +2037,26 @@ table.shop_table td:last-child{
 }
 
 .hotal-detail{
-  width: 70%;
-  padding-left: 2rem;
+  width: calc(70% - 2rem);
+  margin-left: 2rem;
   position: relative;
+}
+.hotal-detail a{
+  color: #181b20;
+}
+.hotal-detail a:hover{
+  color: #181b20;
+  text-decoration: none;
 }
 
 .hotal-detail > h2{
   font-size: 20px;
-    margin: 0 0 35px 0;
-    font-family: 'Work Sans', sans-serif;
-    font-weight: 500;
-    color: #181b20;
-    position: relative;
+  margin: 0 0 35px 0;
+  font-family: 'Work Sans', sans-serif;
+  font-weight: 500;
+  color: #181b20;
+  position: relative;
+  width: calc(100% - 150px);
 }
 
 .status{
@@ -1985,6 +2084,7 @@ table.shop_table td:last-child{
   right: 0;
   font-size: 13px;
   letter-spacing: -.4px;
+  cursor: pointer;
 }
 
 .hotal-detail p{
@@ -1992,6 +2092,10 @@ table.shop_table td:last-child{
   margin: 0 0 1.5rem 0;
 }
 
+.hotal-detail .info{
+  border-bottom: #dedede 1px solid;
+  padding: 0 0 17px 0;
+}
 .hotal-detail .info li{
   color: #181b20;
   font-size: 12px;
@@ -2003,15 +2107,30 @@ table.shop_table td:last-child{
   display: inline-block;
   position: relative;
 }
+.hotal-detail .info li:last-child{
+  border-right: none;
+}
 .hotal-detail .info li strong{
-color: #181b20;
-font-weight: 400;
+  color: #181b20;
+  font-weight: 400;
+}
+.hotal-detail .info li i{
+  font-size: 12px;
+  color: #1e306a;
+  margin: 0 10px 0 0;
+}
+.hotal-detail .info li span{
+  color: #656a70;
 }
 
 .rates li{
   padding-top: 1.25rem;
   padding-bottom: 0.725rem;
   border-bottom: #dedede 1px solid;
+}
+.rates li:last-child{
+  border-bottom: none;
+  padding-bottom: 0;
 }
 .rates .per_night{
   font-size: 16px;
@@ -2033,7 +2152,10 @@ font-weight: 400;
 .hotel-search-button{
   background: #1e306a;
 }
-
+.search_left h3.custom_the_title{
+  font-size: 16px;
+  margin: 0 0 5px 0;
+}
 .search_left h3.custom_the_title a{
   font-size: 16px;
   font-weight: 500;
@@ -2050,6 +2172,36 @@ font-weight: 400;
   float: left;
   width: 25%;
   margin-top: -7px;
+}
+.search_center .per_night span.tax_inclusive{
+  display: block;
+  font-size: 12px;
+  font-weight: 400;
+  margin-top: 5px;
+}
+.per_night span {
+  font-size: 12px;
+}
+.search_right .bookRoom{
+  display: inline-block;
+}
+.search_right .bookRoom:hover{
+  opacity: 0.7;
+}
+.search_right .custom_hotel_sold_out {
+  color: white !important;
+  font-weight: bold;
+  margin: 0;
+  background-color: red;
+  width: 138px;
+  text-align: center;
+  font-size: 15px;
+  padding: 5px 0px;
+  border-radius: 3px;
+  font-weight: 600;
+}
+.rounded-5{
+  border-radius: 5px;
 }
 
 /* Search Side Bar */
