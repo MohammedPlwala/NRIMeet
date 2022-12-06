@@ -16,12 +16,18 @@
       
       <div class="ujjain">
         <h3 class="heading3">Registration</h3>
-        @if(session()->has('message'))
-            <div class="alert alert-success">
-                {{ session()->get('message') }}
-            </div>
+        @if ($message = Session::get('success'))
+        <div class="alert alert-success alert-block">
+            <button type="button" class="close" data-dismiss="alert">×</button>    
+            <strong>{{ $message }}</strong>
+        </div>
         @endif
-
+        @if ($message = Session::get('error'))
+        <div class="alert alert-danger alert-block">
+            <button type="button" class="close" data-dismiss="alert">×</button>    
+            <strong>{{ $message }}</strong>
+        </div>
+        @endif
         <div class="custom-form">
           {!! NoCaptcha::renderJs() !!}
           <form action="{{url('/darshan-registration')}}" method="post" enctype="multipart/form-data" autocomplete="off">

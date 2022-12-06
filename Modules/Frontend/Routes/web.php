@@ -24,8 +24,8 @@ Route::group(['middleware' => 'auth:web'], function(){
 	Route::get('payment', 'HotelController@payment');
 	Route::get('thankyou', 'HotelController@bookingConfirmed');
 	Route::post('darshan-registration', 'FrontendController@store');
-Route::get('my-bookings', 'HotelController@myBookings');
-
+	Route::post('contact', 'FrontendController@storeContact');
+	Route::get('my-bookings', 'HotelController@myBookings');
 });
 
 

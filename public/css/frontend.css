@@ -67,6 +67,10 @@ body {
 h1, h2, h3, h4, h5, h6, textarea, input {
   font-family: 'Work Sans', sans-serif;
 }
+body ol, body ul{
+  margin-top: 0;
+  margin-bottom: 0;
+}
 .static-content{
   padding: 0 15px 35px 15px;
 }
@@ -360,6 +364,7 @@ header.header {
 .top-header>.row {
   display: flex;
   flex-wrap: wrap;
+  margin: 0;
 }
 
 .top-header>.row img {

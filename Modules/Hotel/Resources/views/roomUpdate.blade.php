@@ -53,10 +53,10 @@ $organization_type = \Session::get('organization_type');
                             </div>
                             <div class="row g-3 align-center">
                                 <div class="col-lg-5">
-                                    <x-inputs.verticalFormLabel label="Allocated " for="email" suggestion="Specify the email of the user." required="true" />
+                                    <x-inputs.verticalFormLabel label="Allocated Rooms" for="email" suggestion="Specify the email of the user." required="true" />
                                 </div>
                                 <div class="col-lg-7">
-                                    <x-inputs.email value="{{ isset($user) ? $user->email : old('email') }}" for="email" icon="mail" required="true" class="" placeholder="Email" name="email" />
+                                    <x-inputs.number value="{{ isset($user) ? $user->email : old('email') }}" for="email" icon="home-alt" required="true" class="" placeholder="Email" name="email" />
                                     @if ($errors->has('email'))
                                         <span class="text-danger custom-error-text">{{ $errors->first('email') }}</span>
                                     @endif
@@ -64,25 +64,23 @@ $organization_type = \Session::get('organization_type');
                             </div>
                             <div class="row g-3 align-center">
                                 <div class="col-lg-5">
-                                    <x-inputs.verticalFormLabel label="Mobile Number" for="mobileNumber" suggestion="Specify the mobile number of the user." required="true" />
+                                    <x-inputs.verticalFormLabel label="MPT Reserve" for="email" suggestion="Specify the email of the user." required="true" />
                                 </div>
                                 <div class="col-lg-7">
-                                    <x-inputs.number value="{{ isset($user) ? $user->phone_number : old('mobileNumber') }}" for="mobileNumber" class="" icon="call" required="true" placeholder="Mobile Number" name="mobileNumber" 
-                                    data-parsley-pattern="{{ \Config::get('constants.REGEX.VALIDATE_MOBILE_NUMBER_LENGTH') }}"
-                                    />
-                                    @if ($errors->has('mobileNumber'))
-                                        <span class="text-danger">{{ $errors->first('mobileNumber') }}</span>
+                                    <x-inputs.number value="{{ isset($user) ? $user->email : old('email') }}" for="email" icon="umbrela" required="true" class="" placeholder="Email" name="email" />
+                                    @if ($errors->has('email'))
+                                        <span class="text-danger custom-error-text">{{ $errors->first('email') }}</span>
                                     @endif
                                 </div>
                             </div>
-                            <!-- <div class="row g-3 align-center">
+                            <div class="row g-3 align-center">
                                 <div class="col-lg-5">
-                                    <x-inputs.verticalFormLabel label="Approved" for="approved" suggestion="Specify the approval of the user." required="true" />
+                                    <x-inputs.verticalFormLabel label="Available Rooms" for="email" suggestion="Specify the email of the user." required="true" />
                                 </div>
                                 <div class="col-lg-7">
-                                    <x-inputs.switch for="approved" size="md" name="approved"/>
+                                   35
                                 </div>
-                            </div> -->
+                            </div>
                             
                         </div>
                     </div>
@@ -90,57 +88,7 @@ $organization_type = \Session::get('organization_type');
             </div>
         </div><!-- .nk-block -->
        
-        <div class="nk-block">
-            <div class="card card-bordered sp-plan">
-                <div class="row no-gutters">
-                    <div class="col-md-3">
-                        <div class="sp-plan-action card-inner">
-                            <div class="icon">
-                                <em class="icon ni ni-map-pin fs-36px o-5"></em>
-                                <h5 class="o-5">Rooms</h5>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-9">
-                        <div class="sp-plan-info card-inner">
-                            <div class="row g-3 align-center">
-                                <div class="col-lg-5">
-                                    <x-inputs.verticalFormLabel label="Suit" for="Suit" suggestion="Specify the room rate | inventory." />
-                                </div>
-                                <div class="col-lg-7">
-                                    <div class="row g-3">
-                                        <div class="col-lg-6">
-                                            <x-inputs.text value="0" for="rate" icon="sign-inr-alt" required="true" placeholder="Rate" name="rate"/>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <x-inputs.text value="0" for="Inventory" icon="db-fill" required="true" placeholder="Inventory" name="inventory"/>
-                                        </div>
-                                    </div>
-                                    
-                                </div>
-                            </div>
-                            <div class="row g-3 align-center">
-                                <div class="col-lg-5">
-                                    <x-inputs.verticalFormLabel label="Premium" for="Premium" suggestion="Specify the room rate | inventory." />
-                                </div>
-                                <div class="col-lg-7">
-                                    <div class="row g-3">
-                                        <div class="col-lg-6">
-                                            <x-inputs.text value="0" for="rate" icon="sign-inr-alt" required="true" placeholder="Rate" name="rate"/>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <x-inputs.text value="0" for="Inventory" icon="db-fill" required="true" placeholder="Inventory" name="inventory"/>
-                                        </div>
-                                    </div>
-                                    
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-         
+        
         <div class="nk-block">
             @isset($user)
                 <input type="hidden" name="userId" id="userId" value="{{ $user->id }}">
