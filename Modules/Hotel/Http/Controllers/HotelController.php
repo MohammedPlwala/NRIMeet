@@ -9,6 +9,8 @@ use Illuminate\Routing\Controller;
 use Modules\Hotel\Entities\RoomType;
 use Modules\Hotel\Entities\Hotel;
 use Modules\Hotel\Entities\HotelRoom;
+
+use Modules\user\Entities\User;
 use DataTables;
 
 class HotelController extends Controller
@@ -305,6 +307,22 @@ class HotelController extends Controller
     public function edit($id)
     {
         return view('hotel::edit');
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     * @param int $id
+     * @return Renderable
+     */
+    public function booking()
+    {
+        $hotels = Hotel::where('status','active')->get();
+        $roomTypes = RoomType::where('status','active')->get();
+        // $guests = User::where('status','active')->get();
+        return view('hotel::booking',['hotels' => $hotels,'roomTypes' => $roomTypes, 
+        // 'guests' => $guests
+    ]);
+        
     }
 
     /**

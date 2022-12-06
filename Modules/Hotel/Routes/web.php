@@ -23,5 +23,7 @@ Route::prefix('admin')->group(function() {
         Route::post('/rooms/add', 'HotelController@roomStore');
         Route::get('/rooms/edit/{room_id}', 'HotelController@roomEdit');
 
+        Route::get('/booking', 'HotelController@booking');
+
     });
 });
