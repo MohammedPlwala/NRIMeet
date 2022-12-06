@@ -21,7 +21,7 @@ $organization_type = \Session::get('organization_type');
                         <div class="sp-plan-action card-inner">
                             <div class="icon">
                                 <em class="icon ni ni-box fs-36px o-5"></em>
-                                <h5 class="o-5">Hotel <br> Information</h5>
+                                <h5 class="o-5">Hotel<br> Information</h5>
                             </div>
                         </div>
                     </div>
@@ -29,52 +29,84 @@ $organization_type = \Session::get('organization_type');
                         <div class="sp-plan-info card-inner">
                             <div class="row g-3 align-center">
                                 <div class="col-lg-5">
-                                    <x-inputs.verticalFormLabel label="Hotel Name" for="firstName" suggestion="Specify the first name of the user." required="true" />
+                                    <x-inputs.verticalFormLabel label="Hotel Name" for="hotelName" suggestion="Specify the hotel name." required="true" />
                                 </div>
                                 <div class="col-lg-7">
-                                    {{'Wow Hotel'}}
+                                    <x-inputs.text value="" for="hotelName" class="" icon="building-fill" required="true" placeholder="Hotel Name" name="hotelName" />
                                 </div>
                             </div>
                             <div class="row g-3 align-center">
                                 <div class="col-lg-5">
-                                    <x-inputs.verticalFormLabel label="Hotal Address" for="Hotal Address" suggestion="Specify the last name of the user." required="true" />
+                                    <x-inputs.verticalFormLabel label="Classification" for="classification" suggestion="Specify the hotel classification." required="true" />
                                 </div>
                                 <div class="col-lg-7">
-                                    {{'Copy same address as Billing and Shipping address.'}}
+                                    <x-inputs.text value="" for="classification" class="" icon="building-fill" required="true" placeholder="Classification Name" name="classification" />
                                 </div>
                             </div>
                             <div class="row g-3 align-center">
                                 <div class="col-lg-5">
-                                    <x-inputs.verticalFormLabel label="Email" for="email" suggestion="Specify the email of the user." required="true" />
+                                    <x-inputs.verticalFormLabel label="Location" for="location" suggestion="Specify the hotel location." required="true" />
                                 </div>
                                 <div class="col-lg-7">
-                                    <x-inputs.email value="{{ isset($user) ? $user->email : old('email') }}" for="email" icon="mail" required="true" class="" placeholder="Email" name="email" />
-                                    @if ($errors->has('email'))
-                                        <span class="text-danger custom-error-text">{{ $errors->first('email') }}</span>
-                                    @endif
+                                    <x-inputs.text value="" for="location" class="" icon="map-pin-fill" required="true" placeholder="Location" name="location" />
                                 </div>
                             </div>
                             <div class="row g-3 align-center">
                                 <div class="col-lg-5">
-                                    <x-inputs.verticalFormLabel label="Mobile Number" for="mobileNumber" suggestion="Specify the mobile number of the user." required="true" />
+                                    <x-inputs.verticalFormLabel label="Airport Distance" for="airport_distance" suggestion="Specify the hotel airport distance." required="true" />
                                 </div>
                                 <div class="col-lg-7">
-                                    <x-inputs.number value="{{ isset($user) ? $user->phone_number : old('mobileNumber') }}" for="mobileNumber" class="" icon="call" required="true" placeholder="Mobile Number" name="mobileNumber" 
-                                    data-parsley-pattern="{{ \Config::get('constants.REGEX.VALIDATE_MOBILE_NUMBER_LENGTH') }}"
-                                    />
-                                    @if ($errors->has('mobileNumber'))
-                                        <span class="text-danger">{{ $errors->first('mobileNumber') }}</span>
-                                    @endif
+                                    <x-inputs.text value="" for="airport_distance" class="" icon="map-pin-fill" required="true" placeholder="Airport Distance" name="airport_distance" />
                                 </div>
                             </div>
-                            <!-- <div class="row g-3 align-center">
+                            <div class="row g-3 align-center">
                                 <div class="col-lg-5">
-                                    <x-inputs.verticalFormLabel label="Approved" for="approved" suggestion="Specify the approval of the user." required="true" />
+                                    <x-inputs.verticalFormLabel label="Website" for="website" suggestion="Specify the hotel website." required="true" />
                                 </div>
                                 <div class="col-lg-7">
-                                    <x-inputs.switch for="approved" size="md" name="approved"/>
+                                    <x-inputs.text value="" for="website" class="" icon="b-edge" required="true" placeholder="Website Name" name="website" />
                                 </div>
-                            </div> -->
+                            </div>
+                            <div class="row g-3 align-center">
+                                <div class="col-lg-5">
+                                    <x-inputs.verticalFormLabel label="Venue Distance" for="venue_distance" suggestion="Specify the hotel venue distance." required="true" />
+                                </div>
+                                <div class="col-lg-7">
+                                    <x-inputs.text value="" for="venue_distance" class="" icon="map-pin-fill" required="true" placeholder="Venue Distance" name="venue_distance" />
+                                </div>
+                            </div>
+                            <div class="row g-3 align-center">
+                                <div class="col-lg-5">
+                                    <x-inputs.verticalFormLabel label="Contact Person" for="contact_person" suggestion="Specify the venue distance." required="true" />
+                                </div>
+                                <div class="col-lg-7">
+                                    <x-inputs.text value="" for="contact_person" class="" icon="user-fill" required="true" placeholder="Contact Person Name" name="contact_person" />
+                                </div>
+                            </div>
+                            <div class="row g-3 align-center">
+                                <div class="col-lg-5">
+                                    <x-inputs.verticalFormLabel label="Contact Number" for="contact_number" suggestion="Specify the contact number." required="true" />
+                                </div>
+                                <div class="col-lg-7">
+                                    <x-inputs.text value="" for="contact_number" class="" icon="contact-fill" required="true" placeholder="Contact Number" name="contact_number" />
+                                </div>
+                            </div>
+                            <div class="row g-3 align-center">
+                                <div class="col-lg-5">
+                                    <x-inputs.verticalFormLabel label="Image" for="image" suggestion="Specify the hotel image." required="true" />
+                                </div>
+                                <div class="col-lg-7">
+                                    <input value="" type="file" for="image" class="" icon="img-fill" required="true" placeholder="Image" name="image" />
+                                </div>
+                            </div>
+                            <div class="row g-3 align-center">
+                                <div class="col-lg-5">
+                                    <x-inputs.verticalFormLabel label="Description" for="description" suggestion="Specify the hotel description." required="true" />
+                                </div>
+                                <div class="col-lg-7">
+                                    <x-inputs.textarea value="" for="description" class="" icon="notes-alt" required="true" placeholder="Description" name="description" />
+                                </div>
+                            </div>
                             
                         </div>
                     </div>
@@ -82,56 +114,7 @@ $organization_type = \Session::get('organization_type');
             </div>
         </div><!-- .nk-block -->
        
-        <div class="nk-block">
-            <div class="card card-bordered sp-plan">
-                <div class="row no-gutters">
-                    <div class="col-md-3">
-                        <div class="sp-plan-action card-inner">
-                            <div class="icon">
-                                <em class="icon ni ni-map-pin fs-36px o-5"></em>
-                                <h5 class="o-5">Rooms</h5>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-9">
-                        <div class="sp-plan-info card-inner">
-                            <div class="row g-3 align-center">
-                                <div class="col-lg-5">
-                                    <x-inputs.verticalFormLabel label="Suit" for="Suit" suggestion="Specify the room rate | inventory." />
-                                </div>
-                                <div class="col-lg-7">
-                                    <div class="row g-3">
-                                        <div class="col-lg-6">
-                                            <x-inputs.text value="0" for="rate" icon="sign-inr-alt" required="true" placeholder="Rate" name="rate"/>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <x-inputs.text value="0" for="Inventory" icon="db-fill" required="true" placeholder="Inventory" name="inventory"/>
-                                        </div>
-                                    </div>
-                                    
-                                </div>
-                            </div>
-                            <div class="row g-3 align-center">
-                                <div class="col-lg-5">
-                                    <x-inputs.verticalFormLabel label="Premium" for="Premium" suggestion="Specify the room rate | inventory." />
-                                </div>
-                                <div class="col-lg-7">
-                                    <div class="row g-3">
-                                        <div class="col-lg-6">
-                                            <x-inputs.text value="0" for="rate" icon="sign-inr-alt" required="true" placeholder="Rate" name="rate"/>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <x-inputs.text value="0" for="Inventory" icon="db-fill" required="true" placeholder="Inventory" name="inventory"/>
-                                        </div>
-                                    </div>
-                                    
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+      
          
         <div class="nk-block">
             @isset($user)
