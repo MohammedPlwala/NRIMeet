@@ -45,8 +45,8 @@
             <table id="sales_SP" class="products-init nowrap nk-tb-list is-separate" data-auto-responsive="false">
                 <thead>
                     <tr class="nk-tb-item nk-tb-head">
-                        <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Booking Information</span></th>
-                        <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Cancellation Details</span></th>
+                        <th class="nk-tb-col tb-col-mb text-center" colspan="14"><span class="sub-text">Booking Information</span></th>
+                        <th class="nk-tb-col tb-col-mb text-center" colspan="5"><span class="sub-text">Cancellation Details</span></th>
                     </tr>
                     <tr class="nk-tb-item nk-tb-head">
                         <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">#</span></th>
@@ -63,6 +63,12 @@
                         <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Child</span></th>
                         <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Extra Bed</span></th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Amount</span></th>
+
+                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Cancellation Request Date</span></th>
+                        <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Approved as per Policy</span></th>
+                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Amount Payable</span></th>
+                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Approved By</span></th>
+                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Status</span></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -81,6 +87,12 @@
                         <td class="nk-tb-col tb-col-mb text-center">1</td>
                         <td class="nk-tb-col tb-col-mb text-center">2</td>
                         <td class="nk-tb-col tb-col-mb">&#8377; 90000</td>
+
+                        <td class="nk-tb-col tb-col-mb">11/11/2022</td>
+                        <td class="nk-tb-col tb-col-mb text-center">100%</td>
+                        <td class="nk-tb-col tb-col-mb text-center">&#8377; 90000</td>
+                        <td class="nk-tb-col tb-col-mb text-center">Supervisor Name</td>
+                        <td class="nk-tb-col tb-col-mb text-center">Approved</td>
                     </tr>
                 </tbody>
             </table>
