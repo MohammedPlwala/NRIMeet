@@ -104,6 +104,33 @@ class HotelController extends Controller
     }
 
     /**
+     * Show the form for creating a new resource.
+     * @return Renderable
+     */
+    public function updateHotel()
+    {
+        return view('hotel::updateHotel');
+    }
+
+     /**
+     * Show the form for creating a new resource.
+     * @return Renderable
+     */
+    public function rooms()
+    {
+        return view('hotel::rooms');
+    }
+     /**
+     * Show the form for creating a new resource.
+     * @return Renderable
+     */
+    public function roomUpdate()
+    {
+        return view('hotel::roomUpdate');
+    }
+    
+    
+    /**
      * Store a newly created resource in storage.
      * @param Request $request
      * @return Renderable

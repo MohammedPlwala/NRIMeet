@@ -9,6 +9,57 @@
 .mb-0{
   margin-bottom: 0 !important;
 }
+.mb-5{
+  margin-bottom: 0.313rem !important;
+}
+.mb-10{
+  margin-bottom: 0.625rem !important;
+}
+.mb-15{
+  margin-bottom: 0.938rem !important;
+}
+.mb-20{
+  margin-bottom: 1.25rem !important;
+}
+.mb-25{
+  margin-bottom: 1.563rem !important;
+}
+.mb-30{
+  margin-bottom: 1.875rem !important;
+}
+.mb-35{
+  margin-bottom: 2.188rem !important;
+}
+.mb-40{
+  margin-bottom: 2.5rem !important;
+}
+.pb-0{
+  padding-bottom: 0 !important;
+}
+.pb-5{
+  padding-bottom: 0.313rem !important;
+}
+.pb-10{
+  padding-bottom: 0.625rem !important;
+}
+.pb-15{
+  padding-bottom: 0.938rem !important;
+}
+.pb-20{
+  padding-bottom: 1.25rem !important;
+}
+.pb-25{
+  padding-bottom: 1.563rem !important;
+}
+.pb-30{
+  padding-bottom: 1.875rem !important;
+}
+.pb-35{
+  padding-bottom: 2.188rem !important;
+}
+.pb-40{
+  padding-bottom: 2.5rem !important;
+}
 body {
   font-family: 'Work Sans', sans-serif;
   line-height: 1 !important;
@@ -17,7 +68,80 @@ h1, h2, h3, h4, h5, h6, textarea, input {
   font-family: 'Work Sans', sans-serif;
 }
 .static-content{
-  padding: 0 15px;
+  padding: 0 15px 35px 15px;
+}
+.static-content h3{
+  font-size: 20px !important;
+  margin: 0 0 8px 0 !important;
+}
+.static-content table{
+  width: 100%;
+  margin: 0 0 30px 0;
+  font-size: 14px;
+  color: #424242;
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+.static-content table tr{
+  background: #fff;
+}
+.static-content table tr:nth-child(2n) {
+  background: #f8f8f8;
+}
+.static-content table th{
+  color: #fff;
+  background: var(--primary-color);
+  border-bottom: #e8e8e8 1px solid;
+  text-align: left;
+  vertical-align: top;
+  font-size: 14px;
+  padding: 14px 20px 14px 20px;
+  font-weight: 400;
+}
+.static-content table td {
+  border-right: #e8e8e8 1px solid;
+  border-bottom: #e8e8e8 1px solid;
+  text-align: left;
+  vertical-align: top;
+  padding: 9px 20px;
+  line-height: 160%;
+  font-size: 15px;
+}
+.static-content table tr td:last-child {
+  border-right: none;
+}
+.static-content a{
+  color: #181b20;
+  font-weight: 400;
+}
+.arrow-content-list{
+  margin: 0;
+}
+.arrow-content-list li{
+  position: relative;
+  font-size: 15px;
+  border-bottom: 1px solid;
+  border-color: #dedede;
+  padding: 12px 0 12px 15px;
+  margin: 0;
+  line-height: 160%;
+  color: #656a70;
+}
+.arrow-content-list li:before{
+  content: "\f054";
+  font-size: 12px;
+  margin: 0 6px 0 0;
+  font-family: "Font Awesome 5 Free";
+  font-style: normal;
+  font-weight: 900;
+  color: #1e306a;
+  position: absolute;
+  top: 12px;
+  left: 0;
+  text-decoration: inherit;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 .heading1{
   font-size: 40px;
@@ -27,8 +151,17 @@ h1, h2, h3, h4, h5, h6, textarea, input {
   font-size: 20px;
   color: #181b20;
   margin: 0 0 25px 0;
-  font-weight: 400;
+  font-weight: 600;
 }
+.heading3.border-line:after{
+  content: '';
+  display: block;
+  width: 50px;
+  height: 2px;
+  background: #1e306a;
+  margin: 32px 0;
+}
+
 /* Login Modal */
 .login-modal-wrap{
   top: 0;
@@ -165,7 +298,8 @@ h1, h2, h3, h4, h5, h6, textarea, input {
 .login-modal-wrap .login-modal .login-form-item .primary-button{
   text-transform: uppercase;
 }
-.primary-button{
+/* Custom Buttons */
+.primary-button, .danger-button{
   background-color: #1e306a;
   color: #ffffff;
   font-weight: 600;
@@ -175,15 +309,19 @@ h1, h2, h3, h4, h5, h6, textarea, input {
   border: 1px solid;
   padding: 6px 22px;
   cursor: pointer;
+  display: inline-block;
 }
-.primary-button.sm{
+.danger-button{
+  background-color: #cf2156;
+}
+.primary-button.sm, .danger-button.sm{
   padding: 6px 14px;
   margin-top: 5px;
   font-size: 12px;
   border-radius: 4px;
   height: auto;
 }
-.primary-button.md{
+.primary-button.md, .danger-button.md{
   border: none;
   font-size: 14px;
   font-weight: 500;
@@ -191,10 +329,10 @@ h1, h2, h3, h4, h5, h6, textarea, input {
   cursor: pointer;
   margin: 0;
   width: auto;
-  display: block;
+  display: inline-block;
   height: auto;
 }
-.primary-button:hover{
+.primary-button:hover, .danger-button:hover{
   opacity: 0.7;
 }
 
@@ -795,10 +933,10 @@ textarea{
 .form-input-group{
   display: flex;
 }
-.form-input-group #country_code{
+.form-input-group .country-code{
   width: 25%;
 }
-.form-input-group #phone_or_mobile_no{
+.form-input-group .phone-or-mobile-no{
   flex: 1;
 }
 .form-item-box{
@@ -837,6 +975,11 @@ textarea{
   padding: 0;
   margin: 0;
   font-weight: 400;
+}
+.form-item.large select{
+  font-size: 15px;
+  color: #656a70;
+  padding: 16px 12px;
 }
 .form-button{
   padding-top: 30px;
@@ -1317,6 +1460,110 @@ table.shop_table td:last-child{
 }
 /* END: Mahakal Lok Darshan CSS */
 
+/* START: Contact Us CSS */
+.contact-us-wrap{
+  padding: 2rem 15px 5rem 15px;
+}
+.contact-form .form-item{
+  margin-bottom: 20px;
+}
+.contact-form .form-item input, .contact-form .form-item select, .contact-form .form-item textarea{
+  margin: 0;
+}
+.contact-form .form-button{
+  padding: 0;
+  text-align: center;
+}
+.contact-us-right{
+  margin-top: -7px;
+}
+.contact-option-list{
+  margin: 0;
+  padding: 0;
+}
+.contact-option-list li{
+  margin: 0 0 20px 0;
+}
+.contact-option-list li a{
+  color: #181b20;
+  font-weight: 400;
+}
+.contact-option-list li span.icon{
+  display: inline-flex;
+  width: 30px;
+  height: 30px;
+  justify-content: center;
+  align-items: center;
+  margin-right: 10px;
+}
+.contact-option-list li span.icon.whatsapp-icon i{
+  background-color: #25d366;
+  color: #fff;
+  padding: 7px 8px;
+  border-radius: 30px;
+  font-size: 16px;
+}
+/* END: Contact Us CSS */
+
+/* START: Thank You Pag CSS */
+.thankyou-wrap{
+  padding: 80px 0;
+}
+.thankyou-main{
+  width: 100%;
+  max-width: 835px;
+  margin: 0 auto;
+}
+.thankyou-complete-wrapper i{
+  background: #1e306a;
+  text-align: center;
+  margin: 0 auto 20px auto;
+  display: block;
+  width: 45px;
+  height: 45px;
+  font-size: 20px;
+  color: #fff;
+  -webkit-border-radius: 100%;
+  -moz-border-radius: 100%;
+  -o-border-radius: 100%;
+  border-radius: 100%;
+  padding: 12px 0 0 0;
+}
+.thankyou-complete-wrapper h3{
+  font-size: 32px;
+  margin: 0 0 25px 0;
+  text-align: center;
+  color: #181b20;
+}
+.thankyou-notification-wrapper{
+  -moz-box-shadow: 0px 0px 12px 5px rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: 0px 0px 12px 5px rgb(0 0 0 / 10%);
+  box-shadow: 0px 0px 12px 5px rgb(0 0 0 / 10%);
+  padding: 25px 20px;
+  margin: 0 0 40px 0;
+}
+.thankyou-notification-wrapper p{
+  margin: 0;
+  display: flex;
+  align-items: center;
+  line-height: 1.2;
+}
+.thankyou-notification-wrapper p i{
+  font-size: 17px;
+  color: #1e306a;
+  margin: 0 10px 0 0;
+}
+.thankyou-main .thankyou-button-section{
+  text-align: center;
+  padding: 18px 0;
+}
+.thankyou-main .primary-button.sm{
+  font-size: 14px;
+  font-weight: 500;
+  padding: 11px 15px 12px 15px;
+  width: 130px;
+}
+/* END: Thank You Pag CSS */
 
 @media only screen and (min-width: 601px) {
   .d-hide{
@@ -1451,6 +1698,17 @@ table.shop_table td:last-child{
   }
   .shb-booking-summary-item.amount_tax p:last-child{
     text-align: left;
+  }
+}
+@media only screen and (max-width: 767px) {
+  .contact-us-right{
+    margin-top: 10px;
+  }
+  .contact-option-list{
+    font-size: 15px;
+  }
+  .contact-option-list li span.icon{
+    margin-right: 6px;
   }
 }
 @media only screen and (max-width: 600px) {

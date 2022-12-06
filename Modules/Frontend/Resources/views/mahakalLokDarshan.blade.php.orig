@@ -78,7 +78,11 @@
                   <div class="time_select">
                     <label class="form-label">Select Departure From Indore </label>
                     <span class="wpcf7-form-control-wrap" data-name="menu-998">
-                        <select name="departure_from_indore">
+<<<<<<< HEAD
+                        <select name="departure_from_indore" class="wpcf7-form-control wpcf7-select wpcf7-validates-as-required" aria-required="true" aria-invalid="false">
+=======
+                        <select name="menu-998">
+>>>>>>> 354af79c283da9ce6bace182e2e9429d76db05dd
                           <option value="01:30 AM BHASMARTI">01:30 AM BHASMARTI</option>
                           <option value="07:00 AM">07:00 AM</option>
                           <option value="08:00 AM">08:00 AM</option>

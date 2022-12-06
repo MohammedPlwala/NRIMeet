@@ -1,6 +1,15 @@
 @extends('frontend.layouts.app')
 
 @section('content')
+@php
+
+    function roomTwoCheck()
+    {
+        $adult = \Session::get('room_two_adult');
+        $child = \Session::get('room_two_child');
+        return $adult || $child;
+    } 
+@endphp
     <div class="mt-14"> </div>
     <div class="container mx-auto mt-14">
         <div class="flex flex-row">
@@ -94,10 +103,10 @@
                     <div class="pt-14"></div>
                     <div class="col">
                         <div class="booking-form-wrap desktop">
-                            <form action="/bookings/" method="post"
+                            <form action="{{ url('/search') }}" method="post"
                                 class="shb-booking-form-style-1 shb-booking-form-1-column-4 shb-clearfix"
                                 autocomplete="off">
-
+                                @csrf
                                 <div class="shbdp-cal-wrapper shbdp-clearfix" data-panels="2"
                                     style="top: 93px; left: 0px; display: none;">
                                     <div class="shbdp-clearboth"></div>
@@ -255,11 +264,11 @@
                                         <!-- END .shb-guestclass-select-section -->
                                     </div>
 
-
-                                    <p class="show_filter_2_room">Room 2</p>
+                                    
+                                    <p class="show_filter_2_room" style="display: {{ roomTwoCheck() ? 'block' : 'none' }}">Room 2</p>
 
                                     <!-- BEGIN .shb-guestclass-select-section -->
-                                    <div class="shb-guestclass-select-section shb-clearfix show_filter_2_room">
+                                    <div class="shb-guestclass-select-section shb-clearfix show_filter_2_room" style="display: {{ roomTwoCheck() ? 'block' : 'none' }}">
 
                                         <label>Adult <span>Age 12 year or above</span></label>
 
@@ -277,7 +286,7 @@
 
 
                                     <!-- BEGIN .shb-guestclass-select-section -->
-                                    <div class="shb-guestclass-select-section shb-clearfix show_filter_2_room">
+                                    <div class="shb-guestclass-select-section shb-clearfix show_filter_2_room" style="display: {{ roomTwoCheck() ? 'block' : 'none' }}">
 
                                         <label>Child <span>Age 12 year or below</span></label>
 
@@ -297,8 +306,13 @@
 
                                     <button type="button" class="shb-qty-done shb-qty-ok">Ok</button>
                                     <button type="button" class="add_another_room"
-                                        onclick="return add_another_room()"><span id="add_another_room">+ ADD ANOTHER
-                                            ROOM</span></button>
+                                        onclick="return add_another_room()"
+                                        style="background: {{ roomTwoCheck() ? 'rgb(207, 33, 86)' : 'rgb(30, 48, 106)' }}"
+                                        
+                                        ><span id="add_another_room">
+                                            {{ roomTwoCheck() ? 'X REMOVE THE ROOM' : '+ ADD ANOTHER
+                                            ROOM' }}
+                                            </span></button>
                                     <!-- END .shb-guestclass-select-dropdown -->
                                 </div>
 
