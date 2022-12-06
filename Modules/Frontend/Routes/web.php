@@ -23,7 +23,9 @@ Route::group(['middleware' => 'auth:web'], function(){
 	Route::post('razorpay-payment','HotelController@saveRazorPayPayment');
 	Route::get('payment', 'HotelController@payment');
 	Route::get('thankyou', 'HotelController@bookingConfirmed');
-	Route::get('my-bookings', 'HotelController@myBookings');
+	Route::post('darshan-registration', 'FrontendController@store');
+Route::get('my-bookings', 'HotelController@myBookings');
+
 });
 
 

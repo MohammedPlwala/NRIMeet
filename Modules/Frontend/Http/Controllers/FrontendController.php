@@ -5,6 +5,9 @@ namespace Modules\Frontend\Http\Controllers;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use DB;
+use Session;
+use Exception;
 
 class FrontendController extends Controller
 {
@@ -61,7 +64,35 @@ class FrontendController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $input = $request->all();
+  
+        $data = array(
+            'name' => $input['full_name'],
+            'email' => $input['email_id'],
+            'mobile' => $input['phone_or_mobile_no'],
+            'registration_number' => $input['registration_number'],
+            'country'  => $input['country'],
+            'members'  => $input['members'],
+            'departure_indore'  => $input['departure_from_indore'],
+            'departure_ujjain'  => $input['departure_from_ujjain']
+        );
+
+        if ($request->hasFile('file')) {
+            $image = $request->file('file');
+            $fileNameWithExt = $image->getClientOriginalName();
+            $fileName = pathinfo($fileNameWithExt, PATHINFO_FILENAME);
+            $fileName = preg_replace("/[^A-Za-z0-9 ]/", '', $fileName);
+            $fileName = preg_replace("/\s+/", '-', $fileName);
+            $extension = $image->getClientOriginalExtension();
+            $fileName = $fileName.'_'.time().'.'.$extension;
+            $data['file'] = $fileName;
+            $destinationPath = public_path('/uploads/mahakalLokDarshan');
+            $image->move($destinationPath, $fileName);
+        }
+
+        DB::table('darshan_registration')->insert($data);
+          
+        return redirect()->back()->with('success', 'Registration successful');
     }
 
     /**
