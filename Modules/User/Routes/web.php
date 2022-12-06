@@ -29,14 +29,14 @@ Route::prefix('admin/user')->group(function() {
     Route::get('/import', 'UserController@import');
     Route::post('/add', 'UserController@storeGuest');
 
-    Route::prefix('staff')->group(function() {
+    Route::prefix('/staff')->group(function() {
         Route::get('/', 'UserController@staffList');
         Route::post('/', 'UserController@staffList');
         Route::get('/staffListOld', 'UserController@staffListOld');
         Route::get('/create-staff', 'UserController@createStaff');
         Route::post('/create-staff', 'UserController@storeStaff');
         Route::get('/edit-staff/{user_id}', 'UserController@editStaff');
-        Route::post('/edit-staff/{user_id}', 'UserController@updateStaff');
+        Route::post('/edit-staff/{user_id}', 'UserController@editStaff');
         Route::get('/staff-detail/{user_id}', 'UserController@showStaff');
         Route::get('/delete-staff/{user_id}', 'UserController@destroyStaff');
         Route::post('/staff-bulk-update', 'UserController@staffBulkUpdate');

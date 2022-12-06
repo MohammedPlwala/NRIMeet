@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('admin.layouts.app')
 @php
 $userPermission = \Session::get('userPermission');
 $organization_type = \Session::get('organization_type');
@@ -12,7 +12,7 @@ $currentOrganization = \Session::get('currentOrganization');
             </div><!-- .nk-block-head-content -->
         </div><!-- .nk-block-between -->
     </div><!-- .nk-block-head -->
-    <form role="form" method="post" enctype="multipart/form-data" >
+    <form role="form" method="post" action="{{ url('admin/user/staff/create-staff') }}" enctype="multipart/form-data" >
         @csrf
         <div class="nk-block">
             <div class="card card-bordered sp-plan">
@@ -43,7 +43,7 @@ $currentOrganization = \Session::get('currentOrganization');
                                         @elseif(old('role') == $role->id) 
                                         selected
                                         @endif
-                                        value="{{ $role->id }}">{{ $role->label }}</option>
+                                        value="{{ $role->id }}">{{ $role->name }}</option>
                                         @endforeach
                                     </x-inputs.select>
                                     @if ($errors->has('role'))
@@ -74,7 +74,7 @@ $currentOrganization = \Session::get('currentOrganization');
                                     <x-inputs.verticalFormLabel label="Name" for="name" suggestion="Specify the first name of the user." required="true" />
                                 </div>
                                 <div class="col-lg-7">
-                                    <x-inputs.text  value="{{ isset($user) ? $user->name : old('name') }}" for="name" icon="user" placeholder="Name" name="name" required="true" />
+                                    <x-inputs.text  value="{{ isset($user) ? $user->full_name : old('name') }}" for="name" icon="user" placeholder="Name" name="name" required="true" />
                                     @if ($errors->has('name'))
                                         <span class="text-danger">{{ $errors->first('name') }}</span>
                                     @endif
@@ -96,8 +96,7 @@ $currentOrganization = \Session::get('currentOrganization');
                                     <x-inputs.verticalFormLabel label="Mobile Number" for="mobileNumber" suggestion="Specify the mobile number of the user." required="true" />
                                 </div>
                                 <div class="col-lg-7">
-                                    <x-inputs.text value="{{ isset($user) ? $user->phone_number : old('mobileNumber') }}" for="mobileNumber" icon="call" required="true" placeholder="Mobile Number" name="mobileNumber"
-                                    data-parsley-pattern="{{ \Config::get('constants.REGEX.VALIDATE_MOBILE_NUMBER_LENGTH') }}"
+                                    <x-inputs.text value="{{ isset($user) ? $user->mobile : old('mobileNumber') }}" for="mobileNumber" icon="call" required="true" placeholder="Mobile Number" name="mobileNumber"
                                     />
                                     @if ($errors->has('mobileNumber'))
                                         <span class="text-danger">{{ $errors->first('mobileNumber') }}</span>
@@ -120,7 +119,7 @@ $currentOrganization = \Session::get('currentOrganization');
         </div><!-- .nk-block -->
         
         @if(!isset($user))
-        <div class="nk-block userFoundBox">
+        <!-- <div class="nk-block userFoundBox">
             <div class="card card-bordered sp-plan">
                 <div class="row no-gutters">
                     <div class="col-md-3">
@@ -160,7 +159,7 @@ $currentOrganization = \Session::get('currentOrganization');
                     </div>
                 </div>
             </div>
-        </div><!-- .nk-block -->
+        </div> --><!-- .nk-block -->
         @endif
         
         <div class="nk-block">
@@ -182,13 +181,13 @@ $currentOrganization = \Session::get('currentOrganization');
                                 <div class="col-lg-7">
 
                                     @php
-                                        if(isset($user) && $user->status){
+                                        if(isset($user) && $user->status=='active'){
                                             $checked = 'true';
                                         }else{
                                             $checked = '';
                                         }
                                     @endphp
-                                    <x-inputs.switch for="approved" size="md" name="approved" checked={{$checked}}/>
+                                    <x-inputs.switch for="approved" size="md" name="status" checked={{$checked}}/>
                                     @if ($errors->has('approved'))
                                         <span class="text-danger">{{ $errors->first('approved') }}</span>
                                     @endif

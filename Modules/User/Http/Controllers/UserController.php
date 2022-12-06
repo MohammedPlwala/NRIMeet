@@ -6,6 +6,7 @@ use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Modules\User\Entities\Role;
+use Modules\User\Entities\UserRole;
 use App\Models\User;
 use Modules\User\Http\Requests\UserRequest;
 use DB;
@@ -53,10 +54,14 @@ class UserController extends Controller
         //     $organizations = Helpers::getUserOrganizations($authUser->id);
         // }
 
+        $guestRoleId = Role::where('name','Guest')
+                    ->first()->id;
+
 
         $data = User::from('users as u')
                 ->select('u.id','u.full_name','u.email','u.mobile','u.status','u.created_at','u.updated_at')
-                
+                ->leftJoin('user_role as ur','ur.user_id','u.id')
+                ->where('ur.role_id',$guestRoleId)
                 ->where(function ($query) use ($request) {
                     if (!empty($request->toArray())) {
                         if ($request->get('name') != '') {
@@ -381,9 +386,15 @@ class UserController extends Controller
 
         $authUser = \Auth::user();
 
+        $guestRoleId = Role::where('name','Guest')
+                    ->first()->id;
+
         $users = User::from('users as u')
-                ->select('u.id','u.full_name','u.email','u.status','u.mobile','u.created_at','u.updated_at')
+                ->select('u.id','u.full_name','u.email','u.status','u.mobile','u.created_at','u.updated_at','roles.name as roleName')
+                ->leftJoin('user_role as ur','ur.user_id','u.id')
+                ->leftJoin('roles','roles.id','ur.role_id')
                 ->where('u.id','!=',$authUser->id)
+                ->where('ur.role_id','!=',$guestRoleId)
                 ->where(function ($query) use ($request) {
                     if (!empty($request->toArray())) {
                         if ($request->get('firstname') != '') {
@@ -465,6 +476,10 @@ class UserController extends Controller
         }
         
         if($user->save()){
+            if(!isset($request->userId)){
+                $userRole = array('role_id' => $request->role_id, 'user_id' =>  $user->id);
+                UserRole::insert($userRole);
+            }
             return redirect('/admin/user')->with('message', $msg);
         }else{
             return redirect('/admin/user/create')->with('error', 'Something went wrong');
@@ -521,8 +536,6 @@ class UserController extends Controller
     {
         $user = \Auth::user();
 
-        $role = $user->getRoleNames()->toArray();
-
         $roles = Role::where('name','!=','Guest')
                     ->orderby('name','ASC')
                     ->get();
@@ -539,89 +552,45 @@ class UserController extends Controller
      */
     public function storeStaff(Request $request)
     {   
-        $authUser = \Auth::user();
-
-
-        $staff_limit = \Session::get('staff_limit');
-        $seller_limit = \Session::get('seller_limit');
-
-        $roleData = Role::where('id',$request->input("role"))->first();
         
-        DB::beginTransaction();
-        $user = new User();
-
-        if ($request->hasFile('file')) {
-
-            $image1 = $request->file('file');
-            $image1NameWithExt = $image1->getClientOriginalName();
-            list($image1_width,$image1_height)=getimagesize($image1);
-            // Get file path
-            $originalName = pathinfo($image1NameWithExt, PATHINFO_FILENAME);
-            $image1Name = pathinfo($image1NameWithExt, PATHINFO_FILENAME);
-            // Remove unwanted characters
-            $image1Name = preg_replace("/[^A-Za-z0-9 ]/", '', $image1Name);
-            $image1Name = preg_replace("/\s+/", '-', $image1Name);
-
-            // Get the original image extension
-            $extension  = $image1->getClientOriginalExtension();
-            if($extension != 'jpg' && $extension != 'jpeg' && $extension != 'png'){
-                return redirect('user/staff')->with('error', trans('messages.INVALID_IMAGE'));
-            }
-            $image1Name = $image1Name.'_'.time().'.'.$extension;
-            
-            $destinationPath = public_path('uploads/users');
-            if($image1_width > 800){
-                $image1_canvas = Image::canvas(800, 800);
-                $image1_image = Image::make($image1->getRealPath())->resize(800, 800, function ($constraint) {
-                    $constraint->aspectRatio();
-                    $constraint->upsize();
-                });
-                $image1_canvas->insert($image1_image, 'center');
-                $image1_canvas->save($destinationPath.'/'.$image1Name,80);
-            }else{
-                $image1->move($destinationPath, $image1Name);
-            }
-            $image1_file = public_path('uploads/users/'. $image1Name);
-
-            $user->file = $image1Name;
-            $user->original_name = $image1NameWithExt;
-        }
-
-        
-        $user->name                 = $request->exists("name") ? $request->input("name") : "";
-        $user->email                = $request->exists("email") ? $request->input("email") : "";
-        $user->password             = \Hash::make($request->input("password"));
-        $user->phone_number         = $request->exists("mobileNumber") ? $request->input("mobileNumber") : "";
-        $user->is_approved          = 1;
-
-        if($request->exists("approved") && $request->input("approved") == 1){
-            $user->status           = 1;
+        if(isset($request->userId)){
+            $user = User::findorfail($request->userId);
+            $msg = "User updated successfully";
         }else{
-            $user->status           = 0;
+            $user = new User();
+            $msg = "User added successfully";
         }
 
+        $user->full_name = $request->name;
+        $user->email  = $request->email;
+        $user->mobile = $request->mobileNumber;
+        // $user->date_of_birth = date('Y-m-d', strtotime($request->date_of_birth));
+        $user->password = \Hash::make('NriMeet@123');
+        // $user->address = $request->address;
+        // $user->nationality = $request->nationality;
+        // $user->country = $request->country;
+        // $user->zip = $request->zip;
+        // $user->identity_type = $request->identity_type;
+        // $user->identity_number  = $request->identity_number;
+        if(isset($request->status)){
+            $user->status = $request->status;
+        }else{
+            $user->status = 'inactive';
+        }
+        
         if($user->save()){
+            $userRoles = array('role_id' => $request->role, 'user_id' =>  $user->id);
 
-            $roleLable = ucfirst(str_replace('_', ' ', $request->input("role")));
-            $msg = trans('messages.ADDED_SUCCESSFULLY');
-
-            //Assign role to the user
-            // $user->assignRole($request->input("role"));
-            $modelRole = new ModelRole();
-            $modelRole->role_id = $request->input("role");
-            $modelRole->model_type = 'Modules\User\Entities\User';
-            $modelRole->model_id = $user->id;
-            $modelRole->save();
-
-            if($user->id){
-                DB::commit();
-                return redirect('user/staff')->with('message', $msg);
+            $userRole = UserRole::where('user_id', $user->id)->first();
+            if($userRole){
+                UserRole::update([ 'role_id' => $request->role ]);
             }else{
-                return redirect('user/staff')->with('error', trans('messages.SOMETHING_WENT_WRONG'));
+                UserRole::insert($userRoles);
             }
-        } else{
-            DB::rollback();
-            return redirect('user/staff')->with('error', trans('messages.SOMETHING_WENT_WRONG'));
+            
+            return redirect('/admin/user/staff')->with('message', $msg);
+        }else{
+            return redirect('/admin/user/staff/create-staff')->with('error', 'Something went wrong');
         }
     }
 
@@ -706,121 +675,23 @@ class UserController extends Controller
      * @return Renderable
      */
     public function editStaff($id)
-    {
+    {            
         try {
-            $authUser = \Auth::user();
-            $user = User::from('users as u')
-                    ->select('u.*','r.id as role','r.name as roleName','r.label as roleLable')
-                    ->leftJoin('model_has_roles as mr','mr.model_id','=','u.id')
-                    ->leftJoin('roles as r','mr.role_id','=','r.id')
-                    ->where('u.id',$id)
-                    ->first();
+           
+            $user = User::select('users.*','ur.role_id as role')->where('users.id',$id)->leftJoin('user_role as ur','ur.user_id','users.id')->first();
 
-            $role = $authUser->getRoleNames()->toArray();
-
-            $getRoles = [\Config::get('constants.ROLES.CUSTOMER'),\Config::get('constants.ROLES.SUPERUSER'),\Config::get('constants.ROLES.SUPERUSER')];
-
-            $roles              =   Role::whereNotIn('name',$getRoles)
-                                    ->orderby('name','ASC')
-                                    ->get();
+            $roles = Role::where('name','!=','Guest')
+                        ->orderby('name','ASC')
+                        ->get();
 
             return view('user::staff/create',['roles' => $roles,'user' => $user]);
 
         } catch (Exception $e) {
-            return redirect('user')->with('error', $exception->getMessage());           
+            return redirect('admin/user/staff')->with('error', $exception->getMessage());           
         }
 
 
         return view('user::staff/edit');
-    }
-
-    
-
-    /**
-     * Update the specified resource in storage.
-     * @param Request $request
-     * @param int $id
-     * @return Renderable
-     */
-    public function updateStaff(Request $request, $id)
-    {   
-
-        try {
-
-            $authUser = \Auth::user();
-            $user = User::from('users as u')
-                    ->select('u.*','r.id as role')
-                    ->leftJoin('model_has_roles as mr','mr.model_id','=','u.id')
-                    ->leftJoin('roles as r','mr.role_id','=','r.id')
-                    ->where('u.id',$id)
-                    ->first();
-
-            $oldUserRole = $user->role;
-
-            $user->name                 = $request->exists("name") ? $request->input("name") : "";
-            $user->email                = $request->exists("email") ? $request->input("email") : "";
-            $user->phone_number         = $request->exists("mobileNumber") ? $request->input("mobileNumber") : "";
-            $user->created_by           = $authUser->id;
-            
-            if($request->exists("approved") && $request->input("approved") == 1){
-                $user->status           = 1;
-            }else{
-                $user->status           = 0;
-            }
-
-            if ($request->hasFile('file')) {
-
-                $image1 = $request->file('file');
-                $image1NameWithExt = $image1->getClientOriginalName();
-                list($image1_width,$image1_height)=getimagesize($image1);
-                // Get file path
-                $originalName = pathinfo($image1NameWithExt, PATHINFO_FILENAME);
-                $image1Name = pathinfo($image1NameWithExt, PATHINFO_FILENAME);
-                // Remove unwanted characters
-                $image1Name = preg_replace("/[^A-Za-z0-9 ]/", '', $image1Name);
-                $image1Name = preg_replace("/\s+/", '-', $image1Name);
-
-                // Get the original image extension
-                $extension  = $image1->getClientOriginalExtension();
-                if($extension != 'jpg' && $extension != 'jpeg' && $extension != 'png'){
-                    return redirect('user/staff')->with('error', trans('messages.INVALID_IMAGE'));
-                }
-                $image1Name = $image1Name.'_'.time().'.'.$extension;
-                
-                $destinationPath = public_path('uploads/users');
-                if($image1_width > 800){
-                    $image1_canvas = Image::canvas(800, 800);
-                    $image1_image = Image::make($image1->getRealPath())->resize(800, 800, function ($constraint) {
-                        $constraint->aspectRatio();
-                        $constraint->upsize();
-                    });
-                    $image1_canvas->insert($image1_image, 'center');
-                    $image1_canvas->save($destinationPath.'/'.$image1Name,80);
-                }else{
-                    $image1->move($destinationPath, $image1Name);
-                }
-                $image1_file = public_path('uploads/users/'. $image1Name);
-
-                $user->file = $image1Name;
-                $user->original_name = $image1NameWithExt;
-            }
-
-            if($user->save()){
-                
-
-                //Remove role of the user
-                if($request->input("role") != $user->role){
-                    DB::statement("UPDATE model_has_roles SET role_id = ".$request->input("role")." where model_id = ".$user->id);
-                }
-                $roleLable = ucfirst(str_replace('_', ' ', $request->input("role")));
-                return redirect('user/staff')->with('message', trans('messages.UPDATED_SUCCESSFULLY'));
-            }else{
-                return redirect('user/staff')->with('error', trans('messages.SOMETHING_WENT_WRONG'));
-            }
-
-        } catch (Exception $e) {
-            return redirect('user')->with('error', $exception->getMessage());           
-        }
     }
 
     
@@ -833,13 +704,11 @@ class UserController extends Controller
     public function destroyStaff($id)
     {
 
-
-
         $user = User::findorfail($id);
         if($user->forceDelete()){
-            return redirect('user/staff')->with('message', trans('messages.USER_DELETED_SUCCESS'));
+            return redirect('admin/user/staff')->with('message', 'User deleted successfully');
         }else{
-            return redirect('user/staff')->with('error', trans('messages.SOMETHING_WENT_WRONG'));
+            return redirect('admin/user/staff')->with('error', 'Somthing went wrong');
         }
     }
     /**
