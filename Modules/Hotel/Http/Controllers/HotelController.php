@@ -10,6 +10,13 @@ use Modules\Hotel\Entities\RoomType;
 use Modules\Hotel\Entities\Hotel;
 use Modules\Hotel\Entities\HotelRoom;
 use App\Models\User;
+use Modules\User\Entities\UserRole;
+use Modules\User\Entities\Role;
+
+use Modules\Hotel\Entities\Booking;
+use Modules\Hotel\Entities\BookingRoom;
+use Modules\Hotel\Entities\BillingDetail;
+use Modules\Hotel\Entities\Transaction;
 
 use DataTables;
 
@@ -436,23 +443,207 @@ class HotelController extends Controller
         return view('hotel::bookingList');
     }
 
+    public function createOrderNumber()
+    {
+        // Get the last created order
+        $lastOrder = Booking::orderBy('id', 'desc')->first();
+        $number = 0;
+
+        if ($lastOrder) {
+            $number = substr($lastOrder->order_id, 4);
+        }
+
+        return 'PBD-' . sprintf('%06d', intval($number) + 1);
+    }
+
+    public function storeBooking(Request $request){
+        try {
+
+            $bookingRoomsData = array();
+
+            \DB::beginTransaction();
+
+            $diff = strtotime($request->checkout_date) - strtotime($request->checkin_date);
+            $nights = $diff/86400;
+            $total = 0;
+
+            $rooms = $request->rooms;
+            foreach ($rooms as $key => $room) {
+                if($key == 0){
+
+                    $type_id = $request->room_one_type;
+
+                    $data = json_decode($request->room_one_data,true);
+                    $adults = $request->room_one_adult;
+                    $childs = $request->room_one_child;
+
+                    $total += $nights*$data['rate'];
+                    $extra_bed = $extra_bed_cost = 0;
+                    if($request->room_one_extraBed == 1){
+                        $total += $data['extra_bed_rate'];
+                        $extra_bed = 1;
+                        $extra_bed_cost = $data['extra_bed_rate'];
+                    }
+
+                }else{
+                    $data = json_decode($request->room_two_data,true);
+                    $adults = $request->room_two_adult;
+                    $childs = $request->room_two_child;
+
+                    $total += $nights*$data['rate'];
+                    $extra_bed = $extra_bed_cost = 0;
+                    if($request->room_one_extraBed == 1){
+                        $total += $data['extra_bed_rate'];
+                        $extra_bed = 1;
+                        $extra_bed_cost = $data['extra_bed_rate'];
+                    }
+                }
+
+                $guest_one_name = $guest_two_name = $guest_three_name = $child_name = Null;
+
+                for ($i=0; $i < $adults ; $i++) {
+
+                    if($i == 0){
+                        $guest_one_name = $room['title'][$i].' '.$room['first_name'][$i].' '.$room['last_name'][$i];
+                    }
+
+                    if($i == 1){
+                        $guest_two_name = $room['title'][$i].' '.$room['first_name'][$i].' '.$room['last_name'][$i];   
+                    }
+
+                    if($i == 2){
+                        $guest_three_name = $room['title'][$i].' '.$room['first_name'][$i].' '.$room['last_name'][$i];   
+                    }
+                }
+
+                if($childs > 0){
+                    $child_name = $room['child_title'][0].' '.$room['child_first_name'][0].' '.$room['child_last_name'][0];   
+                }
+
+                $bookingRoomsData[] =  array(
+                                'guests' => $adults+$childs,
+                                'adults' => $adults,
+                                'childs' => $childs,
+                                'guest_one_name' => $guest_one_name,
+                                'guest_two_name' => $guest_two_name,
+                                'guest_three_name' => $guest_three_name,
+                                'child_name' => $child_name,
+                                'room_id' => $data['id'],
+                                'amount' => (($nights*$data['rate'])+$extra_bed_cost),
+                                'extra_bed' => $extra_bed,
+                                'extra_bed_cost' => $extra_bed_cost,
+                            );
+            }
+
+            $tax = ($total*(18/100));
+
+            $booking = new Booking();
+            $booking->order_id = $this->createOrderNumber();
+            $booking->user_id = $request->guest;
+            $booking->hotel_id = $request->hotel;
+            $booking->check_in_date = date('Y-m-d',strtotime($request->checkin_date));
+            $booking->check_out_date = date('Y-m-d',strtotime($request->checkout_date));
+            $booking->nights = $nights;
+            $booking->amount = $total;
+            $booking->sub_total = $total-$tax;
+            $booking->tax = $tax;
+            $booking->tax_percentage = 18;
+            $booking->special_request = "";
+            $booking->customer_booking_status = 'Received';
+            $booking->booking_status = 'Payment Completed';
+            $booking->booking_type = 'Offline';
+
+            if($booking->save()){
+                foreach ($bookingRoomsData as $key => $bookingRoom) {
+                    $room = new BookingRoom();
+                    $room->booking_id = $booking->id;
+                    $room->room_id = $bookingRoom['room_id'];
+                    $room->amount = $bookingRoom['amount'];
+                    $room->guests = $bookingRoom['guests'];
+                    $room->adults = $bookingRoom['adults'];
+                    $room->childs = $bookingRoom['childs'];
+                    $room->guest_one_name = $bookingRoom['guest_one_name'];
+                    $room->guest_two_name = $bookingRoom['guest_two_name'];
+                    $room->guest_three_name = $bookingRoom['guest_three_name'];
+                    $room->child_name = $bookingRoom['child_name'];
+                    $room->extra_bed = $bookingRoom['extra_bed'];
+                    $room->extra_bed_cost = $bookingRoom['extra_bed_cost'];
+                    
+                    if(!$room->save()){
+
+                            $hotelRoom = HotelRoom::findorfail($bookingRoom['room_id']);
+                            if($hotelRoom){
+                                $hotelRoom->count = $hotelRoom->count-1;
+                                $hotelRoom->save();
+                            }
+
+                        \DB::rollback();
+                        return redirect('/admin/bookings/add')->with('error', 'Something went wrong');
+                    }
+
+                    
+                }
+
+                $billingDetail = new BillingDetail();
+
+                $guest = User::findorfail($request->guest);
+
+                $billingDetail->booking_id = $booking->id;
+                $billingDetail->first_name = $guest->full_name;
+                $billingDetail->country = $guest->country;
+                $billingDetail->zip_code = $guest->zip;
+                $billingDetail->address_1 = $guest->address;
+                $billingDetail->phone = $guest->mobile;
+                $billingDetail->email = $guest->email;
+
+                if($billingDetail->save()){
+                    \DB::commit();
+                    return redirect('/admin/bookings')->with('message', 'Booking added successfully');
+                }else{
+                    \DB::rollback();
+                    return redirect('/admin/bookings/add')->with('error', 'Something went wrong');
+                }
+            }
+
+            print_r($bookingRoomsData);
+            
+        } catch (Exception $e) {
+            echo $e->getMessage();
+            die;
+        }
+    }
+
 
     public function createBooking()
     {
-
         $users = User::select('id')->get();
-        foreach ($variable as $key => $value) {
-            $users
-        }
-
-
         $hotels = Hotel::where('status','active')->get();
         
         $roomTypes = RoomType::where('status','active')->get();
 
-        $guests = User::where('status','active')->get();
-        return view('hotel::booking',['hotels' => $hotels,'roomTypes' => $roomTypes]);
+        $guests =   User::from('users as u')
+                    ->select('u.id','u.full_name')
+                    ->leftJoin('user_role as ur','u.id','=','ur.user_id')
+                    ->leftJoin('roles as r','ur.role_id','=','r.id')
+                    ->where('r.name','Guest')
+                    ->where('u.status','active')
+                    ->get();
+        return view('hotel::addBooking',['hotels' => $hotels,'roomTypes' => $roomTypes,'guests' => $guests]);
         
+    }
+
+    public function hotelRooms(Request $request,$hotel_id){
+        $hotelRooms = HotelRoom::from('hotel_rooms as hr')
+                ->select('hr.id', 'hr.hotel_id', 'hr.name', 'hr.type_id', 'hr.description', 'hr.allocated_rooms', 'hr.mpt_reserve', 'hr.count', 'hr.rate', 'hr.extra_bed_available', 'hr.extra_bed_rate', 'hr.status','rt.name as room_type_name')
+                ->join('room_types as rt','rt.id','=','hr.type_id')
+                ->where('hr.hotel_id',$hotel_id)
+                ->orderby('rt.name','asc')
+                ->get();
+        if(!empty($hotelRooms->toArray())){
+            return array('success' => true,'hotelRooms' => $hotelRooms);
+        }else{
+            return array('success' => false,'hotelRooms' => array());
+        }
     }
 
 }

@@ -32,11 +32,11 @@
                                 <div class="col-lg-8">
                                     <x-inputs.select for="guest" icon="mail" required="true" class=""
                                         placeholder="Select Guest" name="guest">
-                                        <option>Select Hotel</option>
-                                        {{-- @forelse($guests as $key => $guest)
-                                            <option value="{{ $guest->id }}">{{ ucfirst($guest->name) }}</option>
+                                        <option>Select Guest</option>
+                                        @forelse($guests as $key => $guest)
+                                            <option value="{{ $guest->id }}">{{ ucfirst($guest->full_name) }}</option>
                                         @empty
-                                        @endforelse --}}
+                                        @endforelse
                                     </x-inputs.select>
                                 </div>
                             </div>
@@ -64,14 +64,14 @@
                                 <div class="col-lg-8">
                                     <div class="row">
                                         <div class="col-lg-6">
-                                            <x-inputs.text value="" for="date_of_birth" class="date-picker"
+                                            <x-inputs.text value="" for="checkin_date" class="date-picker checkDate"
                                                 icon="calender-date-fill" required="true" placeholder="Date of birth"
-                                                name="date_of_birth" />
+                                                name="checkin_date" />
                                         </div>
                                         <div class="col-lg-6">
-                                            <x-inputs.text value="" for="date_of_birth" class="date-picker"
+                                            <x-inputs.text value="" for="checkout_date" class="date-picker checkDate"
                                                 icon="calender-date-fill" required="true" placeholder="Date of birth"
-                                                name="date_of_birth" />
+                                                name="checkout_date" />
                                         </div>
                                     </div>
                                 </div>
@@ -94,12 +94,9 @@
                                         </tr>
                                         <tr>
                                             <td>
-                                                <x-inputs.select for="room_one_type" required="true" class=""
-                                                    name="room_one_type">
-
-                                                    <option value="1">Suit</option>
-
-                                                </x-inputs.select>
+                                                <select id="room_one_type" required="true" class="form-select roomType" name="room_one_type">
+                                                    <option value="">Select Room</option>
+                                                <select>
                                             </td>
                                             <td>
                                                 <x-inputs.select for="room_one_adult" icon="mail" required="true"
@@ -113,7 +110,7 @@
                                             </td>
                                             <td>
                                                 <x-inputs.select for="room_one_child" icon="mail" required="true"
-                                                    class="" name="room_two_child">
+                                                    class="" name="room_one_child">
 
                                                     <option value="0">0</option>
                                                     <option value="1">1</option>
@@ -121,30 +118,29 @@
                                                 </x-inputs.select>
                                             </td>
                                             <td>
-                                                <x-inputs.select for="room_one_extraBed" icon="mail" required="true"
-                                                    class="" name="room_one_extraBed">
+                                                <select id="room_one_extraBed" icon="mail" required="true"
+                                                    class="form-select" name="room_one_extraBed">
 
-                                                    <option value="0">0</option>
-                                                    <option value="1">1</option>
+                                                    <option value="0">No</option>
+                                                    <option value="1">Yes</option>
 
-                                                </x-inputs.select>
+                                                </select>
                                             </td>
                                             <td>
-                                                ₹10800.00 / Night<br />
+                                                ₹<span id="room_one_rate"></span> / Night<br />
                                                 <small>Tax Inclusive</small>
                                             </td>
                                             <td class="text-right">
-                                                450000
+                                                <input type="hidden" id="room_one_price_input" name="room_one_price">
+                                                <input type="hidden" id="room_one_data" name="room_one_data">
+                                                ₹<span id="room_one_price"></span>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>
-                                                <x-inputs.select for="room_two_type" required="true" class=""
-                                                    placeholder="Select Type" name="room_two_type">
-
-                                                    <option value="1">Suit</option>
-
-                                                </x-inputs.select>
+                                                <select class="form-select roomType" id="room_two_type"  placeholder="Select Type" name="room_two_type">
+                                                    <option value="">Select Room</option>
+                                                </select>
                                             </td>
                                             <td>
                                                 <x-inputs.select for="room_two_adult" icon="mail" required="true"
@@ -167,20 +163,22 @@
                                                 </x-inputs.select>
                                             </td>
                                             <td>
-                                                <x-inputs.select for="room_two_extraBed" icon="mail" required="true"
-                                                    class="" name="room_two_extraBed">
+                                                <select id="room_two_extraBed" icon="mail" required="true"
+                                                class="form-select" name="room_two_extraBed">
 
-                                                    <option value="0">0</option>
-                                                    <option value="1">1</option>
+                                                <option value="0">No</option>
+                                                <option value="1">Yes</option>
 
-                                                </x-inputs.select>
+                                            </select>
                                             </td>
                                             <td>
-                                                ₹10800.00 / Night<br />
+                                                ₹<span id="room_two_rate"></span> / Night<br />
                                                 <small>Tax Inclusive</small>
                                             </td>
                                             <td class="text-right">
-                                                450000
+                                                <input type="hidden" id="room_two_price_input" name="room_two_price">
+                                                <input type="hidden" id="room_two_data" name="room_two_data">
+                                                ₹<span id="room_two_price"></span>
                                             </td>
                                         </tr>
                                     </table>
@@ -263,11 +261,149 @@
 
     <script type="text/javascript">
         $(document).ready(function() {
+            
+            $('#room_one_type').change(function(){
+                if($(this).val() != ""){
+                    var roomData = $('option:selected', this).attr('data-roomdata');
+                    $('#room_one_data').val(roomData);
+                    roomData = JSON.parse(roomData);
 
-            var distributorRole = "{{ \Config::get('constants.ROLES.SELLER') }}";
-            var retailerRole = "{{ \Config::get('constants.ROLES.BUYER') }}";
-            var dspRole = "{{ \Config::get('constants.ROLES.SP') }}";
+                    if(roomData.extra_bed_available){
+                        $('#room_one_extraBed').prop('disabled', false);
+                    }else{
+                        $('#room_one_extraBed').prop('disabled', true);
+                    }
+                    var rate = parseFloat(roomData.rate);
+                    rate = rate.toFixed(2);
+                    $('#room_one_rate').text(rate);
 
+                    var nights = getNights();
+                    var price = (parseFloat(roomData.rate)*nights);
+                    $('#room_one_price').text(price.toFixed(2));
+                    $('#room_one_price_input').val(price.toFixed(2));
+                }
+                
+            });
+
+            $('#room_one_extraBed').change(function(){
+                if($(this).val() != ""){
+                    var roomData = $('option:selected', '#room_one_type').attr('data-roomdata');
+                    roomData = JSON.parse(roomData);
+                    var price = 0;
+
+                    var nights = getNights();
+
+                    if($(this).val() == 1){
+                        price = ((parseFloat(roomData.rate)*nights)+parseFloat(roomData.extra_bed_rate));
+                    }else{
+                        price = (parseFloat(roomData.rate)*nights);
+                    }
+                    $('#room_one_price').text(price.toFixed(2));
+                    $('#room_one_price_input').val(price.toFixed(2));
+                }
+
+            });
+
+            $('#room_two_type').change(function(){
+                if($(this).val() != ""){
+                    var roomData = $('option:selected', this).attr('data-roomdata');
+                    $('#room_two_data').val(roomData);
+                    roomData = JSON.parse(roomData);
+
+                    if(roomData.extra_bed_available){
+                        $('#room_two_extraBed').prop('disabled', false);
+                    }else{
+                        $('#room_two_extraBed').prop('disabled', true);
+                    }
+                    var rate = parseFloat(roomData.rate);
+                    rate = rate.toFixed(2);
+                    $('#room_two_rate').text(rate);
+
+                    var nights = getNights();
+                    var price = (parseFloat(roomData.rate)*nights);
+                    $('#room_two_price').text(price.toFixed(2));
+                    $('#room_two_price_input').val(price.toFixed(2));
+                }
+                
+            });
+
+            $('#room_two_extraBed').change(function(){
+                if($(this).val() != ""){
+                    var roomData = $('option:selected', '#room_two_type').attr('data-roomdata');
+                    roomData = JSON.parse(roomData);
+                    var price = 0;
+
+                    var nights = getNights();
+
+                    if($(this).val() == 1){
+                        price = ((parseFloat(roomData.rate)*nights)+parseFloat(roomData.extra_bed_rate));
+                    }else{
+                        price = (parseFloat(roomData.rate)*nights);
+                    }
+                    $('#room_two_price').text(price.toFixed(2));
+                    $('#room_two_price_input').val(price.toFixed(2));
+                }
+
+            });
+
+            function getNights(){
+                var nights = 0;
+                var checkin_date = $('#checkin_date').val();
+                var checkout_date = $('#checkout_date').val();
+
+                if(checkin_date != "" && checkout_date != ""){
+                    var diffInMs   = new Date(checkout_date) - new Date(checkin_date)
+                    nights = diffInMs / (1000 * 60 * 60 * 24);
+                }
+
+                return nights;
+            }
+
+            $('.checkDate').change(function(){
+                var nights = getNights();
+                $('#room_one_type').trigger('change');
+                $('#room_two_type').trigger('change');
+            });
+
+
+            $('#hotel').change(function(){
+                var root_url = "<?php echo Request::root(); ?>";
+                    $.ajax({
+                        url: root_url + '/admin/hotel/hotel-rooms/'+$(this).val(),
+                        data: {
+                            
+                        },
+                        //dataType: "html",
+                        method: "GET",
+                        cache: false,
+                        success: function (response) {
+                            if(response.success){
+                                $('#room_one_price').text('');
+                                $('#room_one_price_input').val('');
+                                $('#room_two_price').text('');
+                                $('#room_two_price_input').val('');
+                                // $('#room_one_extraBed').val(0).trigger('change');
+                                // $('#room_two_extraBed').val(0).trigger('change');
+
+
+                                $('.roomType')
+                                    .find('option')
+                                    .remove()
+                                    .end()
+                                    .append('<option value="">Select Room</option>');
+
+                                $.each(response.hotelRooms, function(key, room) {   
+                                     $('.roomType')
+                                         .append($("<option></option>")
+                                                    .attr("value", room.id)
+                                                    .attr("data-roomData", JSON.stringify(room))
+                                                    .text(room.room_type_name)); 
+                                });
+
+                            }
+                        }
+                    });
+            });
 
             function addRoomDetails(container, value, room, isChild = false) {
                 $(container).html('')
@@ -321,12 +457,12 @@
 
             $("#room_two_adult").on("change", function() {
                 var value = $(this).val()
-                addRoomDetails('#cont_room_two_adult', value, 0)
+                addRoomDetails('#cont_room_two_adult', value, 1)
             });
 
             $("#room_two_child").on("change", function() {
                 var value = $(this).val()
-                addRoomDetails('#cont_room_two_child', value, 0, true)
+                addRoomDetails('#cont_room_two_child', value, 1, true)
             });
 
 
