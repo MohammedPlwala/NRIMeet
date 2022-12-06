@@ -470,6 +470,14 @@ class HotelController extends Controller
 
     public function bookingConfirmed(Request $request)
     {
+        Session::forget('cartData');
+        Session::forget('date_from');
+        Session::forget('date_to');
+        Session::forget('room_one_adult');
+        Session::forget('room_one_child');
+        Session::forget('room_two_adult');
+        Session::forget('room_two_child');   
+
         return view('frontend::thankyou');
     }
 
