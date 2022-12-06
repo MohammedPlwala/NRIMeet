@@ -30,7 +30,6 @@
             <div class="form-item large">
               {!! app('captcha')->display() !!}
             </div>
-
             <div class="form-button">	
               <button type="submit" class="primary-button md" name="mahakal_lok_darshan_form" id="mahakal_lok_darshan_form" value="Submit">Submit</button>
             </div>
