@@ -378,7 +378,6 @@ class UserController extends Controller
         $userPermission = \Session::get('userPermission');
 
         $authUser = \Auth::user();
-        $role = $authUser->getRoleNames()->toArray();
 
         $users = User::from('users as u')
                 ->select('u.id','u.name','u.email','u.file','u.status','u.phone_number','u.created_at','u.updated_at','r.name as role','r.label as roleName','u.created_by')
@@ -450,9 +449,8 @@ class UserController extends Controller
         $user = \Auth::user();
 
         $role = $user->getRoleNames()->toArray();
-        $getRoles = [\Config::get('constants.ROLES.CUSTOMER'),\Config::get('constants.ROLES.SUPERUSER'),\Config::get('constants.ROLES.SUPERUSER')];
 
-        $roles              =   Role::whereNotIn('name',$getRoles)
+        $roles              =   Role::where('name','!=','Guest')
                                 ->orderby('name','ASC')
                                 ->get();
 

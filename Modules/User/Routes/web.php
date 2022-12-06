@@ -11,7 +11,7 @@
 |
 */
 
-Route::prefix('user')->group(function() {
+Route::prefix('admin/user')->group(function() {
     Route::get('/set-organization', 'UserController@setOrganization');
     Route::post('/set-organization', 'UserController@setUserOrganization');
 
@@ -28,17 +28,6 @@ Route::prefix('user')->group(function() {
     Route::get('districts/{state_id}', 'UserController@districts');
     Route::get('remove-image/{user_image}', 'UserController@removeImage');
     Route::get('/import', 'UserController@import');
-    
-    Route::get('/activity-logs', 'UserController@activityLogs');
-    Route::get('/logs/{user_id}', 'UserController@logs');
-    Route::post('/update-user-password', 'UserController@updateUserPassword');
-
-    Route::get('/detail/{user_id}', 'UserController@show');
-    Route::get('/address/{user_id}', 'UserController@address');
-    Route::get('/address-details/{address_id}', 'UserController@addressDetails');
-    Route::post('/address/{user_id}', 'UserController@addressUpdate');
-    Route::get('/address/remove/{address_id}', 'UserController@removeAddress');
-    Route::post('/check-user', 'UserController@checkUser');
 
     Route::prefix('staff')->group(function() {
         Route::get('/', 'UserController@staffList');

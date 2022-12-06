@@ -57,10 +57,10 @@ $planApprovalRequired = \Session::get('planApprovalRequired');
                         </a>
                         <ul class="nk-menu-sub">
                             <li class="nk-menu-item">
-                                <a href="{{url('/user')}}" class="nk-menu-link"><span class="nk-menu-text">Buyers</span></a>
+                                <a href="{{url('/admin/user')}}" class="nk-menu-link"><span class="nk-menu-text">Guests</span></a>
                             </li>
                             <li class="nk-menu-item">
-                                <a href="{{url('/user/staff')}}" class="nk-menu-link"><span class="nk-menu-text">Staff</span></a>
+                                <a href="{{url('/admin/user/staff')}}" class="nk-menu-link"><span class="nk-menu-text">Staff</span></a>
                             </li>
                         </ul>
                     </li>

@@ -22,7 +22,7 @@
                                 </a>
                             </li>
                             <li class="nk-block-tools-opt">
-                                <a href="{{url('/user/create')}}" class="btn btn-primary d-none d-md-inline-flex"><em class="icon ni ni-plus"></em><span>Add Guest</span></a>
+                                <a href="{{ url('/admin/user/create') }}" class="btn btn-primary d-none d-md-inline-flex"><em class="icon ni ni-plus"></em><span>Add Guest</span></a>
                             </li>
                         </ul>
                     </div>
