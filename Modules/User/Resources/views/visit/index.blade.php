@@ -8,7 +8,7 @@
         <div class="nk-block-between">
             <div class="nk-block-head-content">
                 <h3 class="nk-block-title page-title">Guest</h3>
-                <p>You have total <span class="record_count">{{ $usersCount }}</span> Guest.</p>
+                <p>You have total <span class="record_count">{{ $visitersCount }}</span> Visiters.</p>
             </div><!-- .nk-block-head-content -->
             <div class="nk-block-head-content">
                 <div class="toggle-wrap nk-block-tools-toggle">
@@ -47,7 +47,7 @@
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Name</span></th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Email</span></th>
                         <th class="nk-tb-col tb-col-md"><span class="sub-text">Contact Number</span></th>
-                        <th class="nk-tb-col tb-col-md w-1 text-center" nowrap="true"><span class="sub-text">Status</span></th>
+                        <th class="nk-tb-col tb-col-md w-1 text-center" nowrap="true"><span class="sub-text">Registration Number</span></th>
                         <th class="nk-tb-col tb-col-md w-1" nowrap="true"><span class="sub-text">Created At</span></th>
                         <th class="nk-tb-col nk-tb-col-tools text-right w-1" nowrap="true">
                             <span class="sub-text">Action</span>
@@ -162,7 +162,7 @@
                 serverSide: true,
                 ajax: {
                     type:"GET",
-                    url: "{{ url('admin/user') }}",
+                    url: "{{ url('admin/mahankal-lok-darshan') }}",
                 },
                 columns: [{
                         "class": "nk-tb-col tb-col-lg nk-tb-col-check",
@@ -176,7 +176,7 @@
                     },
                     {
                         "class": "nk-tb-col tb-col-lg",
-                        data: 'full_name',
+                        data: 'name',
                         name: 'name'
                     },
                     {
@@ -191,8 +191,8 @@
                     },
                     {
                         "class": "nk-tb-col tb-col-lg text-center",
-                        data: 'status',
-                        name: 'status'
+                        data: 'registration_number',
+                        name: 'registration_number'
                     },
                     {
                         "class": "nk-tb-col tb-col-lg",
