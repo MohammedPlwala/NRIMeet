@@ -11,8 +11,9 @@ $organization_type = \Session::get('organization_type');
             </div><!-- .nk-block-head-content -->
         </div><!-- .nk-block-between -->
     </div><!-- .nk-block-head -->
-    <form role="form" method="post" enctype="multipart/form-data"  >
+    <form role="form" method="post" action="{{ url('admin/user/add') }}" enctype="multipart/form-data"  >
         @csrf
+        <input type="hidden" name="role_id" value="{{$roleId->id}}">
         <div class="nk-block">
             <div class="card card-bordered sp-plan">
                 <div class="row no-gutters">
@@ -31,7 +32,7 @@ $organization_type = \Session::get('organization_type');
                                     <x-inputs.verticalFormLabel label="Full Name" for="FullName" suggestion="Specify the full name of the user." required="true" />
                                 </div>
                                 <div class="col-lg-7">
-                                    <x-inputs.text  value="{{ isset($user) ? $user->name : old('fullname') }}" for="FullName" icon="user" placeholder="First name" name="fullname" required="true" />
+                                    <x-inputs.text  value="{{ isset($user) ? $user->full_name : old('fullname') }}" for="FullName" icon="user" placeholder="First name" name="fullname" required="true" />
                                     @if ($errors->has('fullname'))
                                         <span class="text-danger">{{ $errors->first('fullname') }}</span>
                                     @endif
@@ -53,8 +54,7 @@ $organization_type = \Session::get('organization_type');
                                     <x-inputs.verticalFormLabel label="Mobile Number" for="mobile" suggestion="Specify the mobile number of the user." required="true" />
                                 </div>
                                 <div class="col-lg-7">
-                                    <x-inputs.text value="{{ isset($user) ? $user->phone_number : old('mobile') }}" for="mobile" class="" icon="call" required="true" placeholder="Mobile Number" name="mobile" 
-                                    data-parsley-pattern="{{ \Config::get('constants.REGEX.VALIDATE_MOBILE_NUMBER_LENGTH') }}"
+                                    <x-inputs.text value="{{ isset($user) ? $user->mobile : old('mobile') }}" for="mobile" class="" icon="call" required="true" placeholder="Mobile Number" name="mobile"
                                     />
                                     @if ($errors->has('mobile'))
                                         <span class="text-danger">{{ $errors->first('mobile') }}</span>
@@ -69,7 +69,7 @@ $organization_type = \Session::get('organization_type');
                                     <x-inputs.verticalFormLabel label="Date of birth" for="date_of_birth" suggestion="Specify the date of birth." required="true" />
                                 </div>
                                 <div class="col-lg-7">
-                                    <x-inputs.text value="{{ isset($user) ? $user->phone_number : old('date_of_birth') }}" for="date_of_birth" class="date-picker" icon="calender-date-fill" required="true" placeholder="Date of birth" name="date_of_birth" 
+                                    <x-inputs.text value="{{ isset($user) ? $user->date_of_birth : old('date_of_birth') }}" for="date_of_birth" class="date-picker" icon="calender-date-fill" required="true" placeholder="Date of birth" name="date_of_birth" 
                                     />
                                     @if ($errors->has('date_of_birth'))
                                         <span class="text-danger">{{ $errors->first('date_of_birth') }}</span>
@@ -100,7 +100,7 @@ $organization_type = \Session::get('organization_type');
                                     <x-inputs.verticalFormLabel label="Country" for="country" suggestion="Specify the country name." required="true" />
                                 </div>
                                 <div class="col-lg-7">
-                                    <x-inputs.text value="{{ isset($user) ? $user->phone_number : old('country') }}" for="country" class="" icon="globe" required="true" placeholder="Country" name="country" 
+                                    <x-inputs.text value="{{ isset($user) ? $user->country : old('country') }}" for="country" class="" icon="globe" required="true" placeholder="Country" name="country" 
                                     />
                                     @if ($errors->has('country'))
                                         <span class="text-danger">{{ $errors->first('country') }}</span>
@@ -113,7 +113,7 @@ $organization_type = \Session::get('organization_type');
                                     <x-inputs.verticalFormLabel label="Nationality" for="nationality" suggestion="Specify the nationality." required="true" />
                                 </div>
                                 <div class="col-lg-7">
-                                    <x-inputs.text value="{{ isset($user) ? $user->phone_number : old('nationality') }}" for="nationality" class="" icon="globe" required="true" placeholder="Nationality" name="nationality" 
+                                    <x-inputs.text value="{{ isset($user) ? $user->nationality : old('nationality') }}" for="nationality" class="" icon="globe" required="true" placeholder="Nationality" name="nationality" 
                                     />
                                     @if ($errors->has('nationality'))
                                         <span class="text-danger">{{ $errors->first('nationality') }}</span>
@@ -126,7 +126,7 @@ $organization_type = \Session::get('organization_type');
                                     <x-inputs.verticalFormLabel label="Address" for="address" suggestion="Specify the address." required="true" />
                                 </div>
                                 <div class="col-lg-7">
-                                    <x-inputs.textarea value="{{ isset($user) ? $user->phone_number : old('address') }}" for="address" class="" icon="map-pin-fill" required="true" placeholder="Address" name="address" 
+                                    <x-inputs.textarea value="{{ isset($user) ? $user->address : old('address') }}" for="address" class="" icon="map-pin-fill" required="true" placeholder="Address" name="address" 
                                     />
                                     @if ($errors->has('address'))
                                         <span class="text-danger">{{ $errors->first('address') }}</span>
@@ -139,7 +139,7 @@ $organization_type = \Session::get('organization_type');
                                     <x-inputs.verticalFormLabel label="ZIP" for="zip" suggestion="Specify the zip code." required="true" />
                                 </div>
                                 <div class="col-lg-7">
-                                    <x-inputs.number value="{{ isset($user) ? $user->phone_number : old('zip') }}" for="zip" class="" icon="location" required="true" placeholder="ZIP" name="zip" 
+                                    <x-inputs.number value="{{ isset($user) ? $user->zip : old('zip') }}" for="zip" class="" icon="location" required="true" placeholder="ZIP" name="zip" 
                                     />
                                     @if ($errors->has('zip'))
                                         <span class="text-danger">{{ $errors->first('zip') }}</span>
@@ -152,7 +152,7 @@ $organization_type = \Session::get('organization_type');
                                     <x-inputs.verticalFormLabel label="Identity Type" for="identity_type" suggestion="Specify the identity type." required="true" />
                                 </div>
                                 <div class="col-lg-7">
-                                    <x-inputs.text value="{{ isset($user) ? $user->phone_number : old('identity_type') }}" for="identity_type" class="" icon="user-fill-c" required="true" placeholder="Identity Type" name="identity_type" 
+                                    <x-inputs.text value="{{ isset($user) ? $user->identity_type : old('identity_type') }}" for="identity_type" class="" icon="user-fill-c" required="true" placeholder="Identity Type" name="identity_type" 
                                     />
                                     @if ($errors->has('identity_type'))
                                         <span class="text-danger">{{ $errors->first('identity_type') }}</span>
@@ -165,57 +165,13 @@ $organization_type = \Session::get('organization_type');
                                     <x-inputs.verticalFormLabel label="Identity Number" for="identity_number" suggestion="Specify the identity number." required="true" />
                                 </div>
                                 <div class="col-lg-7">
-                                    <x-inputs.text value="{{ isset($user) ? $user->phone_number : old('identity_number') }}" for="identity_number" class="" icon="user-fill-c" required="true" placeholder="Identity Number" name="identity_number" 
+                                    <x-inputs.text value="{{ isset($user) ? $user->identity_number : old('identity_number') }}" for="identity_number" class="" icon="user-fill-c" required="true" placeholder="Identity Number" name="identity_number" 
                                     />
                                     @if ($errors->has('identity_number'))
                                         <span class="text-danger">{{ $errors->first('identity_number') }}</span>
                                     @endif
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div><!-- .nk-block -->
-       
-       
-        <div class="nk-block userFoundBox">
-            <div class="card card-bordered sp-plan">
-                <div class="row no-gutters">
-                    <div class="col-md-3">
-                        <div class="sp-plan-action card-inner">
-                            <div class="icon">
-                                <em class="icon ni ni-lock fs-36px o-5"></em>
-                                <h5 class="o-5">Security</h5>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-9">
-                        <div class="sp-plan-info card-inner">
-                            
-                            <div class="row g-3 align-center">
-                                <div class="col-lg-5">
-                                    <x-inputs.verticalFormLabel label="Password" for="password" suggestion="Specify the password of the user." required="true" />
-                                </div>
-                                <div class="col-lg-7">
-                                    <x-inputs.password value="" for="password" required="true" icon="lock" placeholder="Password" name="password" class="userFoundInput"/>
-                                    @if ($errors->has('password'))
-                                        <span class="text-danger custom-error-text">{{ $errors->first('password') }}</span>
-                                    @endif
-                                </div>
-                            </div>
-                            <div class="row g-3 align-center">
-                                <div class="col-lg-5">
-                                    <x-inputs.verticalFormLabel label="Confirm Password" for="password_confirmation" suggestion="Specify the confirm password of the user." required="true" />
-                                </div>
-                                <div class="col-lg-7">
-                                    <x-inputs.password value="" for="password_confirmation" icon="lock" placeholder="Confirm password" name="password_confirmation" class="userFoundInput"/>
-                                    @if ($errors->has('password_confirmation'))
-                                        <span class="text-danger custom-error-text">{{ $errors->first('password_confirmation') }}</span>
-                                    @endif
-                                </div>
-                            </div>
-                            
                         </div>
                     </div>
                 </div>
@@ -242,13 +198,13 @@ $organization_type = \Session::get('organization_type');
                                 <div class="col-lg-7">
 
                                     @php
-                                        if(isset($user) && $user->status){
+                                        if(isset($user) && $user->status=='active'){
                                             $checked = 'checked';
                                         }else{
                                             $checked = '';
                                         }
                                     @endphp
-                                    <x-inputs.switch for="approved" size="md" name="approved" checked={{$checked}}/>
+                                    <x-inputs.switch for="status" size="md" name="status" checked={{$checked}}/>
                                     @if ($errors->has('approved'))
                                         <span class="text-danger">{{ $errors->first('approved') }}</span>
                                     @endif

@@ -162,7 +162,7 @@
                 serverSide: true,
                 ajax: {
                     type:"GET",
-                    url: "{{ url('user') }}",
+                    url: "{{ url('admin/user') }}",
                 },
                 columns: [{
                         "class": "nk-tb-col tb-col-lg nk-tb-col-check",
@@ -176,7 +176,7 @@
                     },
                     {
                         "class": "nk-tb-col tb-col-lg",
-                        data: 'name',
+                        data: 'full_name',
                         name: 'name'
                     },
                     {
@@ -186,7 +186,7 @@
                     },
                     {
                         "class": "nk-tb-col tb-col-lg",
-                        data: 'phone_number',
+                        data: 'mobile',
                         name: 'phone_number'
                     },
                     {

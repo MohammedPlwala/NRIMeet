@@ -1,5 +1,5 @@
 <?php
-namespace Modules\Hotel\Entities;
+namespace Modules\User\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 use Auth;

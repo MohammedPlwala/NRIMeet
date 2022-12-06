@@ -21,13 +21,13 @@ Route::prefix('admin/user')->group(function() {
     Route::post('/create', 'UserController@store');
     Route::post('/bulk-update', 'UserController@bulkUpdate');
     Route::post('/bulk-approve', 'UserController@bulkApprove');
-    Route::get('/edit/{user_id}', 'UserController@edit');
-    Route::post('/edit/{user_id}', 'UserController@update');
+    Route::get('/edit/{id}', 'UserController@editGuest');
     Route::get('/delete/{user_id}', 'UserController@destroy');
     Route::get('cities/{district_id}', 'UserController@cities');
     Route::get('districts/{state_id}', 'UserController@districts');
     Route::get('remove-image/{user_image}', 'UserController@removeImage');
     Route::get('/import', 'UserController@import');
+    Route::post('/add', 'UserController@storeGuest');
 
     Route::prefix('staff')->group(function() {
         Route::get('/', 'UserController@staffList');

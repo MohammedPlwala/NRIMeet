@@ -15,6 +15,7 @@ use DataTables;
 use Modules\User\Entities\ModelRole;
 use Modules\Ecommerce\Entities\Brand;
 use Maatwebsite\Excel\HeadingRowImport;
+use Yajra\Datatables\DatatablesServiceProvider;
 
 use App\Models\Audit;
 use Modules\Administration\Entities\NotificationTemplate;
@@ -54,7 +55,7 @@ class UserController extends Controller
 
 
         $data = User::from('users as u')
-                ->select('u.id','u.full_name','u.email','u.mobile','u.created_at','u.updated_at')
+                ->select('u.id','u.full_name','u.email','u.mobile','u.status','u.created_at','u.updated_at')
                 
                 ->where(function ($query) use ($request) {
                     if (!empty($request->toArray())) {
@@ -86,7 +87,7 @@ class UserController extends Controller
         }
 
         if ($request->ajax()) {
-            return Datatables::of($data)
+            return DataTables::of($data)
                     ->addIndexColumn()
                     ->addColumn('name', function($row) use ($userPermission){
                             $detailLink = '#';
@@ -119,13 +120,13 @@ class UserController extends Controller
                             return $name;
                     })
                     ->addColumn('status', function ($row) {
-                        if($row->status == 1){
+                        if($row->status == 'active'){
                             $statusValue = 'Active';
                         }else{
                             $statusValue = 'Inactive';
                         }
 
-                        $value = ($row->status == '1') ? 'badge badge-success' : 'badge badge-danger';
+                        $value = ($row->status == 'active') ? 'badge badge-success' : 'badge badge-danger';
                         $status = '
                             <span class="tb-sub">
                                 <span class="'.$value.'">
@@ -136,16 +137,16 @@ class UserController extends Controller
                         return $status;
                     })
                     ->addColumn('action', function($row) use ($userPermission){
-                           $edit = url('/').'/user/edit/'.$row->id;
-                           $delete = url('/').'/user/delete/'.$row->id;
+                           $edit = url('/').'/admin/user/edit/'.$row->id;
+                           $delete = url('/').'/admin/user/delete/'.$row->id;
                            $confirm = '"Are you sure, you want to delete it?"';
 
-                            // $editBtn = "<li>
-                            //             <a href='".$edit."'>
-                            //                 <em class='icon ni ni-edit'></em> <span>Edit</span>
-                            //             </a>
-                            //         </li>";
-                           $editBtn = "";
+                            $editBtn = "<li>
+                                        <a href='".$edit."'>
+                                            <em class='icon ni ni-edit'></em> <span>Edit</span>
+                                        </a>
+                                    </li>";
+                           // $editBtn = "";
                             
                             $deleteBtn = "<li>
                                         <a href='".$delete."' onclick='return confirm(".$confirm.")'  class='delete'>
@@ -155,7 +156,8 @@ class UserController extends Controller
 
                             $logbtn = '<li><a href="#" data-resourceId="'.$row->id.'" class="audit_logs"><em class="icon ni ni-list"></em> <span>Audit Logs</span></a></li>';
 
-                            $changePassword = '<li><a href="#" data-resourceId="'.$row->id.'" class="changePassword"><em class="icon ni ni-lock-alt"></em> <span>Update Password</span></a></li>';
+                            // $changePassword = '<li><a href="#" data-resourceId="'.$row->id.'" class="changePassword"><em class="icon ni ni-lock-alt"></em> <span>Update Password</span></a></li>';
+                            $changePassword = '';
 
                             $btn = '';
                             $btn .= '<ul class="nk-tb-actio ns gx-1">
@@ -178,7 +180,7 @@ class UserController extends Controller
                         return $btn;
                     })
                     ->addColumn('created_at', function ($row) {
-                        return date(\Config::get('constants.DATE.DATE_FORMAT') , strtotime($row->created_at));
+                        return date('d-m-Y H:i:s' , strtotime($row->created_at));
                     })
                     ->rawColumns(['action','created_at','name','updated_at','status',])
                     ->make(true);
@@ -380,21 +382,15 @@ class UserController extends Controller
         $authUser = \Auth::user();
 
         $users = User::from('users as u')
-                ->select('u.id','u.name','u.email','u.file','u.status','u.phone_number','u.created_at','u.updated_at','r.name as role','r.label as roleName','u.created_by')
-                ->leftJoin('model_has_roles as mr','mr.model_id','=','u.id')
-                ->leftJoin('roles as r','mr.role_id','=','r.id')
-                ->whereNotIn('r.name',[\Config::get('constants.ROLES.CUSTOMER'),\Config::get('constants.ROLES.SUPERUSER'),\Config::get('constants.ROLES.SUPERUSER')])
+                ->select('u.id','u.full_name','u.email','u.status','u.mobile','u.created_at','u.updated_at')
                 ->where('u.id','!=',$authUser->id)
                 ->where(function ($query) use ($request) {
                     if (!empty($request->toArray())) {
                         if ($request->get('firstname') != '') {
-                            $query->where('u.name', $request->get('firstname'));
+                            $query->where('u.full_name', $request->get('firstname'));
                         }
                         if ($request->get('mobileNumber') != '') {
-                            $query->where('u.phone_number', $request->get('mobileNumber'));
-                        }
-                        if ($request->get('role') != '') {
-                            $query->where('r.name', $request->get('role'));
+                            $query->where('u.mobile', $request->get('mobileNumber'));
                         }
                         if((isset($request->fromDate) && isset($request->toDate))) {
                             $dateFrom =  date('Y-m-d',strtotime($request->fromDate));
@@ -421,7 +417,7 @@ class UserController extends Controller
         $filterRequests = $request->all();
 
         $authUser = \Auth::user();
-        $roles              =   Role::whereNotIn('name',[\Config::get('constants.ROLES.CUSTOMER'),\Config::get('constants.ROLES.SELLER'),\Config::get('constants.ROLES.SUPERUSER')])
+        $roles  =   Role::whereNotIn('name',[\Config::get('constants.ROLES.CUSTOMER'),\Config::get('constants.ROLES.SELLER'),\Config::get('constants.ROLES.SUPERUSER')])
                                 ->get();
         return view('user::staff/index')->with(compact('usersCount','roles','users','filterRequests'));
     }
@@ -436,8 +432,85 @@ class UserController extends Controller
     {
 
         $user = \Auth::user();
+        $roleId = Role::where('name','Guest')
+                    ->first('id');
+        return view('user::create', compact('roleId'));
+    }
+
+    public function storeGuest(Request $request)
+    {
+        if(isset($request->userId)){
+            $user = User::findorfail($request->userId);
+            $msg = "User updated successfully";
+        }else{
+            $user = new User();
+            $msg = "User added successfully";
+        }
+
+        $user->full_name = $request->fullname;
+        $user->email  = $request->email;
+        $user->mobile = $request->mobile;
+        $user->date_of_birth = date('Y-m-d', strtotime($request->date_of_birth));
+        $user->password = \Hash::make('NriMeet@123');
+        $user->address = $request->address;
+        $user->nationality = $request->nationality;
+        $user->country = $request->country;
+        $user->zip = $request->zip;
+        $user->identity_type = $request->identity_type;
+        $user->identity_number  = $request->identity_number;
+        if(isset($request->status)){
+            $user->status = $request->status;
+        }else{
+            $user->status = 'inactive';
+        }
+        
+        if($user->save()){
+            return redirect('/admin/user')->with('message', $msg);
+        }else{
+            return redirect('/admin/user/create')->with('error', 'Something went wrong');
+        }
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     * @param int $id
+     * @return Renderable
+     */
+    public function editGuest($id)
+    {
+        try {
+            $authUser = \Auth::user();
+            $user = User::where('id',$id)
+                    ->first();
+            $user->date_of_birth = date('m/d/Y', strtotime($user->date_of_birth));
+
+            $roleId = Role::where('name','Guest')
+                    ->first('id');
+
+            return view('user::create',compact('roleId','user'));
+
+        } catch (Exception $e) {
+            return redirect('admin/user')->with('error', $exception->getMessage());           
+        }
+
 
         return view('user::create');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     * @param int $id
+     * @return Renderable
+     */
+    public function destroy($id)
+    {
+
+        $user = User::findorfail($id);
+        if($user->forceDelete()){
+            return redirect('admin/user')->with('message', 'Guest deleted successfully');
+        }else{
+            return redirect('admin/user')->with('error', 'Somthing went wrong');
+        }
     }
 
     /**
@@ -450,9 +523,9 @@ class UserController extends Controller
 
         $role = $user->getRoleNames()->toArray();
 
-        $roles              =   Role::where('name','!=','Guest')
-                                ->orderby('name','ASC')
-                                ->get();
+        $roles = Role::where('name','!=','Guest')
+                    ->orderby('name','ASC')
+                    ->get();
 
         return view('user::staff/create',['roles' => $roles]);
     }
