@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('admin.layouts.app')
 
 @section('content')
 @php
@@ -42,7 +42,7 @@
                         {{-- @if(isset($userPermission['staff']) && ($userPermission['staff']['edit_all'] || $userPermission['staff']['edit_own'])) --}}
                         <li class="nk-block-tools-opt">
                             <a href="{{url('/user/staff/create-staff')}}" class="btn btn-icon btn-primary d-md-none"><em class="icon ni ni-plus"></em></a>
-                            <a href="{{url('/user/staff/create-staff')}}" class="btn btn-primary d-none d-md-inline-flex"><em class="icon ni ni-plus"></em><span>Add User</span></a>
+                            <a href="{{url('admin/user/staff/create-staff')}}" class="btn btn-primary d-none d-md-inline-flex"><em class="icon ni ni-plus"></em><span>Add User</span></a>
                         </li>
                         {{-- @endif --}}
                     </ul>
@@ -70,10 +70,10 @@
                                     <a href="#" class="dropdown-toggle btn btn-sm btn-icon btn-trigger" data-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
                                     <div class="dropdown-menu dropdown-menu-right">
                                         <ul class="link-list-opt no-bdr">
-                                            <li><a href="{{ url('/').'/user/staff/edit-staff/'.$user->id }}"><em class="icon ni ni-edit"></em><span>Edit</span></a></li>
-                                            <li><a href="{{ url('/').'/user/staff/delete-staff/'.$user->id }}" onclick='return confirm("Are you sure, you want to delete this user?")'  class='delete'><em class="icon ni ni-trash"></em><span>Delete</span></a></li>
+                                            <li><a href="{{ url('/').'/admin/user/staff/edit-staff/'.$user->id }}"><em class="icon ni ni-edit"></em><span>Edit</span></a></li>
+                                            <li><a href="{{ url('/').'/admin/user/staff/delete-staff/'.$user->id }}" onclick='return confirm("Are you sure, you want to delete this user?")'  class='delete'><em class="icon ni ni-trash"></em><span>Delete</span></a></li>
                                             {{-- <li><a href="#" data-resourceId="{{ $user->id }}" class="audit_logs"><em class="icon ni ni-list"></em><span>Audit Logs</span></a></li> --}}
-                                            <li><a href="#" data-resourceId="{{ $user->id }}" class="changePassword"><em class="icon ni ni-lock-alt"></em><span>Update Password</span></a></li>
+                                            <!-- <li><a href="#" data-resourceId="{{ $user->id }}" class="changePassword"><em class="icon ni ni-lock-alt"></em><span>Update Password</span></a></li> -->
                                         </ul>
                                     </div>
                                 </div>
@@ -109,11 +109,11 @@
                             </div>
                             <ul class="team-statistics pb-0">
                                 <li><span>{{ ucfirst($user->roleName) }}</span><span>Role</span></li>
-                                <li><span>{{ $user->phone_number }}</span><span>Contact</span></li>
+                                <li><span>{{ $user->mobile }}</span><span>Contact</span></li>
                             </ul>
                             <ul class="team-info">
-                                <li><span>Created At</span><span>{{ date(\Config::get('constants.DATE.DATE_FORMAT') , strtotime($user->created_at)) }}</span></li>
-                                <li><span>Updated At</span><span>{{ date(\Config::get('constants.DATE.DATE_FORMAT') , strtotime($user->updated_at)) }}</span></li>
+                                <li><span>Created At</span><span>{{ date('d-m-Y H:i:s' , strtotime($user->created_at)) }}</span></li>
+                                <li><span>Updated At</span><span>{{ date('d-m-Y H:i:s' , strtotime($user->updated_at)) }}</span></li>
                             </ul>
                             <div class="team-view">
                                 {{-- <a href="{{ url('user/staff/staff-detail/'.$user->id) }}" class="btn btn-round btn-outline-light w-150px"><span>View Profile</span></a> --}}

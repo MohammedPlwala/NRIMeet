@@ -23,7 +23,7 @@
 
 
                            <li class="nk-block-tools-opt">
-                                <a href="{{url('/admin/hotel/update')}}" class="btn btn-primary d-none d-md-inline-flex"><em class="icon ni ni-plus"></em><span>Add Hotel</span></a>
+                                <a href="{{url('/admin/bookings/add')}}" class="btn btn-primary d-none d-md-inline-flex"><em class="icon ni ni-plus"></em><span>Add Bookings</span></a>
                             </li>
                         </ul>
                     </div>

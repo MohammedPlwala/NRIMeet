@@ -4,7 +4,7 @@ namespace Modules\User\Entities;
 use Illuminate\Database\Eloquent\Model;
 use Auth;
 
-class Role extends Model
+class Visit extends Model
 {
-	protected $table = 'roles';
+	protected $table = 'darshan_registration';
 }
