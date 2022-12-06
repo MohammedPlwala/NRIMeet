@@ -53,6 +53,21 @@ $planApprovalRequired = \Session::get('planApprovalRequired');
                     <li class="nk-menu-item has-sub">
                         <a href="#" class="nk-menu-link nk-menu-toggle">
                             <span class="nk-menu-icon"><em class="icon ni ni-users-fill"></em></span>
+                            <span class="nk-menu-text">Bookings</span>
+                        </a>
+                        <ul class="nk-menu-sub">
+                            <li class="nk-menu-item">
+                                <a href="{{url('/admin/bookings')}}" class="nk-menu-link"><span class="nk-menu-text">Manage</span></a>
+                            </li>
+                            <li class="nk-menu-item">
+                                <a href="#" class="nk-menu-link"><span class="nk-menu-text">Bulk Booking</span></a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="nk-menu-item has-sub">
+                        <a href="#" class="nk-menu-link nk-menu-toggle">
+                            <span class="nk-menu-icon"><em class="icon ni ni-users-fill"></em></span>
                             <span class="nk-menu-text">User Management</span>
                         </a>
                         <ul class="nk-menu-sub">

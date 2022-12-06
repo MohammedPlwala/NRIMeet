@@ -28,8 +28,10 @@ Route::prefix('admin')->group(function() {
             Route::get('/edit/{room_id}', 'HotelController@roomEdit');
             Route::get('/delete/{room_id}', 'HotelController@destroyRoom');
         });
-
-        Route::get('/booking', 'HotelController@booking');
-
+    });
+    
+    Route::prefix('bookings')->group(function() {
+        Route::get('/', 'HotelController@bookingList');
+        Route::get('/add', 'HotelController@createBooking');
     });
 });

@@ -9,8 +9,8 @@ use Illuminate\Routing\Controller;
 use Modules\Hotel\Entities\RoomType;
 use Modules\Hotel\Entities\Hotel;
 use Modules\Hotel\Entities\HotelRoom;
+use App\Models\User;
 
-// use Modules\user\Entities\User;
 use DataTables;
 
 class HotelController extends Controller
@@ -432,14 +432,26 @@ class HotelController extends Controller
      * @param int $id
      * @return Renderable
      */
-    public function booking()
+    public function bookingList(){
+        return view('hotel::bookingList');
+    }
+
+
+    public function createBooking()
     {
+
+        $users = User::select('id')->get();
+        foreach ($variable as $key => $value) {
+            $users
+        }
+
+
         $hotels = Hotel::where('status','active')->get();
+        
         $roomTypes = RoomType::where('status','active')->get();
-        // $guests = User::where('status','active')->get();
-        return view('hotel::booking',['hotels' => $hotels,'roomTypes' => $roomTypes, 
-        // 'guests' => $guests
-    ]);
+
+        $guests = User::where('status','active')->get();
+        return view('hotel::booking',['hotels' => $hotels,'roomTypes' => $roomTypes]);
         
     }
 
