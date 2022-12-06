@@ -24,12 +24,13 @@ Route::group(['middleware' => 'auth:web'], function(){
 	Route::get('payment', 'HotelController@payment');
 	Route::get('thankyou', 'HotelController@bookingConfirmed');
 	Route::post('darshan-registration', 'FrontendController@store');
+Route::get('my-bookings', 'HotelController@myBookings');
+
 });
 
 
 Route::get('booking', 'FrontendController@booking');
 Route::get('mahakal-lok-darshan', 'FrontendController@mahakalLokDarshan');
-Route::get('user-my-booking', 'FrontendController@myBookings');
 Route::get('contact-us', 'FrontendController@contactUs');
 Route::get('about-us', 'FrontendController@about');
 Route::get('privacy-policy', 'FrontendController@privacyPolicy');

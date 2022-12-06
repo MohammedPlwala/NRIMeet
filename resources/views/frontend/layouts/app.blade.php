@@ -59,7 +59,7 @@
                         <a href="{{ url('/mahakal-lok-darshan') }}">Mahakal Lok Darshan</a>
                     </li>
                     <li>
-                        <a href="{{ url('/user-my-booking') }}">My Bookings</a>
+                        <a href="{{ url('/my-booking') }}">My Bookings</a>
                     </li>
                     <li>
                         <a href="{{ url('/contact-us') }}">Contact Us</a>
