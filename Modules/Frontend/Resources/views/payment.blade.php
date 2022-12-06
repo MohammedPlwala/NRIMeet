@@ -131,7 +131,7 @@
                             {{-- data-amount="{{ $bookingData['amount']*100 }}" --}}
                             data-amount="{{ $bookingData['amount'] }}"
                             data-buttontext=""
-                            data-name="ItSolutionStuff.com"
+                            data-name="NRI MEET"
                             data-description="PBD NRI MEET"
                             data-image="https://www.itsolutionstuff.com/frontTheme/images/logo.png"
                             data-prefill.name="name"
