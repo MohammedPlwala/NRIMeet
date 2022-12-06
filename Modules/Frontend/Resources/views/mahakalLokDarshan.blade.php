@@ -16,9 +16,15 @@
       
       <div class="ujjain">
         <h3 class="heading3">Registration</h3>
+        @if(session()->has('message'))
+            <div class="alert alert-success">
+                {{ session()->get('message') }}
+            </div>
+        @endif
+
         <div class="custom-form">
           {!! NoCaptcha::renderJs() !!}
-          <form action="/mahakal-lok-darshan/#" method="post" autocomplete="off">
+          <form action="{{url('/darshan-registration')}}" method="post" enctype="multipart/form-data" autocomplete="off">
             @csrf
             <div class="grid grid-cols-1 md:grid-cols-2 md:gap-x-4 md:gap-y-2 gap-2">
               <div class="form-item large">
@@ -38,15 +44,15 @@
               </div>
               <div class="form-item large">
                 <label class="form-label">PBD Registration No: <span class="required" title="required">*</span></label>
-                <input type="text" name="text-968" value="" size="40" placeholder="PBD Registration No" required />
+                <input type="text" name="registration_number" value="" size="40" placeholder="PBD Registration No" required />
               </div>
               <div class="form-item large">
                 <label class="form-label">Country of Residence <span class="required" title="required">*</span></label>
-                <input type="text" name="text-948" value="" size="40" placeholder="Country of Residence" required />
+                <input type="text" name="country" value="" size="40" placeholder="Country of Residence" required />
               </div>
               <div class="form-item large">
                 <label class="form-label">Total number of members <span class="required" title="required">*</span></label>
-                <input type="tel" name="tel-485" value="" size="40" placeholder="Total number of members" required />
+                <input type="tel" name="members" value="" size="40" placeholder="Total number of members" required />
               </div>
             </div>
 
@@ -56,7 +62,7 @@
                 Details can be upload in (JPG | JPEG | PDF | Excel | MS Word)<br>
                 Maximum Size: 5MB<br>
                 </label> 
-                <input type="file" name="file-0" size="40" accept=".jpg,.jpeg,.pdf,.excel,.msword" />
+                <input type="file" name="file" size="40" accept=".jpg,.jpeg,.pdf,.excel,.msword" />
               </div>
             </div>
 
@@ -68,7 +74,7 @@
                   <div class="time_select">
                     <label class="form-label">Select Departure From Indore </label>
                     <span class="wpcf7-form-control-wrap" data-name="menu-998">
-                        <select name="menu-998" class="wpcf7-form-control wpcf7-select wpcf7-validates-as-required" aria-required="true" aria-invalid="false">
+                        <select name="departure_from_indore" class="wpcf7-form-control wpcf7-select wpcf7-validates-as-required" aria-required="true" aria-invalid="false">
                           <option value="01:30 AM BHASMARTI">01:30 AM BHASMARTI</option>
                           <option value="07:00 AM">07:00 AM</option>
                           <option value="08:00 AM">08:00 AM</option>
@@ -89,7 +95,7 @@
                   <div class="time_select">
                     <label class="form-label">Select Departure From Ujjain   </label>
                     <span class="wpcf7-form-control-wrap" data-name="menu-573">
-                        <select name="menu-573" class="wpcf7-form-control wpcf7-select wpcf7-validates-as-required" aria-required="true" aria-invalid="false">
+                        <select name="departure_from_ujjain" class="wpcf7-form-control wpcf7-select wpcf7-validates-as-required" aria-required="true" aria-invalid="false">
                           <option value="06:30 AM">06:30 AM</option>
                           <option value="11:00 AM">11:00 AM</option>
                           <option value="12:00 PM">12:00 PM</option>
