@@ -47,6 +47,7 @@ Route::prefix('admin')->group(function() {
     Route::get('/mahankal-lok-darshan', 'VisitController@index');
     Route::get('/mahankal-lok-darshan/view/{visiter_id}', 'VisitController@show');
     Route::get('/contacts', 'ContactController@index');
+    Route::get('/contacts/view/{contact_id}', 'ContactController@show');
 
     
     

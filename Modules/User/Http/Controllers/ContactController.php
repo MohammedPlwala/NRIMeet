@@ -41,10 +41,22 @@ class ContactController extends Controller
         if ($request->ajax()) {
             return DataTables::of($data)
                     ->addIndexColumn()
+                    ->addColumn('action', function($row) {
+                        $view = url('/').'/admin/contacts/view/'.$row->id;
+
+                        $btn = '<ul class="nk-tb-actio ns gx-1">
+                                    <li>
+                                        <div class="drodown mr-n1">
+                                            <a href="'.$view.'" class="btn btn-icon btn-trigger" ><em class="icon ni ni-eye"></em></a>
+                                        </div>
+                                    </li>
+                                </ul>';
+                        return $btn;
+                    })
                     ->addColumn('created_at', function ($row) {
                         return date('d-m-Y H:i:s' , strtotime($row->created_at));
                     })
-                    ->rawColumns(['created_at'])
+                    ->rawColumns(['created_at','action'])
                     ->make(true);
         }
 
@@ -52,9 +64,10 @@ class ContactController extends Controller
         return view('user::contacts/index')->with(compact('contactsCount'));
     }
 
-    // public function show($id)
-    // {
-    //     $visiter = Visit::where('id',$id)->first();
-    // }
+    public function show($id)
+    {
+        $contacts = Contact::where('id',$id)->first();
+        return view('user::contacts/detail')->with(compact('contacts'));
+    }
 
 }
