@@ -1186,4 +1186,59 @@ class ReportController extends Controller
                     ->get();
         return view('report::off_field_visit',['dsps'=>$dsps]);
     }
+
+
+
+    public function guest()
+    {
+        return view('report::guest');
+    }
+    public function hotelMaster()
+    {
+        return view('report::hotel_master');
+    }
+    public function inventory()
+    {
+        return view('report::inventory');
+    }
+    public function payment()
+    {
+        return view('report::payment');
+    }
+    public function booking()
+    {
+        return view('report::booking');
+    }
+    public function cancellation()
+    {
+        return view('report::cancellation');
+    }
+    public function refund()
+    {
+        return view('report::refund');
+    }
+    public function totalInventoryData()
+    {
+        return view('report::total_inventory_data');
+    }
+    public function bookingSummary()
+    {
+        return view('report::booking_summary');
+    }
+    public function groupBookings()
+    {
+        return view('report::group_bookings');
+    }
+    public function callCenter()
+    {
+        return view('report::call_center');
+    }
+    public function financial()
+    {
+        return view('report::financial');
+    }
+    public function financial2()
+    {
+        return view('report::financial_2');
+    }
 }

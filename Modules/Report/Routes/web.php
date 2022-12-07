@@ -45,4 +45,20 @@ Route::prefix('report')->group(function() {
     Route::get('stuff-role-report', 'ReportController@stuffRoleReport');
     Route::get('ticket-size-report', 'ReportController@ticketSizeReport');
     Route::get('billing-retailers-report', 'ReportController@billingRetailersReport');
+
+    // Reports
+    Route::get('guest', 'ReportController@guest');
+    Route::get('hotel-master', 'ReportController@hotelMaster');
+    Route::get('inventory', 'ReportController@inventory');
+    Route::get('payment', 'ReportController@payment');
+    Route::get('booking', 'ReportController@booking');
+    Route::get('cancellation', 'ReportController@cancellation');
+    Route::get('refund', 'ReportController@refund');
+
+    Route::get('total-inventory-data', 'ReportController@totalInventoryData');
+    Route::get('booking-summary', 'ReportController@bookingSummary');
+    Route::get('group-bookings', 'ReportController@groupBookings');
+    Route::get('call-center', 'ReportController@callCenter');
+    Route::get('financial', 'ReportController@financial');
+    Route::get('financial-2', 'ReportController@financial2');
 });

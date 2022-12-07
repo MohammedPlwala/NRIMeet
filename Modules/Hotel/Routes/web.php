@@ -14,6 +14,7 @@
 Route::prefix('admin')->group(function() {
     Route::prefix('hotel')->group(function() {
         Route::get('/', 'HotelController@index');
+        Route::get('hotel-rooms/{hotel_id}', 'HotelController@hotelRooms');
         Route::get('/import', 'HotelController@import');
 
         Route::get('/add', 'HotelController@create');
@@ -33,5 +34,6 @@ Route::prefix('admin')->group(function() {
     Route::prefix('bookings')->group(function() {
         Route::get('/', 'HotelController@bookingList');
         Route::get('/add', 'HotelController@createBooking');
+        Route::post('/add', 'HotelController@storeBooking');
     });
 });
