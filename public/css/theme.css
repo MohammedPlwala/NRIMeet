@@ -1253,3 +1253,8 @@ a.fc-event-custom-completed{
         font-size: 1.2rem;
     }
 }
+@media (min-width: 768px) {
+    .data-item{
+        padding: 0.8rem 1rem;
+    }
+}
