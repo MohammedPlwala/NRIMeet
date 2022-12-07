@@ -77,18 +77,18 @@ $organization_type = \Session::get('organization_type');
                             </div>
                             <div class="row g-3 align-center">
                                 <div class="col-lg-5">
-                                    <x-inputs.verticalFormLabel label="Contact Person" for="contact_person" suggestion="Specify the venue distance." required="true" />
+                                    <x-inputs.verticalFormLabel label="Contact Person" for="contact_person" suggestion="Specify the venue distance." />
                                 </div>
                                 <div class="col-lg-7">
-                                    <x-inputs.text value="{{ isset($hotel) ? $hotel->contact_person : '' }}" for="contact_person" class="" icon="user-fill" required="true" placeholder="Contact Person Name" name="contact_person" />
+                                    <x-inputs.text value="{{ isset($hotel) ? $hotel->contact_person : '' }}" for="contact_person" class="" icon="user-fill" placeholder="Contact Person Name" name="contact_person" />
                                 </div>
                             </div>
                             <div class="row g-3 align-center">
                                 <div class="col-lg-5">
-                                    <x-inputs.verticalFormLabel label="Contact Number" for="contact_number" suggestion="Specify the contact number." required="true" />
+                                    <x-inputs.verticalFormLabel label="Contact Number" for="contact_number" suggestion="Specify the contact number." />
                                 </div>
                                 <div class="col-lg-7">
-                                    <x-inputs.text value="{{ isset($hotel) ? $hotel->contact_number : '' }}" for="contact_number" class="" icon="contact-fill" required="true" placeholder="Contact Number" name="contact_number" />
+                                    <x-inputs.text value="{{ isset($hotel) ? $hotel->contact_number : '' }}" for="contact_number" class="" icon="contact-fill" placeholder="Contact Number" name="contact_number" />
                                 </div>
                             </div>
                             <div class="row g-3 align-center">

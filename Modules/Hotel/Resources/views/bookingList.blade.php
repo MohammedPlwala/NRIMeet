@@ -4,8 +4,8 @@
     <div class="nk-block-head nk-block-head-sm">
         <div class="nk-block-between">
             <div class="nk-block-head-content">
-                <h3 class="nk-block-title page-title">Hotels</h3>
-                <p>You have total <span class="record_count">{{ '0' }}</span> Hotels.</p>
+                <h3 class="nk-block-title page-title">Bookings</h3>
+                <p>You have total <span class="record_count">{{ '0' }}</span> Bookings.</p>
             </div><!-- .nk-block-head-content -->
             <div class="nk-block-head-content">
                 <div class="toggle-wrap nk-block-tools-toggle">
@@ -39,9 +39,15 @@
             <table class="broadcast-init nowrap nk-tb-list is-separate" data-auto-responsive="false">
                 <thead>
                     <tr class="nk-tb-item nk-tb-head">
-                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Name</span></th>
-                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Classification</span></th>
-                        <th class="nk-tb-col tb-col-md"><span class="sub-text">Contact Number</span></th>
+                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Order #</span></th>
+                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Confirmation #</span></th>
+                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Guest</span></th>
+                        <th class="nk-tb-col tb-col-md"><span class="sub-text">Hotel</span></th>
+                        <th class="nk-tb-col tb-col-md"><span class="sub-text">Rooms</span></th>
+                        <th class="nk-tb-col tb-col-md"><span class="sub-text">Checkin Date</span></th>
+                        <th class="nk-tb-col tb-col-md"><span class="sub-text">Checkout Date</span></th>
+                        <th class="nk-tb-col tb-col-md"><span class="sub-text">Amount</span></th>
+                        <th class="nk-tb-col tb-col-md"><span class="sub-text">Booking Type</span></th>
                         <th class="nk-tb-col tb-col-md w-1 text-center" nowrap="true"><span class="sub-text">Status</span>
                         </th>
                         <th class="nk-tb-col nk-tb-col-tools text-right w-1" nowrap="true">
@@ -115,30 +121,62 @@
                 option: {
                     processing: true,
                     serverSide: true,
+                    ordering: false,
                     ajax: {
                         type: "GET",
-                        url: "{{ url('admin/hotel') }}",
+                        url: "{{ url('admin/bookings') }}",
                     },
                     columns: [
                         {
                             "class": "nk-tb-col tb-col-lg",
-                            data: 'name',
-                            name: 'name'
+                            data: 'order_id',
+                            name: 'order_id'
                         },
                         {
                             "class": "nk-tb-col tb-col-lg",
-                            data: 'classification',
-                            name: 'classification'
+                            data: 'confirmation_number',
+                            name: 'confirmation_number'
                         },
                         {
                             "class": "nk-tb-col tb-col-lg",
-                            data: 'contact_number',
-                            name: 'contact_number'
+                            data: 'guest',
+                            name: 'guest'
+                        },
+
+                        {
+                            "class": "nk-tb-col tb-col-lg",
+                            data: 'hotel',
+                            name: 'hotel'
+                        },
+                        {
+                            "class": "nk-tb-col tb-col-lg",
+                            data: 'rooms',
+                            name: 'rooms'
+                        },
+                        {
+                            "class": "nk-tb-col tb-col-lg",
+                            data: 'checkin_date',
+                            name: 'checkin_date'
+                        },
+                        {
+                            "class": "nk-tb-col tb-col-lg",
+                            data: 'checkout_date',
+                            name: 'checkout_date'
                         },
                         {
                             "class": "nk-tb-col tb-col-lg text-center",
-                            data: 'status',
-                            name: 'status'
+                            data: 'amount',
+                            name: 'amount'
+                        },
+                        {
+                            "class": "nk-tb-col tb-col-lg text-center",
+                            data: 'booking_type',
+                            name: 'booking_type'
+                        },
+                        {
+                            "class": "nk-tb-col tb-col-lg text-center",
+                            data: 'booking_status',
+                            name: 'booking_status'
                         },
                         {
                             "class": "nk-tb-col tb-col-lg text-right",
