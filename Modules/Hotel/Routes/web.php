@@ -35,5 +35,7 @@ Route::prefix('admin')->group(function() {
         Route::get('/', 'HotelController@bookingList');
         Route::get('/add', 'HotelController@createBooking');
         Route::post('/add', 'HotelController@storeBooking');
+        Route::get('/edit/{booking_id}', 'HotelController@editBooking');
+        Route::post('/update-booking/{booking_id}', 'HotelController@updateBooking');
     });
 });
