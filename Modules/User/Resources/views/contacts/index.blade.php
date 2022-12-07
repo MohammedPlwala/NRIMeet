@@ -14,7 +14,7 @@
         </div><!-- .nk-block-between -->
     </div><!-- .nk-block-head -->
     
-    <div class="nk-block table-compact pt-28">
+    <div class="nk-block table-compact">
         <!--  Filter Tag List -->
         <div id="filter_tag_list" class="filter-tag-list"></div>
         <!-- -->
@@ -39,8 +39,8 @@
                 <tbody>
                 </tbody>
             </table>
-
-        </div><!-- .nk-block -->
+        </div>
+    </div><!-- .nk-block -->
         <div class="modal fade zoom" tabindex="-1" id="modalFilterUser">
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
