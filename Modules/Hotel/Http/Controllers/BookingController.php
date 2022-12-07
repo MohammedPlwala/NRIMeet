@@ -32,36 +32,11 @@ class BookingController extends Controller
     public function index(Request $request)
     {
 
-        $data = BulkBooking::select('u.id','u.full_name','u.email','u.mobile','u.status','u.created_at','u.updated_at')
-                ->leftJoin('user_role as ur','ur.user_id','u.id')
-                ->where('ur.role_id',$guestRoleId)
-                ->where(function ($query) use ($request) {
-                    if (!empty($request->toArray())) {
-                        if ($request->get('name') != '') {
-                            $query->where('u.name', $request->get('name'));
-                        }
-                        if ($request->get('contact_number') != '') {
-                            $query->where('u.mobile', $request->get('contact_number'));
-                        }
-                        if((isset($request->fromDate) && isset($request->toDate))) {
-                            $dateFrom =  date('Y-m-d',strtotime($request->fromDate));
-                            $dateTo =  date('Y-m-d',strtotime($request->toDate. ' +1 day'));
-                            $query->whereBetween('u.created_at', array($dateFrom, $dateTo));
-                        } elseif (isset($request->fromDate)) {
-
-                            $dateFrom =  date('Y-m-d',strtotime($request->fromDate));
-                            $query->where('u.created_at', '>=', $dateFrom);
-                        } elseif (isset($request->toDate)) {
-                            $dateTo =  date('Y-m-d',strtotime($request->toDate));
-                            $query->where('u.created_at', '<=', $dateTo);
-                        }
-                    }
-                })
-                ->orderby('u.id','desc')
+        $data = BulkBooking::orderby('id','desc')
                 ->get();
-        $usersCount = 0;
+        $bookingCount = 0;
         if(!empty($data->toArray())){
-            $usersCount = count($data);
+            $bookingCount = count($data);
         }
 
         if ($request->ajax()) {
@@ -115,8 +90,8 @@ class BookingController extends Controller
                         return $status;
                     })
                     ->addColumn('action', function($row) use ($userPermission){
-                           $edit = url('/').'/admin/user/edit/'.$row->id;
-                           $delete = url('/').'/admin/user/delete/'.$row->id;
+                           $edit = url('/').'/admin/booking/edit/'.$row->id;
+                           $delete = url('/').'/admin/booking/delete/'.$row->id;
                            $confirm = '"Are you sure, you want to delete it?"';
 
                             $editBtn = "<li>
@@ -134,8 +109,6 @@ class BookingController extends Controller
 
                             $logbtn = '<li><a href="#" data-resourceId="'.$row->id.'" class="audit_logs"><em class="icon ni ni-list"></em> <span>Audit Logs</span></a></li>';
 
-                            // $changePassword = '<li><a href="#" data-resourceId="'.$row->id.'" class="changePassword"><em class="icon ni ni-lock-alt"></em> <span>Update Password</span></a></li>';
-                            $changePassword = '';
 
                             $btn = '';
                             $btn .= '<ul class="nk-tb-actio ns gx-1">
@@ -147,8 +120,7 @@ class BookingController extends Controller
                                         ';
 
                            $btn .=       $editBtn."
-                                        ".$deleteBtn."
-                                        ".$changePassword;
+                                        ".$deleteBtn;
 
                             $btn .= "</ul>
                                             </div>
@@ -165,7 +137,7 @@ class BookingController extends Controller
         }
 
 
-        return view('user::index')->with(compact('usersCount'));
+        return view('hotel::bulkBooking/index')->with(compact('bookingCount'));
     }
 
     /**
@@ -237,20 +209,16 @@ class BookingController extends Controller
      */
     public function create()
     {
-
-        $user = \Auth::user();
-        $roleId = Role::where('name','Guest')
-                    ->first('id');
-        return view('user::create', compact('roleId'));
+        return view('hotel::bulkBooking/create', compact('roleId'));
     }
 
-    public function storeGuest(Request $request)
+    public function store(Request $request)
     {
         if(isset($request->userId)){
-            $user = User::findorfail($request->userId);
-            $msg = "User updated successfully";
+            $user = BulkBooking::findorfail($request->userId);
+            $msg = "Booking updated successfully";
         }else{
-            $user = new User();
+            $user = new BulkBooking();
             $msg = "User added successfully";
         }
 
@@ -276,9 +244,9 @@ class BookingController extends Controller
                 $userRole = array('role_id' => $request->role_id, 'user_id' =>  $user->id);
                 UserRole::insert($userRole);
             }
-            return redirect('/admin/user')->with('message', $msg);
+            return redirect('/admin/booking')->with('message', $msg);
         }else{
-            return redirect('/admin/user/create')->with('error', 'Something went wrong');
+            return redirect('/admin/booking/create')->with('error', 'Something went wrong');
         }
     }
 
@@ -287,7 +255,7 @@ class BookingController extends Controller
      * @param int $id
      * @return Renderable
      */
-    public function editGuest($id)
+    public function edit($id)
     {
         try {
             $authUser = \Auth::user();
@@ -316,11 +284,11 @@ class BookingController extends Controller
     public function destroy($id)
     {
 
-        $user = User::findorfail($id);
+        $user = BulkBooking::findorfail($id);
         if($user->forceDelete()){
-            return redirect('admin/user')->with('message', 'Guest deleted successfully');
+            return redirect('admin/booking')->with('message', 'Booking deleted successfully');
         }else{
-            return redirect('admin/user')->with('error', 'Somthing went wrong');
+            return redirect('admin/booking')->with('error', 'Somthing went wrong');
         }
     }
 

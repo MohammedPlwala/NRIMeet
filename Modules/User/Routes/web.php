@@ -44,6 +44,14 @@ Route::prefix('admin')->group(function() {
         });
     });
 
+    Route::prefix('/booking')->group(function() {
+        Route::get('/', 'BookingController@index');
+        Route::get('/create', 'BookingController@create');
+        Route::post('/store', 'BookingController@store');
+        Route::get('/edit', 'BookingController@edit');
+        Route::get('/delete', 'BookingController@destroy');
+    });
+
     Route::get('/mahankal-lok-darshan', 'VisitController@index');
     Route::get('/mahankal-lok-darshan/view/{visiter_id}', 'VisitController@show');
     Route::get('/contacts', 'ContactController@index');
