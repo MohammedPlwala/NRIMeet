@@ -7,9 +7,10 @@
 	<div class="nk-block-head nk-block-head-sm">
         <div class="nk-block-between">
             <div class="nk-block-head-content">
-                <h3 class="nk-block-title page-title">Visiters</h3>
-                <p>You have total <span class="record_count">{{ $visitersCount }}</span> Visiters.</p>
+                <h3 class="nk-block-title page-title">Contacts</h3>
+                <p>You have total <span class="record_count">{{ $contactsCount }}</span> Contacts.</p>
             </div><!-- .nk-block-head-content -->
+            
         </div><!-- .nk-block-between -->
     </div><!-- .nk-block-head -->
     
@@ -29,11 +30,10 @@
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Name</span></th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Email</span></th>
                         <th class="nk-tb-col tb-col-md"><span class="sub-text">Contact Number</span></th>
-                        <th class="nk-tb-col tb-col-md w-1 text-center" nowrap="true"><span class="sub-text">Registration Number</span></th>
+                        <th class="nk-tb-col tb-col-md w-1 text-center" nowrap="true"><span class="sub-text">Message</span></th>
                         <th class="nk-tb-col tb-col-md w-1" nowrap="true"><span class="sub-text">Created At</span></th>
                         <th class="nk-tb-col nk-tb-col-tools text-right w-1" nowrap="true">
                             <span class="sub-text">Action</span>
-                        </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -41,80 +41,80 @@
             </table>
         </div>
     </div><!-- .nk-block -->
-    <div class="modal fade zoom" tabindex="-1" id="modalFilterUser">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Filter</h5>
-                    <a href="#" class="close" data-dismiss="modal" aria-label="Close">
-                        <em class="icon ni ni-cross"></em>
-                    </a>
-                </div>
-                <form role="form" class="mb-0" method="get" action="#">
-                @csrf
-                <div class="modal-body modal-body-lg">
-                    <div class="gy-3">
-                        <div class="row g-3 align-center">
-                            <div class="col-lg-5">
-                                <x-inputs.verticalFormLabel label="First Name" for="firstName" suggestion="Specify the name of the user." />
+        <div class="modal fade zoom" tabindex="-1" id="modalFilterUser">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Filter</h5>
+                        <a href="#" class="close" data-dismiss="modal" aria-label="Close">
+                            <em class="icon ni ni-cross"></em>
+                        </a>
+                    </div>
+                    <form role="form" class="mb-0" method="get" action="#">
+                    @csrf
+                    <div class="modal-body modal-body-lg">
+                        <div class="gy-3">
+                            <div class="row g-3 align-center">
+                                <div class="col-lg-5">
+                                    <x-inputs.verticalFormLabel label="First Name" for="firstName" suggestion="Specify the name of the user." />
+                                </div>
+                                <div class="col-lg-7">
+                                    <x-inputs.text value="" for="firstName" icon="user" placeholder="Name" name="name"/>
+                                </div>
                             </div>
-                            <div class="col-lg-7">
-                                <x-inputs.text value="" for="firstName" icon="user" placeholder="Name" name="name"/>
+                            <div class="row g-3 align-center">
+                                <div class="col-lg-5">
+                                    <x-inputs.verticalFormLabel label="Mobile Number" for="contact_number" suggestion="Specify the mobile number of the user."  />
+                                </div>
+                                <div class="col-lg-7">
+                                    <x-inputs.text value="" for="contact_number" icon="call" placeholder="Mobile Number" name="contact_number"
+                                    data-parsley-pattern="{{ \Config::get('constants.REGEX.VALIDATE_MOBILE_NUMBER_LENGTH') }}"
+                                    />
+                                </div>
                             </div>
-                        </div>
-                        <div class="row g-3 align-center">
-                            <div class="col-lg-5">
-                                <x-inputs.verticalFormLabel label="Mobile Number" for="contact_number" suggestion="Specify the mobile number of the user."  />
-                            </div>
-                            <div class="col-lg-7">
-                                <x-inputs.text value="" for="contact_number" icon="call" placeholder="Mobile Number" name="contact_number"
-                                data-parsley-pattern="{{ \Config::get('constants.REGEX.VALIDATE_MOBILE_NUMBER_LENGTH') }}"
-                                />
-                            </div>
-                        </div>
-                        <div class="row g-3 align-center">
-                            <div class="col-lg-5">
-                                <x-inputs.verticalFormLabel label="Created at" for="createdAt" suggestion="Select the dates of created at." />
-                            </div>
-                            <div class="col-lg-7">
-                                <div class="row">
-                                    <div class="col-lg-6">
-                                        <div class="form-control-wrap">
-                                            <div class="form-icon form-icon-left">
-                                                <em class="icon ni ni-calendar"></em>
+                            <div class="row g-3 align-center">
+                                <div class="col-lg-5">
+                                    <x-inputs.verticalFormLabel label="Created at" for="createdAt" suggestion="Select the dates of created at." />
+                                </div>
+                                <div class="col-lg-7">
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="form-control-wrap">
+                                                <div class="form-icon form-icon-left">
+                                                    <em class="icon ni ni-calendar"></em>
+                                                </div>
+                                                <input type="text" class="form-control date-picker" placeholder="Form Date" data-date-format="yyyy-mm-dd" id="fromDate" name="fromDate">
                                             </div>
-                                            <input type="text" class="form-control date-picker" placeholder="Form Date" data-date-format="yyyy-mm-dd" id="fromDate" name="fromDate">
+                                            <!-- <div class="form-note mt-0">Form Date</div> -->
                                         </div>
-                                        <!-- <div class="form-note mt-0">Form Date</div> -->
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div class="form-control-wrap">
-                                            <div class="form-icon form-icon-left">
-                                                <em class="icon ni ni-calendar"></em>
+                                        <div class="col-lg-6">
+                                            <div class="form-control-wrap">
+                                                <div class="form-icon form-icon-left">
+                                                    <em class="icon ni ni-calendar"></em>
+                                                </div>
+                                                <input type="text" class="form-control date-picker" placeholder="To Date" data-date-format="yyyy-mm-dd"  id="toDate" name="toDate">
                                             </div>
-                                            <input type="text" class="form-control date-picker" placeholder="To Date" data-date-format="yyyy-mm-dd"  id="toDate" name="toDate">
+                                            <!-- <div class="form-note mt-0">To Date</div> -->
                                         </div>
-                                        <!-- <div class="form-note mt-0">To Date</div> -->
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <input type="hidden" id="userId" name="user_id" value="0">
-                <div class="modal-footer bg-light">
-                    <div class="row">
-                        <div class="col-lg-12 p-0 text-right">
-                            <button class="btn btn-outline-light" data-dismiss="modal" aria-label="Close">Cancel</button>
-                            <button class="btn btn-danger resetFilter" data-dismiss="modal" aria-label="Close">Clear Filter</button>
-                            <button class="btn btn-primary submitBtn" type="button">Submit</button>
+                    <input type="hidden" id="userId" name="user_id" value="0">
+                    <div class="modal-footer bg-light">
+                        <div class="row">
+                            <div class="col-lg-12 p-0 text-right">
+                                <button class="btn btn-outline-light" data-dismiss="modal" aria-label="Close">Cancel</button>
+                                <button class="btn btn-danger resetFilter" data-dismiss="modal" aria-label="Close">Clear Filter</button>
+                                <button class="btn btn-primary submitBtn" type="button">Submit</button>
+                            </div>
                         </div>
                     </div>
+                    </form>
                 </div>
-                </form>
             </div>
         </div>
-    </div>
        
 @endsection
 @push('footerScripts')
@@ -144,7 +144,7 @@
                 serverSide: true,
                 ajax: {
                     type:"GET",
-                    url: "{{ url('admin/mahankal-lok-darshan') }}",
+                    url: "{{ url('admin/contacts') }}",
                 },
                 columns: [{
                         "class": "nk-tb-col tb-col-lg nk-tb-col-check",
@@ -172,9 +172,9 @@
                         name: 'phone_number'
                     },
                     {
-                        "class": "nk-tb-col tb-col-lg",
-                        data: 'registration_number',
-                        name: 'registration_number'
+                        "class": "nk-tb-col tb-col-lg text-center",
+                        data: 'message',
+                        name: 'message'
                     },
                     {
                         "class": "nk-tb-col tb-col-lg",
@@ -187,7 +187,7 @@
                         name: 'action',
                         orderable: false,
                         searchable: false
-                    },
+                    }
                 ],
                 "fnDrawCallback":function(){
                     NioApp.BS.tooltip('[data-toggle="tooltip"]'); 

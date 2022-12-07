@@ -858,7 +858,6 @@ input[type="url"],
 input[type="week"], 
 textarea {
   width: 100%;
-  font-size: 15px;
   color: #656a70;
   border: 1px solid;
   border-color: #dedede;
@@ -890,7 +889,6 @@ select:focus{
 }
 input[type="file"]{
   width: 100%;
-  font-size: 15px;
   color: #656a70;
   padding: 7px 0;
   font-size: 12px;
@@ -900,7 +898,6 @@ input[type="file"]{
 }
 select {
   width: 100%;
-  font-size: 15px;
   color: #656a70;
   border: 1px solid;
   border-color: #dedede;
@@ -908,10 +905,10 @@ select {
   -webkit-appearance: none;
   -webkit-border-radius: 0px;
   background: #fff;
-  padding: 7px 12px;
-  font-size: 12px;
-  min-height: 35px;
-  margin: 0 0 10px 0;
+  padding: 7px 12px !important;
+  font-size: 12px !important;
+  min-height: 35px !important;
+  margin: 0 0 10px 0 !important;
   font-family: 'Work Sans', sans-serif;
 }
 textarea{
@@ -980,20 +977,20 @@ textarea{
 .form-item.large input[type="url"], 
 .form-item.large input[type="week"], 
 .form-item.large textarea{
-  font-size: 15px;
+  font-size: 15px !important;
   color: #656a70;
   padding: 16px 12px;
   font-weight: 400;
 }
 .form-item.large input[type="file"]{
-  font-size: 13px;
+  font-size: 13px !important;
   color: #181b20;
   padding: 0;
   margin: 0;
   font-weight: 400;
 }
 .form-item.large select{
-  font-size: 15px;
+  font-size: 15px !important;
   color: #656a70;
   padding: 16px 12px;
 }
@@ -1584,7 +1581,6 @@ table.shop_table td:last-child{
   width: 130px;
 }
 /* END: Thank You Pag CSS */
-
 @media only screen and (min-width: 601px) {
   .d-hide{
     display: none;
