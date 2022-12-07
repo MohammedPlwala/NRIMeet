@@ -718,6 +718,18 @@ class HotelController extends Controller
     public function editBooking(Request $request,$booking_id)
     {
 
+        /*$receiver['name'] = 'asdasd';
+        $receiver['email'] = 'vikalp@yopmail.com';
+        $mailSubject = 'Booking Received';
+        $template = 'emails.email_template';
+
+
+        $mailBody = '<a href="#" target="_blank" rel="noopener" title="reset password" style="text-decoration: none; font-size: 16px; color: #fff; background: #FF8000; border-radius: 5px;display: block;text-align: center;padding: 15px 5px; float:left; width: 25%;" margin-top:10px;> Verify Account </a>';
+        $data = array('name'=>$receiver['name'], "body" => $mailBody,'mailSubject' => $mailSubject);
+        \Helpers::sendMails($receiver,$mailBody,$mailSubject,$data,$template);
+        die;*/
+
+
         $booking = Booking::findorfail($booking_id);
 
         $users = User::select('id')->get();
@@ -835,7 +847,28 @@ class HotelController extends Controller
             $booking->tax_percentage = 18;
             $booking->special_request = $request->special_request;
             $booking->customer_booking_status = 'Received';
-            $booking->booking_status = 'Booking Received';
+            
+            if($request->status == 'Confirmation Recevied'){
+                $booking->customer_booking_status = 'Confirmed';
+            }
+
+            if($request->status == 'Cancellation Requested'){
+                $booking->customer_booking_status = 'Cancellation In Progress';
+            }
+
+            if($request->status == 'Cancellation Requested'){
+                $booking->customer_booking_status = 'Cancellation In Progress';
+            }
+
+            if($request->status == 'Refund Requested' || $request->status == 'Cancellation Approved' || $request->status == 'Refund Approved'){
+                $booking->customer_booking_status = 'Refund In Progress';
+            }
+
+            if($request->status == 'Refund Issued'){
+                $booking->customer_booking_status = 'Refunded';
+            }
+            $booking->booking_status = $request->status;
+
             $booking->booking_type = 'Offline';
             $booking->confirmation_number = $request->confirmation_number;
             $booking->utr_number = $request->utr_number;
