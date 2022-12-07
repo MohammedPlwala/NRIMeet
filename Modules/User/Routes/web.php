@@ -56,8 +56,12 @@ Route::prefix('admin')->group(function() {
     Route::get('/mahankal-lok-darshan/view/{visiter_id}', 'VisitController@show');
     Route::get('/contacts', 'ContactController@index');
     Route::get('/contacts/view/{contact_id}', 'ContactController@show');
-    Route::get('/call-center', 'UserController@callCenter');
     
+    Route::get('/call-center', 'CustomerCareController@index');
+    Route::get('/call-center/create', 'CustomerCareController@createIssue');
+    Route::post('/call-center/store', 'CustomerCareController@storeIssue');
+    Route::get('/call-center/edit/{issue_id}', 'CustomerCareController@editIssue');
+    Route::get('/call-center/delete/{issue_id}', 'CustomerCareController@destroyIssue');
     
     
 });
