@@ -15,7 +15,7 @@
       <p>MPSTDC does not warrant the accuracy or completeness of the information, text, graphics, links or other items
         contained within the Website. As a result of updates and corrections, the web contents are subject to change
         without any notice from <strong>“MADHYA PRADESH STATE TOURISM DEVELOPMENT CORPORATION LTD, BHOPAL”</strong> at
-        <a href="https://pbdaccommodation.mptourism.com">https://pbdaccommodation.mptourism.com</a> website.</p>
+        <a href="{{ url('/') }}">https://pbdaccommodation.mptourism.com</a> website.</p>
       <p>In case of any variance between what has been stated and that contained in the relevant Act, Rules,
         Regulations, Policy Statements etc., the latter shall prevail.</p>
       <p>Any specific advice or replies to queries in any part of the website is/are the personal views / opinion of
@@ -34,7 +34,7 @@
         Indore to the registered delegates of Pravasi Bharatiya Divas 2023, Indoreto select and book a particular hotel.
         Hotels in this context include the categories of accommodations as specified in the hotel search
         option.MPSTDCdoes not hold any accountability nor any kind of responsibility of any offline-booking outside <a
-          href="https://pbdaccommodation.mptourism.com">https://pbdaccommodation.mptourism.com</a></p>
+          href="{{ url('/') }}">https://pbdaccommodation.mptourism.com</a></p>
       <p>All the information pertaining to the hotel including the category of the hotel, images, room type, amenities
         and facilities available at the hotel are as per the information provided by the hotel to MPSTDCand its travel
         partner Concept Communication, Mumbai &amp; Overseas Travel, Indore. This information is for reference only. Any
@@ -85,7 +85,7 @@
       <h3>Payment Gateway Convenience Fee's:</h3>
       <p>MPSTDC have collaborated with ICICI Bank (Razorpay as a payment aggregator partner of ICICI Bank) to provide
         Payment Gateway Services for PBD Delegates for Accommodation Booking through its portal <a
-          href="https://pbdaccommodation.mptourism.com">https://pbdaccommodation.mptourism.com</a></p>
+          href="{{ url('/') }}">https://pbdaccommodation.mptourism.com</a></p>
       <h3>Payment Gateway ICICI Bank convenience fee</h3>
       <table style="width: 100%;">
         <tbody>
