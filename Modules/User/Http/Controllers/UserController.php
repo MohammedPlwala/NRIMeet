@@ -788,4 +788,13 @@ class UserController extends Controller
         return view('user::import');
     }
 
+    /**
+     * Show the form for creating a new resource.
+     * @return Renderable
+     */
+    public function callCenter()
+    {
+        return view('user::callCenter');
+    }
+    
 }
