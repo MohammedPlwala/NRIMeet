@@ -16,21 +16,9 @@
                                 <em class="icon ni ni-filter-alt"></em>
                             </a>
                         </li>
-                        <li>
-                            <div class="dropdown">
-                                <a href="#" class="btn btn-trigger btn-icon dropdown-toggle" data-toggle="dropdown">
-                                    <em class="icon ni ni-setting"></em>
-                                </a>
-                                <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
-                                    <ul class="link-check">
-                                        <li><span>Actions</span></li>
-                                        <li><a href="{{ url('report/export-guest') }}"><em class="icon ni ni-file-xls m-r10"></em> Export Excel</a></li>
-                                        <li><a href="{{ url('report/export-guest') }}"><em class="icon ni ni-file-pdf m-r10"></em> Export PDF</a></li>
-                                    </ul>
-                                </div>
-                            </div>
+                        <li class="nk-block-tools-opt">
+                            <a href="{{ url('report/export-cancellation') }}" class="btn btn-primary"><em class="icon ni ni-download"></em><span>Export</span></a>
                         </li>
-                        
                     </ul>
                 </div>
             </div>
