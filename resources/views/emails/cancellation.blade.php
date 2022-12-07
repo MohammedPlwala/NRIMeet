@@ -155,7 +155,7 @@
 			<tbody>
 				<tr>
 					<td>
-						<p style="font-size: 14px; font-family: arial; font-weight: 600; margin: 20px 0 0 0; line-height: 20px;">
+						<p style="font-size: 14px; font-family: arial; font-weight: 400; margin: 20px 0 0 0; line-height: 20px;">
 							We shall process your cancellation request and update you in next 12- 24 WORKING HOURS. Your payment shall be credited with in 5-10 Working days, you cancellation will be processed as per the cancellation policy.
 						</p>
 					</td>
