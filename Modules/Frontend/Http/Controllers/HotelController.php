@@ -446,6 +446,7 @@ class HotelController extends Controller
                         $transaction->status = 'confirmed';
                         if($transaction->save()){
                             \DB::commit();
+                            \Helpers::sendBookingReceiveMails($booking->id);
                             return redirect('thankyou?booking_id='.$booking->id)->with('message', 'Booking Successful.');
                         }else{
                             \DB::rollback();
