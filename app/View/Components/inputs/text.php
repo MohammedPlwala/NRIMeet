@@ -10,6 +10,7 @@ class text extends Component
     public $for;
     public $label;
     public $value;
+    public $placeholder;
     public $id;
     public $name;
     public $icon;
@@ -17,6 +18,7 @@ class text extends Component
     public $required;
     public $class;
     public $readonly;
+    
     
 
     /**
@@ -28,6 +30,7 @@ class text extends Component
         $for = '',
         $label = '',
         $value = '',
+        $placeholder = '',
         $id = '',
         $name = '',
         $icon = '',
@@ -35,10 +38,12 @@ class text extends Component
         $required = 'false',
         $class = '',
         $readonly = ''
+       
     ) {
         $this->for = $for;
         $this->label = $label;
         $this->value = $value;
+        $this->placeholder = $placeholder;
         $this->id = $id;
         $this->name = $name;
         $this->icon = $icon;
@@ -46,6 +51,7 @@ class text extends Component
         $this->required = $required;
         $this->class = $class;
         $this->readonly = $readonly;
+        
     }
 
     /**
