@@ -10,11 +10,10 @@
                 <h3 class="nk-block-title page-title">Visiters</h3>
                 <p>You have total <span class="record_count">{{ $visitersCount }}</span> Visiters.</p>
             </div><!-- .nk-block-head-content -->
-            
         </div><!-- .nk-block-between -->
     </div><!-- .nk-block-head -->
     
-    <div class="nk-block table-compact pt-28">
+    <div class="nk-block table-compact">
         <!--  Filter Tag List -->
         <div id="filter_tag_list" class="filter-tag-list"></div>
         <!-- -->
