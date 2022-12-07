@@ -33,5 +33,6 @@ return [
 	],
     'SLUG_CHARACTER_LIMIT' => 255,
 	'allowedImportExtensions' => ['xlsx','csv','xls'],
+    'MAIL_FROM' => 'support@nri.com',
 ];
 

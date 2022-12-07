@@ -193,50 +193,116 @@
 </div>
 @endsection
 @push('footerScripts')
-<script src="{{url('js/APIDataTable.js')}}"></script>
-<script src="{{url('js/dayjs.min.js?t='.time())}}"></script>
-<script type="text/javascript">
-    
-    var token = '{{ \Session::get('token') }}';//get logged in user session.
-    var organizationId = "{{ \Session::get('currentOrganization') }}";
+    <script src="{{url('js/tableFlow.js')}}"></script>
+    <script type="text/javascript">
+        $(function() {
+            var root_url = "<?php echo url('/'); ?>";
 
-    var dataTable = new APIDataTable({
-        tableElem: '#sales_SP',
-        pageinationElem: '#table_pagination',
-        api: "{{ url('api/v1/report/total-inventory-data') }}/"+organizationId,
-        authToken: 'Bearer '+token,
-        filterIds: [
-            '#month',
-            '#year'
-        ],
-        filterSubmit: '.submitBtn',
-        filterSubmitCallback: function(){
-            $('#modalFilterorder').modal('toggle');
-        },
-        filterClearSubmit: '.resetFilter',
-        filterModalId: '#modalFilterorder',
-        tagId: '#filter_tag_list',
-        columns: [{
-                data: "order_number",
-            },
-            {
-                data: "username",
-            },
-            {
-                data: "amount",
-                render:function(row){
-                    return NioApp.formatToCurrency(row.amount);
-                }
-            },
-            {
-                data: "order_date",
-                render: function(row) {
-                    return row.order_date ? dayjs(row.order_date).format(
-                        "DD MMM YYYY"
-                    ) : "-";
+            var logUrl = root_url + '/user/logs';
+            NioApp.getAuditLogs('.broadcast-init', '.audit_logs', 'resourceid', logUrl, '#modalLogs');
+
+            var items = [
+                '#room_name',
+                '#hotel_name'
+            ];
+            var user_table = "";
+            user_table = new CustomDataTable({
+                tableElem: '.broadcast-init',
+                option: {
+                    processing: true,
+                    serverSide: true,
+                    ordering: false,
+                    ajax: {
+                        type: "GET",
+                        url: "{{ url('admin/hotel/rooms') }}",
+                    },
+                    columns: [
+                        // {
+                        //     "class": "nk-tb-col tb-col-lg nk-tb-col-check",
+                        //     data: 'DT_RowIndex',
+                        //     name: 'DT_RowIndex',
+                        //     orderable: false,
+                        //     searchable: false,
+                        //     render: function(data, type, row, meta) {
+                        //         return '<td class="nk-tb-col nk-tb-col-check"><div class="custom-control custom-control-sm custom-checkbox notext"><input type="checkbox" class="custom-control-input cb-check" id="cb-' +
+                        //             row.id + '" value="' + row.id +
+                        //             '" name="checked_items[]"><label class="custom-control-label" for="cb-' +
+                        //             row.id + '"></label></div></td>'
+                        //     }
+                        // },
+                        {
+                            "class": "nk-tb-col tb-col-lg",
+                            data: 'name',
+                            name: 'name'
+                        },
+                        {
+                            "class": "nk-tb-col tb-col-lg",
+                            data: 'room_type_name',
+                            name: 'room_type_name'
+                        },
+                        {
+                            "class": "nk-tb-col tb-col-lg",
+                            data: 'hotel_name',
+                            name: 'hotel_name'
+                        },
+
+                        {
+                            "class": "nk-tb-col tb-col-lg",
+                            data: 'rate',
+                            name: 'rate'
+                        },
+
+                        {
+                            "class": "nk-tb-col tb-col-lg",
+                            data: 'allocated_rooms',
+                            name: 'allocated_rooms'
+                        },
+
+                        {
+                            "class": "nk-tb-col tb-col-lg",
+                            data: 'mpt_reserve',
+                            name: 'mpt_reserve'
+                        },
+                        {
+                            "class": "nk-tb-col tb-col-lg",
+                            data: 'count',
+                            name: 'count'
+                        },
+
+                        {
+                            "class": "nk-tb-col tb-col-lg",
+                            data: 'status',
+                            name: 'status'
+                        },
+                        {
+                            "class": "nk-tb-col tb-col-lg",
+                            data: 'action',
+                            name: 'action',
+                            orderable: false,
+                            searchable: false
+                        },
+                    ],
+                    "fnDrawCallback": function() {
+                        NioApp.BS.tooltip('[data-toggle="tooltip"]');
+                        $('.changePassword').click(function() {
+                            var resourceId = $(this).attr('data-resourceid');
+                            $('#password_user_id').val(resourceId);
+                            $('#modalUserPassword').modal('show');
+                        });
+                    }
                 },
-            },
-        ]
-    });
-</script>
+                filterSubmit: '.submitBtn',
+                filterSubmitCallback: function() {
+                    $('#modalFilterUser').modal('toggle');
+                },
+                filterClearSubmit: '.resetFilter',
+                filterModalId: '#modalFilterUser',
+                filterItems: items,
+                tagId: '#filter_tag_list',
+            });
+
+
+
+        });
+    </script>
 @endpush

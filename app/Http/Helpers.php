@@ -435,6 +435,21 @@ class Helpers {
 		return false;
 	}
 
+	public static function sendMails($receiver = array(), $body = array(),$mailSubject = '',$data = array(),$template = '') {
+		$to_name = $receiver['name'];
+		$to_email = $receiver['email'];
+		$data = array('name'=>$receiver['name'], "body" => $body,'mailSubject' => $mailSubject);
+
+		Mail::send($template, $data, function ($message)  use ($to_name, $to_email,$body,$mailSubject) {
+			// $message->to($to_email, $to_name)
+			$message->to($to_email, $to_name)
+			->subject($mailSubject)
+			->from(\Config::get('constants.MAIL_FROM'),'NriMeet');
+			// ->setBody($mailBody, 'text/html');
+		});
+	}
+
+
 
 	public static function sendNotifications($receiver = array(), $bodies = array(),$channels = array(),$mailSubject = '',$details = array()) {
 
