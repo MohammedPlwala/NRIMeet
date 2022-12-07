@@ -87,6 +87,13 @@ $planApprovalRequired = \Session::get('planApprovalRequired');
                         </a>
                     </li>
 
+                    <li class="nk-menu-item has-sub">
+                        <a href="{{url('/admin/contacts')}}" class="nk-menu-link">
+                            <span class="nk-menu-icon"><em class="icon ni ni-users-fill"></em></span>
+                            <span class="nk-menu-text">Contacts</span>
+                        </a>
+                    </li>
+
                     @if(isset($userRole) && $userRole != \Config::get('constants.ROLES.SUPERUSER'))
                     @if(isset($userPermission['orders']) || isset($userPermission['invoices']) || isset($userPermission['ledger']) || isset($userPermission['targets']))
                     <li class="nk-menu-item has-sub">

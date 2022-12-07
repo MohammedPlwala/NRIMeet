@@ -5,13 +5,13 @@ namespace Modules\User\Http\Controllers;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use Modules\User\Entities\Visit;
+use Modules\User\Entities\Contact;
 use Auth;
 use DataTables;
 use Yajra\Datatables\DatatablesServiceProvider;
 use App\Models\Audit;
 
-class VisitController extends Controller
+class ContactController extends Controller
 {
 
     public function __construct() {
@@ -32,42 +32,29 @@ class VisitController extends Controller
     public function index(Request $request)
     {
 
-        $data = Visit::get();
+        $data = Contact::get();
         $visitersCount = 0;
         if(!empty($data->toArray())){
-            $visitersCount = count($data);
+            $contactsCount = count($data);
         }
 
         if ($request->ajax()) {
             return DataTables::of($data)
                     ->addIndexColumn()
-                    ->addColumn('action', function($row) {
-                        $view = url('/').'/admin/mahankal-lok-darshan/view/'.$row->id;
-
-                        $btn = '<ul class="nk-tb-actio ns gx-1">
-                                    <li>
-                                        <div class="drodown mr-n1">
-                                            <a href="'.$view.'" class="btn btn-icon btn-trigger" ><em class="icon ni ni-eye"></em></a>
-                                        </div>
-                                    </li>
-                                </ul>';
-                        return $btn;
-                    })
                     ->addColumn('created_at', function ($row) {
                         return date('d-m-Y H:i:s' , strtotime($row->created_at));
                     })
-                    ->rawColumns(['action','created_at'])
+                    ->rawColumns(['created_at'])
                     ->make(true);
         }
 
 
-        return view('user::visit/index')->with(compact('visitersCount'));
+        return view('user::contacts/index')->with(compact('contactsCount'));
     }
 
-    public function show($id)
-    {
-        dd($id);
-        $visiter = Visit::where('id',$id)->first();
-    }
+    // public function show($id)
+    // {
+    //     $visiter = Visit::where('id',$id)->first();
+    // }
 
 }

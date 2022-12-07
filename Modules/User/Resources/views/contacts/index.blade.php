@@ -7,8 +7,8 @@
 	<div class="nk-block-head nk-block-head-sm">
         <div class="nk-block-between">
             <div class="nk-block-head-content">
-                <h3 class="nk-block-title page-title">Visiters</h3>
-                <p>You have total <span class="record_count">{{ $visitersCount }}</span> Visiters.</p>
+                <h3 class="nk-block-title page-title">Contacts</h3>
+                <p>You have total <span class="record_count">{{ $contactsCount }}</span> Contacts.</p>
             </div><!-- .nk-block-head-content -->
             
         </div><!-- .nk-block-between -->
@@ -30,11 +30,8 @@
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Name</span></th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Email</span></th>
                         <th class="nk-tb-col tb-col-md"><span class="sub-text">Contact Number</span></th>
-                        <th class="nk-tb-col tb-col-md w-1 text-center" nowrap="true"><span class="sub-text">Registration Number</span></th>
+                        <th class="nk-tb-col tb-col-md w-1 text-center" nowrap="true"><span class="sub-text">Message</span></th>
                         <th class="nk-tb-col tb-col-md w-1" nowrap="true"><span class="sub-text">Created At</span></th>
-                        <th class="nk-tb-col nk-tb-col-tools text-right w-1" nowrap="true">
-                            <span class="sub-text">Action</span>
-                        </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -145,7 +142,7 @@
                 serverSide: true,
                 ajax: {
                     type:"GET",
-                    url: "{{ url('admin/mahankal-lok-darshan') }}",
+                    url: "{{ url('admin/contacts') }}",
                 },
                 columns: [{
                         "class": "nk-tb-col tb-col-lg nk-tb-col-check",
@@ -173,22 +170,15 @@
                         name: 'phone_number'
                     },
                     {
-                        "class": "nk-tb-col tb-col-lg",
-                        data: 'registration_number',
-                        name: 'registration_number'
+                        "class": "nk-tb-col tb-col-lg text-center",
+                        data: 'message',
+                        name: 'message'
                     },
                     {
                         "class": "nk-tb-col tb-col-lg",
                         data: 'created_at',
                         name: 'created_at'
-                    },
-                    {
-                        "class": "nk-tb-col tb-col-lg text-right",
-                        data: 'action',
-                        name: 'action',
-                        orderable: false,
-                        searchable: false
-                    },
+                    }
                 ],
                 "fnDrawCallback":function(){
                     NioApp.BS.tooltip('[data-toggle="tooltip"]'); 
