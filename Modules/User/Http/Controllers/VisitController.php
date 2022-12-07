@@ -66,8 +66,8 @@ class VisitController extends Controller
 
     public function show($id)
     {
-        dd($id);
         $visiter = Visit::where('id',$id)->first();
+        return view('user::visit/detail')->with(compact('visiter'));
     }
 
 }

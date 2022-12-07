@@ -32,6 +32,8 @@
                         <th class="nk-tb-col tb-col-md"><span class="sub-text">Contact Number</span></th>
                         <th class="nk-tb-col tb-col-md w-1 text-center" nowrap="true"><span class="sub-text">Message</span></th>
                         <th class="nk-tb-col tb-col-md w-1" nowrap="true"><span class="sub-text">Created At</span></th>
+                        <th class="nk-tb-col nk-tb-col-tools text-right w-1" nowrap="true">
+                            <span class="sub-text">Action</span>
                     </tr>
                 </thead>
                 <tbody>
@@ -178,6 +180,13 @@
                         "class": "nk-tb-col tb-col-lg",
                         data: 'created_at',
                         name: 'created_at'
+                    },
+                    {
+                        "class": "nk-tb-col tb-col-lg text-right",
+                        data: 'action',
+                        name: 'action',
+                        orderable: false,
+                        searchable: false
                     }
                 ],
                 "fnDrawCallback":function(){
