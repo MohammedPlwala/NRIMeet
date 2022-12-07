@@ -33,7 +33,11 @@ Route::prefix('admin')->group(function() {
     
     Route::prefix('bookings')->group(function() {
         Route::get('/', 'HotelController@bookingList');
+        Route::get('/bulk-bookings', 'HotelController@bulkBooking');
         Route::get('/add', 'HotelController@createBooking');
         Route::post('/add', 'HotelController@storeBooking');
+        Route::get('/edit/{booking_id}', 'HotelController@editBooking');
+        Route::post('/update-booking/{booking_id}', 'HotelController@updateBooking');
+        
     });
 });

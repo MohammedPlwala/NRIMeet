@@ -439,8 +439,94 @@ class HotelController extends Controller
      * @param int $id
      * @return Renderable
      */
-    public function bookingList(){
-        return view('hotel::bookingList');
+    public function bookingList(Request $request){
+
+        $data = Booking::from('bookings as b')
+                            ->select('h.name as hotel','b.*','u.full_name as guest',
+                                \DB::Raw('COALESCE((select count(booking_rooms.id) from booking_rooms where booking_rooms.booking_id = b.id ),0) as rooms'),
+                            )
+                            ->leftJoin('hotels as h','h.id','=','b.hotel_id')
+                            ->leftJoin('users as u','u.id','=','b.user_id')
+                            ->where(function ($query) use ($request) {
+                                if (!empty($request->toArray())) {
+                                    if ($request->get('hotel_name') != '') {
+                                        $query->where('h.name', $request->get('hotel_name'));
+                                    }
+
+                                    if ($request->get('room_name') != '') {
+                                        $query->where('hr.name', $request->get('room_name'));
+                                    }
+                                }
+                            })
+                            ->orderby('b.id','desc')
+                            ->get();
+
+        $bookingsCount = 0;
+        if(!empty($data->toArray())){
+            $bookingsCount = count($data);
+        }
+
+        if ($request->ajax()) {
+            return Datatables::of($data)
+                    ->addIndexColumn()
+                    ->addColumn('order_id', function ($row) {
+                        $detailUrl = \URL::to('eadmin/bookings/edit/'.$row->id);
+                        $order_id = '<a href="'.$detailUrl.'" ><span>'. $row->order_id .'</span></a>';
+                        return $order_id;
+                    })
+                    ->addColumn('confirmation_number', function ($row) {
+                        if(is_null($row->confirmation_number)){
+                            $confirmation_number = "-";
+                        }else{
+                            $confirmation_number = $row->confirmation_number;
+                        }
+                        return $confirmation_number;
+                    })
+                    ->addColumn('amount', function ($row) {
+                        
+                        return '₹'.$row->amount;
+                    })
+                    ->addColumn('checkin_date', function ($row) {
+                        $checkin_date = date(\Config::get('constants.DATE.DATE_FORMAT') , strtotime($row->check_in_date));
+                        return $checkin_date;
+                    })
+                    ->addColumn('checkout_date', function ($row) {
+                        $checkout_date = date(\Config::get('constants.DATE.DATE_FORMAT') , strtotime($row->check_out_date));
+                        return $checkout_date;
+                    })
+                    ->addColumn('action', function($row) {
+                           $edit = url('/').'/admin/bookings/edit/'.$row->id;
+                           $confirm = '"Are you sure, you want to delete it?"';
+
+                            $editBtn = "<li>
+                                        <a href='".$edit."'>
+                                            <em class='icon ni ni-edit'></em> <span>Edit</span>
+                                        </a>
+                                    </li>";
+
+                            $btn = '';
+                            $btn .= '<ul class="nk-tb-actio ns gx-1">
+                                        <li>
+                                            <div class="drodown mr-n1">
+                                                <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
+                                                <div class="dropdown-menu dropdown-menu-right">
+                                                    <ul class="link-list-opt no-bdr">
+                                        ';
+
+                           $btn .=       $editBtn;
+
+                            $btn .= "</ul>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    </ul>";
+                        return $btn;
+                    })
+                    ->rawColumns(['action','status','order_id','confirmation_number'])
+                    ->make(true);
+        }
+
+        return view('hotel::bookingList')->with(compact('bookingsCount'));
     }
 
     public function createOrderNumber()
@@ -550,7 +636,7 @@ class HotelController extends Controller
             $booking->tax_percentage = 18;
             $booking->special_request = "";
             $booking->customer_booking_status = 'Received';
-            $booking->booking_status = 'Payment Completed';
+            $booking->booking_status = 'Booking Received';
             $booking->booking_type = 'Offline';
 
             if($booking->save()){
@@ -604,15 +690,12 @@ class HotelController extends Controller
                     return redirect('/admin/bookings/add')->with('error', 'Something went wrong');
                 }
             }
-
-            print_r($bookingRoomsData);
             
         } catch (Exception $e) {
             echo $e->getMessage();
             die;
         }
     }
-
 
     public function createBooking()
     {
@@ -632,6 +715,193 @@ class HotelController extends Controller
         
     }
 
+    public function editBooking(Request $request,$booking_id)
+    {
+
+        $booking = Booking::findorfail($booking_id);
+
+        $users = User::select('id')->get();
+        $hotels = Hotel::where('status','active')->get();
+        
+        $roomTypes = RoomType::where('status','active')->get();
+
+        $bookingRooms = BookingRoom::from('booking_rooms as br')
+                ->select('br.*','hr.rate')
+                ->leftJoin('hotel_rooms as hr','br.room_id','=','hr.id')
+                ->where('br.booking_id',$booking_id)
+                ->get();
+
+        $guests =   User::from('users as u')
+                    ->select('u.id','u.full_name')
+                    ->leftJoin('user_role as ur','u.id','=','ur.user_id')
+                    ->leftJoin('roles as r','ur.role_id','=','r.id')
+                    ->where('r.name','Guest')
+                    ->where('u.status','active')
+                    ->get();
+        return view('hotel::editBooking',['booking' => $booking,'hotels' => $hotels,'roomTypes' => $roomTypes,'guests' => $guests,'bookingRooms' => $bookingRooms->toArray()]);
+        
+    }
+
+    public function updateBooking(Request $request,$booking_id){
+        
+        try{
+            $bookingRoomsData = array();
+
+            \DB::beginTransaction();
+
+            $diff = strtotime($request->checkout_date) - strtotime($request->checkin_date);
+            $nights = $diff/86400;
+            $total = 0;
+
+            $rooms = $request->rooms;
+
+            foreach ($rooms as $key => $room) {
+                if($key == 0){
+                    $type_id = $request->room_one_type;
+                    $data = json_decode($request->room_one_data,true);
+                    $adults = $request->room_one_adult;
+                    $childs = $request->room_one_child;
+
+                    $total += $nights*$data['rate'];
+                    $extra_bed = $extra_bed_cost = 0;
+                    if($request->room_one_extraBed == 1){
+                        $total += $data['extra_bed_rate'];
+                        $extra_bed = 1;
+                        $extra_bed_cost = $data['extra_bed_rate'];
+                    }
+                }else{
+                    $data = json_decode($request->room_two_data,true);
+                    $adults = $request->room_two_adult;
+                    $childs = $request->room_two_child;
+
+                    $total += $nights*$data['rate'];
+                    $extra_bed = $extra_bed_cost = 0;
+                    if($request->room_one_extraBed == 1){
+                        $total += $data['extra_bed_rate'];
+                        $extra_bed = 1;
+                        $extra_bed_cost = $data['extra_bed_rate'];
+                    }
+                }
+
+                $guest_one_name = $guest_two_name = $guest_three_name = $child_name = Null;
+
+                for ($i=0; $i < $adults ; $i++) {
+                    if($i == 0){
+                        $guest_one_name = $room['first_name'][$i];
+                    }
+
+                    if($i == 1){
+                        $guest_two_name = $room['first_name'][$i];   
+                    }
+
+                    if($i == 2){
+                        $guest_three_name = $room['first_name'][$i];   
+                    }
+                }
+
+                if($childs > 0){
+                    $child_name = $room['child_first_name'][0];   
+                }
+
+                $bookingRoomsData[] =  array(
+                                    'guests' => $adults+$childs,
+                                    'adults' => $adults,
+                                    'childs' => $childs,
+                                    'guest_one_name' => $guest_one_name,
+                                    'guest_two_name' => $guest_two_name,
+                                    'guest_three_name' => $guest_three_name,
+                                    'child_name' => $child_name,
+                                    'room_id' => $data['id'],
+                                    'amount' => (($nights*$data['rate'])+$extra_bed_cost),
+                                    'extra_bed' => $extra_bed,
+                                    'extra_bed_cost' => $extra_bed_cost,
+                                );
+            }
+
+            $tax = ($total*(18/100));
+
+            $booking = Booking::findorfail($booking_id);
+
+            $oldGuestId = $booking->user_id;
+
+            $booking->user_id = $request->guest;
+            $booking->hotel_id = $request->hotel;
+            $booking->check_in_date = date('Y-m-d',strtotime($request->checkin_date));
+            $booking->check_out_date = date('Y-m-d',strtotime($request->checkout_date));
+            $booking->nights = $nights;
+            $booking->amount = $total;
+            $booking->sub_total = $total-$tax;
+            $booking->tax = $tax;
+            $booking->tax_percentage = 18;
+            $booking->special_request = $request->special_request;
+            $booking->customer_booking_status = 'Received';
+            $booking->booking_status = 'Booking Received';
+            $booking->booking_type = 'Offline';
+            $booking->confirmation_number = $request->confirmation_number;
+            $booking->utr_number = $request->utr_number;
+            $booking->settlement_date = date('Y-m-d',strtotime($request->settlement_date));
+            if($booking->save()){
+
+                BookingRoom::where('booking_id',$booking_id)->forceDelete();
+                foreach ($bookingRoomsData as $key => $bookingRoom) {
+                    $room = new BookingRoom();
+                    $room->booking_id = $booking->id;
+                    $room->room_id = $bookingRoom['room_id'];
+                    $room->amount = $bookingRoom['amount'];
+                    $room->guests = $bookingRoom['guests'];
+                    $room->adults = $bookingRoom['adults'];
+                    $room->childs = $bookingRoom['childs'];
+                    $room->guest_one_name = $bookingRoom['guest_one_name'];
+                    $room->guest_two_name = $bookingRoom['guest_two_name'];
+                    $room->guest_three_name = $bookingRoom['guest_three_name'];
+                    $room->child_name = $bookingRoom['child_name'];
+                    $room->extra_bed = $bookingRoom['extra_bed'];
+                    $room->extra_bed_cost = $bookingRoom['extra_bed_cost'];
+                    
+                    if(!$room->save()){
+                        \DB::rollback();
+                        return redirect('/admin/bookings/edit/'.$booking_id)->with('error', 'Something went wrong');
+                    }else{
+                        $hotelRoom = HotelRoom::findorfail($bookingRoom['room_id']);
+                        if($hotelRoom){
+                            $hotelRoom->count = $hotelRoom->count-1;
+                            $hotelRoom->save();
+                        }
+                    }
+                }
+
+                if($request->guest != $oldGuestId){
+                    BillingDetail::where('booking_id',$booking_id)->forceDelete();
+
+                    $guest = User::findorfail($request->guest);
+
+                    $billingDetail->booking_id = $booking->id;
+                    $billingDetail->first_name = $guest->full_name;
+                    $billingDetail->country = $guest->country;
+                    $billingDetail->zip_code = $guest->zip;
+                    $billingDetail->address_1 = $guest->address;
+                    $billingDetail->phone = $guest->mobile;
+                    $billingDetail->email = $guest->email;
+
+                    if($billingDetail->save()){
+                        \DB::commit();
+                        return redirect('/admin/bookings')->with('message', 'Booking updated successfully');
+                    }else{
+                        \DB::rollback();
+                        return redirect('/admin/bookings/edit/'.$booking_id)->with('error', 'Something went wrong');
+                    }
+                }
+
+                \DB::commit();
+                return redirect('/admin/bookings')->with('message', 'Booking updated successfully');
+            }
+
+        } catch (Exception $e) {
+            echo $e->getMessage();
+            die;
+        }
+    }
+
     public function hotelRooms(Request $request,$hotel_id){
         $hotelRooms = HotelRoom::from('hotel_rooms as hr')
                 ->select('hr.id', 'hr.hotel_id', 'hr.name', 'hr.type_id', 'hr.description', 'hr.allocated_rooms', 'hr.mpt_reserve', 'hr.count', 'hr.rate', 'hr.extra_bed_available', 'hr.extra_bed_rate', 'hr.status','rt.name as room_type_name')
@@ -645,5 +915,10 @@ class HotelController extends Controller
             return array('success' => false,'hotelRooms' => array());
         }
     }
+    public function bulkBooking(){
+       return view('hotel::bulkBooking');
+    }
+
+    
 
 }
