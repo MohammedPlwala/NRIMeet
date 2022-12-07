@@ -915,5 +915,10 @@ class HotelController extends Controller
             return array('success' => false,'hotelRooms' => array());
         }
     }
+    public function bulkBooking(){
+       return view('hotel::bulkBooking');
+    }
+
+    
 
 }
