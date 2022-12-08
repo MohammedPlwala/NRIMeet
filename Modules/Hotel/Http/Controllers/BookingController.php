@@ -192,7 +192,7 @@ class BookingController extends Controller
     {
 
         $bulkBooking = BulkBooking::findorfail($id);
-        if($user->forceDelete()){
+        if($bulkBooking->forceDelete()){
             HotelRoom::where('id', $bulkBooking->room_type_id)->increment('count', $bulkBooking->room_count);
             return redirect('admin/bulk-bookings')->with('message', 'Booking deleted successfully');
         }else{
