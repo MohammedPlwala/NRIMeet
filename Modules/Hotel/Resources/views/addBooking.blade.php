@@ -32,7 +32,7 @@
                                 <div class="col-lg-8">
                                     <x-inputs.select for="guest" icon="mail" required="true" class=""
                                         placeholder="Select Guest" name="guest">
-                                        <option>Select Guest</option>
+                                        <option value="">Select Guest</option>
                                         @forelse($guests as $key => $guest)
                                             <option value="{{ $guest->id }}">{{ ucfirst($guest->full_name) }}</option>
                                         @empty
@@ -48,7 +48,7 @@
                                 <div class="col-lg-8">
                                     <x-inputs.select for="hotel" icon="mail" required="true" class=""
                                         placeholder="Select Hotel" name="hotel">
-                                        <option>Select Hotel</option>
+                                        <option value="">Select Hotel</option>
                                         @forelse($hotels as $key => $hotel)
                                             <option value="{{ $hotel->id }}">{{ ucfirst($hotel->name) }}</option>
                                         @empty
@@ -62,22 +62,22 @@
                                         suggestion="" required="true" />
                                 </div>
                                 <div class="col-lg-8">
-                                    <div class="row">
-                                        <div class="col-lg-6">
-                                            <x-inputs.text value="" for="checkin_date" class="date-picker checkDate"
-                                                icon="calender-date-fill" required="true" placeholder="Date of birth"
+                                    <div class="form-group">
+                                        <div class="form-control-wrap">
+                                            <div class="input-daterange date-picker-range input-group">
+                                                <x-inputs.text value="" for="checkin_date" class="checkDate"
+                                                icon="calender-date-fill" required="true" placeholder="Check In Date"
                                                 name="checkin_date" />
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <x-inputs.text value="" for="checkout_date" class="date-picker checkDate"
-                                                icon="calender-date-fill" required="true" placeholder="Date of birth"
+
+                                                <div class="input-group-addon">TO</div>
+                                                <x-inputs.text value="" for="checkout_date" class="checkDate"
+                                                icon="calender-date-fill" required="true" placeholder="Check Out Date"
                                                 name="checkout_date" />
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-
-                          
+                            </div>                          
                         </div>
                     </div>
                 </div>

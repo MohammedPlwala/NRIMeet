@@ -14,6 +14,15 @@
     <div class="container">
         <div class="shb-booking-page-wrapper shb-clearfix">
             <div class="shb-booking-page-main full-width">
+                <div class="shb-booking-step-wrapper shb-clearfix">
+                    <div class="shb-booking-step shb-booking-step-current"><a href="{{ url('/search') }}">1</a><a href="{{ url('/search') }}">Rooms</a></div>
+                    <div class="shb-booking-step shb-booking-step-current"><a href="{{ url('/booking-summary') }}">2</a><a href="{{ url('/booking-summary') }}">Booking Summary</a></div>
+                    <div class="shb-booking-step shb-booking-step-current"><a href="javascript:void(0)">3</a><a href="javascript:void(0)">Payment</a></div>
+                    <div class="shb-booking-step "><a href="javascript:void(0)">4</a><a href="javascript:void(0)">Complete</a></div>
+                    <div class="shb-booking-step-line">
+                        <div style="width:66%;"></div>
+                    </div>
+                </div>
                 <form action="{{ url('razorpay-payment') }}" method="POST">
                     <!-- Billing Details -->
                     <div id="billing_details" class="custom-form">
