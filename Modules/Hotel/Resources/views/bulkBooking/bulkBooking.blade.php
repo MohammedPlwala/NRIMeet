@@ -32,7 +32,7 @@
                                 </div>
                                 <div class="col-lg-8">
                                     <x-inputs.text for="name" icon="mail" required="true" class=""
-                                        placeholder="Select" name="name" value="{{ isset($bulkBooking) ? $bulkBooking->name : old('name') }}" />
+                                        placeholder="Name" name="name" value="{{ isset($bulkBooking) ? $bulkBooking->name : old('name') }}"  />
                                       
                                 </div>
                             </div>
