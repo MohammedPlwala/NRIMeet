@@ -17,9 +17,10 @@ Route::prefix('admin/report')->group(function() {
     Route::get('guest', 'ReportController@guest');
     Route::get('guest-export', 'ReportController@guestExport');
 
-
-
     Route::get('hotel-master', 'ReportController@hotelMaster');
+    Route::get('export-hotel-master', 'ReportController@hotelMasterExport');
+
+
     Route::get('inventory', 'ReportController@inventory');
     Route::get('payment', 'ReportController@payment');
     Route::get('booking', 'ReportController@booking');

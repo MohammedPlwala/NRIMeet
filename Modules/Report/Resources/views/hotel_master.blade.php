@@ -17,7 +17,7 @@
                             </a>
                         </li>
                         <li class="nk-block-tools-opt">
-                            <a href="{{ url('report/export-hotel-master') }}" class="btn btn-primary"><em class="icon ni ni-download"></em><span>Export</span></a>
+                            <a href="javascript:void(0);" data-href="{{ url('admin/report/export-hotel-master') }}" class="btn btn-primary export_data"><em class="icon ni ni-download"></em><span>Export</span></a>
                         </li>
                     </ul>
                 </div>
@@ -33,7 +33,6 @@
             <table id="sales_SP" class="products-init nowrap nk-tb-list is-separate" data-auto-responsive="false">
                 <thead>
                     <tr class="nk-tb-item nk-tb-head">
-                        <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">#</span></th>
                         <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Start Rating</span></th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Hotel Name</span></th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Room Type</span></th>
@@ -43,8 +42,6 @@
                         <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Closing Inventory</span></th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Contact Person</span></th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Contact Number</span></th>
-                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Whatsapp Number</span></th>
-                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Email ID</span></th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Hotel Description</span></th>
                         <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Distance From Airport</span></th>
                         <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Distance From Venue</span></th>
@@ -53,25 +50,6 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr class="nk-tb-item">
-                        <td class="nk-tb-col tb-col-mb text-center">1</td>
-                        <td class="nk-tb-col tb-col-mb text-center">5</td>
-                        <td class="nk-tb-col tb-col-mb">Hotel name</td>
-                        <td class="nk-tb-col tb-col-mb">Base</td>
-                        <td class="nk-tb-col tb-col-mb text-center">3</td>
-                        <td class="nk-tb-col tb-col-mb">&#8377; 5000</td>
-                        <td class="nk-tb-col tb-col-mb">&#8377; 5000</td>
-                        <td class="nk-tb-col tb-col-mb text-center">60</td>
-                        <td class="nk-tb-col tb-col-mb">Sanjay Sharma</td>
-                        <td class="nk-tb-col tb-col-mb">1234561234</td>
-                        <td class="nk-tb-col tb-col-mb">1234561234</td>
-                        <td class="nk-tb-col tb-col-mb">test@gmail.com</td>
-                        <td class="nk-tb-col tb-col-mb">sadkfsal fjsadflkj sdfl;kadjf sal;dkfjsa</td>
-                        <td class="nk-tb-col tb-col-mb text-center">5km</td>
-                        <td class="nk-tb-col tb-col-mb text-center">5km</td>
-                        <td class="nk-tb-col tb-col-mb">sadfsdfsa dfs dfsadf</td>
-                        <td class="nk-tb-col tb-col-mb">http://www.test.com</td>
-                    </tr>
                 </tbody>
             </table>
         </div>
@@ -98,13 +76,13 @@
                                 <x-inputs.verticalFormLabel label="Star Rating" for="star_rating" suggestion="Select the star rating." />
                             </div>
                             <div class="col-lg-7">
-                                <x-inputs.select  size="sm" name="star_rating" for="star_rating" placeholder="Select Star Rating">
+                                <x-inputs.select  size="sm" name="star_rating" for="star_rating" placeholder="Select Star Rating" id="star_rating">
                                     <option value="">Select</option>
-                                    <option value="5 Star">7 Star</option>
+                                    <option value="5 Star Level">7 Star Level</option>
                                     <option value="5 Star Deluxe">5 Star Deluxe</option>
-                                    <option value="5 Star">5 Star</option>
-                                    <option value="4 Star">4 Star</option>
-                                    <option value="3 Star">3 Star</option>
+                                    <option value="5 Star Level">5 Star Level</option>
+                                    <option value="4 Star Level">4 Star Level</option>
+                                    <option value="3 Star Level">3 Star Level</option>
                                 </x-inputs.select>
                             </div>
                         </div>
@@ -113,11 +91,11 @@
                                 <x-inputs.verticalFormLabel label="Room Type" for="room_type" suggestion="Select the room type." />
                             </div>
                             <div class="col-lg-7">
-                                <x-inputs.select  size="sm" name="room_type" for="room_type" placeholder="Select Room Type">
+                                <x-inputs.select  size="sm" name="room_type" for="room_type" placeholder="Select Room Type" id="room_type">
                                     <option value="">Select</option>
-                                    <option value="Base">Base</option>
-                                    <option value="Suite">Suite</option>
-                                    <option value="Premier">Premier</option>
+                                    <option value="1">Base</option>
+                                    <option value="2">Suite</option>
+                                    <option value="3">Premier</option>
                                 </x-inputs.select>
                             </div>
                         </div>
@@ -126,7 +104,14 @@
                                 <x-inputs.verticalFormLabel label="Charges" for="charges" suggestion="Enter the charges." />
                             </div>
                             <div class="col-lg-7">
-                                <x-inputs.number  value="" for="charges" name="charges" placeholder="Enter Charges" />
+                                <!-- <x-inputs.number  value="" for="charges" name="charges" placeholder="Enter Charges" /> -->
+                                <x-inputs.select  size="sm" name="charges" for="charges" placeholder="Select Charges" id="charges">
+                                    <option value="">Select</option>
+                                    <option value="1">5000 to 10000</option>
+                                    <option value="2">10000 to 15000</option>
+                                    <option value="3">15000 to 20000</option>
+                                    <option value="4">Above 20000</option>
+                                </x-inputs.select>
                             </div>
                         </div>
                         <div class="row g-3 align-center">
@@ -134,7 +119,7 @@
                                 <x-inputs.verticalFormLabel label="Closing Inventory" for="closing_inventory" suggestion="Enter the closing inventory." />
                             </div>
                             <div class="col-lg-7">
-                                <x-inputs.number  value="" for="closing_inventory" name="closing_inventory" placeholder="Enter Closing Inventory" />
+                                <x-inputs.number  value="" for="closing_inventory" name="closing_inventory" placeholder="Enter Closing Inventory" id="closing_inventory" />
                             </div>
                         </div>
                         <div class="row g-3 align-center">
@@ -142,13 +127,13 @@
                                 <x-inputs.verticalFormLabel label="Distance From Airport" for="distance_from_airport" suggestion="Select the distance from airport." />
                             </div>
                             <div class="col-lg-7">
-                                <x-inputs.select  size="sm" name="distance_from_airport" for="distance_from_airport" placeholder="Select Distance From Airport">
+                                <x-inputs.select  size="sm" name="distance_from_airport" for="distance_from_airport" placeholder="Select Distance From Airport" id="distance_from_airport">
                                     <option value="">Select</option>
-                                    <option value="1km">1km</option>
-                                    <option value="2km">2km</option>
-                                    <option value="3km">3km</option>
-                                    <option value="4km">4km</option>
-                                    <option value="5km">5km</option>
+                                    <option value="5">Under 5 km</option>
+                                    <option value="10">Under 10 km</option>
+                                    <option value="15">Under 15 km</option>
+                                    <option value="20">Under 25 km</option>
+                                    <option value="2000">Above 25 km</option>
                                 </x-inputs.select>
                             </div>
                         </div>
@@ -157,13 +142,13 @@
                                 <x-inputs.verticalFormLabel label="Distance From Venue" for="distance_from_venue" suggestion="Select the distance from venue." />
                             </div>
                             <div class="col-lg-7">
-                                <x-inputs.select  size="sm" name="distance_from_venue" for="distance_from_venue" placeholder="Select Distance From Venue">
+                                <x-inputs.select  size="sm" name="distance_from_venue" for="distance_from_venue" placeholder="Select Distance From Venue" id="distance_from_venue">
                                     <option value="">Select</option>
-                                    <option value="1km">1km</option>
-                                    <option value="2km">2km</option>
-                                    <option value="3km">3km</option>
-                                    <option value="4km">4km</option>
-                                    <option value="5km">5km</option>
+                                    <option value="5">Under 5 km</option>
+                                    <option value="10">Under 10 km</option>
+                                    <option value="15">Under 15 km</option>
+                                    <option value="20">Under 25 km</option>
+                                    <option value="2000">Above 25 km</option>
                                 </x-inputs.select>
                             </div>
                         </div>
@@ -185,50 +170,174 @@
 </div>
 @endsection
 @push('footerScripts')
-<script src="{{url('js/APIDataTable.js')}}"></script>
-<script src="{{url('js/dayjs.min.js?t='.time())}}"></script>
+<script src="{{url('js/tableFlow.js')}}"></script>
 <script type="text/javascript">
-    
-    var token = '{{ \Session::get('token') }}';//get logged in user session.
-    var organizationId = "{{ \Session::get('currentOrganization') }}";
 
-    var dataTable = new APIDataTable({
-        tableElem: '#sales_SP',
-        pageinationElem: '#table_pagination',
-        api: "{{ url('api/v1/report/total-inventory-data') }}/"+organizationId,
-        authToken: 'Bearer '+token,
-        filterIds: [
-            '#month',
-            '#year'
-        ],
-        filterSubmit: '.submitBtn',
-        filterSubmitCallback: function(){
-            $('#modalFilterorder').modal('toggle');
-        },
-        filterClearSubmit: '.resetFilter',
-        filterModalId: '#modalFilterorder',
-        tagId: '#filter_tag_list',
-        columns: [{
-                data: "order_number",
-            },
-            {
-                data: "username",
-            },
-            {
-                data: "amount",
-                render:function(row){
-                    return NioApp.formatToCurrency(row.amount);
+    $('.export_data').on('click', function (e) {
+        var myUrl = $(this).attr('data-href');
+console.log(myUrl);
+        if($('#star_rating').val() != ""){
+            myUrl = addQSParm(myUrl,'star_rating', $('#star_rating').val());
+        }
+        if($('#room_type').val() != ""){
+            myUrl = addQSParm(myUrl,'room_type', $('#room_type').val());
+        }
+        if($('#charges').val() != ""){
+            myUrl = addQSParm(myUrl,'charges', $('#charges').val());
+        }
+        if($('#closing_inventory').val() != ""){
+            myUrl = addQSParm(myUrl,'closing_inventory', $('#closing_inventory').val());
+        }
+        if($('#distance_from_airport').val() != ""){
+            myUrl = addQSParm(myUrl,'distance_from_airport', $('#distance_from_airport').val());
+        }
+        if($('#distance_from_venue').val() != ""){
+            myUrl = addQSParm(myUrl,'distance_from_venue', $('#distance_from_venue').val());
+        }
+
+        location.href = myUrl;
+    });
+
+    function addQSParm(myUrl,name, value) {
+       var re = new RegExp("([?&]" + name + "=)[^&]+", "");
+
+       function add(sep) {
+          myUrl += sep + name + "=" + encodeURIComponent(value);
+       }
+
+       function change() {
+          myUrl = myUrl.replace(re, "$1" + encodeURIComponent(value));
+       }
+       if (myUrl.indexOf("?") === -1) {
+          add("?");
+       } else {
+          if (re.test(myUrl)) {
+             change();
+          } else {
+             add("&");
+          }
+       }
+       return myUrl;
+    }
+
+    $(function() {
+        var root_url = "<?php echo url('/'); ?>";
+
+        var logUrl = root_url + '/user/logs';
+        NioApp.getAuditLogs('.products-init', '.audit_logs', 'resourceid', logUrl, '#modalLogs');
+
+        var items = [
+            '#star_rating',
+            '#room_type',
+            '#closing_inventory',
+            '#distance_from_airport',
+            '#distance_from_venue'
+        ];
+        var user_table = "";
+        user_table = new CustomDataTable({
+            tableElem: '.products-init',
+            option: {
+                processing: true,
+                serverSide: true,
+                ordering: false,
+                ajax: {
+                    type: "GET",
+                    url: "{{ url('admin/report/hotel-master') }}",
+                },
+                columns: [
+                    {
+                        "class": "nk-tb-col tb-col-lg",
+                        data: 'classification',
+                        name: 'classification'
+                    },
+                    {
+                        "class": "nk-tb-col tb-col-lg",
+                        data: 'name',
+                        name: 'name'
+                    },
+                    {
+                        "class": "nk-tb-col tb-col-lg",
+                        data: 'hotel_type',
+                        name: 'hotel_type'
+                    },
+
+                    {
+                        "class": "nk-tb-col tb-col-lg",
+                        data: 'allocated_rooms',
+                        name: 'allocated_rooms'
+                    },
+
+                    {
+                        "class": "nk-tb-col tb-col-lg",
+                        data: 'rate',
+                        name: 'rate'
+                    },
+
+                    {
+                        "class": "nk-tb-col tb-col-lg",
+                        data: 'extra_bed_rate',
+                        name: 'extra_bed_rate'
+                    },
+                    {
+                        "class": "nk-tb-col tb-col-lg",
+                        data: 'available_rooms',
+                        name: 'available_rooms'
+                    },
+                    {
+                        "class": "nk-tb-col tb-col-lg",
+                        data: 'contact_person',
+                        name: 'contact_person'
+                    },
+                    {
+                        "class": "nk-tb-col tb-col-lg",
+                        data: 'contact_number',
+                        name: 'contact_number'
+                    },
+                    {
+                        "class": "nk-tb-col tb-col-lg",
+                        data: 'description',
+                        name: 'description'
+                    },
+                    {
+                        "class": "nk-tb-col tb-col-lg",
+                        data: 'airport_distance',
+                        name: 'airport_distance'
+                    },
+                    {
+                        "class": "nk-tb-col tb-col-lg",
+                        data: 'venue_distance',
+                        name: 'venue_distance'
+                    },
+                    {
+                        "class": "nk-tb-col tb-col-lg",
+                        data: 'address',
+                        name: 'address'
+                    },
+                    {
+                        "class": "nk-tb-col tb-col-lg",
+                        data: 'website',
+                        name: 'website'
+                    }
+                ],
+                "fnDrawCallback": function() {
+                    NioApp.BS.tooltip('[data-toggle="tooltip"]');
+                    $('.changePassword').click(function() {
+                        var resourceId = $(this).attr('data-resourceid');
+                        $('#password_user_id').val(resourceId);
+                        $('#modalUserPassword').modal('show');
+                    });
                 }
             },
-            {
-                data: "order_date",
-                render: function(row) {
-                    return row.order_date ? dayjs(row.order_date).format(
-                        "DD MMM YYYY"
-                    ) : "-";
-                },
+            filterSubmit: '.submitBtn',
+            filterSubmitCallback: function() {
+                $('#modalFilterorder').modal('toggle');
             },
-        ]
+            filterClearSubmit: '.resetFilter',
+            filterModalId: '#modalFilterorder',
+            filterItems: items,
+            tagId: '#filter_tag_list',
+        });
+
     });
 </script>
 @endpush

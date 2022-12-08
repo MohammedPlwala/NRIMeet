@@ -284,7 +284,6 @@
                     data: {
                         
                     },
-                    //dataType: "html",
                     method: "GET",
                     cache: false,
                     success: function (response) {
