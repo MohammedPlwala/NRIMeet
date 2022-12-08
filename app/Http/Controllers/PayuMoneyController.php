@@ -10,6 +10,10 @@ use Illuminate\Http\Request;
  */
 class PayuMoneyController extends \InfyOm\Payu\PayuMoneyController
 {
+
+    const TEST_URL = 'https://sandboxsecure.payu.in';
+    const PRODUCTION_URL = 'https://secure.payu.in';
+
     public function paymentCancel(Request $request)
     {
         $data = $request->all();
@@ -22,11 +26,16 @@ class PayuMoneyController extends \InfyOm\Payu\PayuMoneyController
     public function paymentSuccess(Request $request)
     {
         $data = $request->all();
+        echo "<pre>";
+        print_r($data);
+        die;
         $validHash = $this->checkHasValidHas($data);
         
         if (!$validHash) {
             echo "Invalid Transaction. Please try again";
         } else {
+
+
             echo "Payment successful";
         }
     }
@@ -34,6 +43,10 @@ class PayuMoneyController extends \InfyOm\Payu\PayuMoneyController
     public function redirectToPayU(Request $request)
     {
         $data = $request->all();
+        echo "<pre>";
+        print_r($data);
+        die;
+
         $MERCHANT_KEY = config('payu.merchant_key');
         $SALT = config('payu.salt_key');
 

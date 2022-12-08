@@ -17,10 +17,22 @@ Route::post('search', 'HotelController@search');
 Route::get('search', 'HotelController@search');
 Route::post('add-room', 'HotelController@addRoom');
 
+Route::get('booking-invoice/{booking_id}', 'HotelController@bookingPdf');
+
 Route::group(['middleware' => 'auth:web'], function(){
 	Route::get('booking-summary', 'HotelController@bookingSummary');
 	Route::post('booking-summary', 'HotelController@saveGuest');
 	Route::post('razorpay-payment','HotelController@saveRazorPayPayment');
+	
+	Route::any('payu-payment', 'HotelController@redirectToPayU');
+
+	Route::any('razor-pay-form', 'HotelController@razorPayForm');
+
+	
+
+	// Route::any('payu-money-payment-cancel', 'App\Http\Controllers\PayuMoneyController@paymentCancel')->name('payumoney-cancel');
+	// Route::any('payu-money-payment-success', 'App\Http\Controllers\PayuMoneyController@paymentSuccess')->name('payumoney-success');
+
 	Route::get('payment', 'HotelController@payment');
 	Route::get('thankyou', 'HotelController@bookingConfirmed');
 	Route::post('darshan-registration', 'FrontendController@store');
@@ -28,6 +40,7 @@ Route::group(['middleware' => 'auth:web'], function(){
 	Route::get('my-bookings', 'HotelController@myBookings');
 });
 
+Route::any('payu-payment-success','HotelController@payuSuccess');
 
 Route::get('booking', 'FrontendController@booking');
 Route::get('mahakal-lok-darshan', 'FrontendController@mahakalLokDarshan');
