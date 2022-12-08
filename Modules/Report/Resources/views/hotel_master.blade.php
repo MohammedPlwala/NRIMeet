@@ -78,7 +78,7 @@
                             <div class="col-lg-7">
                                 <x-inputs.select  size="sm" name="star_rating" for="star_rating" placeholder="Select Star Rating" id="star_rating">
                                     <option value="">Select</option>
-                                    <option value="5 Star Level">7 Star Level</option>
+                                    <option value="7 Star Level">7 Star Level</option>
                                     <option value="5 Star Deluxe">5 Star Deluxe</option>
                                     <option value="5 Star Level">5 Star Level</option>
                                     <option value="4 Star Level">4 Star Level</option>
@@ -229,6 +229,7 @@ console.log(myUrl);
         var items = [
             '#star_rating',
             '#room_type',
+            '#charges',
             '#closing_inventory',
             '#distance_from_airport',
             '#distance_from_venue'

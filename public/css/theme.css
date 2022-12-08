@@ -1244,6 +1244,16 @@ a.fc-event-custom-completed{
     letter-spacing: 0.02em;
 }
 /* END:- Calendar Event Custom Color */
+.date-picker-range .input-group-addon{
+    padding: 7px 8px 0 8px;
+}
+.date-picker-range .form-group{
+    flex: 1;
+    margin-bottom: 0;
+}
+.input-daterange input{
+    text-align: left;
+}
 
 @media screen and (max-width: 1600px) {
     .nk-ecwg .amount{

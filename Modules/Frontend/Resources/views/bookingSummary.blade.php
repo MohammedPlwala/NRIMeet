@@ -15,11 +15,21 @@
     <div class="container">
         <div class="shb-booking-page-wrapper shb-clearfix">
             <div class="shb-booking-page-main full-width">
+                <div class="shb-booking-step-wrapper shb-clearfix">
+                    <div class="shb-booking-step shb-booking-step-current"><a href="{{ url('/search') }}">1</a><a href="{{ url('/search') }}">Rooms</a></div>
+                    <div class="shb-booking-step shb-booking-step-current"><a href="javascript:void(0)">2</a><a href="javascript:void(0)">Booking Summary</a></div>
+                    <div class="shb-booking-step "><a href="javascript:void(0)">3</a><a href="javascript:void(0)">Payment</a></div>
+                    <div class="shb-booking-step "><a href="javascript:void(0)">4</a><a href="javascript:void(0)">Complete</a></div>
+                    <div class="shb-booking-step-line">
+                        <div style="width:33%;"></div>
+                    </div>
+                </div>
                 <div class="shb-booking-page-sidebar full-width">
                     <!-- BEGIN .shb-booking-your-stay-wrapper -->
                     <div class="shb-booking-your-stay-wrapper">
                         <!-- BEGIN .shb-booking-your-stay-items-wrapper -->
                         <div class="shb-booking-your-stay-items-wrapper">
+                        
                             <!-- BEGIN .shb-booking-your-stay-item-wrapper -->
                             @php
                             	$total = 0;
@@ -54,7 +64,7 @@
                                     <!-- BEGIN .shb-booking-your-stay-item -->
                                     <div class="shb-booking-your-stay-item shb-clearfix">
                                         <a href="#" class="shb-booking-stay-image">
-                                            <img src="{{url('/images/WOW-Hotel.jpeg')}}" alt="Bookings" />
+                                            <img src="{{ url('/uploads/hotels/' . $room->hotel->image) }}" alt="{{ $room->hotel->name }}" />
                                         </a>
                                         <div class="shb-booking-your-stay-item-info">
                                             <h4 class="shb-clearfix"><a href="#">{{ $room->hotel->name }}</a><span> ₹{{ $cartData['nights']*$room->rate }}</span>
@@ -88,7 +98,7 @@
                                         <div class="shb-additionalfee-info">
                                             <h4>Extra Bed</h4>
                                             <div class="shb-additionalfee-price">
-                                                <span> ₹{{ $room->extra_bed_rate }} | Per Person</span>
+                                                <span> ₹{{ $room->extra_bed_rate }} | Per Night</span>
                                                 <div><br>
 
                                                     @php

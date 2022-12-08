@@ -31,7 +31,7 @@
                                         required="true" />
                                 </div>
                                 <div class="col-lg-8">
-                                    <x-inputs.text for="name" icon="mail" required="true" class=""
+                                    <x-inputs.text for="name" icon="user" required="true" class=""
                                         placeholder="Select" name="name" />
                                       
                                 </div>
@@ -90,12 +90,12 @@
                                     <div class="row">
                                         <div class="col-lg-6 col-md-6">
                                             <x-inputs.text value="" for="checkin_date" class="date-picker checkDate"
-                                                icon="calender-date-fill" required="true" placeholder="Date of birth"
+                                                icon="calender-date-fill" required="true" placeholder="Check In Date"
                                                 name="checkin_date" />
                                         </div>
                                         <div class="col-lg-6 col-md-6">
                                             <x-inputs.text value="" for="checkout_date" class="date-picker checkDate"
-                                                icon="calender-date-fill" required="true" placeholder="Date of birth"
+                                                icon="calender-date-fill" required="true" placeholder="Check Out Date"
                                                 name="checkout_date" />
                                         </div>
                                     </div>
@@ -109,7 +109,7 @@
                                 </div>
                                 <div class="col-lg-8">
                                     <x-inputs.text for="rooms" icon="building" required="true" class=""
-                                        placeholder="#Rooms" name="rooms" />
+                                        placeholder="Enter Rooms Number" name="rooms" />
                                       
                                 </div>
                             </div>

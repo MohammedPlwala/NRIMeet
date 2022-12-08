@@ -68,7 +68,7 @@
                                             $value = $room->name;
                                         }
                                     @endphp
-                                    <x-inputs.text for="room_name" icon="umbrela" required="true" class="" placeholder="Email" name="room_name" 
+                                    <x-inputs.text for="room_name" icon="umbrela" required="true" class="" placeholder="Enter Room Name" name="room_name" 
                                     value="{{ $value }}"
                                     />
                                     @if ($errors->has('room_name'))
@@ -89,7 +89,7 @@
                                         }
                                     @endphp
                                     <x-inputs.number 
-                                    value="{{ $value }}" for="rate" icon="sign-inr" required="true" class="" placeholder="Email" name="rate" />
+                                    value="{{ $value }}" for="rate" icon="sign-inr" required="true" class="" placeholder="Enter Rate" name="rate" />
                                     @if ($errors->has('rate'))
                                         <span class="text-danger custom-error-text">{{ $errors->first('rate') }}</span>
                                     @endif

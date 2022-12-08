@@ -18,6 +18,7 @@ use Modules\Hotel\Entities\BillingDetail;
 use Modules\Hotel\Entities\Transaction;
 
 use Modules\Report\Exports\GuestExport;
+use Modules\Report\Exports\HotelMasterExport;
 
 use DataTables;
 
@@ -183,7 +184,7 @@ class ReportController extends Controller
     public function hotelMasterExport(Request $request)
     {
         $hotels =   Hotel::from('hotels as h')
-                    ->select('h.name','h.classification','h.airport_distance','h.venue_distance','h.website','h.contact_person','h.address','h.contact_number','h.description','hr.name as hotel_type','hr.allocated_rooms','hr.count as available_rooms','hr.rate','hr.extra_bed_available','hr.extra_bed_rate')
+                    ->select('h.classification','h.name','hr.name as hotel_type','hr.allocated_rooms','hr.rate','hr.extra_bed_rate','hr.count as available_rooms','h.contact_person','h.contact_number','h.description','h.airport_distance','h.venue_distance','h.address','h.website')
                     ->Join('hotel_rooms as hr','hr.hotel_id','=','h.id')
                     ->where(function ($query) use ($request) {
                         if (!empty($request->toArray())) {
@@ -224,9 +225,9 @@ class ReportController extends Controller
                     ->get();
 
         if(!empty($hotels->toArray())){
-            return (new GuestExport($hotels->toArray()))->download('hotels' . '.xlsx', \Maatwebsite\Excel\Excel::XLSX);
+            return (new HotelMasterExport($hotels->toArray()))->download('hotels' . '.xlsx', \Maatwebsite\Excel\Excel::XLSX);
         }else{
-            return redirect('ecommerce/orders')->with('error', 'No hotels');
+            return redirect('admin/report/hotel-master')->with('error', 'No hotels');
         }
     }
 

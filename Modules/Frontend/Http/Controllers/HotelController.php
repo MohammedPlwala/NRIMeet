@@ -95,6 +95,14 @@ class HotelController extends Controller
                     ->select('id','name','image','classification','description','location','airport_distance','venue_distance','website','contact_person','contact_number')
                     ->where('is_verified',1)
                     ->where('status','active')
+                    ->where(function ($query) use ($request) {
+                        if (!empty($request->toArray())) {
+                            if ($request->get('name') != '') {
+                                $query->where('h.name', 'like', '%' . $request->name . '%');
+                            }
+                        }
+                    })
+                    ->orderby('h.classification',$request->rating_orderby === 'asc'? 'asc' : 'desc')
                     ->get();
 
 
@@ -133,10 +141,12 @@ class HotelController extends Controller
         // echo "<pre>";
         // //  print_r($data->toArray());
         //  die;
- 
- 
-
-    	return view('frontend::booking',['hotels' => $hotels]);
+        // if(isset($request->date_from)){
+        // echo "<pre>";
+        // print_r($request->date_from);
+        // die;
+        // }
+    	return view('frontend::booking',['hotels' => $hotels, 'request' => $request]);
     }
 
     public function addRoom(Request $request){
