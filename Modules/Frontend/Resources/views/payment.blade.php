@@ -171,10 +171,18 @@
 
                     <div class="payment-radio-list">
                         <div class="payment-radio-list-item">
-                            <input type="radio" name="gateway" class="gateway" value="razorpay" id="razorpay_radio" /> <label for="razorpay_radio">RazorPay</label>
+                            <input type="radio" name="gateway" class="gateway" value="razorpay" id="razorpay_radio" />
+                            <label for="razorpay_radio">
+                                RazorPay
+                                <img src="{{url('/images/razorpay.svg')}}" alt="razorpay" />
+                            </label>
                         </div>
                         <div class="payment-radio-list-item">
-                            <input type="radio" name="gateway" class="gateway" value="payumoney" id="payumoney_radio" /> <label for="payumoney_radio">Payu-Money</label>
+                            <input type="radio" name="gateway" class="gateway" value="payumoney" id="payumoney_radio" />
+                            <label for="payumoney_radio">
+                                Payu-Money
+                                <img src="{{url('/images/payu-money.png')}}" alt="payu-money" />
+                            </label>
                         </div>
                     </div>
 
@@ -185,8 +193,8 @@
                     <div class="razorpay-script"></div>
 
                     <div class="payment-buttons">
-                        <input type="submit" value="Pay {{ $bookingData['amount'] }} INR" class="primary-button razorpay-payment-button" style="display:none" />
-                        <input type="submit" value="Payu {{ $bookingData['amount'] }} INR" class="payu-payment-button primary-button" style="display:none" />
+                        <input type="submit" value="Pay {{ $bookingData['amount'] }} INR" class="primary-button md razorpay-payment-button" style="display:none" />
+                        <input type="submit" value="Payu {{ $bookingData['amount'] }} INR" class="primary-button md payu-payment-button" style="display:none" />
                     </div>
                 </form>
             </div>

@@ -1316,13 +1316,23 @@ table.shop_table td:last-child{
 .payment-radio-list-item{
   border-bottom: 1px solid #dedede;
   padding: 12px 0;
+  display: flex;
+  align-items: center;
+  gap: 15px;
 }
 .payment-radio-list-item label{
   margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.payment-radio-list-item img{
+  height: 50px;
 }
 .payment-buttons{
   display: flex;
   justify-content: flex-end;
+  padding-top: 30px;
 }
 /* END: Payment Radio List CSS */
 
