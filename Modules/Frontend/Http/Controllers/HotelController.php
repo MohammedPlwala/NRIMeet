@@ -112,21 +112,21 @@ class HotelController extends Controller
             $hotels = array();
         }
 
-         // }'SELECT * FROM `bookings` WHERE `user_id` = '.$user->id
-         $user = \Auth::user();
-        //  $bookings = \DB::Raw('SELECT * FROM bookings WHERE user_id = 2')->get();
-        $data = Booking::from('bookings as b')
-                            ->select(\DB::Raw('COALESCE((select count(booking_rooms.id) from booking_rooms where booking_rooms.booking_id = b.id ),0) as rooms'),
-                            )
-                            ->where('user_id', $user->id)
-                            ->get()->toArray();
-        foreach ($data as $key => $value) {
-            echo "<pre>";
-            print_r($value);
-        }
-        echo "<pre>";
-        //  print_r($data->toArray());
-         die;
+        //  // }'SELECT * FROM `bookings` WHERE `user_id` = '.$user->id
+        //  $user = \Auth::user();
+        // //  $bookings = \DB::Raw('SELECT * FROM bookings WHERE user_id = 2')->get();
+        // $data = Booking::from('bookings as b')
+        //                     ->select(\DB::Raw('COALESCE((select count(booking_rooms.id) from booking_rooms where booking_rooms.booking_id = b.id ),0) as rooms'),
+        //                     )
+        //                     ->where('user_id', $user->id)
+        //                     ->get()->toArray();
+        // foreach ($data as $key => $value) {
+        //     echo "<pre>";
+        //     print_r($value);
+        // }
+        // echo "<pre>";
+        // //  print_r($data->toArray());
+        //  die;
  
  
 
