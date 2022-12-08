@@ -100,8 +100,7 @@
                                     <div class="input-group-icon">
                                         <i class="fas fa-key"></i>
                                     </div>
-                                    <input class="form-control" id="password" name="password" type="password"
-                                        placeholder="******************" required />
+                                    <input class="form-control" id="password" name="password" type="password" placeholder="******************" required />
                                     <i class="fa fa-eye" id="togglePassword"></i>
                                 </div>
                             </div>
@@ -249,6 +248,17 @@
             $('.mobile-navigation-button').click(function() {
                 $('.navigation').slideToggle("slow");
             });
+            // Show and Hide password input value
+            var passwordInput = document.getElementById("password");
+            $('#togglePassword').click(function() {
+                if(passwordInput.type === 'password'){
+                    passwordInput.type = "text";
+                    $(this).addClass('fa-eye-slash')
+                }else{
+                    passwordInput.type = "password";
+                    $(this).removeClass('fa-eye-slash')
+                }
+            })
         });
     </script>
     <script

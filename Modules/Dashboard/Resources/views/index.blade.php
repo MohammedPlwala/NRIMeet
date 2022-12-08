@@ -21,7 +21,7 @@
                             </div>
                             <div class="data">
                                 <div class="data-group">
-                                    <div class="amount">&#8377; 1,945</div>
+                                    <div class="amount">&#8377;1,945</div>
                                 </div>
                             </div>
                         </div><!-- .card-inner -->
@@ -34,12 +34,12 @@
                         <div class="card-inner">
                             <div class="card-title-group">
                                 <div class="card-title">
-                                    <h6 class="title">Today Revenue</h6>
+                                    <h6 class="title">Under Processing</h6>
                                 </div>
                             </div>
                             <div class="data">
                                 <div class="data-group">
-                                    <div class="amount">$2,338</div>
+                                    <div class="amount">&#8377;2,338</div>
                                 </div>
                             </div>
                         </div><!-- .card-inner -->
@@ -80,6 +80,68 @@
                             </div>
                         </div><!-- .card-inner -->
                     </div><!-- .nk-ecwg -->
+                </div><!-- .card -->
+            </div><!-- .col -->
+            <div class="col-xxl-3 col-md-6">
+                <div class="card h-100">
+                    <div class="card-inner">
+                        <div class="card-title-group mb-2">
+                            <div class="card-title">
+                                <h6 class="title">Inventory Stats</h6>
+                            </div>
+                        </div>
+                        <ul class="nk-store-statistics">
+                            <li class="item">
+                                <div class="info">
+                                    <div class="title">Total Inventory</div>
+                                    <div class="count">1,795</div>
+                                </div>
+                                <em class="icon bg-primary-dim ni ni-bag"></em>
+                            </li>
+                            <li class="item">
+                                <div class="info">
+                                    <div class="title">Booked Inventory</div>
+                                    <div class="count">2,327</div>
+                                </div>
+                                <em class="icon bg-info-dim ni ni-users"></em>
+                            </li>
+                            <li class="item">
+                                <div class="info">
+                                    <div class="title">Under Booking</div>
+                                    <div class="count">674</div>
+                                </div>
+                                <em class="icon bg-pink-dim ni ni-box"></em>
+                            </li>
+                            <li class="item">
+                                <div class="info">
+                                    <div class="title">CC Reserve</div>
+                                    <div class="count">68</div>
+                                </div>  
+                                <em class="icon bg-purple-dim ni ni-server"></em>
+                            </li>
+                            <li class="item">
+                                <div class="info">
+                                    <div class="title">On Hold</div>
+                                    <div class="count">68</div>
+                                </div>
+                                <em class="icon bg-purple-dim ni ni-server"></em>
+                            </li>
+                            <li class="item">
+                                <div class="info">
+                                    <div class="title">Under Cancellation</div>
+                                    <div class="count">68</div>
+                                </div>
+                                <em class="icon bg-purple-dim ni ni-server"></em>
+                            </li>
+                            <li class="item">
+                                <div class="info">
+                                    <div class="title">Stock Out</div>
+                                    <div class="count">68</div>
+                                </div>
+                                <em class="icon bg-purple-dim ni ni-server"></em>
+                            </li>
+                        </ul>
+                    </div><!-- .card-inner -->
                 </div><!-- .card -->
             </div><!-- .col -->
             <div class="col-xxl-6">
@@ -164,47 +226,7 @@
                     </div>
                 </div><!-- .card -->
             </div><!-- .col -->
-            <div class="col-xxl-3 col-md-6">
-                <div class="card h-100">
-                    <div class="card-inner">
-                        <div class="card-title-group mb-2">
-                            <div class="card-title">
-                                <h6 class="title">Store Statistics</h6>
-                            </div>
-                        </div>
-                        <ul class="nk-store-statistics">
-                            <li class="item">
-                                <div class="info">
-                                    <div class="title">Orders</div>
-                                    <div class="count">1,795</div>
-                                </div>
-                                <em class="icon bg-primary-dim ni ni-bag"></em>
-                            </li>
-                            <li class="item">
-                                <div class="info">
-                                    <div class="title">Customers</div>
-                                    <div class="count">2,327</div>
-                                </div>
-                                <em class="icon bg-info-dim ni ni-users"></em>
-                            </li>
-                            <li class="item">
-                                <div class="info">
-                                    <div class="title">Products</div>
-                                    <div class="count">674</div>
-                                </div>
-                                <em class="icon bg-pink-dim ni ni-box"></em>
-                            </li>
-                            <li class="item">
-                                <div class="info">
-                                    <div class="title">Categories</div>
-                                    <div class="count">68</div>
-                                </div>
-                                <em class="icon bg-purple-dim ni ni-server"></em>
-                            </li>
-                        </ul>
-                    </div><!-- .card-inner -->
-                </div><!-- .card -->
-            </div><!-- .col -->
+            
             <div class="col-xxl-8">
                 <div class="card card-full">
                     <div class="card-inner">
