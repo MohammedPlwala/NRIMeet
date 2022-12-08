@@ -37,7 +37,7 @@
 	                            }
                             	$total += $cartData['nights']*$room->rate;
                                 if($room->extra_bed_required){
-                                    $total += $room->extra_bed_rate;
+                                    $total += ($room->extra_bed_rate*Session::get('nights'));
                                 }
 	                            
                             @endphp
@@ -71,14 +71,14 @@
                                         <!-- END .shb-booking-your-stay-item -->
                                     </div>
                                 </div>
-                                @if($room->extra_bed_available)
                                 @php
-                                    $extraBed = url('booking-summary').'?type=remove&key='.$key.'&extra_bed_rate='.$room->extra_bed_rate;
+                                    $removeRoom = url('booking-summary').'?type=removeRoom&key='.$key;
                                 @endphp
-                                
                                 <div class="sidebar_right">
-                                    <a href="javascript:void(0)">Remove</a>
+                                    <a href="{{ $removeRoom }}">Remove</a>
                                 </div>
+                                @if($room->extra_bed_available)
+                                
                                 
                                 <div class="custom_extra_bed">
                                     <!-- BEGIN .shb-additionalfee-result-wrapper -->

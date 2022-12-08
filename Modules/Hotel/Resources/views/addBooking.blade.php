@@ -102,6 +102,7 @@
                                 <th  class="pt-3 pb-3">Adult</th>
                                 <th  class="pt-3 pb-3">Child</th>
                                 <th  class="pt-3 pb-3">Extra Bed</th>
+                                <th  class="pt-3 pb-3">Extra Bed Cost</th>
                                 <th  class="pt-3 pb-3">Per/Night</th>
                                 <th class="text-right pt-3 pb-3">Price</th>
                             </tr>
@@ -139,6 +140,10 @@
                                         <option value="1">Yes</option>
 
                                     </select>
+                                </td>
+                                <td>
+                                    ₹<span id="room_one_extraBed_rate"></span> / Night<br />
+                                    <small>Tax Inclusive</small>
                                 </td>
                                 <td>
                                     ₹<span id="room_one_rate"></span> / Night<br />
@@ -180,6 +185,7 @@
                                 <th  class="pt-3 pb-3">Adult</th>
                                 <th  class="pt-3 pb-3">Child</th>
                                 <th  class="pt-3 pb-3">Extra Bed</th>
+                                <th  class="pt-3 pb-3">Extra Bed Cost</th>
                                 <th  class="pt-3 pb-3">Per/Night</th>
                                 <th class="text-right pt-3 pb-3">Price</th>
                             </tr>
@@ -218,6 +224,10 @@
                                         <option value="1">Yes</option>
 
                                     </select>
+                                </td>
+                                <td>
+                                    ₹<span id="room_two_extraBed_rate"></span> / Night<br />
+                                    <small>Tax Inclusive</small>
                                 </td>
                                 <td>
                                     ₹<span id="room_two_rate"></span> / Night<br />
@@ -302,10 +312,13 @@
                     var nights = getNights();
 
                     if ($(this).val() == 1) {
-                        price = ((parseFloat(roomData.rate) * nights) + parseFloat(roomData
-                        .extra_bed_rate));
+
+                        $('#room_one_extraBed_rate').text(roomData.extra_bed_rate);
+
+                        price = ((parseFloat(roomData.rate) * nights) + (parseFloat(roomData.extra_bed_rate) * nights));
                     } else {
                         price = (parseFloat(roomData.rate) * nights);
+                        $('#room_one_extraBed_rate').text(0);
                     }
                     $('#room_one_price').text(price.toFixed(2));
                     $('#room_one_price_input').val(price.toFixed(2));
@@ -345,9 +358,14 @@
                     var nights = getNights();
 
                     if ($(this).val() == 1) {
-                        price = ((parseFloat(roomData.rate) * nights) + parseFloat(roomData
-                        .extra_bed_rate));
+
+                        $('#room_two_extraBed_rate').text(roomData.extra_bed_rate);
+
+                        price = ((parseFloat(roomData.rate) * nights) + (parseFloat(roomData.extra_bed_rate) * nights));
                     } else {
+
+                        $('#room_two_extraBed_rate').text(0);
+
                         price = (parseFloat(roomData.rate) * nights);
                     }
                     $('#room_two_price').text(price.toFixed(2));

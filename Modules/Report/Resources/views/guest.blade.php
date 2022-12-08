@@ -78,13 +78,41 @@
 
                         <div class="row g-3 align-center">
                             <div class="col-lg-5">
+                                <x-inputs.verticalFormLabel label="Country / Region" for="Country / Region" suggestion="Specify the country name." />
+                            </div>
+                            <div class="col-lg-7">
+                                <x-inputs.select name="country" for="billing_country"
+                                value="{{ isset($user) ? $user->country : old('country') }}"
+                                class="country_to_state country_select" autocomplete="country"
+                                data-placeholder="Select a country / region…" data-label="Country / Region"
+                                tabindex="-1" aria-hidden="true">
+                                <option value="">Select a country / region…</option>
+                            </x-inputs.select>
+                            @if ($errors->has('country'))
+                            <span class="text-danger">{{ $errors->first('country') }}</span>
+                        @endif
+                            </div>
+                        </div>
+                        <div class="row g-3" id="state_wrapper">
+                            <div class="col-lg-5">
+                                <x-inputs.verticalFormLabel label="State" for="State" suggestion="Specify the nationality." />
+                            </div>
+                            <div class="col-lg-7">
+                                <div id="field_billing_state">
+                                    <x-inputs.text  value="" for="billing_state" name="billing_state" placeholder="State" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row g-3 align-center">
+                            <div class="col-lg-5">
                                 <x-inputs.verticalFormLabel label="City" for="city" suggestion="Enter the city." />
                             </div>
                             <div class="col-lg-7">
                                 <x-inputs.text  value="" for="city" name="city" placeholder="City" />
                             </div>
                         </div>
-                        <div class="row g-3 align-center">
+                        {{-- <div class="row g-3 align-center">
                             <div class="col-lg-5">
                                 <x-inputs.verticalFormLabel label="State" for="state" suggestion="Select the state." />
                             </div>
@@ -111,7 +139,7 @@
                                     @endfor -->
                                 </x-inputs.select>
                             </div>
-                        </div>
+                        </div> --}}
                         <div class="row g-3 align-center">
                             <div class="col-lg-5">
                                 <x-inputs.verticalFormLabel label="Postal Code" for="postal_code" suggestion="Enter the postal code." />
@@ -128,7 +156,7 @@
                         <div class="col-lg-12 p-0 text-right">
                             <button class="btn btn-outline-light" data-dismiss="modal" aria-label="Close">Cancel</button>
                             <button class="btn btn-danger resetFilter" data-dismiss="modal" aria-label="Close">Clear Filter</button>
-                            <button class="btn btn-primary submitBtn" type="button">Submit</button>
+                            <button class="btn btn-primary submitBtn" data-dismiss="modal" type="button">Submit</button>
                         </div>
                     </div>
                 </div>
@@ -138,6 +166,8 @@
 </div>
 @endsection
 @push('footerScripts')
+<script src="{{url('js/address.js')}}"></script>
+
     <script src="{{url('js/tableFlow.js')}}"></script>
     <script type="text/javascript">
 
@@ -150,15 +180,16 @@
             if($('#city').val() != ""){
                 myUrl = addQSParm(myUrl,'city', $('#city').val());
             }
-            if($('#state').val() != ""){
-                myUrl = addQSParm(myUrl,'state', $('#state').val());
+            if($('#billing_state').val() != ""){
+                myUrl = addQSParm(myUrl,'state', $('#billing_state').val());
             }
             if($('#postal_code').val() != ""){
                 myUrl = addQSParm(myUrl,'postal_code', $('#postal_code').val());
             }
-            if($('#country').val() != ""){
-                myUrl = addQSParm(myUrl,'country', $('#country').val());
+            if($('#billing_country').val() != ""){
+                myUrl = addQSParm(myUrl,'country', $('#billing_country').val());
             }
+
 
             location.href = myUrl;
         });
@@ -193,8 +224,8 @@
 
             var items = [
                 '#city',
-                '#state',
-                '#country',
+                '#billing_state',
+                '#billing_country',
                 '#name',
                 '#postal_code'
             ];

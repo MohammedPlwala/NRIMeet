@@ -567,9 +567,9 @@ class HotelController extends Controller
                     $total += $nights*$data['rate'];
                     $extra_bed = $extra_bed_cost = 0;
                     if($request->room_one_extraBed == 1){
-                        $total += $data['extra_bed_rate'];
+                        $total += ($data['extra_bed_rate']*$nights);
                         $extra_bed = 1;
-                        $extra_bed_cost = $data['extra_bed_rate'];
+                        $extra_bed_cost = ($data['extra_bed_rate']*$nights);
                     }
 
                 }else{
@@ -579,10 +579,10 @@ class HotelController extends Controller
 
                     $total += $nights*$data['rate'];
                     $extra_bed = $extra_bed_cost = 0;
-                    if($request->room_one_extraBed == 1){
-                        $total += $data['extra_bed_rate'];
+                    if($request->room_two_extraBed == 1){
+                        $total += ($data['extra_bed_rate']*$nights);
                         $extra_bed = 1;
-                        $extra_bed_cost = $data['extra_bed_rate'];
+                        $extra_bed_cost = ($data['extra_bed_rate']*$nights);
                     }
                 }
 
@@ -767,9 +767,9 @@ class HotelController extends Controller
                     $total += $nights*$data['rate'];
                     $extra_bed = $extra_bed_cost = 0;
                     if($request->room_one_extraBed == 1){
-                        $total += $data['extra_bed_rate'];
+                        $total += ($data['extra_bed_rate']*$nights);
                         $extra_bed = 1;
-                        $extra_bed_cost = $data['extra_bed_rate'];
+                        $extra_bed_cost = ($data['extra_bed_rate']*$nights);
                     }
                 }else{
                     $data = json_decode($request->room_two_data,true);
@@ -778,10 +778,10 @@ class HotelController extends Controller
 
                     $total += $nights*$data['rate'];
                     $extra_bed = $extra_bed_cost = 0;
-                    if($request->room_one_extraBed == 1){
-                        $total += $data['extra_bed_rate'];
+                    if($request->room_two_extraBed == 1){
+                        $total += ($data['extra_bed_rate']*$nights);
                         $extra_bed = 1;
-                        $extra_bed_cost = $data['extra_bed_rate'];
+                        $extra_bed_cost = ($data['extra_bed_rate']*$nights);
                     }
                 }
 

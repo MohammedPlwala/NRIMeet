@@ -161,11 +161,11 @@
 
                     @csrf
                     <input type="hidden" name="bookingData" value="{{ json_encode($bookingData) }}">
-                    <script src="https://checkout.razorpay.com/v1/checkout.js" data-key="{{ env('RAZORPAY_KEY') }}" {{-- data-amount="{{ $bookingData['amount']*100 }}" --}}
+                    <script src="https://checkout.razorpay.com/v1/checkout.js" data-key="{{ config('constants.RAZORPAY_KEY') }}" {{-- data-amount="{{ $bookingData['amount']*100 }}" --}}
                         data-amount="{{ $bookingData['amount'] }}" data-buttontext="" data-name="NRI MEET" data-description="PBD NRI MEET"
                         data-image="https://www.itsolutionstuff.com/frontTheme/images/logo.png" data-prefill.name="name"
                         data-prefill.email="email" data-theme.color="#ff7529"></script>
-                    <input type="submit" value="Pay 23600 INR" class="primary-button razorpay-payment-button">
+                    <input type="submit" value="Pay {{ $bookingData['amount'] }} INR" class="primary-button razorpay-payment-button">
                 </form>
             </div>
         </div>
