@@ -14,7 +14,7 @@
     <div class="container">
         <div class="shb-booking-page-wrapper shb-clearfix">
             <div class="shb-booking-page-main full-width">
-                <form action="{{ url('razorpay-payment') }}" method="POST">
+                <form action="#" method="POST" id="billing_form">
                     <!-- Billing Details -->
                     <div id="billing_details" class="custom-form">
                         <h3 class="heading3">Billing details</h3>
@@ -159,13 +159,24 @@
                     </div>
 
 
+                    <div>
+                        <input type="radio" name="gateway" class="gateway" value="razorpay"> RazorPay
+                        <br>
+                        <input type="radio" name="gateway" class="gateway" value="payumoney"> Payu-Money
+                        <br>
+                        <br>
+                    </div>
+
                     @csrf
+                    
                     <input type="hidden" name="bookingData" value="{{ json_encode($bookingData) }}">
-                    <script src="https://checkout.razorpay.com/v1/checkout.js" data-key="{{ config('constants.RAZORPAY_KEY') }}" {{-- data-amount="{{ $bookingData['amount']*100 }}" --}}
-                        data-amount="{{ $bookingData['amount'] }}" data-buttontext="" data-name="NRI MEET" data-description="PBD NRI MEET"
-                        data-image="https://www.itsolutionstuff.com/frontTheme/images/logo.png" data-prefill.name="name"
-                        data-prefill.email="email" data-theme.color="#ff7529"></script>
-                    <input type="submit" value="Pay {{ $bookingData['amount'] }} INR" class="primary-button razorpay-payment-button">
+
+                    <div class="razorpay-script"></div>
+
+                    
+                    <input type="submit" value="Pay {{ $bookingData['amount'] }} INR" class="primary-button razorpay-payment-button" style="display:none">
+
+                    <input type="submit" value="Payu {{ $bookingData['amount'] }} INR" class="payu-payment-button primary-button" style="display:none">
                 </form>
             </div>
         </div>
@@ -177,4 +188,31 @@
 @endsection
 @push('footerScripts')
 <script src="{{url('js/address.js')}}"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('.gateway').change(function() {
+            var gateway = $(this).val();
+
+            var root_url = "<?php echo Request::root(); ?>";
+            var action = '';
+
+
+            if(gateway == 'payumoney'){
+                action = root_url + '/payu-payment';
+                $('.razorpay-payment-button').hide();
+                $('.payu-payment-button').show();
+                $('#billing_form').attr('action', action);
+            }
+
+            if(gateway == 'razorpay'){
+                action = root_url + '/razor-pay-form';
+                $('.payu-payment-button').hide();
+                $('.razorpay-payment-button').show();
+                $('#billing_form').attr('action', action);
+            }
+        });
+    });
+</script>
+
+
 @endpush

@@ -13,7 +13,7 @@
  		@forelse ($bookings as $key => $booking)
 	  	<div class="shb-booking-summary-wrapper">
 			<div class="shb-booking-summary-item">
-				<h4>{{ $booking->hotel_name }} </h4>
+				<h4>{{ $booking->hotel_name }} </h4> <a href="{{ url('booking-invoice/'.$booking->id) }}">Download Invoice</a>
 				<ul>
 				  	<li><strong>Dates:</strong> {{ date('d M, Y',strtotime($booking->check_in_date)) }} - {{ date('d M, Y',strtotime($booking->check_out_date)) }} ({{ $booking->nights }} Night)</li>
 				  	<li><strong>Guests:</strong> {{ $booking->adults }} Adult, {{ $booking->childs }} Children</li>
