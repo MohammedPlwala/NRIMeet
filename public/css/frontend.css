@@ -1308,6 +1308,24 @@ table.shop_table td:last-child{
   gap: 20px;
 }
 
+/* START: Payment Radio List CSS */
+.payment-radio-list{
+  display: flex;
+  flex-direction: column;
+}
+.payment-radio-list-item{
+  border-bottom: 1px solid #dedede;
+  padding: 12px 0;
+}
+.payment-radio-list-item label{
+  margin: 0;
+}
+.payment-buttons{
+  display: flex;
+  justify-content: flex-end;
+}
+/* END: Payment Radio List CSS */
+
 /* START: My Bookings CSS */
 .my-bookings-section{
   box-sizing: border-box;
@@ -1320,6 +1338,15 @@ table.shop_table td:last-child{
   margin: 0px !important;
   padding: 0px !important;
   border-bottom: #c1c5cb 1px solid;
+}
+.shb-booking-summary-item-header{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.shb-booking-summary-item-header .primary-button.sm{
+  padding: 9px 15px;
+  font-weight: 400;
 }
 .shb-booking-summary-item h4{
   font-size: 18px;

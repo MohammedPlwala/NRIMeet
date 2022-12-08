@@ -13,7 +13,9 @@
  		@forelse ($bookings as $key => $booking)
 	  	<div class="shb-booking-summary-wrapper">
 			<div class="shb-booking-summary-item">
-				<h4>{{ $booking->hotel_name }} </h4> <a href="{{ url('booking-invoice/'.$booking->id) }}">Download Invoice</a>
+				<div class="shb-booking-summary-item-header">
+					<h4>{{ $booking->hotel_name }} </h4> <a href="{{ url('booking-invoice/'.$booking->id) }}" class="primary-button sm"><em class="fas fa-download"></em> Download Invoice</a>
+				</div>
 				<ul>
 				  	<li><strong>Dates:</strong> {{ date('d M, Y',strtotime($booking->check_in_date)) }} - {{ date('d M, Y',strtotime($booking->check_out_date)) }} ({{ $booking->nights }} Night)</li>
 				  	<li><strong>Guests:</strong> {{ $booking->adults }} Adult, {{ $booking->childs }} Children</li>
@@ -34,15 +36,15 @@
 						<h5>Guests Infomation</h5>
 						<div class="my_account_guest_inner">
 							<p class="main_title_plural">Guests</p>
-							<p class="child_title_plural">Adults 1 = {{ $room->guest_one_name }}</p>
+							<p class="child_title_plural">Adults 1: {{ $room->guest_one_name }}</p>
 							@if(!empty($room->guest_two_name))
-								<p class="child_title_plural">Adults 2 = {{ $room->guest_two_name }}</p>
+								<p class="child_title_plural">Adults 2: {{ $room->guest_two_name }}</p>
 							@endif
 							@if(!empty($room->guest_three_name))
-								<p class="child_title_plural">Adults 3 = {{ $room->guest_three_name }}</p>
+								<p class="child_title_plural">Adults 3: {{ $room->guest_three_name }}</p>
 							@endif
 							@if(!empty($room->child_name))
-								<p class="child_title_plural">Child 1 = {{ $room->child_name }}</p>
+								<p class="child_title_plural">Child 1: {{ $room->child_name }}</p>
 							@endif
 						</div>
 			  		</div>

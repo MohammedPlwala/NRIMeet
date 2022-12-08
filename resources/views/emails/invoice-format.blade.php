@@ -10,13 +10,13 @@
 			.price-table tr th{text-align: left; background: #F1F1F1; padding: 9px 4px; font-size: 14px; border-bottom: #D6D4D4}
 			.price-table tr td{text-align: left; padding: 9px 4px; font-size: 14px; border-bottom: 1px solid #D6D4D4}
 			@media print {
-         .bg-blue {background-color: #1e306a; -webkit-print-color-adjust: exact; }
-         .bg-white {background-color: #FFF; -webkit-print-color-adjust: exact; }
+				.bg-blue {background-color: #1e306a; -webkit-print-color-adjust: exact; }
+				.bg-white {background-color: #FFF; -webkit-print-color-adjust: exact; }
       }
 		</style>
 	</head>
 	<body>
-		<table cellpadding="0" cellspacing="0" border="0" width="650" align="center" style="background-color: #1e306a;" class="bg-blue">
+		<table cellpadding="0" cellspacing="0" border="0" width="100%" align="center" style="background-color: #1e306a;" class="bg-blue">
 			<tbody>
 				<tr>
 					<td style="padding-top: 2px; padding-left: 10px;">
@@ -52,11 +52,11 @@
 				</tr>						
 			</tbody>
 		</table>
-    <table cellpadding="0" cellspacing="0" border="0" width="650" align="center">
+    <table cellpadding="0" cellspacing="0" border="0" width="100%" align="center">
 			<tbody>
 				<tr>
-					<td style="padding-top: 15px; vertical-align: top;">
-            <p style="font-family: Arial, Helvetica, sans-serif; font-size: 16px; font-weight: 600; color: #000; margin: 0;">Madhya Pradesh Tourism</p>
+					<td style="padding-top: 15px; font-family: Arial, Helvetica, sans-serif; font-size: 16px; color: #000; text-align: left; vertical-align: top;">
+            Madhya Pradesh Tourism
           </td>
           <td style="padding-top: 15px; font-family: Arial, Helvetica, sans-serif; font-size: 32px; font-weight: 700; color: #000; text-align: right; vertical-align: top;">
             ORDER
@@ -67,13 +67,13 @@
 			</tbody>
 		</table>
 		<!-- Content Area Start -->
-		<table class="price-table" cellpadding="0" cellspacing="0" border="0" width="650" align="center" style="margin-top: 20px;">
+		<table class="price-table" cellpadding="0" cellspacing="0" border="0" width="100%" align="center" style="margin-top: 20px;">
 			<thead>
 				<tr>
 					<th width="13%" style="text-align: left; background: #F1F1F1; padding: 9px 4px 9px 10px; font-size: 13px; border-bottom: #D6D4D4;">HOTEL</th>
 					<th width="13%" style="text-align: left; background: #F1F1F1; padding: 9px 4px; font-size: 13px; border-bottom: #D6D4D4;">ROOM TYPE</th>
-					<th width="13%" style="text-align: center; background: #F1F1F1; padding: 9px 4px; font-size: 13px; border-bottom: #D6D4D4; white-space: nowrap;">PER NIGHT CHARGE</th>
-					<th width="13%" style="text-align: left; background: #F1F1F1; padding: 9px 4px; font-size: 13px; border-bottom: #D6D4D4; white-space: nowrap;">TOTAL CHARGES</th>
+					<th width="13%" style="text-align: right; background: #F1F1F1; padding: 9px 4px; font-size: 13px; border-bottom: #D6D4D4; white-space: nowrap;">PER NIGHT CHARGE</th>
+					<th width="13%" style="text-align: right; background: #F1F1F1; padding: 9px 4px; font-size: 13px; border-bottom: #D6D4D4; white-space: nowrap;">TOTAL CHARGES</th>
 					<th width="13%" style="text-align: right; background: #F1F1F1; padding: 9px 4px; font-size: 13px; border-bottom: #D6D4D4; padding-right: 10px">AMOUNT</th>
 				</tr>
 			</thead>
@@ -83,29 +83,29 @@
         <tr>
           <td width="13%" style="text-align: left; padding: 9px 4px 9px 10px; font-size: 14px; border-bottom: 1px solid #D6D4D4;">{{ $booking->hotel }}</td>
           <td width="13%" style="text-align: left; padding: 9px 4px; font-size: 14px; border-bottom: 1px solid #D6D4D4;">{{ $room->room_type_name }}</td>
-          <td width="13%" style="text-align: center; padding: 9px 4px; font-size: 14px; border-bottom: 1px solid #D6D4D4; white-space: nowrap;">INR {{ $room->rate }}</td>
-          <td width="13%" style="text-align: left; padding: 9px 4px; font-size: 14px; border-bottom: 1px solid #D6D4D4; white-space: nowrap;">INR {{ $room->amount }}</td>
+          <td width="13%" style="text-align: right; padding: 9px 4px; font-size: 14px; border-bottom: 1px solid #D6D4D4; white-space: nowrap;">INR {{ $room->rate }}</td>
+          <td width="13%" style="text-align: right; padding: 9px 4px; font-size: 14px; border-bottom: 1px solid #D6D4D4; white-space: nowrap;">INR {{ $room->amount }}</td>
           <td width="13%" style="text-align: right; padding: 9px 4px; font-size: 14px; border-bottom: 1px solid #D6D4D4; padding-right: 10px; white-space: nowrap;">INR {{ $room->amount }}</td>
         </tr>
 				@empty
         @endforelse
 
 				<tr>
-					<td width="13%" colspan="4" style="text-align: right; padding: 9px 4px; border-bottom: 1px solid #D6D4D4; font-size: 15px; font-weight: 600;">Amount: In INR</td>
-					<td width="13%" colspan="1" style="text-align: right; padding: 9px 4px; padding-right: 10px;font-size: 15px; font-weight: 600; border-bottom: 1px solid #D6D4D4;">11</td>
+					<td width="13%" colspan="4" style="text-align: right; padding: 9px 4px; border-bottom: 1px solid #D6D4D4; font-size: 15px; font-weight: bold;">Amount: In INR</td>
+					<td width="13%" colspan="1" style="text-align: right; padding: 9px 4px; padding-right: 10px;font-size: 15px; font-weight: bold; border-bottom: 1px solid #D6D4D4;">11</td>
 				</tr>
         <tr>
-					<td width="13%" colspan="4" style="text-align: right; padding: 9px 4px; border-bottom: 1px solid #D6D4D4; font-size: 15px; font-weight: 600;">Goods & Service Tax @ 18% / 12%</td>
-					<td width="13%" colspan="1" style="text-align: right; padding: 9px 4px; padding-right: 10px;font-size: 15px; font-weight: 600; border-bottom: 1px solid #D6D4D4;">{{ $booking->tax }}</td>
+					<td width="13%" colspan="4" style="text-align: right; padding: 9px 4px; border-bottom: 1px solid #D6D4D4; font-size: 15px; font-weight: bold;">Goods & Service Tax @ 18% / 12%</td>
+					<td width="13%" colspan="1" style="text-align: right; padding: 9px 4px; padding-right: 10px;font-size: 15px; font-weight: bold; border-bottom: 1px solid #D6D4D4;">{{ $booking->tax }}</td>
 				</tr>
         <tr>
-					<td width="13%" colspan="4" style="text-align: right; padding: 9px 4px; border-bottom: 1px solid #D6D4D4; font-size: 15px; font-weight: 600;">Net Amount Paid: IN INR</td>
-					<td width="13%" colspan="1" style="text-align: right; padding: 9px 4px; padding-right: 10px;font-size: 15px; font-weight: 600; border-bottom: 1px solid #D6D4D4;">{{ $booking->amount }}</td>
+					<td width="13%" colspan="4" style="text-align: right; padding: 9px 4px; border-bottom: 1px solid #D6D4D4; font-size: 15px; font-weight: bold;">Net Amount Paid: IN INR</td>
+					<td width="13%" colspan="1" style="text-align: right; padding: 9px 4px; padding-right: 10px;font-size: 15px; font-weight: bold; border-bottom: 1px solid #D6D4D4;">{{ $booking->amount }}</td>
 				</tr>
 			</tbody>
 		</table>
 
-    <table cellpadding="0" cellspacing="0" border="0" width="650" align="center">
+    <table cellpadding="0" cellspacing="0" border="0" width="100%" align="center">
 			<tbody>
 				<tr>
 					<td style="padding-left:0px; padding-top: 30px; font-size: 14px; padding-bottom: 10px; font-family: Arial, Helvetica, sans-serif; line-height: 1.5;">
@@ -115,7 +115,7 @@
 			</tbody>
 		</table>
 
-    <table cellpadding="0" cellspacing="0" border="0" width="650" align="center">
+    <table cellpadding="0" cellspacing="0" border="0" width="100%" align="center">
 			<tbody>
 				<tr>
 					<td style="padding-left:0px; padding-top: 20px; font-size: 14px; padding-bottom: 10px; font-family: Arial, Helvetica, sans-serif; line-height: 1.5;">
@@ -128,7 +128,7 @@
 			</tbody>
 		</table>
 
-		<table cellpadding="0" cellspacing="0" border="0" width="650" align="center">
+		<table cellpadding="0" cellspacing="0" border="0" width="100%" align="center">
 			<tbody>
 				<tr>
 					<td style="height: 15px;">&nbsp;</td>
@@ -137,18 +137,18 @@
 		</table>
 		<!-- content Area End -->
 		<!-- footer start -->
-		<table cellpadding="0" cellspacing="0" border="0" width="650" align="center">
+		<table cellpadding="0" cellspacing="0" border="0" width="100%" align="center">
 			<tbody>
 				<tr>
 					<td style="background: #1e306a; padding-left: 10px; padding-top: 2px; padding-bottom: 4px" class="bg-blue">
             <a href="https://pbdaccommodation.mptourism.com" target="_blank">
-              <img src="http://pbdaccommodation.mptourism.com/wp-content/uploads/2022/10/PBD.png" alt="profitley" style="width: 130px;" align="left" />
+              <img src="https://pbdaccommodation.mptourism.com/wp-content/uploads/2022/10/PBD.png" alt="PBD Accommodation" style="width: 130px;" align="left" />
             </a>
           </td>
 				</tr>
 			</tbody>
 		</table>
-		<table cellpadding="0" cellspacing="0" border="0" width="650" align="center" style="border-bottom: 1px solid #D6D4D4">
+		<table cellpadding="0" cellspacing="0" border="0" width="100%" align="center" style="border-bottom: 1px solid #D6D4D4">
 			<tbody>
 				<tr>
 					<td style="padding-left:0px; padding-top: 10px; font-size: 12px; padding-bottom: 10px; font-family: Arial, Helvetica, sans-serif; line-height: 18px;">
@@ -159,7 +159,7 @@
 				</tr>
 			</tbody>
 		</table>
-		<table cellpadding="0" cellspacing="0" border="0" width="650" align="center">
+		<table cellpadding="0" cellspacing="0" border="0" width="100%" align="center">
 			<tbody>
 				<tr>
 					<td style="padding-left:0px; padding-top: 10px; font-size: 11px; padding-bottom: 10px; color: #7F7F7F; font-family: Arial, Helvetica, sans-serif;">This is an auto-generated mail. Please do not reply.</td>
