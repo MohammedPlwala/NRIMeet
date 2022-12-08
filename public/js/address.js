@@ -3092,11 +3092,11 @@ $("#billing_country").on("change", function () {
 
     var statesSelectHTML =
         '<select name="billing_state" id="billing_state" '+isRequired+'\
-                class="state_select select2-hidden-accessible" autocomplete="address-level1"\
+                class="state_select form-select" autocomplete="address-level1"\
                 data-placeholder="Select an option…" data-input-classes="" data-label="State"\
                 tabindex="-1" aria-hidden="true">\
                 <option value="">Select an option…</option>';
-    var statesInputHTML = '<input type="text" class="input-text " name="billing_state" id="billing_city" '+isRequired +' \
+    var statesInputHTML = '<input type="text" class="input-text form-control" name="billing_state" id="billing_city" '+isRequired +' \
                 placeholder="State" value="" autocomplete="address-level2">'
     
     var selectedStates = states[val];
@@ -3143,4 +3143,8 @@ $("#billing_country").on("change", function () {
     } else {
         $("#billing_state_label").html("State / County");
     }
+    if(NioApp){
+        NioApp.Select2.init();
+    }
+    
 });
