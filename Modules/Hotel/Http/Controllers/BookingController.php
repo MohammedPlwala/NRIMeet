@@ -20,11 +20,11 @@ class BookingController extends Controller
     public function __construct() {
 
         /* Execute authentication filter before processing any request */
-        $this->middleware('auth');
+        // $this->middleware('auth');
 
-        if (\Auth::check()) {
-            return redirect('/');
-        }
+        // if (\Auth::check()) {
+        //     return redirect('/');
+        // }
 
     }
 
@@ -120,17 +120,6 @@ class BookingController extends Controller
     public function store(Request $request)
     {
         if(isset($request->bulkBookingId)){
-            // dd($request);
-            // $bulkBooking = BulkBooking::findorfail($request->userId);
-            // if($bulkBooking->room_type_id!=$request->roomType || $bulkBooking->room_count != $request->rooms){
-
-            //     //reverse previous hotel rooms count
-            //     HotelRoom::where('id', $bulkBooking->room_type_id)->increment('count', $bulkBooking->room_count);
-
-            //     //substract new hotel rooms count
-            //     HotelRoom::where('id', $request->roomType)->decrement('count', $request->rooms);
-
-            // }
             BulkBookingRoom::where('bulk_booking_id',$request->bulkBookingId)->delete();
             foreach ($request->bookingId as $key => $value) {
                 $bulk_booking_room = new BulkBookingRoom();

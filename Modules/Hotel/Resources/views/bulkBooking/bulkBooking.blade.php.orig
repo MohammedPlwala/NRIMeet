@@ -4,7 +4,8 @@
     <div class="nk-block-head nk-block-head-sm">
         <div class="nk-block-between">
             <div class="nk-block-head-content">
-                <h3 class="nk-block-title page-title"><a href="javascript:history.back()" class="pt-3"><em class="icon ni ni-chevron-left back-icon"></em> </a>Add Bulk Booking</h3>
+                <h3 class="nk-block-title page-title"><a href="javascript:history.back()" class="pt-3"><em
+                            class="icon ni ni-chevron-left back-icon"></em> </a>Add Bulk Booking</h3>
             </div><!-- .nk-block-head-content -->
         </div><!-- .nk-block-between -->
     </div><!-- .nk-block-head -->
@@ -30,8 +31,13 @@
                                         required="true" />
                                 </div>
                                 <div class="col-lg-8">
-                                    <x-inputs.text for="name" icon="user" required="true" class="readonlyinput"
-                                        placeholder="Enter Name" name="name" value="{{ isset($bulkBooking) ? $bulkBooking->name : old('name') }}" />
+<<<<<<< HEAD
+                                    <x-inputs.text for="name" icon="mail" required="true" class="readonlyinput"
+                                        placeholder="Select" name="name" value="{{ isset($bulkBooking) ? $bulkBooking->name : old('name') }}" />
+=======
+                                    <x-inputs.text for="name" icon="mail" required="true" class=""
+                                        placeholder="Name" name="name" value="{{ isset($bulkBooking) ? $bulkBooking->name : old('name') }}"  />
+>>>>>>> 244a3b3b37b7c56a41adb22ef10ca3e94855ade8
                                       
                                 </div>
                             </div>
@@ -42,9 +48,9 @@
                                         required="true" />
                                 </div>
                                 <div class="col-lg-8">
-                                    <x-inputs.select for="hotel" icon="mail" required="true" class="readonlyinput"
+                                    <x-inputs.select for="hotel" icon="mail" required="true" class=""
                                         placeholder="Select" name="hotel" id="hotel">
-                                        <option value="">Select</option>
+                                        <option>Select</option>
                                         @foreach ($hotels as $hotel)
                                         <option
                                         @if(isset($bulkBooking) && $bulkBooking->hotel_id == $hotel->id)
@@ -64,8 +70,8 @@
                                         required="true" />
                                 </div>
                                 <div class="col-lg-8">
-                                    <x-inputs.select for="roomType" icon="mail" required="true" class="roomType readonlyinput" placeholder="Select" name="roomType">
-                                        <option value="">Select</option>
+                                    <x-inputs.select for="roomType" icon="mail" required="true" class="roomType" placeholder="Select" name="roomType">
+                                        <option>Select</option>
                                         @if(isset($bulkBooking))
                                         @foreach ($roomTypes as $rooms)
                                         <option
@@ -87,9 +93,9 @@
                                         required="true" />
                                 </div>
                                 <div class="col-lg-8">
-                                    <x-inputs.select for="bookingFrom" icon="mail" required="true" class="readonlyinput"
+                                    <x-inputs.select for="bookingFrom" icon="mail" required="true" class=""
                                         placeholder="Select Guest" name="bookingFrom">
-                                        <option value="">Select</option>
+                                        <option >Select</option>
                                         <option 
                                         @if(isset($bulkBooking) && $bulkBooking->booking_person == 'MP Tourism')
                                         selected
@@ -116,16 +122,16 @@
                                         suggestion="" required="true" />
                                 </div>
                                 <div class="col-lg-8">
-                                    <div class="form-group">
-                                        <div class="form-control-wrap">
-                                            <div class="input-daterange date-picker-range input-group">
-                                            <x-inputs.text value="" for="checkin_date" class="checkDate readonlyinput"
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <x-inputs.text value="" for="checkin_date" class="date-picker checkDate"
                                                 icon="calender-date-fill" required="true" placeholder="Date of birth"
                                                 name="checkin_date" value="{{ isset($bulkBooking) ? $bulkBooking->checkin_date : old('checkin_date') }}" />
-                                                <div class="input-group-addon">TO</div>
-                                                <x-inputs.text value="" for="checkout_date" class="checkDate readonlyinput"
-                                                icon="calender-date-fill" required="true" placeholder="Date of birth" name="checkout_date" value="{{ isset($bulkBooking) ? $bulkBooking->checkout_date : old('checkout_date') }}"/>
-                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <x-inputs.text value="" for="checkout_date" class="date-picker checkDate"
+                                                icon="calender-date-fill" required="true" placeholder="Date of birth"
+                                                name="checkout_date" value="{{ isset($bulkBooking) ? $bulkBooking->checkout_date : old('checkout_date') }}"/>
                                         </div>
                                     </div>
                                 </div>
@@ -137,7 +143,8 @@
                                         required="true" />
                                 </div>
                                 <div class="col-lg-8">
-                                    <x-inputs.text for="rooms" icon="building" required="true" class="rooms readonlyinput" placeholder="Enter Rooms Number" name="rooms" value="{{ isset($bulkBooking) ? $bulkBooking->room_count : old('rooms') }}" max="{{ isset($availableRooms) ? $availableRooms->count : '' }}"/>                                      
+                                    <x-inputs.text for="rooms" icon="building" required="true" class="rooms" placeholder="#Rooms" name="rooms" value="{{ isset($bulkBooking) ? $bulkBooking->room_count : old('rooms') }}" max="{{ isset($availableRooms) ? $availableRooms->count : '' }}"/>
+                                      
                                 </div>
                             </div>
 
@@ -149,7 +156,6 @@
 
         @isset($bulkBooking)
         <input type="hidden" name="bulkBookingId" id="bulkBookingId" value="{{ $bulkBooking->id }}">
-        <input type="hidden" name="roomType" value="{{ $bulkBooking->room_type_id }}">
         
         <div class="nk-block">
             <div class="card card-bordered sp-plan">
@@ -197,15 +203,15 @@
                                     <div class="row g-3">
                                         <div class="col-md-4">
                                             <x-inputs.text for="bookingId" icon="building-fill" required="true"
-                                            placeholder="Booking Id"  name="bookingId[]" value="{{ isset($bulkBookingRooms[$i]) ? $bulkBookingRooms[$i]['booking_id'] : '' }}" />
+                                            placeholder="Booking Id"  name="bookingId[]" value="{{ isset($bulkBooking) ? $bulkBookingRooms[$i]['booking_id'] : '' }}" />
                                         </div>
                                         <div class="col-md-4">
                                             <x-inputs.text for="adultCount" icon="users-fill" required="true"
-                                            placeholder="Adult count" name="adultCount[]" value="{{ isset($bulkBookingRooms[$i]) ? $bulkBookingRooms[$i]['adult_count'] : '' }}"/>
+                                            placeholder="Adult count" name="adultCount[]" value="{{ isset($bulkBooking) ? $bulkBookingRooms[$i]['adult_count'] : '' }}"/>
                                         </div>
                                         <div class="col-md-4">
                                             <x-inputs.text for="childCount" icon="users-fill" required="true"
-                                            placeholder="Child count" name="childCount[]" value="{{ isset($bulkBookingRooms[$i]) ? $bulkBookingRooms[$i]['child_count'] : '' }}" />
+                                            placeholder="Child count" name="childCount[]" value="{{ isset($bulkBooking) ? $bulkBookingRooms[$i]['child_count'] : '' }}" />
                                         </div>
                                     </div>
                                 </div>
@@ -238,8 +244,9 @@
 
     <script type="text/javascript">
         $(document).ready(function() {
-          @if(isset($bulkBooking))
-            $('.readonlyinput').attr("disabled", true);
+
+            @if(isset($bulkBooking))
+            $('.readonlyinput').attr("readonly", true);
             @endif
           
             $('#hotel').change(function(){
@@ -282,6 +289,7 @@
                     data: {
                         
                     },
+                    //dataType: "html",
                     method: "GET",
                     cache: false,
                     success: function (response) {

@@ -29,11 +29,11 @@ class UserController extends Controller
     public function __construct() {
 
         /* Execute authentication filter before processing any request */
-        $this->middleware('auth');
+        // $this->middleware('auth');
 
-        if (\Auth::check()) {
-            return redirect('/');
-        }
+        // if (\Auth::check()) {
+        //     return redirect('/');
+        // }
 
     }
 
@@ -466,9 +466,16 @@ class UserController extends Controller
         $user->address = $request->address;
         $user->nationality = $request->nationality;
         $user->country = $request->country;
+        if(isset($request->billing_state)){
+            $user->state = $request->billing_state;
+        }
+        if(isset($request->city)){
+            $user->city = $request->city;
+        }
         $user->zip = $request->zip;
         $user->identity_type = $request->identity_type;
         $user->identity_number  = $request->identity_number;
+        
         if(isset($request->status)){
             $user->status = $request->status;
         }else{

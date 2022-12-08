@@ -5,7 +5,7 @@ namespace Modules\Frontend\Http\Controllers;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-
+use App\Models\User;
 use Modules\Hotel\Entities\RoomType;
 use Modules\Hotel\Entities\Hotel;
 use Modules\Hotel\Entities\HotelRoom;
@@ -89,6 +89,14 @@ class HotelController extends Controller
                     ->select('id','name','image','classification','description','location','airport_distance','venue_distance','website','contact_person','contact_number')
                     ->where('is_verified',1)
                     ->where('status','active')
+                    ->where(function ($query) use ($request) {
+                        if (!empty($request->toArray())) {
+                            if ($request->get('name') != '') {
+                                $query->where('h.name', 'like', '%' . $request->name . '%');
+                            }
+                        }
+                    })
+                    ->orderby('h.classification',$request->rating_orderby === 'asc'? 'asc' : 'desc')
                     ->get();
 
 
@@ -127,10 +135,12 @@ class HotelController extends Controller
         // echo "<pre>";
         // //  print_r($data->toArray());
         //  die;
- 
- 
-
-    	return view('frontend::booking',['hotels' => $hotels]);
+        // if(isset($request->date_from)){
+        // echo "<pre>";
+        // print_r($request->date_from);
+        // die;
+        // }
+    	return view('frontend::booking',['hotels' => $hotels, 'request' => $request]);
     }
 
     public function addRoom(Request $request){
@@ -191,6 +201,7 @@ class HotelController extends Controller
         $user = \Auth::user();
         $cartData = Session::get('cartData');
         $rooms = $cartData['rooms'];
+        $nights = Session::get('nights');
 
         $hotel = Hotel::findorfail($cartData['hotel_id']);
         if($hotel){
@@ -210,19 +221,26 @@ class HotelController extends Controller
             }
         }
 
-        // print_r($request->all());
+        // echo "<pre>";
         // print_r($cartData);
+        
 
         if(isset($request->type)){
             $room = $cartData['rooms'][$request->key];
-            if($request->type == 'add'){
+            if($request->type == 'removeRoom'){
+                unset($cartData['rooms'][$request->key]);
+            }
+            elseif($request->type == 'add'){
                 $room->extra_bed_required = 1;
             }else{
                 $room->extra_bed_required = 0;
             }
         }
 
-
+        if(count($cartData['rooms']) <= 0){
+            return redirect('/search');
+        }
+        
         Session::put('cartData', $cartData);
         $cartData = Session::get('cartData');
         $rooms = $cartData['rooms'];
@@ -247,6 +265,8 @@ class HotelController extends Controller
 
         $bookingData = $roomsData = array();
         $total = 0;
+
+        $nights = Session::get('nights');
 
         foreach ($rooms as $key => $room) {
             $data = json_decode($room['data'],true);
@@ -296,9 +316,9 @@ class HotelController extends Controller
             $total += $cartData['nights']*$data['rate'];
             $extra_bed = $extra_bed_cost = 0;
             if($data['extra_bed_required'] == 1){
-                $total += $data['extra_bed_rate'];
+                $total += $data['extra_bed_rate']*$nights;
                 $extra_bed = 1;
-                $extra_bed_cost = $data['extra_bed_rate'];
+                $extra_bed_cost = $data['extra_bed_rate']*$nights;
             }
 
             $roomsData[] =  array(
@@ -452,6 +472,13 @@ class HotelController extends Controller
                         $billingDetail->alternate_phone = $request->billing_phone2;
                         $billingDetail->alternate_email = $request->billing_email2;
                         if(!$billingDetail->save()){
+
+                            $user = User::findorfail($bookingData->user_id);
+                            $user->country = $request->billing_country;
+                            $user->city = $request->billing_city;
+                            $user->state = $request->billing_state;
+                            $user->save();
+
                             \DB::rollback();
                             return redirect('booking-summary')->with('error', 'Something went wrong with booking');
                         }

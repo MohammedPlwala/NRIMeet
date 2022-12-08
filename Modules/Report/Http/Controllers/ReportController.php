@@ -17,6 +17,9 @@ use Modules\Hotel\Entities\BookingRoom;
 use Modules\Hotel\Entities\BillingDetail;
 use Modules\Hotel\Entities\Transaction;
 
+use Modules\Report\Exports\GuestExport;
+use Modules\Report\Exports\HotelMasterExport;
+
 use DataTables;
 
 
@@ -26,93 +29,208 @@ class ReportController extends Controller
     public function guest(Request $request)
     {
 
-        // $data = User::from('users as u')
-        //         ->select('h.*')
-        //         ->get();
+        $data =   User::from('users as u')
+                    ->select('u.*')
+                    ->leftJoin('user_role as ur','u.id','=','ur.user_id')
+                    ->leftJoin('roles as r','ur.role_id','=','r.id')
+                    ->where('r.name','Guest')
+                    ->where(function ($query) use ($request) {
+                        if (!empty($request->toArray())) {
+                            if ($request->get('name') != '') {
+                                $query->where('u.full_name', 'like', '%' . $request->name . '%');
+                            }
 
-        // $guests =   User::from('users as u')
-        //             ->select('u.id','u.full_name')
-        //             ->leftJoin('user_role as ur','u.id','=','ur.user_id')
-        //             ->leftJoin('roles as r','ur.role_id','=','r.id')
-        //             ->where('r.name','Guest')
-        //             ->where(function ($query) use ($request) {
-        //                 if (!empty($request->toArray())) {
-        //                     if ($request->get('name') != '') {
-        //                         $query->where('h.name', $request->get('name'));
-        //                     }
-        //                 }
-        //             })
-        //             ->orderby('h.name','asc')
-        //             ->get();
+                            if ($request->get('city') != '') {
+                                $query->where('u.city', $request->get('city'));
+                            }
 
-        // if ($request->ajax()) {
-        //     return Datatables::of($data)
-        //             ->addIndexColumn()
+                            if ($request->get('state') != '') {
+                                $query->where('u.state', $request->get('state'));
+                            }
+
+                            if ($request->get('country') != '') {
+                                $query->where('u.country', $request->get('country'));
+                            }
+
+                            if ($request->get('postal_code') != '') {
+                                $query->where('u.zip', $request->get('postal_code'));
+                            }
+                        }
+                    })
+                    ->orderby('u.full_name','asc')
+                    ->get();
+
+        if ($request->ajax()) {
+            return Datatables::of($data)
+                    ->addIndexColumn()
                     
-        //             ->addColumn('status', function ($row) {
-        //                 if($row->status == 'active'){
-        //                     $statusValue = 'Active';
-        //                 }else{
-        //                     $statusValue = 'Inactive';
-        //                 }
+                    ->addColumn('status', function ($row) {
+                        if($row->status == 'active'){
+                            $statusValue = 'Active';
+                        }else{
+                            $statusValue = 'Inactive';
+                        }
 
-        //                 $value = ($row->status == 'active') ? 'badge badge-success' : 'badge badge-danger';
-        //                 $status = '
-        //                     <span class="tb-sub">
-        //                         <span class="'.$value.'">
-        //                             '.$statusValue.'
-        //                         </span>
-        //                     </span>
-        //                 ';
-        //                 return $status;
-        //             })
-        //             ->addColumn('action', function($row) {
-        //                    $edit = url('/').'/admin/hotel/edit/'.$row->id;
-        //                    $delete = url('/').'/admin/hotel/delete/'.$row->id;
-        //                    $confirm = '"Are you sure, you want to delete it?"';
-
-        //                     $editBtn = "<li>
-        //                                 <a href='".$edit."'>
-        //                                     <em class='icon ni ni-edit'></em> <span>Edit</span>
-        //                                 </a>
-        //                             </li>";
-                            
-        //                     $deleteBtn = "<li>
-        //                                 <a href='".$delete."' onclick='return confirm(".$confirm.")'  class='delete'>
-        //                                     <em class='icon ni ni-trash'></em> <span>Delete</span>
-        //                                 </a>
-        //                             </li>"; 
-
-        //                     $btn = '';
-        //                     $btn .= '<ul class="nk-tb-actio ns gx-1">
-        //                                 <li>
-        //                                     <div class="drodown mr-n1">
-        //                                         <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
-        //                                         <div class="dropdown-menu dropdown-menu-right">
-        //                                             <ul class="link-list-opt no-bdr">
-        //                                 ';
-
-        //                    $btn .=       $editBtn."
-        //                                 ".$deleteBtn;
-
-        //                     $btn .= "</ul>
-        //                                     </div>
-        //                                 </div>
-        //                             </li>
-        //                             </ul>";
-        //                 return $btn;
-        //             })
-        //             ->rawColumns(['action','status',])
-        //             ->make(true);
-        // }
+                        $value = ($row->status == 'active') ? 'badge badge-success' : 'badge badge-danger';
+                        $status = '
+                            <span class="tb-sub">
+                                <span class="'.$value.'">
+                                    '.$statusValue.'
+                                </span>
+                            </span>
+                        ';
+                        return $status;
+                    })
+                    
+                    ->rawColumns(['status',])
+                    ->make(true);
+        }
 
         return view('report::guest');
     }
 
+    public function guestExport(Request $request)
+    {
+        $guests =   User::from('users as u')
+                    ->select('u.full_name','u.mobile','u.email','u.mobile as wa','u.address','u.city','u.state','u.country','u.zip')
+                    ->leftJoin('user_role as ur','u.id','=','ur.user_id')
+                    ->leftJoin('roles as r','ur.role_id','=','r.id')
+                    ->where('r.name','Guest')
+                    ->where(function ($query) use ($request) {
+                        if (!empty($request->toArray())) {
+                            if ($request->get('name') != '') {
+                                $query->where('u.full_name', 'like', '%' . $request->name . '%');
+                            }
+
+                            if ($request->get('city') != '') {
+                                $query->where('u.city', $request->get('city'));
+                            }
+
+                            if ($request->get('billing_state') != '') {
+                                $query->where('u.state', $request->get('billing_state'));
+                            }
+
+                            if ($request->get('country') != '') {
+                                $query->where('u.country', $request->get('country'));
+                            }
+
+                            if ($request->get('postal_code') != '') {
+                                $query->where('u.zip', $request->get('postal_code'));
+                            }
+                        }
+                    })
+                    ->orderby('u.full_name','asc')
+                    ->get();
+
+        if(!empty($guests->toArray())){
+            return (new GuestExport($guests->toArray()))->download('guests' . '.xlsx', \Maatwebsite\Excel\Excel::XLSX);
+        }else{
+            return redirect('ecommerce/orders')->with('error', 'No order');
+        }
+    }
+
     public function hotelMaster(Request $request)
     {
+        $data =   Hotel::from('hotels as h')
+                    ->select('h.name','h.classification','h.airport_distance','h.venue_distance','h.website','h.contact_person','h.address','h.contact_number','h.description','hr.name as hotel_type','hr.allocated_rooms','hr.count as available_rooms','hr.rate','hr.extra_bed_available','hr.extra_bed_rate')
+                    ->Join('hotel_rooms as hr','hr.hotel_id','=','h.id')
+                    ->where(function ($query) use ($request) {
+                        if (!empty($request->toArray())) {
+                            if ($request->get('star_rating') != '') {
+                                $query->where('h.classification', $request->star_rating);
+                            }
+
+                            if ($request->get('room_type') != '') {
+                                $query->where('hr.type_id', $request->get('room_type'));
+                            }
+
+                            if ($request->get('charges') != '') {
+                                if($request->get('charges') == 1){
+                                    $query->whereBetween('hr.rate', [5000, 10000]);
+                                }elseif($request->get('charges') == 2){
+                                    $query->whereBetween('hr.rate', [10000, 15000]);
+                                }elseif($request->get('charges') == 3){
+                                    $query->whereBetween('hr.rate', [15000, 20000]);
+                                }elseif($request->get('charges') == 4){
+                                    $query->where('hr.rate','>', 20000);
+                                }
+                            }
+
+                            if ($request->get('distance_from_airport') != '') {
+                                $query->where('h.airport_distance','<=', $request->get('distance_from_airport'));
+                            }
+
+                            if ($request->get('distance_from_venue') != '') {
+                                $query->where('h.venue_distance','<=', $request->get('distance_from_venue'));
+                            }
+
+                            if ($request->get('closing_inventory') != '') {
+                                $query->where('hr.count', $request->get('closing_inventory'));
+                            }
+                        }
+                    })
+                    ->orderby('h.name','asc')
+                    ->get();
+
+        if ($request->ajax()) {
+            return Datatables::of($data)
+                    ->addIndexColumn()
+                    ->rawColumns(['status',])
+                    ->make(true);
+        }
         return view('report::hotel_master');
     }
+
+    public function hotelMasterExport(Request $request)
+    {
+        $hotels =   Hotel::from('hotels as h')
+                    ->select('h.classification','h.name','hr.name as hotel_type','hr.allocated_rooms','hr.rate','hr.extra_bed_rate','hr.count as available_rooms','h.contact_person','h.contact_number','h.description','h.airport_distance','h.venue_distance','h.address','h.website')
+                    ->Join('hotel_rooms as hr','hr.hotel_id','=','h.id')
+                    ->where(function ($query) use ($request) {
+                        if (!empty($request->toArray())) {
+                            if ($request->get('star_rating') != '') {
+                                $query->where('h.classification', $request->star_rating);
+                            }
+
+                            if ($request->get('room_type') != '') {
+                                $query->where('hr.type_id', $request->get('room_type'));
+                            }
+
+                            if ($request->get('charges') != '') {
+                                if($request->get('charges') == 1){
+                                    $query->whereBetween('hr.rate', [5000, 10000]);
+                                }elseif($request->get('charges') == 2){
+                                    $query->whereBetween('hr.rate', [10000, 15000]);
+                                }elseif($request->get('charges') == 3){
+                                    $query->whereBetween('hr.rate', [15000, 20000]);
+                                }elseif($request->get('charges') == 4){
+                                    $query->where('hr.rate','>', 20000);
+                                }
+                            }
+
+                            if ($request->get('distance_from_airport') != '') {
+                                $query->where('h.airport_distance','<=', $request->get('distance_from_airport'));
+                            }
+
+                            if ($request->get('distance_from_venue') != '') {
+                                $query->where('h.venue_distance','<=', $request->get('distance_from_venue'));
+                            }
+
+                            if ($request->get('closing_inventory') != '') {
+                                $query->where('hr.count', $request->get('closing_inventory'));
+                            }
+                        }
+                    })
+                    ->orderby('h.name','asc')
+                    ->get();
+
+        if(!empty($hotels->toArray())){
+            return (new HotelMasterExport($hotels->toArray()))->download('hotels' . '.xlsx', \Maatwebsite\Excel\Excel::XLSX);
+        }else{
+            return redirect('admin/report/hotel-master')->with('error', 'No hotels');
+        }
+    }
+
     public function inventory(Request $request)
     {
         return view('report::inventory');

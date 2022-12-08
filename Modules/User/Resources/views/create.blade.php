@@ -97,32 +97,42 @@ $organization_type = \Session::get('organization_type');
                         <div class="sp-plan-info card-inner">
                             <div class="row g-3 align-center">
                                 <div class="col-lg-5">
-                                    <x-inputs.verticalFormLabel label="Country" for="country" suggestion="Specify the country name." required="true" />
+                                    <x-inputs.verticalFormLabel label="Country / Region" for="Country / Region" suggestion="Specify the country name." required="true" />
                                 </div>
                                 <div class="col-lg-7">
-                                    <x-inputs.text value="{{ isset($user) ? $user->country : old('country') }}" for="country" class="" icon="globe" required="true" placeholder="Country" name="country" 
-                                    />
-                                    @if ($errors->has('country'))
-                                        <span class="text-danger">{{ $errors->first('country') }}</span>
-                                    @endif
-                                </div>
-                            </div>
-
-                            <div class="form-item">
-                                <label class="form-label">Country / Region <span class="required"
-                                        title="required">*</span></label>
-                                <select name="billing_country" id="billing_country"
-                                    class="country_to_state country_select select2-hidden-accessible" autocomplete="country"
+                                    <x-inputs.select name="country" for="billing_country"
+                                    value="{{ isset($user) ? $user->country : old('country') }}"
+                                    class="country_to_state country_select" autocomplete="country"
                                     data-placeholder="Select a country / region…" data-label="Country / Region"
                                     tabindex="-1" aria-hidden="true">
                                     <option value="">Select a country / region…</option>
-                                </select>
+                                </x-inputs.select>
+                                @if ($errors->has('country'))
+                                <span class="text-danger">{{ $errors->first('country') }}</span>
+                            @endif
+                                </div>
                             </div>
-                            <div class="form-item" id="state_wrapper">
-                                <label class="form-label"><span id="billing_state_label">State</span> <span class="required"
-                                        title="required">*</span></label>
-                                <div id="field_billing_state">
+                            <div class="row g-3" id="state_wrapper">
+                                <div class="col-lg-5">
+                                    <x-inputs.verticalFormLabel label="State" for="State" suggestion="Specify the nationality." required="true" />
+                                </div>
+                                <div class="col-lg-7">
+                                    <div id="field_billing_state">
 
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="row g-3 align-center">
+                                <div class="col-lg-5">
+                                    <x-inputs.verticalFormLabel label="City" for="city" suggestion="Specify the city." required="true" />
+                                </div>
+                                <div class="col-lg-7">
+                                    <x-inputs.text value="{{ isset($user) ? $user->city : old('city') }}" for="city" class="" icon="globe" required="true" placeholder="City" name="city" 
+                                    />
+                                    @if ($errors->has('city'))
+                                        <span class="text-danger">{{ $errors->first('city') }}</span>
+                                    @endif
                                 </div>
                             </div>
 

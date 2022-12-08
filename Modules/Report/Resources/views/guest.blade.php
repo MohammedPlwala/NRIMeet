@@ -17,7 +17,7 @@
                             </a>
                         </li>
                         <li class="nk-block-tools-opt">
-                            <a href="{{ url('report/export-guest') }}" class="btn btn-primary"><em class="icon ni ni-download"></em><span>Export</span></a>
+                            <a href="javascript:void(0);" data-href="{{ url('admin/report/guest-export') }}" class="btn btn-primary export_data"><em class="icon ni ni-download"></em><span>Export</span></a>
                         </li>
                     </ul>
                 </div>
@@ -30,11 +30,9 @@
 <div class="nk-block table-compact">
     <div class="table-responsive">
         <div class="nk-tb-list is-separate is-medium mb-3">
-            <table id="sales_SP" class="products-init nowrap nk-tb-list is-separate" data-auto-responsive="false">
+            <table class="broadcast-init nowrap nk-tb-list is-separate" data-auto-responsive="false">
                 <thead>
                     <tr class="nk-tb-item nk-tb-head">
-                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">#</span></th>
-                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Salutation</span></th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Name</span></th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Contact</span></th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Email Address</span></th>
@@ -44,38 +42,9 @@
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">State</span></th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Country</span></th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Postal Code</span></th>
-                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Registration Date</span></th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr class="nk-tb-item">
-                        <td class="nk-tb-col tb-col-mb">1</td>
-                        <td class="nk-tb-col tb-col-mb">Mr</td>
-                        <td class="nk-tb-col tb-col-mb">Rajpal Tyagi</td>
-                        <td class="nk-tb-col tb-col-mb">965-2240 7422</td>
-                        <td class="nk-tb-col tb-col-mb">test@gmail.com</td>
-                        <td class="nk-tb-col tb-col-mb">965-2240 7422</td>
-                        <td class="nk-tb-col tb-col-mb">asdfkas jfldls;afasdf;l asfl;akdsfs</td>
-                        <td class="nk-tb-col tb-col-mb">Indore</td>
-                        <td class="nk-tb-col tb-col-mb">M.P.</td>
-                        <td class="nk-tb-col tb-col-mb">India</td>
-                        <td class="nk-tb-col tb-col-mb">546255</td>
-                        <td class="nk-tb-col tb-col-mb">04/11/2022</td>
-                    </tr>
-                    <tr class="nk-tb-item">
-                        <td class="nk-tb-col tb-col-mb">2</td>
-                        <td class="nk-tb-col tb-col-mb">Mr</td>
-                        <td class="nk-tb-col tb-col-mb">Rajpal Tyagi</td>
-                        <td class="nk-tb-col tb-col-mb">965-2240 7422</td>
-                        <td class="nk-tb-col tb-col-mb">test@gmail.com</td>
-                        <td class="nk-tb-col tb-col-mb">965-2240 7422</td>
-                        <td class="nk-tb-col tb-col-mb">asdfkas jfldls;afasdf;l asfl;akdsfs</td>
-                        <td class="nk-tb-col tb-col-mb">Indore</td>
-                        <td class="nk-tb-col tb-col-mb">M.P.</td>
-                        <td class="nk-tb-col tb-col-mb">India</td>
-                        <td class="nk-tb-col tb-col-mb">546255</td>
-                        <td class="nk-tb-col tb-col-mb">04/11/2022</td>
-                    </tr>
                 </tbody>
             </table>
         </div>
@@ -97,14 +66,44 @@
                 @csrf
                 <div class="modal-body modal-body-lg">
                     <div class="gy-3">
+                        
                         <div class="row g-3 align-center">
                             <div class="col-lg-5">
-                                <x-inputs.verticalFormLabel label="Salutation" for="salutation" suggestion="Enter the salutation." />
+                                <x-inputs.verticalFormLabel label="Name" for="name" suggestion="Enter the name." />
                             </div>
                             <div class="col-lg-7">
-                                <x-inputs.text  value="" for="salutation" name="salutation" placeholder="Salutation" />
+                                <x-inputs.text  value="" for="name" name="name" placeholder="Name" />
                             </div>
                         </div>
+
+                        <div class="row g-3 align-center">
+                            <div class="col-lg-5">
+                                <x-inputs.verticalFormLabel label="Country / Region" for="Country / Region" suggestion="Specify the country name." />
+                            </div>
+                            <div class="col-lg-7">
+                                <x-inputs.select name="country" for="billing_country"
+                                value="{{ isset($user) ? $user->country : old('country') }}"
+                                class="country_to_state country_select" autocomplete="country"
+                                data-placeholder="Select a country / region…" data-label="Country / Region"
+                                tabindex="-1" aria-hidden="true">
+                                <option value="">Select a country / region…</option>
+                            </x-inputs.select>
+                            @if ($errors->has('country'))
+                            <span class="text-danger">{{ $errors->first('country') }}</span>
+                        @endif
+                            </div>
+                        </div>
+                        <div class="row g-3" id="state_wrapper">
+                            <div class="col-lg-5">
+                                <x-inputs.verticalFormLabel label="State" for="State" suggestion="Specify the nationality." />
+                            </div>
+                            <div class="col-lg-7">
+                                <div id="field_billing_state">
+                                    <x-inputs.text  value="" for="billing_state" name="billing_state" placeholder="State" />
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="row g-3 align-center">
                             <div class="col-lg-5">
                                 <x-inputs.verticalFormLabel label="City" for="city" suggestion="Enter the city." />
@@ -113,7 +112,7 @@
                                 <x-inputs.text  value="" for="city" name="city" placeholder="City" />
                             </div>
                         </div>
-                        <div class="row g-3 align-center">
+                        {{-- <div class="row g-3 align-center">
                             <div class="col-lg-5">
                                 <x-inputs.verticalFormLabel label="State" for="state" suggestion="Select the state." />
                             </div>
@@ -140,26 +139,13 @@
                                     @endfor -->
                                 </x-inputs.select>
                             </div>
-                        </div>
+                        </div> --}}
                         <div class="row g-3 align-center">
                             <div class="col-lg-5">
                                 <x-inputs.verticalFormLabel label="Postal Code" for="postal_code" suggestion="Enter the postal code." />
                             </div>
                             <div class="col-lg-7">
                                 <x-inputs.number  value="" for="postal_code" name="postal_code" placeholder="Postal Code" />
-                            </div>
-                        </div>
-                        <div class="row g-3 align-center">
-                            <div class="col-lg-5">
-                                <x-inputs.verticalFormLabel label="Registration Date" for="registration_date" suggestion="Select the registration date." />
-                            </div>
-                            <div class="col-lg-7">
-                                <div class="form-control-wrap">
-                                    <div class="form-icon form-icon-left">
-                                        <em class="icon ni ni-calendar"></em>
-                                    </div>
-                                    <input type="text" class="form-control date-picker" id="registration_date" placeholder="Registration Date" data-date-format="yyyy-mm-dd">
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -170,7 +156,7 @@
                         <div class="col-lg-12 p-0 text-right">
                             <button class="btn btn-outline-light" data-dismiss="modal" aria-label="Close">Cancel</button>
                             <button class="btn btn-danger resetFilter" data-dismiss="modal" aria-label="Close">Clear Filter</button>
-                            <button class="btn btn-primary submitBtn" type="button">Submit</button>
+                            <button class="btn btn-primary submitBtn" data-dismiss="modal" type="button">Submit</button>
                         </div>
                     </div>
                 </div>
@@ -180,8 +166,56 @@
 </div>
 @endsection
 @push('footerScripts')
+<script src="{{url('js/address.js')}}"></script>
+
     <script src="{{url('js/tableFlow.js')}}"></script>
     <script type="text/javascript">
+
+        $('.export_data').on('click', function (e) {
+            var myUrl = $(this).attr('data-href');
+
+            if($('#name').val() != ""){
+                myUrl = addQSParm(myUrl,'name', $('#name').val());
+            }
+            if($('#city').val() != ""){
+                myUrl = addQSParm(myUrl,'city', $('#city').val());
+            }
+            if($('#billing_state').val() != ""){
+                myUrl = addQSParm(myUrl,'state', $('#billing_state').val());
+            }
+            if($('#postal_code').val() != ""){
+                myUrl = addQSParm(myUrl,'postal_code', $('#postal_code').val());
+            }
+            if($('#billing_country').val() != ""){
+                myUrl = addQSParm(myUrl,'country', $('#billing_country').val());
+            }
+
+
+            location.href = myUrl;
+        });
+
+        function addQSParm(myUrl,name, value) {
+           var re = new RegExp("([?&]" + name + "=)[^&]+", "");
+
+           function add(sep) {
+              myUrl += sep + name + "=" + encodeURIComponent(value);
+           }
+
+           function change() {
+              myUrl = myUrl.replace(re, "$1" + encodeURIComponent(value));
+           }
+           if (myUrl.indexOf("?") === -1) {
+              add("?");
+           } else {
+              if (re.test(myUrl)) {
+                 change();
+              } else {
+                 add("&");
+              }
+           }
+           return myUrl;
+        }
+
         $(function() {
             var root_url = "<?php echo url('/'); ?>";
 
@@ -189,8 +223,11 @@
             NioApp.getAuditLogs('.broadcast-init', '.audit_logs', 'resourceid', logUrl, '#modalLogs');
 
             var items = [
-                '#room_name',
-                '#hotel_name'
+                '#city',
+                '#billing_state',
+                '#billing_country',
+                '#name',
+                '#postal_code'
             ];
             var user_table = "";
             user_table = new CustomDataTable({
@@ -201,73 +238,57 @@
                     ordering: false,
                     ajax: {
                         type: "GET",
-                        url: "{{ url('admin/hotel/rooms') }}",
+                        url: "{{ url('admin/report/guest') }}",
                     },
                     columns: [
-                        // {
-                        //     "class": "nk-tb-col tb-col-lg nk-tb-col-check",
-                        //     data: 'DT_RowIndex',
-                        //     name: 'DT_RowIndex',
-                        //     orderable: false,
-                        //     searchable: false,
-                        //     render: function(data, type, row, meta) {
-                        //         return '<td class="nk-tb-col nk-tb-col-check"><div class="custom-control custom-control-sm custom-checkbox notext"><input type="checkbox" class="custom-control-input cb-check" id="cb-' +
-                        //             row.id + '" value="' + row.id +
-                        //             '" name="checked_items[]"><label class="custom-control-label" for="cb-' +
-                        //             row.id + '"></label></div></td>'
-                        //     }
-                        // },
                         {
                             "class": "nk-tb-col tb-col-lg",
-                            data: 'name',
-                            name: 'name'
+                            data: 'full_name',
+                            name: 'full_name'
                         },
                         {
                             "class": "nk-tb-col tb-col-lg",
-                            data: 'room_type_name',
-                            name: 'room_type_name'
+                            data: 'mobile',
+                            name: 'mobile'
                         },
                         {
                             "class": "nk-tb-col tb-col-lg",
-                            data: 'hotel_name',
-                            name: 'hotel_name'
+                            data: 'email',
+                            name: 'email'
                         },
 
                         {
                             "class": "nk-tb-col tb-col-lg",
-                            data: 'rate',
-                            name: 'rate'
+                            data: 'mobile',
+                            name: 'mobile'
                         },
 
                         {
                             "class": "nk-tb-col tb-col-lg",
-                            data: 'allocated_rooms',
-                            name: 'allocated_rooms'
+                            data: 'address',
+                            name: 'address'
                         },
 
                         {
                             "class": "nk-tb-col tb-col-lg",
-                            data: 'mpt_reserve',
-                            name: 'mpt_reserve'
+                            data: 'city',
+                            name: 'city'
                         },
                         {
                             "class": "nk-tb-col tb-col-lg",
-                            data: 'count',
-                            name: 'count'
-                        },
-
-                        {
-                            "class": "nk-tb-col tb-col-lg",
-                            data: 'status',
-                            name: 'status'
+                            data: 'state',
+                            name: 'state'
                         },
                         {
                             "class": "nk-tb-col tb-col-lg",
-                            data: 'action',
-                            name: 'action',
-                            orderable: false,
-                            searchable: false
+                            data: 'country',
+                            name: 'country'
                         },
+                        {
+                            "class": "nk-tb-col tb-col-lg",
+                            data: 'zip',
+                            name: 'zip'
+                        }
                     ],
                     "fnDrawCallback": function() {
                         NioApp.BS.tooltip('[data-toggle="tooltip"]');
