@@ -116,7 +116,7 @@
                 <!-- BEGIN .shb-guestclass-select-section -->
                 <div class="shb-guestclass-select-section shb-clearfix">
 
-                    <label>Child <span>Age 12 year or below</span></label>
+                    <label>Child <span>Age 12 year below</span></label>
 
                     <div class="shb-qty-selection shb-clearfix">
                         <button type="button" class="shb-qty-decrease">-</button>
@@ -152,7 +152,7 @@
                 <!-- BEGIN .shb-guestclass-select-section -->
                 <div class="shb-guestclass-select-section shb-clearfix show_filter_2_room">
 
-                    <label>Child <span>Age 12 year or below</span></label>
+                    <label>Child <span>Age 12 year below</span></label>
 
                     <div class="shb-qty-selection shb-clearfix">
                         <button type="button" class="shb-qty-decrease">-</button>
