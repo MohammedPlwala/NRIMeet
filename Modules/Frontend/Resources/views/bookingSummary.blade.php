@@ -54,7 +54,7 @@
                                     <!-- BEGIN .shb-booking-your-stay-item -->
                                     <div class="shb-booking-your-stay-item shb-clearfix">
                                         <a href="#" class="shb-booking-stay-image">
-                                            <img src="{{url('/images/WOW-Hotel.jpeg')}}" alt="Bookings" />
+                                            <img src="{{ url('/uploads/hotels/' . $room->hotel->image) }}" alt="{{ $room->hotel->name }}" />
                                         </a>
                                         <div class="shb-booking-your-stay-item-info">
                                             <h4 class="shb-clearfix"><a href="#">{{ $room->hotel->name }}</a><span> ₹{{ $cartData['nights']*$room->rate }}</span>
