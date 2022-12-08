@@ -1,11 +1,14 @@
 <?php
 
-namespace Modules\User\Http\Controllers;
+namespace Modules\Hotel\Http\Controllers;
 
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use Modules\User\Entities\BulkBooking;
+use Modules\Hotel\Entities\BulkBooking;
+use Modules\Hotel\Entities\Hotel;
+use Modules\Hotel\Entities\HotelRoom;
+use Modules\Hotel\Entities\BulkBookingRoom;
 use DataTables;
 use Yajra\Datatables\DatatablesServiceProvider;
 use App\Models\Audit;
@@ -32,66 +35,19 @@ class BookingController extends Controller
     public function index(Request $request)
     {
 
-        $data = BulkBooking::orderby('id','desc')
+        $data = BulkBooking::select('bulk_bookings.*','h.name as hotel_name','rt.name as room_type')->leftJoin('hotels as h','h.id','bulk_bookings.hotel_id')->leftJoin('hotel_rooms as hr','hr.id','bulk_bookings.room_type_id')->leftJoin('room_types as rt','rt.id','hr.type_id')->orderby('id','desc')
                 ->get();
-        $bookingCount = 0;
+        $bulkBookingCount = 0;
         if(!empty($data->toArray())){
-            $bookingCount = count($data);
+            $bulkBookingCount = count($data);
         }
 
         if ($request->ajax()) {
             return DataTables::of($data)
                     ->addIndexColumn()
-                    ->addColumn('name', function($row) use ($userPermission){
-                            $detailLink = '#';
-
-                            $username = $row->name.' '.$row->last_name;
-
-                            if(!is_null($row->file)){
-                                $file = public_path('uploads/users/') . $row->file;
-                            }
-
-                            if(!is_null($row->file) && file_exists($file))
-                                $avatar = "<img src=".url('uploads/users/'.$row->file).">";
-                            else
-                                $avatar = "<span>".\Helpers::getAcronym($username)."</span>";
-                            
-
-                            $name = '
-                                        <a href="'.$detailLink.'">
-                                            <div class="user-card">
-                                                <div class="user-avatar bg-primary">
-                                                    '.$avatar.'
-                                                </div>
-                                                <div class="user-info">
-                                                    <span class="tb-lead">'.$row->shop_name.' <span class="dot dot-success d-md-none ml-1"></span></span>
-                                                    <span>'.$username.' </span>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    ';
-                            return $name;
-                    })
-                    ->addColumn('status', function ($row) {
-                        if($row->status == 'active'){
-                            $statusValue = 'Active';
-                        }else{
-                            $statusValue = 'Inactive';
-                        }
-
-                        $value = ($row->status == 'active') ? 'badge badge-success' : 'badge badge-danger';
-                        $status = '
-                            <span class="tb-sub">
-                                <span class="'.$value.'">
-                                    '.$statusValue.'
-                                </span>
-                            </span>
-                        ';
-                        return $status;
-                    })
-                    ->addColumn('action', function($row) use ($userPermission){
-                           $edit = url('/').'/admin/booking/edit/'.$row->id;
-                           $delete = url('/').'/admin/booking/delete/'.$row->id;
+                    ->addColumn('action', function($row) {
+                           $edit = url('/').'/admin/bulk-bookings/edit/'.$row->id;
+                           $delete = url('/').'/admin/bulk-bookings/delete/'.$row->id;
                            $confirm = '"Are you sure, you want to delete it?"';
 
                             $editBtn = "<li>
@@ -137,71 +93,9 @@ class BookingController extends Controller
         }
 
 
-        return view('hotel::bulkBooking/index')->with(compact('bookingCount'));
+        return view('hotel::bulkBooking/index')->with(compact('bulkBookingCount'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     * @return Renderable
-     */
-    public function updateProfile(Request $request)
-    {
-        $user = Auth::user();
-
-        $user->name = $request->name;
-        $user->last_name = $request->last_name;
-        /*$user->address1 = $request->address1;
-        $user->address2 = $request->address2;
-        $user->state = $request->state;
-        $user->district = $request->district;
-        $user->city = $request->city;
-        $user->pincode = $request->pincode;*/
-
-        if ($request->hasFile('file')) {
-
-            $image1 = $request->file('file');
-            $image1NameWithExt = $image1->getClientOriginalName();
-            list($image1_width,$image1_height)=getimagesize($image1);
-            // Get file path
-            $originalName = pathinfo($image1NameWithExt, PATHINFO_FILENAME);
-            $image1Name = pathinfo($image1NameWithExt, PATHINFO_FILENAME);
-            // Remove unwanted characters
-            $image1Name = preg_replace("/[^A-Za-z0-9 ]/", '', $image1Name);
-            $image1Name = preg_replace("/\s+/", '-', $image1Name);
-
-            // Get the original image extension
-            $extension  = $image1->getClientOriginalExtension();
-
-            if($extension != 'jpg' && $extension != 'jpeg' && $extension != 'png'){
-                return redirect('profile')->with('error', trans('messages.INVALID_IMAGE'));
-            }
-
-            $image1Name = $image1Name.'_'.time().'.'.$extension;
-            
-            $destinationPath = public_path('uploads/users');
-            if($image1_width > 800){
-                $image1_canvas = Image::canvas(800, 800);
-                $image1_image = Image::make($image1->getRealPath())->resize(800, 800, function ($constraint) {
-                    $constraint->aspectRatio();
-                    $constraint->upsize();
-                });
-                $image1_canvas->insert($image1_image, 'center');
-                $image1_canvas->save($destinationPath.'/'.$image1Name,80);
-            }else{
-                $image1->move($destinationPath, $image1Name);
-            }
-            $image1_file = public_path('uploads/users/'. $image1Name);
-
-            $user->file = $image1Name;
-            $user->original_name = $image1NameWithExt;
-        }
-
-        if($user->save()){
-            return redirect('profile')->with('message', trans('messages.PROFILE_UPDATED_SUCCESS'));
-        }else{
-            return redirect('profile')->with('error', trans('messages.SOMETHING_WENT_WRONG'));
-        }
-    }
 
     /**
      * Show the form for creating a new resource.
@@ -209,45 +103,54 @@ class BookingController extends Controller
      */
     public function create()
     {
-        return view('hotel::bulkBooking/create', compact('roleId'));
+        $hotels = Hotel::get();
+        return view('hotel::bulkBooking/bulkBooking', compact('hotels'));
     }
 
     public function store(Request $request)
     {
-        if(isset($request->userId)){
-            $user = BulkBooking::findorfail($request->userId);
-            $msg = "Booking updated successfully";
-        }else{
-            $user = new BulkBooking();
-            $msg = "User added successfully";
-        }
+        if(isset($request->bulkBookingId)){
+            // dd($request);
+            // $bulkBooking = BulkBooking::findorfail($request->userId);
+            // if($bulkBooking->room_type_id!=$request->roomType || $bulkBooking->room_count != $request->rooms){
 
-        $user->full_name = $request->fullname;
-        $user->email  = $request->email;
-        $user->mobile = $request->mobile;
-        $user->date_of_birth = date('Y-m-d', strtotime($request->date_of_birth));
-        $user->password = \Hash::make('NriMeet@123');
-        $user->address = $request->address;
-        $user->nationality = $request->nationality;
-        $user->country = $request->country;
-        $user->zip = $request->zip;
-        $user->identity_type = $request->identity_type;
-        $user->identity_number  = $request->identity_number;
-        if(isset($request->status)){
-            $user->status = $request->status;
-        }else{
-            $user->status = 'inactive';
-        }
-        
-        if($user->save()){
-            if(!isset($request->userId)){
-                $userRole = array('role_id' => $request->role_id, 'user_id' =>  $user->id);
-                UserRole::insert($userRole);
+            //     //reverse previous hotel rooms count
+            //     HotelRoom::where('id', $bulkBooking->room_type_id)->increment('count', $bulkBooking->room_count);
+
+            //     //substract new hotel rooms count
+            //     HotelRoom::where('id', $request->roomType)->decrement('count', $request->rooms);
+
+            // }
+            BulkBookingRoom::where('bulk_booking_id',$request->bulkBookingId)->delete();
+            foreach ($request->bookingId as $key => $value) {
+                $bulk_booking_room = new BulkBookingRoom();
+                $bulk_booking_room->room_id = $request->roomType;
+                $bulk_booking_room->bulk_booking_id = $request->bulkBookingId;
+                $bulk_booking_room->booking_id = $request->bookingId[$key];
+                $bulk_booking_room->adult_count = $request->adultCount[$key];
+                $bulk_booking_room->child_count = $request->childCount[$key];
+                $bulk_booking_room->save();
             }
-            return redirect('/admin/booking')->with('message', $msg);
+
+            $msg = "Booking updated successfully";
+            return redirect('/admin/bulk-bookings')->with('message', $msg);
         }else{
-            return redirect('/admin/booking/create')->with('error', 'Something went wrong');
-        }
+            $bulkBooking = new BulkBooking();
+            HotelRoom::where('id', $request->roomType)->decrement('count', $request->rooms);
+            $msg = "User added successfully";
+            $bulkBooking->name = $request->name;
+            $bulkBooking->hotel_id  = $request->hotel;
+            $bulkBooking->room_type_id = $request->roomType;
+            $bulkBooking->booking_person = $request->bookingFrom;
+            $bulkBooking->checkin_date = date('Y-m-d', strtotime($request->checkin_date));
+            $bulkBooking->checkout_date = date('Y-m-d', strtotime($request->checkout_date));
+            $bulkBooking->room_count     = $request->rooms;
+            if($bulkBooking->save()){
+                return redirect('/admin/bulk-bookings')->with('message', $msg);
+            }else{
+                return redirect('/admin/bulk-bookings/create')->with('error', 'Something went wrong');
+            }
+        }  
     }
 
     /**
@@ -258,18 +161,22 @@ class BookingController extends Controller
     public function edit($id)
     {
         try {
-            $authUser = \Auth::user();
-            $user = User::where('id',$id)
-                    ->first();
-            $user->date_of_birth = date('m/d/Y', strtotime($user->date_of_birth));
-
-            $roleId = Role::where('name','Guest')
-                    ->first('id');
-
-            return view('user::create',compact('roleId','user'));
+            $bulkBooking = BulkBooking::where('id',$id)->first();
+            $bulkBooking->checkin_date = date('m/d/Y', strtotime($bulkBooking->checkin_date));
+            $bulkBooking->checkout_date = date('m/d/Y', strtotime($bulkBooking->checkout_date));
+            $hotels = Hotel::get();
+            $roomTypes = HotelRoom::from('hotel_rooms as hr')
+                ->select('hr.id', 'hr.hotel_id', 'hr.name', 'hr.type_id', 'hr.extra_bed_rate','rt.name as room_type_name')
+                ->join('room_types as rt','rt.id','=','hr.type_id')
+                ->where('hr.hotel_id',$bulkBooking->hotel_id)
+                ->orderby('rt.name','asc')
+                ->get();
+            $availableRooms = HotelRoom::where('id',$bulkBooking->room_type_id)->first();
+            $bulkBookingRooms = BulkBookingRoom::where('bulk_booking_id',$id)->get();
+            return view('hotel::bulkBooking/bulkBooking',compact('bulkBooking','hotels','roomTypes','availableRooms','bulkBookingRooms'));
 
         } catch (Exception $e) {
-            return redirect('admin/user')->with('error', $exception->getMessage());           
+            return redirect('admin/bulk-bookings')->with('error', $exception->getMessage());           
         }
 
 
@@ -284,11 +191,12 @@ class BookingController extends Controller
     public function destroy($id)
     {
 
-        $user = BulkBooking::findorfail($id);
+        $bulkBooking = BulkBooking::findorfail($id);
         if($user->forceDelete()){
-            return redirect('admin/booking')->with('message', 'Booking deleted successfully');
+            HotelRoom::where('id', $bulkBooking->room_type_id)->increment('count', $bulkBooking->room_count);
+            return redirect('admin/bulk-bookings')->with('message', 'Booking deleted successfully');
         }else{
-            return redirect('admin/booking')->with('error', 'Somthing went wrong');
+            return redirect('admin/bulk-bookings')->with('error', 'Somthing went wrong');
         }
     }
 
@@ -323,6 +231,16 @@ class BookingController extends Controller
             return redirect('user/staff')->with('error', trans('messages.SOMETHING_WENT_WRONG'));
         }
 
+    }
+
+    public function hotelRooms($id)
+    {
+        $rooms = HotelRoom::where('id',$id)->first();
+        if($rooms){
+            return array('success' => true,'hotelRooms' => $rooms);
+        }else{
+            return array('success' => false,'hotelRooms' => array());
+        }
     }
 
 }

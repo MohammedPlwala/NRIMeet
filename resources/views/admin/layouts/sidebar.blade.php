@@ -60,7 +60,7 @@ $planApprovalRequired = \Session::get('planApprovalRequired');
                                 <a href="{{url('/admin/bookings')}}" class="nk-menu-link"><span class="nk-menu-text">Manage</span></a>
                             </li>
                             <li class="nk-menu-item">
-                                <a href="{{url('/admin/bookings/bulk-bookings')}}" class="nk-menu-link"><span class="nk-menu-text">Bulk Booking</span></a>
+                                <a href="{{url('/admin/bulk-bookings')}}" class="nk-menu-link"><span class="nk-menu-text">Bulk Booking</span></a>
                             </li>
                         </ul>
                     </li>
