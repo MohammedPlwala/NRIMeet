@@ -35,8 +35,18 @@ class BookingController extends Controller
     public function index(Request $request)
     {
 
-        $data = BulkBooking::select('bulk_bookings.*','h.name as hotel_name','rt.name as room_type')->leftJoin('hotels as h','h.id','bulk_bookings.hotel_id')->leftJoin('hotel_rooms as hr','hr.id','bulk_bookings.room_type_id')->leftJoin('room_types as rt','rt.id','hr.type_id')->orderby('id','desc')
-                ->get();
+        $hotels = Hotel::get();
+
+        $data = BulkBooking::select('bulk_bookings.*','h.name as hotel_name','rt.name as room_type')->leftJoin('hotels as h','h.id','bulk_bookings.hotel_id')->leftJoin('hotel_rooms as hr','hr.id','bulk_bookings.room_type_id')->leftJoin('room_types as rt','rt.id','hr.type_id')
+        ->where(function ($query) use ($request) {
+                    if (!empty($request->toArray())) {
+                        if ($request->get('hotel_id') != '') {
+                            $query->where('bulk_bookings.hotel_id', $request->get('hotel_id'));
+                        }
+                    }
+                })
+        ->orderby('id','desc')
+        ->get();
         $bulkBookingCount = 0;
         if(!empty($data->toArray())){
             $bulkBookingCount = count($data);
@@ -93,7 +103,7 @@ class BookingController extends Controller
         }
 
 
-        return view('hotel::bulkBooking/index')->with(compact('bulkBookingCount'));
+        return view('hotel::bulkBooking/index')->with(compact('bulkBookingCount','hotels'));
     }
 
 

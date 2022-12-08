@@ -31,8 +31,13 @@
                                         required="true" />
                                 </div>
                                 <div class="col-lg-8">
+<<<<<<< HEAD
                                     <x-inputs.text for="name" icon="mail" required="true" class="readonlyinput"
                                         placeholder="Select" name="name" value="{{ isset($bulkBooking) ? $bulkBooking->name : old('name') }}" />
+=======
+                                    <x-inputs.text for="name" icon="mail" required="true" class=""
+                                        placeholder="Name" name="name" value="{{ isset($bulkBooking) ? $bulkBooking->name : old('name') }}"  />
+>>>>>>> 244a3b3b37b7c56a41adb22ef10ca3e94855ade8
                                       
                                 </div>
                             </div>
@@ -239,7 +244,8 @@
 
     <script type="text/javascript">
         $(document).ready(function() {
-          @if(isset($bulkBooking))
+
+            @if(isset($bulkBooking))
             $('.readonlyinput').attr("readonly", true);
             @endif
           
