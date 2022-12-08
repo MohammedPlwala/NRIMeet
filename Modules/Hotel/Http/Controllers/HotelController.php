@@ -719,9 +719,6 @@ class HotelController extends Controller
 
     public function editBooking(Request $request,$booking_id)
     {   
-
-        \Helpers::sendCancellationApprovedMail(16);
-        die;
         
         $booking = Booking::findorfail($booking_id);
 
