@@ -41,7 +41,7 @@
             <br/>
             <br/>
         @endif
-        <form action="{{$action}}" method="post" name="payuForm" class="pb-0">
+        <form action="{{ $action }}" method="post" name="payuForm" class="pb-0">
             @csrf
             <input type="hidden" name="key" value="{{$MERCHANT_KEY}}"/>
             <input type="hidden" name="hash" value="{{$hash}}"/>

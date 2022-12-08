@@ -40,10 +40,11 @@
                             </div>
   
                             <div class="card-body text-center">
-                                <form action="{{ route('razorpay.payment.store') }}" method="POST" >
+                                <form action="{{ url('razorpay-payment') }}" method="POST" >
+                                    aa = {{ config('constants.RAZORPAY_KEY') }}
                                     @csrf
                                     <script src="https://checkout.razorpay.com/v1/checkout.js"
-                                            data-key="{{ env('RAZORPAY_KEY') }}"
+                                            data-key="{{ config('constants.RAZORPAY_KEY') }}"
                                             data-amount="1000"
                                             data-buttontext="Pay 10 INR"
                                             data-name="ItSolutionStuff.com"

@@ -37,5 +37,9 @@ return [
 
     'MPT_EMAIL' => 'mpt@yopmail.com',
     'OVERSEAS_EMAIL' => 'overseas@yopmail.com',
+    'RAZORPAY_KEY' => env('RAZORPAY_KEY', ''),
+    'RAZORPAY_SECRET' => env('RAZORPAY_SECRET', ''),
+    
+
 ];
 
