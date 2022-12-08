@@ -118,12 +118,6 @@ $planApprovalRequired = \Session::get('planApprovalRequired');
                             <li class="nk-menu-item">
                                 <a href="{{url('admin/report/call-center')}}" class="nk-menu-link"><span class="nk-menu-text">Call Center</span></a>
                             </li>
-                            <li class="nk-menu-item">
-                                <a href="{{url('admin/report/financial')}}" class="nk-menu-link"><span class="nk-menu-text">Financial</span></a>
-                            </li>
-                            <li class="nk-menu-item">
-                                <a href="{{url('admin/report/financial-2')}}" class="nk-menu-link"><span class="nk-menu-text">Financial 2</span></a>
-                            </li>
                         </ul>
                     </li>
 
