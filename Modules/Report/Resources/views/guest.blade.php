@@ -78,7 +78,7 @@
 
                         <div class="row g-3 align-center">
                             <div class="col-lg-5">
-                                <x-inputs.verticalFormLabel label="Country / Region" for="Country / Region" suggestion="Specify the country name." required="true" />
+                                <x-inputs.verticalFormLabel label="Country / Region" for="Country / Region" suggestion="Specify the country name." />
                             </div>
                             <div class="col-lg-7">
                                 <x-inputs.select name="country" for="billing_country"
@@ -95,11 +95,11 @@
                         </div>
                         <div class="row g-3" id="state_wrapper">
                             <div class="col-lg-5">
-                                <x-inputs.verticalFormLabel label="State" for="State" suggestion="Specify the nationality." required="true" />
+                                <x-inputs.verticalFormLabel label="State" for="State" suggestion="Specify the nationality." />
                             </div>
                             <div class="col-lg-7">
                                 <div id="field_billing_state">
-
+                                    <x-inputs.text  value="" for="billing_state" name="billing_state" placeholder="State" />
                                 </div>
                             </div>
                         </div>
@@ -156,7 +156,7 @@
                         <div class="col-lg-12 p-0 text-right">
                             <button class="btn btn-outline-light" data-dismiss="modal" aria-label="Close">Cancel</button>
                             <button class="btn btn-danger resetFilter" data-dismiss="modal" aria-label="Close">Clear Filter</button>
-                            <button class="btn btn-primary submitBtn" type="button">Submit</button>
+                            <button class="btn btn-primary submitBtn" data-dismiss="modal" type="button">Submit</button>
                         </div>
                     </div>
                 </div>
@@ -186,13 +186,10 @@
             if($('#postal_code').val() != ""){
                 myUrl = addQSParm(myUrl,'postal_code', $('#postal_code').val());
             }
-            if($('#country').val() != ""){
-                myUrl = addQSParm(myUrl,'country', $('#country').val());
+            if($('#billing_country').val() != ""){
+                myUrl = addQSParm(myUrl,'country', $('#billing_country').val());
             }
 
-            if($('#country').val() != ""){
-                myUrl = addQSParm(myUrl,'country', $('#country').val());
-            }
 
             location.href = myUrl;
         });
@@ -228,7 +225,7 @@
             var items = [
                 '#city',
                 '#billing_state',
-                '#country',
+                '#billing_country',
                 '#name',
                 '#postal_code'
             ];
