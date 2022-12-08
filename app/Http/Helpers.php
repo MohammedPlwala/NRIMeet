@@ -9,69 +9,13 @@ use Kreait\Firebase\ServiceAccount;
 use Kreait\Firebase\Database;
 use Modules\User\Entities\OrganizationStaff;
 
+use Modules\Hotel\Entities\Booking;
+use Modules\Hotel\Entities\BookingRoom;
+use Modules\Hotel\Entities\BillingDetail;
+use Modules\Hotel\Entities\Transaction;
+
 class Helpers {
-	 
-
-
-	/**
-	 * function for calculate percentage
-	 * @param $current
-	 * @param $total
-	 * @return float
-	 */
-	public static function calculatePercentage($current, $total){
-		$percentage = ($current / $total) * 100;
-		return round($percentage, 2);
-	}
-
-
-	/**
-	 * function for conver array keys
-	 * @param $array
-	 * @return array
-	 */
-	public static function convertArrayKeys($array){
-		$keys = array_keys($array);
-		//Map keys to format function
-		$keys = array_map( @[ self, 'map' ],$keys );
-		
-		//Use array_combine to map formatted keys to array values
-		$array = array_combine($keys,$array);
-		
-		//Replace nulls and .00 from array
-		return self::replaceNulls($array);
-	}
-
-
-	public static function map($key){
-		// return str_replace(' ', '', ucwords(str_replace('_', ' ', $key)));
-		return lcfirst(implode('', array_map('ucfirst', explode('_', $key))));
-	}
-
-	public static function replaceNulls($array){
-		array_walk_recursive($array, @[self, 'array_replacing']);
-		return $array;
-	}
-
-	public static function array_replacing(&$item, $key)
-	{
-		if($item == null || $item == NULL){
-			$item = "";
-		} elseif($item == ".00"){
-			$item = 0;
-		}
-		// else{
-		//     $item = trim($item);
-		// }
-
-	}
-
-	public static function clean($string)
-	{
-		$string = str_replace(' ', '-', $string); // Replaces all spaces with hyphens.
-		return preg_replace('/[^A-Za-z0-9\-.]/', '', $string); // Removes special chars.
-	}
-
+	
 	public static function getAcronym($words) {
 		$words = preg_replace('/\s+/', ' ', $words);
 		$words = explode(" ", $words);
@@ -87,368 +31,160 @@ class Helpers {
 
 	}
 
-
-	public static function getFeaturePermission($feature) {
-		$permission =   OrganizationPermission::select('read_own','read_all','edit_own','edit_all','delete_own','delete_all')
-                        ->where('role_id',Auth::user()->role)
-                        ->where('feature_id',$feature)
-                        ->first();
-        if($permission){
-            return $permission->toArray();
-        }else{
-            return array();
-        }
-	}
-
-	public static function checkDiscount() {
-
-
-		// $organization_id = \Auth::user()->organization_id;
-
-		$settings = \DB::select("select value from settings where code = 'ecommerce_discount'");
-
-		if(!empty($settings)){
-			if ($settings[0]->value == 'true') {
-				return true;
-			} else {
-				return false;
-			}
-		}else{
-			return false;
-		}
-	}
-
-	public static function getRetailerCategory($retailer_id) {
-
-
-		// $organization_id = \Auth::user()->organization_id;
-
-		$category = OrganizationBuyer::select('buyer_category as retailer_category')->where('buyer_id',$retailer_id)->first();
-
-		if($category){
-			return $category;
-		}else{
-			return false;
-		}
-	}
-	
-	/*
-	 * Method to strip tags globally.
+	/**
+	 * function for calculate percentage
+	 * @param $current
+	 * @param $total
+	 * @return float
 	 */
-
-	public static function calculateRetailerDiscount($products,$percent,$otherDiscount = 0) {
-		if(!empty($products->toArray())){
-			foreach ($products as $key => $product) {
-
-
-				if($product->price != $product->regular_price){
-					$product->prodcutDiscount = (($product->regular_price - $product->price)*100) /$product->regular_price ;
-					$product->prodcutDiscount = number_format((float) $product->prodcutDiscount, 2, '.', '');
-				}
-				else{
-					$product->prodcutDiscount = 0;
-				}
-
-            	$product->discount_price = $product->regular_price - ($product->regular_price * ($percent / 100));
-            	$product->discount_price = number_format((float) $product->discount_price, 2, '.', '');
-            	$product->discount_regular_price = $product->regular_price - ($product->regular_price * ($percent / 100));
-            	$product->discount_regular_price = number_format((float) $product->discount_regular_price, 2, '.', '');
-
-            	if($product->prodcutDiscount > 0 && $otherDiscount == 0){
-
-					$percentPro = $product->prodcutDiscount;
-
-					if(isset($product->discount_price)){
-			            $price = $product->discount_price;
-			        }else{
-			            $price = $product->price;
-			        }
-
-					$product->discount_price = $price - ($price * ($percentPro / 100));
-	            	$product->discount_price = number_format((float) $product->discount_price, 2, '.', '');
-	            	$product->discount_regular_price = $product->regular_price - ($product->regular_price * ($percentPro / 100));
-	            	$product->discount_regular_price = number_format((float) $product->discount_regular_price, 2, '.', '');	
-				}
-			}
-
-			return $products;
-		}
+	public static function calculatePercentage($current, $total){
+		$percentage = ($current / $total) * 100;
+		return round($percentage, 2);
 	}
 
-	/*
-	 * Method to strip tags globally.
-	 */
+	public static function bookingDetails($booking_id) {
+		$booking = 	Booking::from('bookings as b')
+                    ->select('h.name as hotel','h.address as hotel_address','b.*','u.full_name as guest','u.email as guest_email','h.contact_number','h.contact_person',
+                        \DB::Raw('COALESCE((select count(booking_rooms.id) from booking_rooms where booking_rooms.booking_id = b.id ),0) as rooms'),
+                        \DB::Raw('COALESCE((select sum(booking_rooms.guests) from booking_rooms where booking_rooms.booking_id = b.id ),0) as guests'),
+                        \DB::Raw('COALESCE((select sum(booking_rooms.adults) from booking_rooms where booking_rooms.booking_id = b.id ),0) as adults'),
+                        \DB::Raw('COALESCE((select sum(booking_rooms.childs) from booking_rooms where booking_rooms.booking_id = b.id ),0) as childs'),
+                    )
+                    ->leftJoin('hotels as h','h.id','=','b.hotel_id')
+                    ->leftJoin('users as u','u.id','=','b.user_id')
+                	->where('b.id',$booking_id)
+                    ->first();
 
-	public static function calculateRetailerDiscountSingleProduct($product,$percent,$otherDiscount = 0) {
-		
+        $booking->adults = $booking->guests-$booking->childs;
+        $booking->childs = $booking->guests-$booking->adults;
 
-		if($product->price != $product->regular_price){
-			$product->prodcutDiscount = (($product->regular_price - $product->price)*100) /$product->regular_price ;
-			$product->prodcutDiscount = number_format((float) $product->prodcutDiscount, 2, '.', '');
-		}
-		else{
-			$product->prodcutDiscount = 0;
-		}
+		$bookingRooms = BookingRoom::from('booking_rooms as br')
+                ->select('br.*','hr.rate','rt.name as room_type_name')
+                ->leftJoin('hotel_rooms as hr','br.room_id','=','hr.id')
+                ->join('room_types as rt','rt.id','=','hr.type_id')
+                ->where('br.booking_id',$booking_id)
+                ->get();
 
-    	$product->discount_price = $product->regular_price - ($product->regular_price * ($percent / 100));
-    	$product->discount_price = number_format((float) $product->discount_price, 2, '.', '');
-    	$product->discount_regular_price = $product->regular_price - ($product->regular_price * ($percent / 100));
-    	$product->discount_regular_price = number_format((float) $product->discount_regular_price, 2, '.', '');
-    	if($product->prodcutDiscount > 0 && $otherDiscount == 0){
-
-			$percent = $product->prodcutDiscount;
-
-			if(isset($product->discount_price)){
-	            $price = $product->discount_price;
-	        }else{
-	            $price = $product->price;
-	        }
-
-			$product->discount_price = $price - ($price * ($percent / 100));
-        	$product->discount_price = number_format((float) $product->discount_price, 2, '.', '');
-        	$product->discount_regular_price = $product->regular_price - ($product->regular_price * ($percent / 100));
-        	$product->discount_regular_price = number_format((float) $product->discount_regular_price, 2, '.', '');	
-		}
-		return $product;
-
+        $booking->bookingRooms = $bookingRooms;
+        return $booking;
 	}
 
-	public static function calculateCategoryDiscountsSingleProduct($product,$discounts,$retailer_id = 0) {
-			$category = 0;
-
-			if($retailer_id	!= 0){
-				/*$user = User::select('retailer_category')->where('id',$retailer_id)->first();
-				$category = $user->retailer_category;*/
-				// $organization_id = \Auth::user()->organization_id;
-				$categoryData = OrganizationBuyer::select('buyer_category as retailer_category')->where('buyer_id',$retailer_id)->first();
-				$category = $categoryData->retailer_category;
-			}
 
 
-			$product_category = $retailer_category = array();
-
-			if(isset($discounts['product_category'])){
-				$product_category = $discounts['product_category'];
-			}
-
-			if(isset($discounts['retailer_category'])){
-				$retailer_category = $discounts['retailer_category'];
-			}
-
-			if($product->price != $product->regular_price){
-				$product->prodcutDiscount = (($product->regular_price - $product->price)*100) /$product->regular_price ;
-				$product->prodcutDiscount = number_format((float) $product->prodcutDiscount, 2, '.', '');
-			}
-			else{
-				$product->prodcutDiscount = 0;
-			}
-
-			if ($category != 0 && array_key_exists($category, $retailer_category)) {
-				$percent = $retailer_category[$category];
-
-				if(isset($product->discount_price)){
-		            $price = $product->discount_price;
-		        }else{
-		            $price = $product->regular_price;
-		        }
-
-				$product->discount_price = $price - ($price * ($percent / 100));
-            	$product->discount_price = number_format((float) $product->discount_price, 2, '.', '');
-            	$product->discount_regular_price = $product->regular_price - ($product->regular_price * ($percent / 100));
-            	$product->discount_regular_price = number_format((float) $product->discount_regular_price, 2, '.', '');
-			}
+	public static function sendBookingReceiveMails($booking_id) {
 
 
-			if(!empty($product_category)){
-				$productCategories = explode(',', $product->category_ids);
-				foreach ($productCategories as $key => $pcategory) {
-					if (array_key_exists($pcategory, $product_category)) {
+		$bookingDetails = self::bookingDetails($booking_id);
+		$to_name = $bookingDetails->guest;
+		// $to_email = $bookingDetails->guest_email; //uncomment for live
+		$to_email = 'vikalp@yopmail.com';
 
-						$percent = $product_category[$pcategory];
+		$emails = array($to_email);
 
-						if(isset($product->discount_price)){
-				            $price = $product->discount_price;
-				        }else{
-				            $price = $product->regular_price;
-				        }
+		$emails[] = \Config::get('constants.MPT_EMAIL');
+		$emails[] = \Config::get('constants.OVERSEAS_EMAIL');
 
-						$product->discount_price = $price - ($price * ($percent / 100));
-		            	$product->discount_price = number_format((float) $product->discount_price, 2, '.', '');
-		            	$product->discount_regular_price = $product->regular_price - ($product->regular_price * ($percent / 100));
-		            	$product->discount_regular_price = number_format((float) $product->discount_regular_price, 2, '.', '');
-					}
-				}
-			}
-
-			if($product->prodcutDiscount > 0){
-
-				$percent = $product->prodcutDiscount;
-
-				if(isset($product->discount_price)){
-		            $price = $product->discount_price;
-		        }else{
-		            $price = $product->price;
-		        }
-
-				$product->discount_price = $price - ($price * ($percent / 100));
-            	$product->discount_price = number_format((float) $product->discount_price, 2, '.', '');
-            	$product->discount_regular_price = $product->regular_price - ($product->regular_price * ($percent / 100));
-            	$product->discount_regular_price = number_format((float) $product->discount_regular_price, 2, '.', '');	
-			}
-
-			return $product;
-	}
-
-	/*
-	 * Method to strip tags globally.
-	 */
-
-	public static function calculateCategoryDiscounts($products,$discounts,$retailer_id = 0) {
-			$category = 0;
-
-			if($retailer_id	!= 0){
-				// $organization_id = \Auth::user()->organization_id;
-				$categoryData = OrganizationBuyer::select('buyer_category as retailer_category')->where('buyer_id',$retailer_id)->first();
-				$category = $categoryData->retailer_category;
-				// $user = User::select('retailer_category')->where('id',$retailer_id)->first();
-				// $category = $user->retailer_category;
-			}
-
-
-			$product_category = $retailer_category = array();
-
-			if(isset($discounts['product_category'])){
-				$product_category = $discounts['product_category'];
-			}
-
-			if(isset($discounts['retailer_category'])){
-				$retailer_category = $discounts['retailer_category'];
-			}
-
-			foreach ($products as $key => $product) {
-
-				if($product->price != $product->regular_price){
-					$product->prodcutDiscount = (($product->regular_price - $product->price)*100) /$product->regular_price ;
-					$product->prodcutDiscount = number_format((float) $product->prodcutDiscount, 2, '.', '');
-				}
-				else{
-					$product->prodcutDiscount = 0;
-				}
-
-				if ($category != 0 && array_key_exists($category, $retailer_category)) {
-					$percent = $retailer_category[$category];
-
-					if(isset($product->discount_price)){
-			            $price = $product->discount_price;
-			        }else{
-			            $price = $product->regular_price;
-			        }
-
-					$product->discount_price = $price - ($price * ($percent / 100));
-
-	            	$product->discount_price = number_format((float) $product->discount_price, 2, '.', '');
-
-	            	$product->discount_regular_price = $product->regular_price - ($product->regular_price * ($percent / 100));
-	            	$product->discount_regular_price = number_format((float) $product->discount_regular_price, 2, '.', '');
-				}
-
-
-				if(!empty($product_category)){
-					$productCategories = explode(',', $product->category_ids);
-
-					foreach ($productCategories as $key => $pcategory) {
-						if (array_key_exists($pcategory, $product_category)) {
-
-							$percent = $product_category[$pcategory];
-
-							if(isset($product->discount_price)){
-					            $price = $product->discount_price;
-					        }else{
-					            $price = $product->regular_price;
-					        }
-
-							$product->discount_price = $price - ($price * ($percent / 100));
-			            	$product->discount_price = number_format((float) $product->discount_price, 2, '.', '');
-			            	$product->discount_regular_price = $product->regular_price - ($product->regular_price * ($percent / 100));
-			            	$product->discount_regular_price = number_format((float) $product->discount_regular_price, 2, '.', '');
-						}
-					}
-				}
-
-				if($product->prodcutDiscount > 0){
-					$percent = $product->prodcutDiscount;
-
-					if(isset($product->discount_price)){
-			            $price = $product->discount_price;
-			        }else{
-			            $price = $product->price;
-			        }
-
-					$product->discount_price = $price - ($price * ($percent / 100));
-	            	$product->discount_price = number_format((float) $product->discount_price, 2, '.', '');
-	            	$product->discount_regular_price = $product->regular_price - ($product->regular_price * ($percent / 100));
-	            	$product->discount_regular_price = number_format((float) $product->discount_regular_price, 2, '.', '');	
-				}
-			}
-
-			return $products;
-	}
-
-	public static function sendWaNotification($message = "",$numbers) {
-		$url = "https://wa.notifyabhi.com/api/sm";
-        
-		$waKey = \DB::select("select value from settings where code = 'wa_auth_key'");
-
-		if(!empty($waKey)){
-			$authkey = $waKey[0]->value;
-	        
-			if(!empty($authkey)){
-		        $ch = curl_init();
-		        curl_setopt($ch, CURLOPT_URL, $url);
-		        curl_setopt($ch, CURLOPT_POST, 1);
-		        curl_setopt($ch, CURLOPT_POSTFIELDS,"authkey=".$authkey."&to=".$numbers."&msg=".$message);
-		        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
-		        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-		        //curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-		        $output = curl_exec($ch);
-		        curl_close($ch);
-
-		        $response = json_decode($output);
-
-			}else{
-				return false;
-			}
-
-		}else{
-			return false;
-		}
-	}
-
-	public static function getUserDetails($user_id =0) {
-
-		if($user_id != 0){
-			$user = User::findorfail($user_id);
-			if($user){
-				return $user;
-			}
-		}
-		return false;
-	}
-
-	public static function sendMails($receiver = array(), $body = array(),$mailSubject = '',$data = array(),$template = '') {
-		$to_name = $receiver['name'];
-		$to_email = $receiver['email'];
-		$data = array('name'=>$receiver['name'], "body" => $body,'mailSubject' => $mailSubject);
-
-		Mail::send($template, $data, function ($message)  use ($to_name, $to_email,$body,$mailSubject) {
+		$data = array('bookingDetails'=>$bookingDetails);
+		Mail::send('emails.booking', $data, function ($message)  use ($to_name, $to_email,$emails) {
 			// $message->to($to_email, $to_name)
-			$message->to($to_email, $to_name)
-			->subject($mailSubject)
+			$message->to($emails, $to_name)
+			->subject('Thank you for booking with Pravasi Bharatiya Divas 2023')
 			->from(\Config::get('constants.MAIL_FROM'),'NriMeet');
-			// ->setBody($mailBody, 'text/html');
 		});
 	}
 
+	public static function sendBookingConfirmationMails($booking_id) {
+
+
+		$bookingDetails = self::bookingDetails($booking_id);
+		$to_name = $bookingDetails->guest;
+		// $to_email = $bookingDetails->guest_email; //uncomment for live
+		$to_email = 'vikalp@yopmail.com';
+
+		$emails = array($to_email);
+		$emails[] = \Config::get('constants.MPT_EMAIL');
+
+
+		$data = array('bookingDetails'=>$bookingDetails);
+		Mail::send('emails.booking-confirmation', $data, function ($message)  use ($to_name, $to_email,$emails) {
+			// $message->to($to_email, $to_name)
+			$message->to($emails, $to_name)
+			->subject('Payment Completed : '.$to_name)
+			->from(\Config::get('constants.MAIL_FROM'),'NriMeet');
+		});
+	}
+
+	public static function sendCancellationReceivedMail($booking_id) {
+
+		$bookingDetails = self::bookingDetails($booking_id);
+		$to_name = $bookingDetails->guest;
+		// $to_email = $bookingDetails->guest_email; //uncomment for live
+		$to_email = 'vikalp@yopmail.com';
+
+		$emails = array($to_email);
+
+		$data = array('bookingDetails'=>$bookingDetails);
+		Mail::send('emails.cancellation', $data, function ($message)  use ($to_name, $to_email,$emails,$bookingDetails) {
+			// $message->to($to_email, $to_name)
+			$message->to($emails, $to_name)
+			->subject('Cancellaiton Request Recevied : '.$bookingDetails->hotel.' '.$to_name)
+			->from(\Config::get('constants.MAIL_FROM'),'NriMeet');
+		});
+	}
+
+	public static function sendCancellationApprovedMail($booking_id) {
+
+		$bookingDetails = self::bookingDetails($booking_id);
+		$to_name = $bookingDetails->guest;
+		// $to_email = $bookingDetails->guest_email; //uncomment for live
+		$to_email = 'vikalp@yopmail.com';
+
+		$emails = array($to_email);
+
+		$data = array('bookingDetails'=>$bookingDetails);
+		Mail::send('emails.cancellation_approved', $data, function ($message)  use ($to_name, $to_email,$emails,$bookingDetails) {
+			// $message->to($to_email, $to_name)
+			$message->to($emails, $to_name)
+			->subject('Cancellaiton Request Approved : '.$bookingDetails->hotel.' '.$to_name)
+			->from(\Config::get('constants.MAIL_FROM'),'NriMeet');
+		});
+	}
+
+	public static function sendRefundApprovedMail($booking_id) {
+
+		$bookingDetails = self::bookingDetails($booking_id);
+		$to_name = $bookingDetails->guest;
+		// $to_email = $bookingDetails->guest_email; //uncomment for live
+		$to_email = 'vikalp@yopmail.com';
+
+		$emails = array($to_email);
+
+		$data = array('bookingDetails'=>$bookingDetails);
+		Mail::send('emails.refund_approved', $data, function ($message)  use ($to_name, $to_email,$emails,$bookingDetails) {
+			// $message->to($to_email, $to_name)
+			$message->to($emails, $to_name)
+			->subject('Refund Approved : '.$bookingDetails->hotel.' '.$to_name)
+			->from(\Config::get('constants.MAIL_FROM'),'NriMeet');
+		});
+	}
+
+	public static function sendRefundProcessedMail($booking_id) {
+
+		$bookingDetails = self::bookingDetails($booking_id);
+		$to_name = $bookingDetails->guest;
+		// $to_email = $bookingDetails->guest_email; //uncomment for live
+		$to_email = 'vikalp@yopmail.com';
+
+		$emails = array($to_email);
+
+		$data = array('bookingDetails'=>$bookingDetails);
+		Mail::send('emails.refund_processed', $data, function ($message)  use ($to_name, $to_email,$emails,$bookingDetails) {
+			// $message->to($to_email, $to_name)
+			$message->to($emails, $to_name)
+			->subject('Refund Processed : '.$bookingDetails->hotel.' '.$to_name)
+			->from(\Config::get('constants.MAIL_FROM'),'NriMeet');
+		});
+	}
 
 
 	public static function sendNotifications($receiver = array(), $bodies = array(),$channels = array(),$mailSubject = '',$details = array()) {
@@ -524,62 +260,4 @@ class Helpers {
 		}
 	}
 
-	public static function get_dates_of_quarter($quarter = 'current', $year = null, $format = null)
-	{
-	    if ( !is_int($year) ) {        
-	       $year = (new DateTime)->format('Y');
-	    }
-	    $current_quarter = ceil((new DateTime)->format('n') / 3);
-	    switch (  strtolower($quarter) ) {
-	    case 'this':
-	    case 'current':
-	       $quarter = ceil((new DateTime)->format('n') / 3);
-	       break;
-
-	    case 'previous':
-	       $year = (new DateTime)->format('Y');
-	       if ($current_quarter == 1) {
-	          $quarter = 4;
-	          $year--;
-	        } else {
-	          $quarter =  $current_quarter - 1;
-	        }
-	        break;
-
-	    case 'first':
-	        $quarter = 1;
-	        break;
-
-	    case 'last':
-	        $quarter = 4;
-	        break;
-
-	    default:
-	        $quarter = (!is_int($quarter) || $quarter < 1 || $quarter > 4) ? $current_quarter : $quarter;
-	        break;
-	    }
-	    if ( $quarter === 'this' ) {
-	        $quarter = ceil((new DateTime)->format('n') / 3);
-	    }
-	    $start = new DateTime($year.'-'.(3*$quarter-2).'-1 00:00:00');
-	    $end = new DateTime($year.'-'.(3*$quarter).'-'.($quarter == 1 || $quarter == 4 ? 31 : 30) .' 23:59:59');
-
-	    return array(
-	        'startDate' => $format ? $start->format($format) : $start,
-	        'endDate' => $format ? $end->format($format) : $end,
-	    );
-	}
-
-
-	public static function getUserOrganizations($user_id =0) {
-		if($user_id != 0){
-			$userOrgs = OrganizationStaff::select(\DB::Raw('group_concat(organization_id) as orgs'))->where('user_id',$user_id)->first();
-            if($userOrgs->orgs != ""){
-                $userOrgs = explode(',', $userOrgs->orgs);
-            }else{
-                $userOrgs = array();
-            }
-		}
-		return $userOrgs;
-	}
 }

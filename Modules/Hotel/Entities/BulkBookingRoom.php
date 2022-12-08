@@ -4,7 +4,7 @@ namespace Modules\Hotel\Entities;
 use Illuminate\Database\Eloquent\Model;
 use Auth;
 
-class BulkBooking extends Model
+class BulkBookingRoom extends Model
 {
-    protected $table = 'bulk_bookings';
+    protected $table = 'bulk_booking_rooms';
 }

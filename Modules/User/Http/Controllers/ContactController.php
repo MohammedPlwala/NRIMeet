@@ -33,7 +33,7 @@ class ContactController extends Controller
     {
 
         $data = Contact::get();
-        $visitersCount = 0;
+        $contactsCount = 0;
         if(!empty($data->toArray())){
             $contactsCount = count($data);
         }

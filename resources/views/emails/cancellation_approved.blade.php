@@ -52,10 +52,15 @@
 		<table cellpadding="0" cellspacing="0" border="0" width="650" align="center">
 			<tbody>
 				<tr>
-					<td style="padding-left:0px; padding-top: 10px; font-size: 14px; padding-bottom: 10px; font-family: Arial, Helvetica, sans-serif; line-height: 1.5;">
-            <p>We welcome you to the <b>17th Pravasi Bharatiya Divas 2023, Indore,</b></p>
-						<p>Get ready to create some <b>unforgettable memories</b>. We've made things easy for <b>you</b> and <b>included</b> all of your <b>booking details</b> in this very <b>email</b>.</p>
-						<p>All you <b>need</b> to do is <b>show us</b> this <b>email</b> on the day you <b>arrive</b>, and you'll be <b>good to go!</b></p>
+					<td style="color:#FF8000; font-size: 14px; font-family: arial; padding-top: 20px; font-weight: 600">Dear {{ $bookingDetails->guest }},</td>
+				</tr>					
+			</tbody>
+		</table>
+		<table cellpadding="0" cellspacing="0" border="0" width="650" align="center">
+			<tbody>
+				<tr>
+					<td style="padding-left:0px; padding-top: 0px; font-size: 14px; padding-bottom: 10px; font-family: Arial, Helvetica, sans-serif; line-height: 1.5;">
+            <p>Your cancellation request having booking / Order Id: # {{ $bookingDetails->order_id }} is approved.</p>
           </td>
 				</tr>
 			</tbody>
@@ -63,7 +68,7 @@
 		<table cellpadding="0" cellspacing="0" border="0" width="650" align="center">
 			<tbody>
 				<tr>
-					<td style="color:#FF8000; font-size: 14px; font-family: arial; padding-top: 20px; padding-bottom: 10px; font-weight: 600">Booking Confirmation Details</td>
+					<td style="color:#FF8000; font-size: 14px; font-family: arial; padding-top: 0px; padding-bottom: 10px; font-weight: 600">Booking Details</td>
 				</tr>					
 			</tbody>
 		</table>
@@ -84,7 +89,7 @@
 					</tr>
 					<tr>
 						<td width="25%" style="color:000; font-size: 14px; font-family: arial; padding:5px; font-weight: 600; border-right: 1px solid #D6D4D4; border-bottom: 1px solid #D6D4D4;">Hotel Address:</td>
-						<td width="75%" style="color:000; font-size: 14px; font-family: arial; padding:5px; font-weight: 400; border-right: 1px solid #D6D4D4; border-bottom: 1px solid #D6D4D4;" colspan="3">{{ $bookingDetails->hotel_address }}.</td>
+						<td width="75%" style="color:000; font-size: 14px; font-family: arial; padding:5px; font-weight: 400; border-right: 1px solid #D6D4D4; border-bottom: 1px solid #D6D4D4;" colspan="3">{{ $bookingDetails->hotel_address }}</td>
 					</tr>
 					<tr>
 						<td width="25%" style="color:000; font-size: 14px; font-family: arial; padding:5px; font-weight: 600; border-right: 1px solid #D6D4D4; border-bottom: 1px solid #D6D4D4;">Lead Guest: </td>
@@ -115,8 +120,7 @@
 					
 				</tbody>
 			</table>
-
-			<table class="price-table" cellpadding="0" cellspacing="0" border="0" width="650" align="center" style="margin-top: 20px;">
+		<table class="price-table" cellpadding="0" cellspacing="0" border="0" width="650" align="center" style="margin-top: 20px;">
 			<thead>
 				<tr>
 					<th width="13%" style="text-align: left; background: #F1F1F1; padding: 9px 4px 9px 10px; font-size: 13px; border-bottom: #D6D4D4;">Rooms</th>
@@ -143,30 +147,14 @@
 
 			</tbody>
 		</table>
-		
 
 		<table cellpadding="0" cellspacing="0" border="0" width="650" align="center">
 			<tbody>
 				<tr>
-					<td style="color:#FF8000; font-size: 14px; font-family: arial; padding-top: 20px; padding-bottom: 10px; font-weight: 600">Booking Policy: </td>
-				</tr>
-				<tr>
 					<td>
-						<ul style="font-size: 14px; font-family: arial; margin: 0; line-height: 20px;">
-							<li>Booking is non-transferable</li>
-							<li>Management reserve the right to cancel advance booking in exceptional and unavoidable circumstances</li>
-							<li>Maximum 2 Rooms to be booked by a registered delegate</li>
-							<li>Only Registered PBD Delegates will be eligible for book accommodation</li>
-							<li>Last date to reserve your accommodation is 20th December'2022</li>
-							<li>Hotel bookings window will be available from 6 January'2023 Check in & 13th January'2023 check out</li>
-							<li>For refunds all bank charges & currency fluctuation charges will be borne by the guest.</li>
-							<li>All bank charges for booking accommodation will be on the delegate.</li>
-							<li>All Disputes are subject to the jurisdiction of Bhopal courts only.</li>
-							<li>Please carry a valid photo identity card along with Booking receipt at the time of check-in in the Hotel</li>
-							<li>CHECK-IN TIME: 1400 HRS. (2 PM)</li>
-							<li>CHECK-OUT TIME: 1200 HRS. (12 PM)</li>
-						</ul>
-						<p style="font-size: 14px; font-family: arial; font-weight: 600; margin: 20px 0 0 0; line-height: 20px;">For More details: Login at <a href="https://pbdaccommodation.mptourism.com/booking-policy/" target="_blank">https://pbdaccommodation.mptourism.com/booking-policy/</a></p>
+						<p style="font-size: 14px; font-family: arial; font-weight: 400; margin: 20px 0 0 0; line-height: 20px;">
+							We shall process your cancellation request and update you in next 12- 24 WORKING HOURS. Your payment shall be credited with in 5-10 Working days, you cancellation will be processed as per the cancellation policy.
+						</p>
 					</td>
 				</tr>
 				<tr>
@@ -179,6 +167,7 @@
 							<li>- Within 2-10 Days of Check-in 20% of the booking amount</li>
 							<li>- Within 2 Days of Check-in 100% Retention</li>
 						</ul>
+						<p style="font-size: 14px; font-family: arial; font-weight: 600; margin: 20px 0 0 0; line-height: 20px;">For More details: Login at <a href="https://pbdaccommodation.mptourism.com/booking-policy/" target="_blank">https://pbdaccommodation.mptourism.com/booking-policy/</a></p>
 					</td>
 				</tr>
 			</tbody>

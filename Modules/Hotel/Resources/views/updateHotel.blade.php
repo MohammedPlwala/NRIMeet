@@ -115,6 +115,15 @@ $organization_type = \Session::get('organization_type');
 
                             <div class="row g-3 align-center">
                                 <div class="col-lg-5">
+                                    <x-inputs.verticalFormLabel label="Address" for="address" suggestion="Specify the hotel address." required="true" />
+                                </div>
+                                <div class="col-lg-7">
+                                    <x-inputs.textarea value="{{ isset($hotel) ? $hotel->address : '' }}" for="address" class="" icon="notes-alt" required="true" placeholder="Address" name="address" />
+                                </div>
+                            </div>
+
+                            <div class="row g-3 align-center">
+                                <div class="col-lg-5">
                                     <x-inputs.verticalFormLabel label="Status" for="" suggestion="" required="true" />
                                 </div>
                                 <div class="col-lg-7">

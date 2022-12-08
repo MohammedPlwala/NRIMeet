@@ -52,7 +52,7 @@
 		<table cellpadding="0" cellspacing="0" border="0" width="650" align="center">
 			<tbody>
 				<tr>
-					<td style="color:#FF8000; font-size: 14px; font-family: arial; padding-top: 20px; font-weight: 600">Dear (Guest Name),</td>
+					<td style="color:#FF8000; font-size: 14px; font-family: arial; padding-top: 20px; font-weight: 600">Dear {{ $bookingDetails->guest }},</td>
 				</tr>					
 			</tbody>
 		</table>
@@ -60,7 +60,7 @@
 			<tbody>
 				<tr>
 					<td style="padding-left:0px; padding-top: 0px; font-size: 14px; padding-bottom: 10px; font-family: Arial, Helvetica, sans-serif; line-height: 1.5;">
-            <p>We have received your cancellation request having booking / Order Id: #5454545454</p>
+            <p>We have received your cancellation request having booking / Order Id: # {{ $bookingDetails->order_id }}</p>
           </td>
 				</tr>
 			</tbody>
@@ -77,77 +77,74 @@
 				<tbody>
 					<tr>
 						<td width="25%" style="color:000; font-size: 14px; font-family: arial; padding:5px; font-weight: 600; border-right: 1px solid #D6D4D4; border-bottom: 1px solid #D6D4D4;">Order ID:</td>
-						<td width="25%" style="color:000; font-size: 14px; font-family: arial; padding:5px; font-weight: 400; border-right: 1px solid #D6D4D4; border-bottom: 1px solid #D6D4D4;">1770</td>
+						<td width="25%" style="color:000; font-size: 14px; font-family: arial; padding:5px; font-weight: 400; border-right: 1px solid #D6D4D4; border-bottom: 1px solid #D6D4D4;">{{ $bookingDetails->order_id }}</td>
 						<td width="25%" style="color:000; font-size: 14px; font-family: arial; padding:5px; font-weight: 600; border-right: 1px solid #D6D4D4; border-bottom: 1px solid #D6D4D4;">Confirmation No:</td>
-						<td width="25%" style="color:000; font-size: 14px; font-family: arial; padding:5px; font-weight: 400; border-right: 1px solid #D6D4D4; border-bottom: 1px solid #D6D4D4;">60530</td>
+						<td width="25%" style="color:000; font-size: 14px; font-family: arial; padding:5px; font-weight: 400; border-right: 1px solid #D6D4D4; border-bottom: 1px solid #D6D4D4;">{{ $bookingDetails->confirmation_number }}</td>
 					</tr>
 					<tr>
 						<td width="25%" style="color:000; font-size: 14px; font-family: arial; padding:5px; font-weight: 600; border-right: 1px solid #D6D4D4; border-bottom: 1px solid #D6D4D4;">Hotel Name:</td>
-						<td width="25%" style="color:000; font-size: 14px; font-family: arial; padding:5px; font-weight: 400; border-right: 1px solid #D6D4D4; border-bottom: 1px solid #D6D4D4;">Wow Hotel</td>
+						<td width="25%" style="color:000; font-size: 14px; font-family: arial; padding:5px; font-weight: 400; border-right: 1px solid #D6D4D4; border-bottom: 1px solid #D6D4D4;">{{ $bookingDetails->hotel }}</td>
 						<td width="25%" style="color:000; font-size: 14px; font-family: arial; padding:5px; font-weight: 600; border-right: 1px solid #D6D4D4; border-bottom: 1px solid #D6D4D4;">Contact:</td>
-						<td width="25%" style="color:000; font-size: 14px; font-family: arial; padding:5px; font-weight: 400; border-right: 1px solid #D6D4D4; border-bottom: 1px solid #D6D4D4;">+91-0731 6711111</td>
+						<td width="25%" style="color:000; font-size: 14px; font-family: arial; padding:5px; font-weight: 400; border-right: 1px solid #D6D4D4; border-bottom: 1px solid #D6D4D4;">{{ $bookingDetails->contact_number }}</td>
 					</tr>
 					<tr>
 						<td width="25%" style="color:000; font-size: 14px; font-family: arial; padding:5px; font-weight: 600; border-right: 1px solid #D6D4D4; border-bottom: 1px solid #D6D4D4;">Hotel Address:</td>
-						<td width="75%" style="color:000; font-size: 14px; font-family: arial; padding:5px; font-weight: 400; border-right: 1px solid #D6D4D4; border-bottom: 1px solid #D6D4D4;" colspan="3">Plot No. 106 Scheme No. 54 PU - 3 Commercial, AB Rd, Indore, Madhya Pradesh.</td>
+						<td width="75%" style="color:000; font-size: 14px; font-family: arial; padding:5px; font-weight: 400; border-right: 1px solid #D6D4D4; border-bottom: 1px solid #D6D4D4;" colspan="3">{{ $bookingDetails->hotel_address }}</td>
 					</tr>
 					<tr>
 						<td width="25%" style="color:000; font-size: 14px; font-family: arial; padding:5px; font-weight: 600; border-right: 1px solid #D6D4D4; border-bottom: 1px solid #D6D4D4;">Lead Guest: </td>
-						<td width="75%" style="color:000; font-size: 14px; font-family: arial; padding:5px; font-weight: 400; border-right: 1px solid #D6D4D4; border-bottom: 1px solid #D6D4D4;" colspan="3">Mr.Kunju Marakkar Mohammed Easa</td>
+						<td width="75%" style="color:000; font-size: 14px; font-family: arial; padding:5px; font-weight: 400; border-right: 1px solid #D6D4D4; border-bottom: 1px solid #D6D4D4;" colspan="3">{{ $bookingDetails->guest }}</td>
 					</tr>
 					<tr>
 						<td width="25%" style="color:000; font-size: 14px; font-family: arial; padding:5px; font-weight: 600; border-right: 1px solid #D6D4D4; border-bottom: 1px solid #D6D4D4;">Check-In: </td>
-						<td width="25%" style="color:000; font-size: 14px; font-family: arial; padding:5px; font-weight: 400; border-right: 1px solid #D6D4D4; border-bottom: 1px solid #D6D4D4;">07-01-2023</td>
+						<td width="25%" style="color:000; font-size: 14px; font-family: arial; padding:5px; font-weight: 400; border-right: 1px solid #D6D4D4; border-bottom: 1px solid #D6D4D4;">{{ date('M d, Y',strtotime($bookingDetails->check_in_date)) }}</td>
 						<td width="25%" style="color:000; font-size: 14px; font-family: arial; padding:5px; font-weight: 600; border-right: 1px solid #D6D4D4; border-bottom: 1px solid #D6D4D4;">Checkout: </td>
-						<td width="25%" style="color:000; font-size: 14px; font-family: arial; padding:5px; font-weight: 400; border-right: 1px solid #D6D4D4; border-bottom: 1px solid #D6D4D4;">11-01-2023</td>
+						<td width="25%" style="color:000; font-size: 14px; font-family: arial; padding:5px; font-weight: 400; border-right: 1px solid #D6D4D4; border-bottom: 1px solid #D6D4D4;">{{ date('M d, Y',strtotime($bookingDetails->check_out_date)) }}</td>
 					</tr>
 					<tr>
 						<td width="25%" style="color:000; font-size: 14px; font-family: arial; padding:5px; font-weight: 600; border-right: 1px solid #D6D4D4; border-bottom: 1px solid #D6D4D4;">Duration: </td>
-						<td width="25%" style="color:000; font-size: 14px; font-family: arial; padding:5px; font-weight: 400; border-right: 1px solid #D6D4D4; border-bottom: 1px solid #D6D4D4;">4 Nights </td>
+						<td width="25%" style="color:000; font-size: 14px; font-family: arial; padding:5px; font-weight: 400; border-right: 1px solid #D6D4D4; border-bottom: 1px solid #D6D4D4;">{{ $bookingDetails->nights }} Nights </td>
 						<td width="25%" style="color:000; font-size: 14px; font-family: arial; padding:5px; font-weight: 600; border-right: 1px solid #D6D4D4; border-bottom: 1px solid #D6D4D4;">No of Rooms: </td>
-						<td width="25%" style="color:000; font-size: 14px; font-family: arial; padding:5px; font-weight: 400; border-right: 1px solid #D6D4D4; border-bottom: 1px solid #D6D4D4;">1</td>
+						<td width="25%" style="color:000; font-size: 14px; font-family: arial; padding:5px; font-weight: 400; border-right: 1px solid #D6D4D4; border-bottom: 1px solid #D6D4D4;">{{ $bookingDetails->rooms }}</td>
 					</tr>
 					<tr>
 						<td width="25%" style="color:000; font-size: 14px; font-family: arial; padding:5px; font-weight: 600; border-right: 1px solid #D6D4D4; border-bottom: 1px solid #D6D4D4;">No of Guest: </td>
-						<td width="75%" style="color:000; font-size: 14px; font-family: arial; padding:5px; font-weight: 400; border-right: 1px solid #D6D4D4; border-bottom: 1px solid #D6D4D4;" colspan="3">1 Pax</td>
+						<td width="75%" style="color:000; font-size: 14px; font-family: arial; padding:5px; font-weight: 400; border-right: 1px solid #D6D4D4; border-bottom: 1px solid #D6D4D4;" colspan="3">{{ $bookingDetails->guests }} Pax</td>
 					</tr>
 					<tr>
 						<td width="25%" style="color:000; font-size: 14px; font-family: arial; padding:5px; font-weight: 600; border-right: 1px solid #D6D4D4; border-bottom: 1px solid #D6D4D4;">Adult: </td>
-						<td width="25%" style="color:000; font-size: 14px; font-family: arial; padding:5px; font-weight: 400; border-right: 1px solid #D6D4D4; border-bottom: 1px solid #D6D4D4;">1</td>
+						<td width="25%" style="color:000; font-size: 14px; font-family: arial; padding:5px; font-weight: 400; border-right: 1px solid #D6D4D4; border-bottom: 1px solid #D6D4D4;">{{ $bookingDetails->adults }}</td>
 						<td width="25%" style="color:000; font-size: 14px; font-family: arial; padding:5px; font-weight: 600; border-right: 1px solid #D6D4D4; border-bottom: 1px solid #D6D4D4;">Children: </td>
-						<td width="25%" style="color:000; font-size: 14px; font-family: arial; padding:5px; font-weight: 400; border-right: 1px solid #D6D4D4; border-bottom: 1px solid #D6D4D4;">NA</td>
+						<td width="25%" style="color:000; font-size: 14px; font-family: arial; padding:5px; font-weight: 400; border-right: 1px solid #D6D4D4; border-bottom: 1px solid #D6D4D4;">{{ $bookingDetails->childs }}</td>
 					</tr>
-					<tr>
-						<td width="25%" style="color:000; font-size: 14px; font-family: arial; padding:5px; font-weight: 600; border-right: 1px solid #D6D4D4; border-bottom: 1px solid #D6D4D4;">Room Type: </td>
-						<td width="75%" style="color:000; font-size: 14px; font-family: arial; padding:5px; font-weight: 400; border-right: 1px solid #D6D4D4; border-bottom: 1px solid #D6D4D4;" colspan="3">Premier Room</td>
-					</tr>
-					<tr>
-						<td width="25%" style="color:000; font-size: 14px; font-family: arial; padding:5px; font-weight: 600; border-right: 1px solid #D6D4D4; border-bottom: 1px solid #D6D4D4;">Inclusions: </td>
-						<td width="75%" style="color:000; font-size: 14px; font-family: arial; padding:5px; font-weight: 400; border-right: 1px solid #D6D4D4; border-bottom: 1px solid #D6D4D4;" colspan="3">Including Breakfast</td>
-					</tr>
+					
 				</tbody>
 			</table>
-		<table cellpadding="0" cellspacing="0" border="0" width="650" align="center">
-			<tbody>
+		<table class="price-table" cellpadding="0" cellspacing="0" border="0" width="650" align="center" style="margin-top: 20px;">
+			<thead>
 				<tr>
-					<td style="color:#FF8000; font-size: 14px; font-family: arial; padding-top: 20px; padding-bottom: 10px; font-weight: 600">Guest Details</td>
-				</tr>					
-			</tbody>
-		</table>
-		<table cellpadding="0" cellspacing="0" border="0" width="650" align="center" style="border-top: 1px solid #D6D4D4; border-left: 1px solid #D6D4D4">
-			<tbody>
-				<tr>
-					<td width="30%" style="color:000; font-size: 14px; font-family: arial; padding:5px;font-weight: 600; border-right: 1px solid #D6D4D4; border-bottom: 1px solid #D6D4D4;">Guest 1:</td>
-					<td width="70%" style="color:000; font-size: 14px; font-family: arial; padding:5px;font-weight: 400; border-right: 1px solid #D6D4D4; border-bottom: 1px solid #D6D4D4;">Mr.Kunju Marakkar Mohammed</td>
+					<th width="13%" style="text-align: left; background: #F1F1F1; padding: 9px 4px 9px 10px; font-size: 13px; border-bottom: #D6D4D4;">Rooms</th>
+					<th width="13%" style="text-align: left; background: #F1F1F1; padding: 9px 4px; font-size: 13px; border-bottom: #D6D4D4;">Room Type</th>
+					<th width="13%" style="text-align: left; background: #F1F1F1; padding: 9px 4px; font-size: 13px; border-bottom: #D6D4D4; white-space: nowrap;">No. of Guests</th>
+					<th width="13%" style="text-align: left; background: #F1F1F1; padding: 9px 4px; font-size: 13px; border-bottom: #D6D4D4; white-space: nowrap;">Guest Name</th>
 				</tr>
-				<tr>
-					<td width="30%" style="color:000; font-size: 14px; font-family: arial; padding:5px;font-weight: 600; border-right: 1px solid #D6D4D4; border-bottom: 1px solid #D6D4D4;">Guest 2:</td>
-					<td width="70%" style="color:000; font-size: 14px; font-family: arial; padding:5px;font-weight: 400; border-right: 1px solid #D6D4D4; border-bottom: 1px solid #D6D4D4;">Jhon Mark</td>
-				</tr>
-				<tr>
-					<td width="30%" style="color:000; font-size: 14px; font-family: arial; padding:5px;font-weight: 600; border-right: 1px solid #D6D4D4; border-bottom: 1px solid #D6D4D4;">Guest 3:</td>
-					<td width="70%" style="color:000; font-size: 14px; font-family: arial; padding:5px;font-weight: 400; border-right: 1px solid #D6D4D4; border-bottom: 1px solid #D6D4D4;">Jhon Mark</td>
-				</tr>			
+			</thead>
+			<tbody>
+
+				@forelse($bookingDetails->bookingRooms as $key => $room)    
+        <tr>
+          <td width="13%" style="text-align: left; padding: 9px 4px 9px 10px; font-size: 14px; border-bottom: 1px solid #D6D4D4;">{{ $key+1 }}</td>
+          <td width="13%" style="text-align: left; padding: 9px 4px; font-size: 14px; border-bottom: 1px solid #D6D4D4;">{{ $room->room_type_name }}</td>
+          <td width="13%" style="text-align: left; padding: 9px 4px; font-size: 14px; border-bottom: 1px solid #D6D4D4; white-space: nowrap;">{{ $room->adults }} Adult(s) <br/>{{ $room->childs }} Child(ren)</td>
+          <td width="13%" style="text-align: left; padding: 9px 4px; font-size: 14px; border-bottom: 1px solid #D6D4D4; white-space: nowrap;"><p style="margin:0;">{{ $room->guest_one_name }}</p>
+          	@if(!is_null($room->guest_two_name)) <p style="margin:0;">{{ $room->guest_two_name}}</p> @endif
+          	@if(!is_null($room->guest_three_name)) <p style="margin:0;">{{ $room->guest_three_name}}</p> @endif
+          	@if(!is_null($room->child_name)) <p style="margin:0;">{{ $room->child_name}}</p> @endif
+          	 </td>
+        </tr>
+        @empty
+        @endforelse
+
 			</tbody>
 		</table>
 

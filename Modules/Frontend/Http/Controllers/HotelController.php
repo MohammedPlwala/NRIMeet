@@ -15,6 +15,7 @@ use Modules\Hotel\Entities\BillingDetail;
 use Modules\Hotel\Entities\Transaction;
 use Session;
 use Auth;
+use DB;
 use Razorpay\Api\Api;
 
 class HotelController extends Controller
@@ -110,6 +111,24 @@ class HotelController extends Controller
         }else{
             $hotels = array();
         }
+
+        //  // }'SELECT * FROM `bookings` WHERE `user_id` = '.$user->id
+        //  $user = \Auth::user();
+        // //  $bookings = \DB::Raw('SELECT * FROM bookings WHERE user_id = 2')->get();
+        // $data = Booking::from('bookings as b')
+        //                     ->select(\DB::Raw('COALESCE((select count(booking_rooms.id) from booking_rooms where booking_rooms.booking_id = b.id ),0) as rooms'),
+        //                     )
+        //                     ->where('user_id', $user->id)
+        //                     ->get()->toArray();
+        // foreach ($data as $key => $value) {
+        //     echo "<pre>";
+        //     print_r($value);
+        // }
+        // echo "<pre>";
+        // //  print_r($data->toArray());
+        //  die;
+ 
+ 
 
     	return view('frontend::booking',['hotels' => $hotels]);
     }
@@ -446,6 +465,7 @@ class HotelController extends Controller
                         $transaction->status = 'confirmed';
                         if($transaction->save()){
                             \DB::commit();
+                            \Helpers::sendBookingReceiveMails($booking->id);
                             return redirect('thankyou?booking_id='.$booking->id)->with('message', 'Booking Successful.');
                         }else{
                             \DB::rollback();

@@ -108,6 +108,24 @@ $organization_type = \Session::get('organization_type');
                                 </div>
                             </div>
 
+                            <div class="form-item">
+                                <label class="form-label">Country / Region <span class="required"
+                                        title="required">*</span></label>
+                                <select name="billing_country" id="billing_country"
+                                    class="country_to_state country_select select2-hidden-accessible" autocomplete="country"
+                                    data-placeholder="Select a country / region…" data-label="Country / Region"
+                                    tabindex="-1" aria-hidden="true">
+                                    <option value="">Select a country / region…</option>
+                                </select>
+                            </div>
+                            <div class="form-item" id="state_wrapper">
+                                <label class="form-label"><span id="billing_state_label">State</span> <span class="required"
+                                        title="required">*</span></label>
+                                <div id="field_billing_state">
+
+                                </div>
+                            </div>
+
                             <div class="row g-3 align-center">
                                 <div class="col-lg-5">
                                     <x-inputs.verticalFormLabel label="Nationality" for="nationality" suggestion="Specify the nationality." required="true" />
@@ -438,3 +456,6 @@ $organization_type = \Session::get('organization_type');
         });
     </script>
 @endsection
+@push('footerScripts')
+<script src="{{url('js/address.js')}}"></script>
+@endpush
