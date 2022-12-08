@@ -951,7 +951,7 @@ textarea{
 .custom-form .form-item input,
 .custom-form .form-item select,
 .custom-form .form-item textarea{
-  margin: 0;
+  margin: 0 !important;
 }
 .form-input-group{
   display: flex;

@@ -43,7 +43,7 @@
                                 <label class="form-label">Company name <span class="required"
                                         title="optional">(optional)</span></label>
                                 <input type="text" name="billing_company" id="billing_company" value=""
-                                    placeholder="Company name" required />
+                                    placeholder="Company name" />
                             </div>
 
                             <div class="form-item">
@@ -52,7 +52,7 @@
                                 <select name="billing_country" id="billing_country"
                                     class="country_to_state country_select select2-hidden-accessible" autocomplete="country"
                                     data-placeholder="Select a country / region…" data-label="Country / Region"
-                                    tabindex="-1" aria-hidden="true">
+                                    tabindex="-1" aria-hidden="true" required>
                                     <option value="">Select a country / region…</option>
                                 </select>
                             </div>
@@ -60,14 +60,15 @@
                                 <label class="form-label"><span id="billing_state_label">State</span> <span class="required"
                                         title="required">*</span></label>
                                 <div id="field_billing_state">
-
+                                    <input type="text" class="input-text " name="billing_state" id="billing_state"
+                                    placeholder="State" value="" required />
                                 </div>
                             </div>
                             <div class="form-item">
                                 <label class="form-label">Town / City <span class="required"
                                         title="required">*</span></label>
                                 <input type="text" class="input-text " name="billing_city" id="billing_city"
-                                    placeholder="Town / City" value="" autocomplete="address-level2">
+                                    placeholder="Town / City" value="" autocomplete="address-level2" required />
                             </div>
 
                             <div class="form-item">
@@ -75,7 +76,7 @@
                                         title="required">*</span></label>
                                 <input type="text" class="input-text " name="billing_address_1" id="billing_address_1"
                                     placeholder="House number and street name" value="" autocomplete="address-line1"
-                                    data-gtm-form-interact-field-id="1" />
+                                    data-gtm-form-interact-field-id="1" required />
                             </div>
                             <div class="form-item">
                                 <label class="form-label">&nbsp;</label>
@@ -86,7 +87,7 @@
                             <div class="form-item">
                                 <label class="form-label">PIN Code <span class="required" title="required">*</span></label>
                                 <input type="text" class="input-text " name="billing_postcode" id="billing_postcode"
-                                    placeholder="" value="" autocomplete="postal-code" />
+                                    placeholder="" value="" autocomplete="postal-code" required />
                             </div>
 
                             <div class="form-item">
@@ -99,14 +100,14 @@
                             <div class="form-item">
                                 <label class="form-label">Phone <span class="required" title="required">*</span></label>
                                 <input type="tel" class="input-text " name="billing_phone" id="billing_phone"
-                                    placeholder="" value="" autocomplete="tel" />
+                                    placeholder="" value="" autocomplete="tel" required />
                             </div>
                             <div class="form-item">
                                 <label class="form-label">Email Address <span class="required"
                                         title="required">*</span></label>
                                 <input type="email" class="input-text " name="billing_email" id="billing_email"
                                     placeholder="" value="" autocomplete="email username"
-                                    data-gtm-form-interact-field-id="0">
+                                    data-gtm-form-interact-field-id="0" required />
                             </div>
 
                             <div class="form-item">

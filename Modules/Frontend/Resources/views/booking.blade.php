@@ -381,9 +381,7 @@
                                     <div class="hotal-rooms" id="hotel-{{ $hotel->id }}">
                                         <div class="hotal-image">
                                             <a>
-
-                                                <img src="{{ url('/uploads/hotels/' . $hotel->image) }}"
-                                                    alt="{{ $hotel->name }}" />
+                                                <img src="{{ url('/uploads/hotels/' . $hotel->image) }}" alt="{{ $hotel->name }}" />
                                             </a>
                                         </div>
                                         <div class="hotal-detail">
