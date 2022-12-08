@@ -105,8 +105,8 @@ class ReportController extends Controller
                                 $query->where('u.city', $request->get('city'));
                             }
 
-                            if ($request->get('state') != '') {
-                                $query->where('u.state', $request->get('state'));
+                            if ($request->get('billing_state') != '') {
+                                $query->where('u.state', $request->get('billing_state'));
                             }
 
                             if ($request->get('country') != '') {
