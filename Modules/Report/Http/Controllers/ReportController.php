@@ -17,6 +17,8 @@ use Modules\Hotel\Entities\BookingRoom;
 use Modules\Hotel\Entities\BillingDetail;
 use Modules\Hotel\Entities\Transaction;
 
+use Modules\Report\Exports\GuestExport;
+
 use DataTables;
 
 
@@ -26,87 +28,104 @@ class ReportController extends Controller
     public function guest(Request $request)
     {
 
-        // $data = User::from('users as u')
-        //         ->select('h.*')
-        //         ->get();
+        $data =   User::from('users as u')
+                    ->select('u.*')
+                    ->leftJoin('user_role as ur','u.id','=','ur.user_id')
+                    ->leftJoin('roles as r','ur.role_id','=','r.id')
+                    ->where('r.name','Guest')
+                    ->where(function ($query) use ($request) {
+                        if (!empty($request->toArray())) {
+                            if ($request->get('name') != '') {
+                                $query->where('u.full_name', 'like', '%' . $request->name . '%');
+                            }
 
-        // $guests =   User::from('users as u')
-        //             ->select('u.id','u.full_name')
-        //             ->leftJoin('user_role as ur','u.id','=','ur.user_id')
-        //             ->leftJoin('roles as r','ur.role_id','=','r.id')
-        //             ->where('r.name','Guest')
-        //             ->where(function ($query) use ($request) {
-        //                 if (!empty($request->toArray())) {
-        //                     if ($request->get('name') != '') {
-        //                         $query->where('h.name', $request->get('name'));
-        //                     }
-        //                 }
-        //             })
-        //             ->orderby('h.name','asc')
-        //             ->get();
+                            if ($request->get('city') != '') {
+                                $query->where('u.city', $request->get('city'));
+                            }
 
-        // if ($request->ajax()) {
-        //     return Datatables::of($data)
-        //             ->addIndexColumn()
+                            if ($request->get('state') != '') {
+                                $query->where('u.state', $request->get('state'));
+                            }
+
+                            if ($request->get('country') != '') {
+                                $query->where('u.country', $request->get('country'));
+                            }
+
+                            if ($request->get('postal_code') != '') {
+                                $query->where('u.zip', $request->get('postal_code'));
+                            }
+                        }
+                    })
+                    ->orderby('u.full_name','asc')
+                    ->get();
+
+        if ($request->ajax()) {
+            return Datatables::of($data)
+                    ->addIndexColumn()
                     
-        //             ->addColumn('status', function ($row) {
-        //                 if($row->status == 'active'){
-        //                     $statusValue = 'Active';
-        //                 }else{
-        //                     $statusValue = 'Inactive';
-        //                 }
+                    ->addColumn('status', function ($row) {
+                        if($row->status == 'active'){
+                            $statusValue = 'Active';
+                        }else{
+                            $statusValue = 'Inactive';
+                        }
 
-        //                 $value = ($row->status == 'active') ? 'badge badge-success' : 'badge badge-danger';
-        //                 $status = '
-        //                     <span class="tb-sub">
-        //                         <span class="'.$value.'">
-        //                             '.$statusValue.'
-        //                         </span>
-        //                     </span>
-        //                 ';
-        //                 return $status;
-        //             })
-        //             ->addColumn('action', function($row) {
-        //                    $edit = url('/').'/admin/hotel/edit/'.$row->id;
-        //                    $delete = url('/').'/admin/hotel/delete/'.$row->id;
-        //                    $confirm = '"Are you sure, you want to delete it?"';
-
-        //                     $editBtn = "<li>
-        //                                 <a href='".$edit."'>
-        //                                     <em class='icon ni ni-edit'></em> <span>Edit</span>
-        //                                 </a>
-        //                             </li>";
-                            
-        //                     $deleteBtn = "<li>
-        //                                 <a href='".$delete."' onclick='return confirm(".$confirm.")'  class='delete'>
-        //                                     <em class='icon ni ni-trash'></em> <span>Delete</span>
-        //                                 </a>
-        //                             </li>"; 
-
-        //                     $btn = '';
-        //                     $btn .= '<ul class="nk-tb-actio ns gx-1">
-        //                                 <li>
-        //                                     <div class="drodown mr-n1">
-        //                                         <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
-        //                                         <div class="dropdown-menu dropdown-menu-right">
-        //                                             <ul class="link-list-opt no-bdr">
-        //                                 ';
-
-        //                    $btn .=       $editBtn."
-        //                                 ".$deleteBtn;
-
-        //                     $btn .= "</ul>
-        //                                     </div>
-        //                                 </div>
-        //                             </li>
-        //                             </ul>";
-        //                 return $btn;
-        //             })
-        //             ->rawColumns(['action','status',])
-        //             ->make(true);
-        // }
+                        $value = ($row->status == 'active') ? 'badge badge-success' : 'badge badge-danger';
+                        $status = '
+                            <span class="tb-sub">
+                                <span class="'.$value.'">
+                                    '.$statusValue.'
+                                </span>
+                            </span>
+                        ';
+                        return $status;
+                    })
+                    
+                    ->rawColumns(['status',])
+                    ->make(true);
+        }
 
         return view('report::guest');
+    }
+
+    public function guestExport(Request $request)
+    {
+        $guests =   User::from('users as u')
+                    ->select('u.full_name','u.mobile','u.email','u.mobile as wa','u.address','u.city','u.state','u.country','u.zip')
+                    ->leftJoin('user_role as ur','u.id','=','ur.user_id')
+                    ->leftJoin('roles as r','ur.role_id','=','r.id')
+                    ->where('r.name','Guest')
+                    ->where(function ($query) use ($request) {
+                        if (!empty($request->toArray())) {
+                            if ($request->get('name') != '') {
+                                $query->where('u.full_name', 'like', '%' . $request->name . '%');
+                            }
+
+                            if ($request->get('city') != '') {
+                                $query->where('u.city', $request->get('city'));
+                            }
+
+                            if ($request->get('state') != '') {
+                                $query->where('u.state', $request->get('state'));
+                            }
+
+                            if ($request->get('country') != '') {
+                                $query->where('u.country', $request->get('country'));
+                            }
+
+                            if ($request->get('postal_code') != '') {
+                                $query->where('u.zip', $request->get('postal_code'));
+                            }
+                        }
+                    })
+                    ->orderby('u.full_name','asc')
+                    ->get();
+
+        if(!empty($guests->toArray())){
+            return (new GuestExport($guests->toArray()))->download('guests' . '.xlsx', \Maatwebsite\Excel\Excel::XLSX);
+        }else{
+            return redirect('ecommerce/orders')->with('error', 'No order');
+        }
     }
 
     public function hotelMaster(Request $request)

@@ -20,11 +20,11 @@ class BookingController extends Controller
     public function __construct() {
 
         /* Execute authentication filter before processing any request */
-        $this->middleware('auth');
+        // $this->middleware('auth');
 
-        if (\Auth::check()) {
-            return redirect('/');
-        }
+        // if (\Auth::check()) {
+        //     return redirect('/');
+        // }
 
     }
 

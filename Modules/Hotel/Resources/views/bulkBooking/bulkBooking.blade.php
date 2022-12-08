@@ -31,7 +31,7 @@
                                         required="true" />
                                 </div>
                                 <div class="col-lg-8">
-                                    <x-inputs.text for="name" icon="mail" required="true" class=""
+                                    <x-inputs.text for="name" icon="mail" required="true" class="readonlyinput"
                                         placeholder="Select" name="name" value="{{ isset($bulkBooking) ? $bulkBooking->name : old('name') }}" />
                                       
                                 </div>
@@ -239,6 +239,10 @@
 
     <script type="text/javascript">
         $(document).ready(function() {
+
+            @if(isset($bulkBooking))
+            $('.readonlyinput').attr("readonly", true);
+            @endif
           
             $('#hotel').change(function(){
                 var root_url = "<?php echo Request::root(); ?>";
