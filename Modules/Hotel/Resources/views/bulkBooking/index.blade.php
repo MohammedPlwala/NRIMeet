@@ -75,20 +75,17 @@
                     <div class="gy-3">
                         <div class="row g-3 align-center">
                             <div class="col-lg-5">
-                                <x-inputs.verticalFormLabel label="First Name" for="firstName" suggestion="Specify the name of the user." />
+                                <x-inputs.verticalFormLabel label="Hotel" for="hotel" suggestion="Specify the name of the hotel." />
                             </div>
                             <div class="col-lg-7">
-                                <x-inputs.text value="" for="firstName" icon="user" placeholder="Name" name="name"/>
-                            </div>
-                        </div>
-                        <div class="row g-3 align-center">
-                            <div class="col-lg-5">
-                                <x-inputs.verticalFormLabel label="Mobile Number" for="contact_number" suggestion="Specify the mobile number of the user."  />
-                            </div>
-                            <div class="col-lg-7">
-                                <x-inputs.text value="" for="contact_number" icon="call" placeholder="Mobile Number" name="contact_number"
-                                data-parsley-pattern="{{ \Config::get('constants.REGEX.VALIDATE_MOBILE_NUMBER_LENGTH') }}"
-                                />
+                                <!-- <x-inputs.text value="" for="firstName" icon="user" placeholder="Name" name="name"/> -->
+                                <x-inputs.select for="hotel" icon="mail" class=""
+                                    placeholder="Select" name="hotel_id" value="">
+                                    <option value="">Select</option>
+                                    @foreach ($hotels as $hotel)
+                                    <option value="{{ $hotel->id }}">{{ $hotel->name }}</option>
+                                    @endforeach
+                                </x-inputs.select>
                             </div>
                         </div>
                         <div class="row g-3 align-center">
@@ -150,8 +147,7 @@
         NioApp.getAuditLogs('.broadcast-init','.audit_logs','resourceid',logUrl,'#modalLogs');
 
         var items = [
-            '#firstName',
-            '#contact_number',
+            '#hotel',
             '#fromDate',
             '#toDate'
         ];
