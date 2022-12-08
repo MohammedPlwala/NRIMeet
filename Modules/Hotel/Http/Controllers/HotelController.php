@@ -222,6 +222,7 @@ class HotelController extends Controller
         $hotel->contact_person = $request->contact_person;
         $hotel->contact_number = $request->contact_number;
         $hotel->description = $request->description;
+        $hotel->address = $request->address;
         $hotel->status = $request->status;
 
         if ($request->hasFile('image')) {
@@ -684,6 +685,7 @@ class HotelController extends Controller
 
                 if($billingDetail->save()){
                     \DB::commit();
+                    \Helpers::sendBookingReceiveMails($booking->id);
                     return redirect('/admin/bookings')->with('message', 'Booking added successfully');
                 }else{
                     \DB::rollback();
@@ -716,8 +718,11 @@ class HotelController extends Controller
     }
 
     public function editBooking(Request $request,$booking_id)
-    {
+    {   
 
+        \Helpers::sendCancellationApprovedMail(16);
+        die;
+        
         $booking = Booking::findorfail($booking_id);
 
         $users = User::select('id')->get();
@@ -835,14 +840,39 @@ class HotelController extends Controller
             $booking->tax_percentage = 18;
             $booking->special_request = $request->special_request;
             $booking->customer_booking_status = 'Received';
-            $booking->booking_status = 'Booking Received';
+            
+            if($request->status == 'Confirmation Recevied'){
+                $booking->customer_booking_status = 'Confirmed';
+            }
+
+            if($request->status == 'Cancellation Requested'){
+                $booking->customer_booking_status = 'Cancellation In Progress';
+            }
+
+            if($request->status == 'Cancellation Requested'){
+                $booking->customer_booking_status = 'Cancellation In Progress';
+            }
+
+            if($request->status == 'Refund Requested' || $request->status == 'Cancellation Approved' || $request->status == 'Refund Approved'){
+                $booking->customer_booking_status = 'Refund In Progress';
+            }
+
+            if($request->status == 'Refund Issued'){
+                $booking->customer_booking_status = 'Refunded';
+            }
+            $booking->booking_status = $request->status;
+
             $booking->booking_type = 'Offline';
             $booking->confirmation_number = $request->confirmation_number;
             $booking->utr_number = $request->utr_number;
             $booking->settlement_date = date('Y-m-d',strtotime($request->settlement_date));
             if($booking->save()){
 
+                $oldRooms = BookingRoom::select(\DB::Raw('GROUP_CONCAT(room_id) as room_ids'))->where('booking_id',$booking_id)->first();
+                $oldRooms = explode(',',$oldRooms->room_ids);
+
                 BookingRoom::where('booking_id',$booking_id)->forceDelete();
+
                 foreach ($bookingRoomsData as $key => $bookingRoom) {
                     $room = new BookingRoom();
                     $room->booking_id = $booking->id;
@@ -862,9 +892,14 @@ class HotelController extends Controller
                         \DB::rollback();
                         return redirect('/admin/bookings/edit/'.$booking_id)->with('error', 'Something went wrong');
                     }else{
+
                         $hotelRoom = HotelRoom::findorfail($bookingRoom['room_id']);
                         if($hotelRoom){
-                            $hotelRoom->count = $hotelRoom->count-1;
+                            if(!in_array($bookingRoom['room_id'], $oldRooms)){
+                                $hotelRoom->count = $hotelRoom->count-1;
+                            }else{
+                                $hotelRoom->count = $hotelRoom->count+1;
+                            }
                             $hotelRoom->save();
                         }
                     }
@@ -890,6 +925,27 @@ class HotelController extends Controller
                         \DB::rollback();
                         return redirect('/admin/bookings/edit/'.$booking_id)->with('error', 'Something went wrong');
                     }
+                }
+
+                if($request->status == 'Confirmation Recevied'){
+                    \Helpers::sendBookingConfirmationMails($booking->id);
+                }
+
+                if($request->status == 'Cancellation Requested'){
+                    \Helpers::sendCancellationReceivedMail($booking->id);
+                }
+
+                if($request->status == 'Cancellation Approved'){
+                    \Helpers::sendCancellationApprovedMail($booking->id);
+                }
+
+
+                if($request->status == 'Refund Requested'){
+                    \Helpers::sendRefundProcessedMail($booking->id);   
+                }
+
+                if($request->status == 'Refund Approved'){
+                    \Helpers::sendRefundApprovedMail($booking->id);
                 }
 
                 \DB::commit();

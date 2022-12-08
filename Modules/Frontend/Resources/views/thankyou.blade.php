@@ -21,9 +21,9 @@
           <p><i class="fas fa-envelope"></i>A confirmation email has been sent to test@gmail.com</p>
         </div>
         <h3 class="heading3 border-line">Thank You</h3>
-        <p class="booking-confirmation-message">Thank you for booking, we look forward to welcoming you to our hotel soon, and in the meantime, if you have any questions please do not hesitate to get in touch with us via phone or email and we’ll be happy to hear from you. </p>
+        <p class="booking-confirmation-message">Thank you for booking, we look forward to welcoming you to our hotel soon, and in the meantime, if you have any questions please do not hesitate to get in touch with us via phone or email and we'll be happy to hear from you. </p>
         <div class="thankyou-button-section">
-          <a href="https://pbdaccommodation.mptourism.com/user-my-booking" class="primary-button sm">My Booking</a>
+          <a href="{{url('/my-bookings')}}" class="primary-button sm">My Booking</a>
         </div>
       </div>
     </div>

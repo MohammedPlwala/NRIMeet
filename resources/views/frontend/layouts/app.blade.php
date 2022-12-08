@@ -65,7 +65,7 @@
                         <a href="{{ url('/contact-us') }}">Contact Us</a>
                     </li>
                     <li>
-                        <a href="{{ url('/my-account/customer-logout/') }}">Log Out</a>
+                        <a href="{{ url('/logout') }}">Log Out</a>
                     </li>
                 </ul>
             </div>

@@ -54,8 +54,7 @@
                                     <!-- BEGIN .shb-booking-your-stay-item -->
                                     <div class="shb-booking-your-stay-item shb-clearfix">
                                         <a href="#" class="shb-booking-stay-image">
-                                            <img src="https://pbdaccommodation.mptourism.com/wp-content/uploads/2022/10/WOW-Hotel.jpg"
-                                                alt="Bookings">
+                                            <img src="{{url('/images/WOW-Hotel.jpeg')}}" alt="Bookings" />
                                         </a>
                                         <div class="shb-booking-your-stay-item-info">
                                             <h4 class="shb-clearfix"><a href="#">{{ $room->hotel->name }}</a><span> ₹{{ $cartData['nights']*$room->rate }}</span>
@@ -78,13 +77,13 @@
                                 @endphp
                                 
                                 <div class="sidebar_right">
-                                    <a href="https://pbdaccommodation.mptourism.com/bookings/?shb-delete-room=1">Remove</a>
+                                    <a href="javascript:void(0)">Remove</a>
                                 </div>
                                 
                                 <div class="custom_extra_bed">
                                     <!-- BEGIN .shb-additionalfee-result-wrapper -->
                                     <form class="shb-additionalfee-result-wrapper"
-                                        action="https://pbdaccommodation.mptourism.com/bookings/?shb-step=2&amp;shb_selected_fee_room=1"
+                                        action=""
                                         method="post" autocomplete="off">
                                         <div class="shb-additionalfee-info">
                                             <h4>Extra Bed</h4>

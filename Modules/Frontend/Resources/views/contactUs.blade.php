@@ -60,21 +60,6 @@
               <a href="mailto: events@overseastravels.co.in"><span class="icon"><i class="fas fa-envelope"></i></span> events@overseastravels.co.in</a>
             </li>
           </ul>
-          <!-- <div class="wpb_text_column wpb_content_element ">
-            <div class="wpb_wrapper">
-              <div class="contact_right_icon">
-                <a href="https://api.whatsapp.com/send?phone=+919893908123&amp;text=Welcome%20to%20Pravasi%20Bharatiya%20Divas%202023" target="_blank" rel="noopener"> <i class="fab fa-whatsapp"></i> +91 9893908123</a> | WhatsApp Support
-              </div>
-              <div class="contact_right_icon">
-                <a href="tel:+91 731 244 4404"> <i class="fa fa-phone"></i> +91 731 244 4404</a>
-              </div>
-            </div>
-          </div>
-          <div class="wpb_single_image wpb_content_element vc_align_left   email">	
-            <figure class="wpb_wrapper vc_figure">
-              <div class="vc_single_image-wrapper   vc_box_border_grey"><img width="500" height="50" src="https://pbdaccommodation.mptourism.com/wp-content/uploads/2022/10/email.png" class="vc_single_image-img attachment-large" alt="" loading="lazy" title="email"></div>
-            </figure>
-          </div> -->
         </div>
       </div>
     </div>
