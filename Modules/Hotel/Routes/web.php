@@ -33,11 +33,19 @@ Route::prefix('admin')->group(function() {
     
     Route::prefix('bookings')->group(function() {
         Route::get('/', 'HotelController@bookingList');
-        Route::get('/bulk-bookings', 'HotelController@bulkBooking');
         Route::get('/add', 'HotelController@createBooking');
         Route::post('/add', 'HotelController@storeBooking');
         Route::get('/edit/{booking_id}', 'HotelController@editBooking');
         Route::post('/update-booking/{booking_id}', 'HotelController@updateBooking');
         
+    });
+
+    Route::prefix('/bulk-bookings')->group(function() {
+        Route::get('/', 'BookingController@index');
+        Route::get('/create', 'BookingController@create');
+        Route::post('/store', 'BookingController@store');
+        Route::get('/edit/{booking_id}', 'BookingController@edit');
+        Route::get('/delete/{booking_id}', 'BookingController@destroy');
+        Route::get('/hotel-rooms/{id}', 'BookingController@hotelRooms');
     });
 });
