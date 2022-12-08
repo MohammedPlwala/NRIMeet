@@ -953,8 +953,7 @@ class HotelController extends Controller
             }
 
         } catch (Exception $e) {
-            echo $e->getMessage();
-            die;
+            return redirect('/admin/bookings')->with('error', $e->getMessage());
         }
     }
 
