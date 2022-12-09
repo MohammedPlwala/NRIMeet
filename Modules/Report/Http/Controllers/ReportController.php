@@ -23,6 +23,7 @@ use Modules\Report\Exports\HotelMasterExport;
 use Modules\Report\Exports\InventoryExport;
 use Modules\Report\Exports\PaymentExport;
 use Modules\Report\Exports\CancellationExport;
+use Modules\Report\Exports\RefundExport;
 use Modules\Report\Exports\TotalInventoryDataExport;
 use Modules\Report\Exports\BookingSummaryExport;
 
@@ -688,11 +689,150 @@ class ReportController extends Controller
         }
     }
 
-
     public function refund(Request $request)
     {
-        return view('report::refund');
+        $hotels = Hotel::from('hotels as h')
+        ->select('h.name', 'h.id')->get();
+
+        $roomTypes = RoomType::from('room_types as rt')
+        ->select('rt.name', 'rt.id')->get();
+
+
+        $data =   BookingRoom::from('booking_rooms as br')
+        ->select(
+            'u.full_name as guest', 'b.order_id', 'b.confirmation_number',  'h.classification', 'h.name as hotel',
+            'rt.name as room_type_name','br.guests','b.check_in_date','b.check_out_date','br.adults','br.childs',
+            'br.childs','br.extra_bed','br.amount','b.booking_status','b.refund_request_date','b.refund_date','b.refundable_amount','b.refund_transaction_utr'
+        )
+        ->leftJoin('bookings as b','br.booking_id','=','b.id')
+        ->leftJoin('hotels as h','h.id','=','b.hotel_id')
+        ->leftJoin('hotel_rooms as hr','hr.id','=','br.room_id')
+        ->leftJoin('room_types as rt','rt.id','=','hr.type_id')
+        ->leftjoin('users as u','u.id','=','b.user_id')
+        ->where(function ($query) use ($request) {
+            if (!empty($request->toArray())) {
+
+                if ($request->get('hotel_name') != '') {
+                    $query->where('h.name', $request->get('hotel_name'));
+                }
+
+                if ($request->get('room_type') != '') {
+                    $query->where('hr.type_id', $request->get('room_type'));
+                }
+
+                if ($request->get('guest_count') != '') {
+                    $query->where('br.guests', $request->get('guest_count'));
+                }
+
+                if ($request->get('check_in_date') != '') {
+                    $query->whereDate('b.check_in_date', date('Y-m-d',strtotime($request->get('check_in_date'))));
+                }
+
+                if ($request->get('check_out_date') != '') {
+                    $query->whereDate('b.check_out_date', date('Y-m-d',strtotime($request->get('check_out_date'))));
+                }
+
+                if ($request->get('adult') != '') {
+                    $query->where('br.adults', $request->get('adult'));
+                }
+                if ($request->get('child') != '') {
+                    $query->where('br.childs', $request->get('child'));
+                }
+                if ($request->get('extra_bed') != '') {
+                    $query->where('br.extra_bed', $request->get('extra_bed'));
+                }
+
+                if ($request->get('booking_status') != '') {
+                    $query->where('b.booking_status', $request->get('booking_status'));
+                } else {
+                    $query->whereIn('b.booking_status', ['Refund Requested', 'Refund Approved', 'Refund Issued']);
+                }
+            } else {
+                $query->whereIn('b.booking_status', ['Refund Requested', 'Refund Approved', 'Refund Issued']);
+            }
+            
+        })
+        ->get();
+
+        if ($request->ajax()) {
+            return Datatables::of($data)
+                ->addIndexColumn()
+                ->rawColumns(['status'])
+                ->make(true);
+        }
+
+        return view('report::refund', ['hotels' => $hotels, 'room_types' => $roomTypes, 'request' => $request]);
     }
+
+    public function refundExport(Request $request){
+
+
+        $refund =   BookingRoom::from('booking_rooms as br')
+        ->select(
+            'u.full_name as guest', 'b.order_id', 'b.confirmation_number',  'h.classification', 'h.name as hotel',
+            'rt.name as room_type_name','br.guests','b.check_in_date','b.check_out_date','br.adults','br.childs',
+            'br.childs','br.extra_bed','br.amount','b.booking_status','b.refund_request_date'
+            ,'b.refund_date'
+            ,'b.refundable_amount'
+            ,'b.refund_transaction_utr'
+        )
+        ->leftJoin('bookings as b','br.booking_id','=','b.id')
+        ->leftJoin('hotels as h','h.id','=','b.hotel_id')
+        ->leftJoin('hotel_rooms as hr','hr.id','=','br.room_id')
+        ->leftJoin('room_types as rt','rt.id','=','hr.type_id')
+        ->leftjoin('users as u','u.id','=','b.user_id')
+        ->where(function ($query) use ($request) {
+            if (!empty($request->toArray())) {
+
+                if ($request->get('hotel_name') != '') {
+                    $query->where('h.name', $request->get('hotel_name'));
+                }
+
+                if ($request->get('room_type') != '') {
+                    $query->where('hr.type_id', $request->get('room_type'));
+                }
+
+                if ($request->get('guest_count') != '') {
+                    $query->where('br.guests', $request->get('guest_count'));
+                }
+
+                if ($request->get('check_in_date') != '') {
+                    $query->whereDate('b.check_in_date', date('Y-m-d',strtotime($request->get('check_in_date'))));
+                }
+
+                if ($request->get('check_out_date') != '') {
+                    $query->whereDate('b.check_out_date', date('Y-m-d',strtotime($request->get('check_out_date'))));
+                }
+
+                if ($request->get('adult') != '') {
+                    $query->where('br.adults', $request->get('adult'));
+                }
+                if ($request->get('child') != '') {
+                    $query->where('br.childs', $request->get('child'));
+                }
+                if ($request->get('extra_bed') != '') {
+                    $query->where('br.extra_bed', $request->get('extra_bed'));
+                }
+
+                if ($request->get('booking_status') != '') {
+                    $query->where('b.booking_status', $request->get('booking_status'));
+                } else {
+                    $query->whereIn('b.booking_status', ['Refund Requested', 'Refund Approved', 'Refund Issued']);
+                }
+            } else {
+                $query->whereIn('b.booking_status', ['Refund Requested', 'Refund Approved', 'Refund Issued']);
+            }
+            
+        })
+        ->get();
+
+        if(!empty($refund->toArray())){
+            return (new RefundExport($refund->toArray()))->download('refund' . '.xlsx', \Maatwebsite\Excel\Excel::XLSX);
+        }else{
+            return redirect('ecommerce/orders')->with('error', 'No order');
+        }
+    }
+    
 
 
     public function totalInventoryData(Request $request)

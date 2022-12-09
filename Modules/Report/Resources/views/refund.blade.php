@@ -17,7 +17,7 @@
                             </a>
                         </li>
                         <li class="nk-block-tools-opt">
-                            <a href="{{ url('report/export-refund') }}" class="btn btn-primary"><em class="icon ni ni-download"></em><span>Export</span></a>
+                            <a href="javascript::void(0)" data-href="{{ url('admin/report/export-refund') }}" class="btn btn-primary export_data"><em class="icon ni ni-download"></em><span>Export</span></a>
                         </li>
                     </ul>
                 </div>
@@ -32,42 +32,33 @@
         <div class="nk-tb-list is-separate is-medium mb-3">
             <table id="sales_SP" class="products-init nowrap nk-tb-list is-separate" data-auto-responsive="false">
                 <thead>
+                    {{-- <tr class="nk-tb-item nk-tb-head">
+                        <th class="nk-tb-col tb-col-mb text-center" colspan="14"><span class="sub-text">Booking Information</span></th>
+                        <th class="nk-tb-col tb-col-mb text-center" colspan="5"><span class="sub-text">Cancellation Details</span></th>
+                    </tr> --}}
                     <tr class="nk-tb-item nk-tb-head">
-                        <th class="nk-tb-col tb-col-mb text-center" colspan="5"><span class="sub-text">Refund Details</span></th>
-                        <th class="nk-tb-col tb-col-mb text-center" colspan="8"><span class="sub-text">Refund Payment Details</span></th>
-                    </tr>
-                    <tr class="nk-tb-item nk-tb-head">
-                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Status</span></th>
-                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Date of Request</span></th>
-                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Sent by</span></th>
-                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Approved on (Date)</span></th>
-                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Approved By (MPT)</span></th>
-                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Refund Issue date</span></th>
+                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Guest Name</span></th>
+                        <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Order Id</span></th>
+                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Confirmation No</span></th>
+                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Classification</span></th>
+                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Hotel</span></th>
+                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Room Type</span></th>
+                        <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Guest Count</span></th>
+                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Check In</span></th>
+                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Check Out</span></th>
+                        <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Adults</span></th>
+                        <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Child</span></th>
+                        <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Extra Bed</span></th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Amount</span></th>
-                        <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Taxes</span></th>
-                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Transaction ID</span></th>
-                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Payment Via</span></th>
-                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Mode of Payment</span></th>
-                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Settlement ID</span></th>
-                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">UTR No.</span></th>
+                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Status</span></th>
+                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Refund Request Date</span></th>
+                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Refund Date</span></th>
+                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Refundable Amount</span></th>
+                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Refund Transaction UTR</span></th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr class="nk-tb-item">
-                        <td class="nk-tb-col tb-col-mb">Refund Requested</td>
-                        <td class="nk-tb-col tb-col-mb">11/11/2022</td>
-                        <td class="nk-tb-col tb-col-mb">Sanjay</td>
-                        <td class="nk-tb-col tb-col-mb">11/11/2022</td>
-                        <td class="nk-tb-col tb-col-mb">Sanjay</td>
-                        <td class="nk-tb-col tb-col-mb">11/11/2022</td>
-                        <td class="nk-tb-col tb-col-mb">&#8377; 90000</td>
-                        <td class="nk-tb-col tb-col-mb text-center">18%</td>
-                        <td class="nk-tb-col tb-col-mb">#45sdf45a45</td>
-                        <td class="nk-tb-col tb-col-mb">CARD</td>
-                        <td class="nk-tb-col tb-col-mb">Online</td>
-                        <td class="nk-tb-col tb-col-mb">#45sdf45a45</td>
-                        <td class="nk-tb-col tb-col-mb">#45sdf4</td>
-                    </tr>
+                    
                 </tbody>
             </table>
         </div>
@@ -91,10 +82,74 @@
                     <div class="gy-3">
                         <div class="row g-3 align-center">
                             <div class="col-lg-5">
-                                <x-inputs.verticalFormLabel label="Status" for="status" suggestion="Select the status." />
+                                <x-inputs.verticalFormLabel label="Hotel Name" for="hotel_name" suggestion="Select the hotel name." />
                             </div>
                             <div class="col-lg-7">
-                                <x-inputs.select  size="sm" name="status" for="status" placeholder="Select Status">
+                                <x-inputs.select  size="sm" name="hotel_name" for="hotel_name" placeholder="Select Hotel Name">
+                                    <option value="">Select</option>
+                                    @forelse ($hotels as $hotel)
+                                        <option value="{{ $hotel->name }}">{{ $hotel->name }}</option>
+                                    @empty
+                                        {{-- empty expr --}}
+                                    @endforelse
+                                </x-inputs.select>
+                            </div>
+                        </div>
+                        <div class="row g-3 align-center">
+                            <div class="col-lg-5">
+                                <x-inputs.verticalFormLabel label="Room Type" for="room_type" suggestion="Select the room type." />
+                            </div>
+                            <div class="col-lg-7">
+                                <x-inputs.select  size="sm" name="room_type" for="room_type" placeholder="Select Room Type">
+                                    <option value="">Select</option>
+                                    @forelse ($room_types as $roomType)
+                                        <option value="{{ $roomType->id }}">{{ $roomType->name }}</option>
+                                    @empty
+                                        {{-- empty expr --}}
+                                    @endforelse
+                                </x-inputs.select>
+                            </div>
+                        </div>
+                        <div class="row g-3 align-center">
+                            <div class="col-lg-5">
+                                <x-inputs.verticalFormLabel label="Guest Count" for="guest_count" suggestion="Enter the guest count." />
+                            </div>
+                            <div class="col-lg-7">
+                                <x-inputs.number  value="" for="guest_count" name="guest_count" placeholder="Enter Guest Count" />
+                            </div>
+                        </div>
+                        <div class="row g-3 align-center">
+                            <div class="col-lg-5">
+                                <x-inputs.verticalFormLabel label="Check in Date" for="check_in_date" suggestion="Select the check in date." />
+                            </div>
+                            <div class="col-lg-7">
+                                <div class="form-control-wrap">
+                                    <div class="form-icon form-icon-left">
+                                        <em class="icon ni ni-calendar"></em>
+                                    </div>
+                                    <input type="text" class="form-control date-picker" id="check_in_date" placeholder="Check in Date" data-date-format="yyyy-mm-dd">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row g-3 align-center">
+                            <div class="col-lg-5">
+                                <x-inputs.verticalFormLabel label="Check out Date" for="check_out_date" suggestion="Select the check out date." />
+                            </div>
+                            <div class="col-lg-7">
+                                <div class="form-control-wrap">
+                                    <div class="form-icon form-icon-left">
+                                        <em class="icon ni ni-calendar"></em>
+                                    </div>
+                                    <input type="text" class="form-control date-picker" id="check_out_date" placeholder="Check out Date" data-date-format="yyyy-mm-dd">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row g-3 align-center">
+                            <div class="col-lg-5">
+                                <x-inputs.verticalFormLabel label="Booking Status" for="booking_status" suggestion="Select the booking status." />
+                            </div>
+                            <div class="col-lg-7">
+                                <x-inputs.select  size="sm" name="booking_status" for="booking_status" placeholder="Select Booking Status">
                                     <option value="">Select</option>
                                     <option value="Refund Requested">Refund Requested</option>
                                     <option value="Refund Approved">Refund Approved</option>
@@ -104,28 +159,26 @@
                         </div>
                         <div class="row g-3 align-center">
                             <div class="col-lg-5">
-                                <x-inputs.verticalFormLabel label="Date of Request" for="date_of_request" suggestion="Select the date of request." />
+                                <x-inputs.verticalFormLabel label="Adults" for="adult" suggestion="Enter the adults." />
                             </div>
                             <div class="col-lg-7">
-                                <div class="form-control-wrap">
-                                    <div class="form-icon form-icon-left">
-                                        <em class="icon ni ni-calendar"></em>
-                                    </div>
-                                    <input type="text" class="form-control date-picker" id="date_of_request" placeholder="Date of Request" data-date-format="yyyy-mm-dd">
-                                </div>
+                                <x-inputs.number  value="" for="adult" name="adult" placeholder="Enter Adults" />
                             </div>
                         </div>
                         <div class="row g-3 align-center">
                             <div class="col-lg-5">
-                                <x-inputs.verticalFormLabel label="Approved Date" for="approved_date" suggestion="Select the approved date." />
+                                <x-inputs.verticalFormLabel label="Child" for="child" suggestion="Enter the child." />
                             </div>
                             <div class="col-lg-7">
-                                <div class="form-control-wrap">
-                                    <div class="form-icon form-icon-left">
-                                        <em class="icon ni ni-calendar"></em>
-                                    </div>
-                                    <input type="text" class="form-control date-picker" id="approved_date" placeholder="Approved Date" data-date-format="yyyy-mm-dd">
-                                </div>
+                                <x-inputs.number  value="" for="child" name="child" placeholder="Enter Child" />
+                            </div>
+                        </div>
+                        <div class="row g-3 align-center">
+                            <div class="col-lg-5">
+                                <x-inputs.verticalFormLabel label="Extra Bed" for="extra_bed" suggestion="Enter the extra bed." />
+                            </div>
+                            <div class="col-lg-7">
+                                <x-inputs.number  value="" for="extra_bed" name="extra_bed" placeholder="Enter Extra Bed" />
                             </div>
                         </div>
                     </div>
@@ -146,50 +199,205 @@
 </div>
 @endsection
 @push('footerScripts')
-<script src="{{url('js/APIDataTable.js')}}"></script>
-<script src="{{url('js/dayjs.min.js?t='.time())}}"></script>
+<script src="{{url('js/tableFlow.js')}}"></script>
 <script type="text/javascript">
-    
-    var token = '{{ \Session::get('token') }}';//get logged in user session.
-    var organizationId = "{{ \Session::get('currentOrganization') }}";
 
-    var dataTable = new APIDataTable({
-        tableElem: '#sales_SP',
-        pageinationElem: '#table_pagination',
-        api: "{{ url('api/v1/report/total-inventory-data') }}/"+organizationId,
-        authToken: 'Bearer '+token,
-        filterIds: [
-            '#month',
-            '#year'
-        ],
-        filterSubmit: '.submitBtn',
-        filterSubmitCallback: function(){
-            $('#modalFilterorder').modal('toggle');
-        },
-        filterClearSubmit: '.resetFilter',
-        filterModalId: '#modalFilterorder',
-        tagId: '#filter_tag_list',
-        columns: [{
-                data: "order_number",
-            },
-            {
-                data: "username",
-            },
-            {
-                data: "amount",
-                render:function(row){
-                    return NioApp.formatToCurrency(row.amount);
+    $('.export_data').on('click', function (e) {
+        var myUrl = $(this).attr('data-href');
+        if($('#hotel_name').val() != ""){
+            myUrl = addQSParm(myUrl,'hotel_name', $('#hotel_name').val());
+        }
+        if($('#room_type').val() != ""){
+            myUrl = addQSParm(myUrl,'room_type', $('#room_type').val());
+        }
+        if($('#booking_status').val() != ""){
+            myUrl = addQSParm(myUrl,'booking_status', $('#booking_status').val());
+        }
+        if($('#guest_count').val() != ""){
+            myUrl = addQSParm(myUrl,'guest_count', $('#guest_count').val());
+        }
+        if($('#check_in_date').val() != ""){
+            myUrl = addQSParm(myUrl,'check_in_date', $('#check_in_date').val());
+        }
+        if($('#check_out_date').val() != ""){
+            myUrl = addQSParm(myUrl,'check_out_date', $('#check_out_date').val());
+        }
+        if($('#adult').val() != ""){
+            myUrl = addQSParm(myUrl,'adult', $('#adult').val());
+        }
+        if($('#child').val() != ""){
+            myUrl = addQSParm(myUrl,'child', $('#child').val());
+        }
+        if($('#extra_bed').val() != ""){
+            myUrl = addQSParm(myUrl,'extra_bed', $('#extra_bed').val());
+        }
+
+        location.href = myUrl;
+    });
+
+    function addQSParm(myUrl,name, value) {
+       var re = new RegExp("([?&]" + name + "=)[^&]+", "");
+
+       function add(sep) {
+          myUrl += sep + name + "=" + encodeURIComponent(value);
+       }
+
+       function change() {
+          myUrl = myUrl.replace(re, "$1" + encodeURIComponent(value));
+       }
+       if (myUrl.indexOf("?") === -1) {
+          add("?");
+       } else {
+          if (re.test(myUrl)) {
+             change();
+          } else {
+             add("&");
+          }
+       }
+       return myUrl;
+    }
+
+    $(function() {
+        var root_url = "<?php echo url('/'); ?>";
+
+        var logUrl = root_url + '/user/logs';
+        NioApp.getAuditLogs('.products-init', '.audit_logs', 'resourceid', logUrl, '#modalLogs');
+
+        var items = [
+            '#hotel_name',
+            '#booking_status',
+            '#room_type',
+            '#guest_count',
+            '#check_in_date',
+            '#check_out_date',
+            '#adult',
+            '#child',
+            '#extra_bed'
+        ];
+        var user_table = "";
+        user_table = new CustomDataTable({
+            tableElem: '.products-init',
+            option: {
+                processing: true,
+                serverSide: true,
+                ordering: false,
+                ajax: {
+                    type: "GET",
+                    url: "{{ url('admin/report/refund') }}",
+                },
+                columns: [
+                    {
+                        "class": "nk-tb-col tb-col-lg",
+                        data: 'guest',
+                        name: 'guest'
+                    },
+                    {
+                        "class": "nk-tb-col tb-col-lg",
+                        data: 'order_id',
+                        name: 'order_id'
+                    },
+                    {
+                        "class": "nk-tb-col tb-col-lg",
+                        data: 'confirmation_number',
+                        name: 'confirmation_number'
+                    },
+
+                    {
+                        "class": "nk-tb-col tb-col-lg",
+                        data: 'classification',
+                        name: 'classification'
+                    },
+
+                    {
+                        "class": "nk-tb-col tb-col-lg",
+                        data: 'hotel',
+                        name: 'hotel'
+                    },
+                    {
+                        "class": "nk-tb-col tb-col-lg",
+                        data: 'room_type_name',
+                        name: 'room_type_name'
+                    },
+                    {
+                        "class": "nk-tb-col tb-col-lg",
+                        data: 'guests',
+                        name: 'guests'
+                    },
+                    {
+                        "class": "nk-tb-col tb-col-lg",
+                        data: 'check_in_date',
+                        name: 'check_in_date'
+                    },
+                    {
+                        "class": "nk-tb-col tb-col-lg",
+                        data: 'check_out_date',
+                        name: 'check_out_date'
+                    },
+                    {
+                        "class": "nk-tb-col tb-col-lg",
+                        data: 'adults',
+                        name: 'adults'
+                    },
+                    {
+                        "class": "nk-tb-col tb-col-lg",
+                        data: 'childs',
+                        name: 'childs',
+                    },
+                    {
+                        "class": "nk-tb-col tb-col-lg",
+                        data: 'extra_bed',
+                        name: 'extra_bed',
+                    },
+                    {
+                        "class": "nk-tb-col tb-col-lg",
+                        data: 'amount',
+                        name: 'amount',
+                    },
+                    {
+                        "class": "nk-tb-col tb-col-lg",
+                        data: 'booking_status',
+                        name: 'booking_status',
+                    },
+                    {
+                        "class": "nk-tb-col tb-col-lg",
+                        data: 'refund_request_date',
+                        name: 'refund_request_date',
+                    },
+                    {
+                        "class": "nk-tb-col tb-col-lg",
+                        data: 'refund_date',
+                        name: 'refund_date',
+                    },
+                    {
+                        "class": "nk-tb-col tb-col-lg",
+                        data: 'refundable_amount',
+                        name: 'refundable_amount',
+                    },
+                    {
+                        "class": "nk-tb-col tb-col-lg",
+                        data: 'refund_transaction_utr',
+                        name: 'refund_transaction_utr',
+                    }
+                ],
+                "fnDrawCallback": function() {
+                    NioApp.BS.tooltip('[data-toggle="tooltip"]');
+                    $('.changePassword').click(function() {
+                        var resourceId = $(this).attr('data-resourceid');
+                        $('#password_user_id').val(resourceId);
+                        $('#modalUserPassword').modal('show');
+                    });
                 }
             },
-            {
-                data: "order_date",
-                render: function(row) {
-                    return row.order_date ? dayjs(row.order_date).format(
-                        "DD MMM YYYY"
-                    ) : "-";
-                },
+            filterSubmit: '.submitBtn',
+            filterSubmitCallback: function() {
+                $('#modalFilterorder').modal('toggle');
             },
-        ]
+            filterClearSubmit: '.resetFilter',
+            filterModalId: '#modalFilterorder',
+            filterItems: items,
+            tagId: '#filter_tag_list',
+        });
+
     });
 </script>
 @endpush

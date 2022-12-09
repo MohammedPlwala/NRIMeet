@@ -35,6 +35,7 @@ Route::prefix('admin/report')->group(function() {
 
     Route::get('cancellation-export', 'ReportController@cancellation');
     Route::get('refund', 'ReportController@refund');
+    Route::get('export-refund', 'ReportController@refundExport');
 
     Route::get('total-inventory-data', 'ReportController@totalInventoryData');
     Route::get('total-inventory-data-export', 'ReportController@totalInventoryDataExport');
