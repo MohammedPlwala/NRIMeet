@@ -11,6 +11,7 @@
     </div><!-- .nk-block-head -->
     <form role="form" method="post" action="{{ url('admin/bulk-bookings/store') }}">
         @csrf
+        
         <div class="nk-block">
             <div class="card card-bordered sp-plan">
                 <div class="row no-gutters">
@@ -159,11 +160,11 @@
         @isset($bulkBooking)
             <input type="hidden" name="bulkBookingId" id="bulkBookingId" value="{{ $bulkBooking->id }}">
             <input type="hidden" name="roomType" value="{{ $bulkBooking->room_type_id }}">
-
+            <div class="nk-block"></div>
             <div class="nk-block">
                 <div class="card card-bordered sp-plan">
                     <div class="row no-gutters">
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <div class="sp-plan-action card-inner">
                                 <div class="icon">
                                     <em class="icon ni ni-box fs-36px o-5"></em>
@@ -171,25 +172,35 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-9">
+                        <div class="col-md-10">
                             <div class="sp-plan-info card-inner">
                                 <div class="row g-3 align-center">
-                                    <div class="col-md-4">
+                                    <div class="col-md-2">
 
                                     </div>
-                                    <div class="col-lg-8">
+                                    <div class="col-lg-10">
                                         <div class="row g-3">
-                                            <div class="col-md-4">
-                                                <x-inputs.verticalFormLabel label="Hotel Confirmation Number" for="name"
+                                            <div class="col-md-3">
+                                                <x-inputs.verticalFormLabel label="Hotel Confirmation Number" for="name" 
                                                     suggestion="" />
                                             </div>
-                                            <div class="col-md-4">
+                                            <div class="col-md-2">
                                                 <x-inputs.verticalFormLabel label="Adult Count" for="name"
                                                     suggestion="" />
 
                                             </div>
-                                            <div class="col-md-4">
+                                            <div class="col-md-2">
                                                 <x-inputs.verticalFormLabel label="Child Count" for="name"
+                                                    suggestion="" />
+
+                                            </div>
+                                            <div class="col-md-3">
+                                                <x-inputs.verticalFormLabel label="Guest Name" for="name" 
+                                                    suggestion="" />
+
+                                            </div>
+                                            <div class="col-md-2">
+                                                <x-inputs.verticalFormLabel label="Guest Designation" for="name"
                                                     suggestion="" />
 
                                             </div>
@@ -198,26 +209,36 @@
                                 </div>
                                 @for ($i = 0; $i < $bulkBooking->room_count; $i++)
                                     <div class="row g-3 align-center">
-                                        <div class="col-md-4">
+                                        <div class="col-md-2">
                                             <x-inputs.verticalFormLabel label="Room {{ $i + 1 }}" for="name"
-                                                suggestion="" required="true" />
+                                                suggestion=""  />
                                         </div>
-                                        <div class="col-lg-8">
+                                        <div class="col-lg-10">
                                             <div class="row g-3">
-                                                <div class="col-md-4">
-                                                    <x-inputs.text for="bookingId" icon="building-fill" required="true"
+                                                <div class="col-md-3">
+                                                    <x-inputs.text for="bookingId" icon="building-fill" 
                                                         placeholder="Booking Id" name="bookingId[]"
                                                         value="{{ isset($bulkBookingRooms[$i]) ? $bulkBookingRooms[$i]['booking_id'] : '' }}" />
                                                 </div>
-                                                <div class="col-md-4">
-                                                    <x-inputs.number for="adultCount" icon="users-fill" required="true"
+                                                <div class="col-md-2">
+                                                    <x-inputs.number for="adultCount" icon="users-fill" 
                                                         placeholder="Adult count" name="adultCount[]"
                                                         value="{{ isset($bulkBookingRooms[$i]) ? $bulkBookingRooms[$i]['adult_count'] : '' }}" />
                                                 </div>
-                                                <div class="col-md-4">
-                                                    <x-inputs.number for="childCount" icon="users-fill" required="true"
+                                                <div class="col-md-2">
+                                                    <x-inputs.number for="childCount" icon="users-fill" 
                                                         placeholder="Child count" name="childCount[]"
                                                         value="{{ isset($bulkBookingRooms[$i]) ? $bulkBookingRooms[$i]['child_count'] : '' }}" />
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <x-inputs.number for="guest_name" icon="users-fill" 
+                                                        placeholder="Guest Name" name="guest_name[]"
+                                                        value="{{ isset($bulkBookingRooms[$i]) ? $bulkBookingRooms[$i]['guest_name'] : '' }}" />
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <x-inputs.number for="guest_designation" icon="users-fill" 
+                                                        placeholder="Guest Designation" name="guest_designation[]"
+                                                        value="{{ isset($bulkBookingRooms[$i]) ? $bulkBookingRooms[$i]['guest_designation'] : '' }}" />
                                                 </div>
                                             </div>
                                         </div>
