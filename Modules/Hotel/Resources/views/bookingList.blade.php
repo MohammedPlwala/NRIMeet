@@ -81,6 +81,20 @@
                                             name="name" />
                                     </div>
                                 </div>
+                                <div class="row g-3 align-center">
+                                    <div class="col-lg-5">
+                                        <x-inputs.verticalFormLabel label="Booking Type" for="booking_type"
+                                            suggestion="" />
+                                    </div>
+                                    <div class="col-lg-7">
+                                        <x-inputs.select value="" for="booking_type" icon="user" placeholder="Booking Type"
+                                            name="booking_type" >
+                                            <option value="">Select Type</option>
+                                            <option value="Online">Online</option>
+                                            <option value="Offline">Offline</option>
+                                        </x-inputs.select>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <input type="hidden" id="userId" name="user_id" value="0">
@@ -111,7 +125,8 @@
             NioApp.getAuditLogs('.broadcast-init', '.audit_logs', 'resourceid', logUrl, '#modalLogs');
 
             var items = [
-                '#hotelName'
+                '#hotelName',
+                '#booking_type'
             ];
             var user_table = "";
             user_table = new CustomDataTable({
@@ -147,7 +162,7 @@
                             name: 'hotel'
                         },
                         {
-                            "class": "nk-tb-col tb-col-lg",
+                            "class": "nk-tb-col tb-col-lg text-center",
                             data: 'rooms',
                             name: 'rooms'
                         },
@@ -162,14 +177,17 @@
                             name: 'checkout_date'
                         },
                         {
-                            "class": "nk-tb-col tb-col-lg text-center",
+                            "class": "nk-tb-col tb-col-lg text-right",
                             data: 'amount',
                             name: 'amount'
                         },
                         {
                             "class": "nk-tb-col tb-col-lg text-center",
-                            data: 'booking_type',
-                            name: 'booking_type'
+                            // data: 'booking_type',
+                            name: 'booking_type',
+                            data: function(item){
+                                return item.booking_type
+                            }
                         },
                         {
                             "class": "nk-tb-col tb-col-lg text-center",

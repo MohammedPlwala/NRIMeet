@@ -47,7 +47,7 @@
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Hotel</span></th>
                         <th class="nk-tb-col tb-col-md"><span class="sub-text">Room Type</span></th>
                         <th class="nk-tb-col tb-col-md" nowrap="true"><span class="sub-text">From</span></th>
-                        <th class="nk-tb-col tb-col-md" nowrap="true"><span class="sub-text">Rooms</span></th>
+                        <th class="nk-tb-col tb-col-md text-center" nowrap="true"><span class="sub-text">Rooms</span></th>
                         <th class="nk-tb-col tb-col-md" nowrap="true"><span class="sub-text">Created At</span></th>
                         <th class="nk-tb-col nk-tb-col-tools text-right w-1" nowrap="true">
                             <span class="sub-text">Action</span>
@@ -156,6 +156,7 @@
             option: {
                 processing: true,
                 serverSide: true,
+                ordering: false,
                 ajax: {
                     type:"GET",
                     url: "{{ url('admin/bulk-bookings') }}",
@@ -191,7 +192,7 @@
                         name: 'booking_person'
                     },
                     {
-                        "class": "nk-tb-col tb-col-lg",
+                        "class": "nk-tb-col tb-col-lg text-center",
                         data: 'room_count',
                         name: 'room_count'
                     },

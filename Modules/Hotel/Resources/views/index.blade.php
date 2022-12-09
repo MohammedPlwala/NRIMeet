@@ -114,6 +114,7 @@
                 option: {
                     processing: true,
                     serverSide: true,
+                    ordering: false,
                     ajax: {
                         type: "GET",
                         url: "{{ url('admin/hotel') }}",

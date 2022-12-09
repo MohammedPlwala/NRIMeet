@@ -10,7 +10,7 @@ class text extends Component
     public $for;
     public $label;
     public $value;
-    public $placeholder;
+    // public $placeholder;
     public $id;
     public $name;
     public $icon;
@@ -30,7 +30,7 @@ class text extends Component
         $for = '',
         $label = '',
         $value = '',
-        $placeholder = '',
+        // $placeholder = '',
         $id = '',
         $name = '',
         $icon = '',
@@ -43,7 +43,7 @@ class text extends Component
         $this->for = $for;
         $this->label = $label;
         $this->value = $value;
-        $this->placeholder = $placeholder;
+        // $this->placeholder = $placeholder;
         $this->id = $id;
         $this->name = $name;
         $this->icon = $icon;

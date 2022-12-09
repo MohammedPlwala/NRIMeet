@@ -41,10 +41,10 @@
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Name</span></th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Type</span></th>
                         <th class="nk-tb-col tb-col-md"><span class="sub-text">Hotel</span></th>
-                        <th class="nk-tb-col tb-col-md"><span class="sub-text">Rate</span></th>
-                        <th class="nk-tb-col tb-col-md"><span class="sub-text">Allocated Rooms</span></th>
-                        <th class="nk-tb-col tb-col-md"><span class="sub-text">MPT Reserve</span></th>
-                        <th class="nk-tb-col tb-col-md"><span class="sub-text">Available Rooms</span></th>
+                        <th class="nk-tb-col tb-col-md text-right"><span class="sub-text">Rate</span></th>
+                        <th class="nk-tb-col tb-col-md text-center"><span class="sub-text">Allocated Rooms</span></th>
+                        <th class="nk-tb-col tb-col-md text-center"><span class="sub-text">MPT Reserve</span></th>
+                        <th class="nk-tb-col tb-col-md text-center"><span class="sub-text">Available Rooms</span></th>
                         <th class="nk-tb-col tb-col-md w-1 text-center" nowrap="true"><span class="sub-text">Status</span>
                         </th>
                         <th class="nk-tb-col nk-tb-col-tools text-right w-1" nowrap="true">
@@ -165,30 +165,30 @@
                         },
 
                         {
-                            "class": "nk-tb-col tb-col-lg",
+                            "class": "nk-tb-col tb-col-lg text-right",
                             data: 'rate',
                             name: 'rate'
                         },
 
                         {
-                            "class": "nk-tb-col tb-col-lg",
+                            "class": "nk-tb-col tb-col-lg text-center",
                             data: 'allocated_rooms',
                             name: 'allocated_rooms'
                         },
 
                         {
-                            "class": "nk-tb-col tb-col-lg",
+                            "class": "nk-tb-col tb-col-lg text-center",
                             data: 'mpt_reserve',
                             name: 'mpt_reserve'
                         },
                         {
-                            "class": "nk-tb-col tb-col-lg",
+                            "class": "nk-tb-col tb-col-lg text-center",
                             data: 'count',
                             name: 'count'
                         },
 
                         {
-                            "class": "nk-tb-col tb-col-lg",
+                            "class": "nk-tb-col tb-col-lg text-center",
                             data: 'status',
                             name: 'status'
                         },

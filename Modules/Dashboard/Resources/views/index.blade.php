@@ -17,7 +17,7 @@
                             <div class="form-icon form-icon-left">
                                 <em class="icon ni ni-calendar"></em>
                             </div>
-                            <input type="text" class="form-control date-picker" placeholder="Date" data-date-format="yyyy-mm-dd" id="date" name="date">
+                            <input type="text" class="form-control date-picker" placeholder="Date" data-date-format="d-M-yyyy" id="date" name="date">
                         </div>
                     </div>
                 </div>
@@ -26,6 +26,207 @@
     </div><!-- .nk-block-head -->
     <div class="nk-block">
         <div class="row g-gs">
+            <div class="col-xxl-3 col-sm-6">
+                <div class="card">
+                    <div class="nk-ecwg nk-ecwg6">
+                        <div class="card-inner">
+                            <div class="card-title-group">
+                                <div class="card-title">
+                                    <h6 class="title">Bulk Bookings</h6>
+                                </div>
+                            </div>
+                            <div class="data">
+                                <div class="data-group">
+                                    <div class="amount">1,945</div>
+                                </div>
+                            </div>
+                        </div><!-- .card-inner -->
+                    </div><!-- .nk-ecwg -->
+                </div><!-- .card -->
+            </div><!-- .col -->
+            <div class="col-xxl-3 col-sm-6">
+                <div class="card">
+                    <div class="nk-ecwg nk-ecwg6">
+                        <div class="card-inner">
+                            <div class="card-title-group">
+                                <div class="card-title">
+                                    <h6 class="title">MEA Bookings</h6>
+                                </div>
+                            </div>
+                            <div class="data">
+                                <div class="data-group">
+                                    <div class="amount">1,945</div>
+                                </div>
+                            </div>
+                        </div><!-- .card-inner -->
+                    </div><!-- .nk-ecwg -->
+                </div><!-- .card -->
+            </div><!-- .col -->
+            <div class="col-xxl-3 col-sm-6">
+                <div class="card">
+                    <div class="nk-ecwg nk-ecwg6">
+                        <div class="card-inner">
+                            <div class="card-title-group">
+                                <div class="card-title">
+                                    <h6 class="title">Online Bookings</h6>
+                                </div>
+                            </div>
+                            <div class="data">
+                                <div class="data-group">
+                                    <div class="amount">1,945</div>
+                                </div>
+                            </div>
+                        </div><!-- .card-inner -->
+                    </div><!-- .nk-ecwg -->
+                </div><!-- .card -->
+            </div><!-- .col -->
+            <div class="col-xxl-3 col-sm-6">
+                <div class="card">
+                    <div class="nk-ecwg nk-ecwg6">
+                        <div class="card-inner">
+                            <div class="card-title-group">
+                                <div class="card-title">
+                                    <h6 class="title">Offline Bookings</h6>
+                                </div>
+                            </div>
+                            <div class="data">
+                                <div class="data-group">
+                                    <div class="amount">1,945</div>
+                                </div>
+                            </div>
+                        </div><!-- .card-inner -->
+                    </div><!-- .nk-ecwg -->
+                </div><!-- .card -->
+            </div><!-- .col -->
+            <div class="col-xxl-3 col-md-6">
+                <div class="card h-100">
+                    <div class="card-inner">
+                        <div class="card-title-group mb-2">
+                            <div class="card-title">
+                                <h6 class="title">Cancellation Stats</h6>
+                            </div>
+                        </div>
+                        <ul class="nk-store-statistics">
+                            <li class="item">
+                                <div class="info">
+                                    <div class="title">Cancellation Recevied</div>
+                                    <div class="count">0.00</div>
+                                </div>
+                                <em class="icon bg-purple-dim ni ni-server"></em>
+                            </li>
+                            <li class="item">
+                                <div class="info">
+                                    <div class="title">Cancellation Request</div>
+                                    <div class="count">0.00</div>
+                                </div>
+                                <em class="icon bg-purple-dim ni ni-server"></em>
+                            </li>
+                            <li class="item">
+                                <div class="info">
+                                    <div class="title">Cancellation Approved</div>
+                                    <div class="count">0.00</div>
+                                </div>
+                                <em class="icon bg-purple-dim ni ni-server"></em>
+                            </li>
+                        </ul>
+                    </div><!-- .card-inner -->
+                </div><!-- .card -->
+            </div><!-- .col -->
+            <div class="col-xxl-3 col-md-6">
+                <div class="card h-100">
+                    <div class="card-inner">
+                        <div class="card-title-group mb-2">
+                            <div class="card-title">
+                                <h6 class="title">Refund Stats</h6>
+                            </div>
+                        </div>
+                        <ul class="nk-store-statistics">
+                            <li class="item">
+                                <div class="info">
+                                    <div class="title">Refund Requested</div>
+                                    <div class="count">0.00</div>
+                                </div>
+                                <em class="icon bg-purple-dim ni ni-server"></em>
+                            </li>
+                            <li class="item">
+                                <div class="info">
+                                    <div class="title">Refund Approved</div>
+                                    <div class="count">0.00</div>
+                                </div>
+                                <em class="icon bg-purple-dim ni ni-server"></em>
+                            </li>
+                            <li class="item">
+                                <div class="info">
+                                    <div class="title">Refund Issued</div>
+                                    <div class="count">0.00</div>
+                                </div>
+                                <em class="icon bg-purple-dim ni ni-server"></em>
+                            </li>
+                        </ul>
+                    </div><!-- .card-inner -->
+                </div><!-- .card -->
+            </div><!-- .col -->
+            <div class="col-xxl-3 col-md-6">
+                <div class="card h-100">
+                    <div class="card-inner">
+                        <div class="card-title-group mb-2">
+                            <div class="card-title">
+                                <h6 class="title">Guest Stats</h6>
+                            </div>
+                        </div>
+                        <ul class="nk-store-statistics">
+                            <li class="item">
+                                <div class="info">
+                                    <div class="title">Adutls</div>
+                                    <div class="count">525</div>
+                                </div>
+                                <em class="icon bg-purple-dim ni ni-server"></em>
+                            </li>
+                            <li class="item">
+                                <div class="info">
+                                    <div class="title">Kids</div>
+                                    <div class="count">10</div>
+                                </div>
+                                <em class="icon bg-purple-dim ni ni-server"></em>
+                            </li>
+                        </ul>
+                    </div><!-- .card-inner -->
+                </div><!-- .card -->
+            </div><!-- .col -->
+            <div class="col-xxl-3 col-md-6">
+                <div class="card h-100">
+                    <div class="card-inner">
+                        <div class="card-title-group mb-2">
+                            <div class="card-title">
+                                <h6 class="title">Room Type Booking Stats</h6>
+                            </div>
+                        </div>
+                        <ul class="nk-store-statistics">
+                            <li class="item">
+                                <div class="info">
+                                    <div class="title">Base</div>
+                                    <div class="count">0.00</div>
+                                </div>
+                                <em class="icon bg-purple-dim ni ni-server"></em>
+                            </li>
+                            <li class="item">
+                                <div class="info">
+                                    <div class="title">Premium</div>
+                                    <div class="count">0.00</div>
+                                </div>
+                                <em class="icon bg-purple-dim ni ni-server"></em>
+                            </li>
+                            <li class="item">
+                                <div class="info">
+                                    <div class="title">Suite</div>
+                                    <div class="count">0.00</div>
+                                </div>
+                                <em class="icon bg-purple-dim ni ni-server"></em>
+                            </li>
+                        </ul>
+                    </div><!-- .card-inner -->
+                </div><!-- .card -->
+            </div><!-- .col -->
             <div class="col-xxl-3 col-md-6">
                 <div class="card h-100">
                     <div class="card-inner">
@@ -71,7 +272,7 @@
                         <ul class="nk-store-statistics">
                             <li class="item">
                                 <div class="info">
-                                    <div class="title">Total Booking</div>
+                                    <div class="title">Total Bookings</div>
                                     <div class="count">
                                         0.00
                                     </div>
@@ -80,35 +281,21 @@
                             </li>
                             <li class="item">
                                 <div class="info">
-                                    <div class="title">CC Booking</div>
-                                    <div class="count">0.00</div>
-                                </div>
-                                <em class="icon bg-info-dim ni ni-calendar-booking"></em>
-                            </li>
-                            <li class="item">
-                                <div class="info">
-                                    <div class="title">Failed Booking</div>
+                                    <div class="title">Failed Bookings</div>
                                     <div class="count">0.00</div>
                                 </div>
                                 <em class="icon bg-danger-dim ni ni-calendar-alt"></em>
                             </li>
                             <li class="item">
                                 <div class="info">
-                                    <div class="title">Booking Recevied</div>
+                                    <div class="title">Bookings Recevied</div>
                                     <div class="count">0.00</div>
                                 </div>  
                                 <em class="icon bg-success-dim ni ni-calendar-check"></em>
                             </li>
                             <li class="item">
                                 <div class="info">
-                                    <div class="title">Pending Bookings</div>
-                                    <div class="count">0.00</div>
-                                </div>
-                                <em class="icon bg-purple-dim ni ni-server"></em>
-                            </li>
-                            <li class="item">
-                                <div class="info">
-                                    <div class="title">Booking Requested</div>
+                                    <div class="title">Bookings Shared</div>
                                     <div class="count">0.00</div>
                                 </div>
                                 <em class="icon bg-purple-dim ni ni-server"></em>
@@ -119,69 +306,6 @@
                                     <div class="count">0.00</div>
                                 </div>
                                 <em class="icon bg-purple-dim ni ni-server"></em>
-                            </li>
-                            <li class="item">
-                                <div class="info">
-                                    <div class="title">Cancellation Request</div>
-                                    <div class="count">0.00</div>
-                                </div>
-                                <em class="icon bg-purple-dim ni ni-server"></em>
-                            </li>
-                            <li class="item">
-                                <div class="info">
-                                    <div class="title">Cancellation Approved</div>
-                                    <div class="count">0.00</div>
-                                </div>
-                                <em class="icon bg-purple-dim ni ni-server"></em>
-                            </li>
-                            <li class="item">
-                                <div class="info">
-                                    <div class="title">Cancelled Booking</div>
-                                    <div class="count">0.00</div>
-                                </div>
-                                <em class="icon bg-danger-dim ni ni-cross-circle"></em>
-                            </li>
-                            <li class="item">
-                                <div class="info">
-                                    <div class="title">Refund Requested</div>
-                                    <div class="count">0.00</div>
-                                </div>
-                                <em class="icon bg-purple-dim ni ni-server"></em>
-                            </li>
-                            <li class="item">
-                                <div class="info">
-                                    <div class="title">High Hotel Booking</div>
-                                    <div class="count">0.00</div>
-                                </div>
-                                <em class="icon bg-success-dim ni ni-trend-up"></em>
-                            </li>
-                            <li class="item">
-                                <div class="info">
-                                    <div class="title">Lowest Hotel Booking</div>
-                                    <div class="count">0.00</div>
-                                </div>
-                                <em class="icon bg-danger-dim ni ni-trend-down"></em>
-                            </li>
-                            <li class="item">
-                                <div class="info">
-                                    <div class="title">Room Type Booked</div>
-                                    <div class="count">0.00</div>
-                                </div>
-                                <em class="icon bg-success-dim ni ni-home"></em>
-                            </li>
-                            <li class="item">
-                                <div class="info">
-                                    <div class="title">Total Adutls</div>
-                                    <div class="count">0.00</div>
-                                </div>
-                                <em class="icon bg-info-dim ni ni-user-alt"></em>
-                            </li>
-                            <li class="item">
-                                <div class="info">
-                                    <div class="title">Total Kids</div>
-                                    <div class="count">0.00</div>
-                                </div>
-                                <em class="icon bg-secondary-dim ni ni-user"></em>
                             </li>
                             <li class="item">
                                 <div class="info">
@@ -212,24 +336,10 @@
                             </li>
                             <li class="item">
                                 <div class="info">
-                                    <div class="title">Under Processing</div>
-                                    <div class="count">0.00</div>
-                                </div>
-                                <em class="icon bg-warning-dim ni ni-reload-alt"></em>
-                            </li>
-                            <li class="item">
-                                <div class="info">
                                     <div class="title">Payment Confirmed</div>
                                     <div class="count">0.00</div>
                                 </div>
                                 <em class="icon bg-success-dim ni ni-check"></em>
-                            </li>
-                            <li class="item">
-                                <div class="info">
-                                    <div class="title">Payment Cancelled</div>
-                                    <div class="count">0.00</div>
-                                </div>  
-                                <em class="icon bg-danger-dim ni ni-cross-circle"></em>
                             </li>
                             <li class="item">
                                 <div class="info">
@@ -254,45 +364,26 @@
                             </li>
                             <li class="item">
                                 <div class="info">
-                                    <div class="title">Payment Via - Debit Card</div>
+                                    <div class="title">Base</div>
                                     <div class="count">0.00</div>
                                 </div>
-                                <em class="icon bg-secondary-dim ni ni-cc-alt"></em>
+                                <em class="icon bg-pink-dim ni ni-server"></em>
                             </li>
                             <li class="item">
                                 <div class="info">
-                                    <div class="title">Payment Via - Credit Card</div>
+                                    <div class="title">Premium</div>
                                     <div class="count">0.00</div>
                                 </div>
-                                <em class="icon bg-info-dim ni ni-cc-alt2"></em>
+                                <em class="icon bg-pink-dim ni ni-server"></em>
                             </li>
                             <li class="item">
                                 <div class="info">
-                                    <div class="title">Payment Via - Swift Transction </div>
+                                    <div class="title">Suite</div>
                                     <div class="count">0.00</div>
                                 </div>
-                                <em class="icon bg-success-dim ni ni-cc-new"></em>
+                                <em class="icon bg-pink-dim ni ni-server"></em>
                             </li>
                         </ul>
-                        <!-- <div class="card-title-group mb-2">
-                            <div class="card-title">
-                                <h6 class="title">Payment Via</h6>
-                            </div>
-                        </div>
-                        <div class="analytic-data-group analytic-ov-group g-3">
-                            <div class="analytic-data analytic-ov-data">
-                                <div class="title">Debit Card</div>
-                                <div class="amount">Rs. 2000.00</div>
-                            </div>
-                            <div class="analytic-data analytic-ov-data">
-                                <div class="title">Credit Card</div>
-                                <div class="amount">Rs. 3000.00</div>
-                            </div>
-                            <div class="analytic-data analytic-ov-data">
-                                <div class="title">Swift Transction</div>
-                                <div class="amount">Rs. 6000.00</div>
-                            </div>
-                        </div> -->
                     </div><!-- .card-inner -->
                 </div><!-- .card -->
             </div><!-- .col -->
@@ -314,31 +405,87 @@
                             </li>
                             <li class="item">
                                 <div class="info">
-                                    <div class="title">Booked Inventory</div>
+                                    <div class="title">Base Allocated</div>
                                     <div class="count">0.00</div>
                                 </div>
                                 <em class="icon bg-success-dim ni ni-list-check"></em>
                             </li>
                             <li class="item">
                                 <div class="info">
-                                    <div class="title">Under Booking</div>
+                                    <div class="title">Base Booked</div>
                                     <div class="count">0.00</div>
                                 </div>
                                 <em class="icon bg-warning-dim ni ni-list-ol"></em>
                             </li>
                             <li class="item">
                                 <div class="info">
-                                    <div class="title">CC Reserve</div>
+                                    <div class="title">Base Available</div>
                                     <div class="count">0.00</div>
                                 </div>  
                                 <em class="icon bg-pink-dim ni ni-lock-alt"></em>
                             </li>
                             <li class="item">
                                 <div class="info">
-                                    <div class="title">On Hold</div>
+                                    <div class="title">Base MPT</div>
+                                    <div class="count">0.00</div>
+                                </div>  
+                                <em class="icon bg-pink-dim ni ni-lock-alt"></em>
+                            </li>
+                            <li class="item">
+                                <div class="info">
+                                    <div class="title">Premium Allocated</div>
                                     <div class="count">0.00</div>
                                 </div>
-                                <em class="icon bg-purple-dim ni ni-server"></em>
+                                <em class="icon bg-success-dim ni ni-list-check"></em>
+                            </li>
+                            <li class="item">
+                                <div class="info">
+                                    <div class="title">Premium Booked</div>
+                                    <div class="count">0.00</div>
+                                </div>
+                                <em class="icon bg-warning-dim ni ni-list-ol"></em>
+                            </li>
+                            <li class="item">
+                                <div class="info">
+                                    <div class="title">Premium Available</div>
+                                    <div class="count">0.00</div>
+                                </div>  
+                                <em class="icon bg-pink-dim ni ni-lock-alt"></em>
+                            </li>
+                            <li class="item">
+                                <div class="info">
+                                    <div class="title">Premium MPT</div>
+                                    <div class="count">0.00</div>
+                                </div>  
+                                <em class="icon bg-pink-dim ni ni-lock-alt"></em>
+                            </li>
+                            <li class="item">
+                                <div class="info">
+                                    <div class="title">Suite Allocated</div>
+                                    <div class="count">0.00</div>
+                                </div>
+                                <em class="icon bg-success-dim ni ni-list-check"></em>
+                            </li>
+                            <li class="item">
+                                <div class="info">
+                                    <div class="title">Suite Booked</div>
+                                    <div class="count">0.00</div>
+                                </div>
+                                <em class="icon bg-warning-dim ni ni-list-ol"></em>
+                            </li>
+                            <li class="item">
+                                <div class="info">
+                                    <div class="title">Suite Available</div>
+                                    <div class="count">0.00</div>
+                                </div>  
+                                <em class="icon bg-pink-dim ni ni-lock-alt"></em>
+                            </li>
+                            <li class="item">
+                                <div class="info">
+                                    <div class="title">Suite MPT</div>
+                                    <div class="count">0.00</div>
+                                </div>  
+                                <em class="icon bg-pink-dim ni ni-lock-alt"></em>
                             </li>
                             <li class="item">
                                 <div class="info">
@@ -346,13 +493,6 @@
                                     <div class="count">0.00</div>
                                 </div>
                                 <em class="icon bg-warning-dim ni ni-cross-circle"></em>
-                            </li>
-                            <li class="item">
-                                <div class="info">
-                                    <div class="title">Stock Out</div>
-                                    <div class="count">0.00</div>
-                                </div>
-                                <em class="icon bg-danger-dim ni ni-wallet-out"></em>
                             </li>
                         </ul>
                     </div><!-- .card-inner -->

@@ -9,7 +9,7 @@ class number extends Component
     public $for;
     public $label;
     public $value;
-    public $placeholder;
+    // public $placeholder;
     public $id;
     public $name;
     public $icon;
