@@ -128,6 +128,8 @@ class BookingController extends Controller
                 $bulk_booking_room->booking_id = $request->bookingId[$key];
                 $bulk_booking_room->adult_count = $request->adultCount[$key];
                 $bulk_booking_room->child_count = $request->childCount[$key];
+                $bulk_booking_room->guest_name = $request->guest_name[$key];
+                $bulk_booking_room->guest_designation = $request->guest_designation[$key];
                 $bulk_booking_room->save();
             }
 

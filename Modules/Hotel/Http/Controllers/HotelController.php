@@ -994,6 +994,7 @@ class HotelController extends Controller
                 ->select('hr.id', 'hr.hotel_id', 'hr.name', 'hr.type_id', 'hr.description', 'hr.allocated_rooms', 'hr.mpt_reserve', 'hr.count', 'hr.rate', 'hr.extra_bed_available', 'hr.extra_bed_rate', 'hr.status','rt.name as room_type_name')
                 ->join('room_types as rt','rt.id','=','hr.type_id')
                 ->where('hr.hotel_id',$hotel_id)
+                ->where('hr.status', 'active')
                 ->orderby('rt.name','asc')
                 ->get();
         if(!empty($hotelRooms->toArray())){

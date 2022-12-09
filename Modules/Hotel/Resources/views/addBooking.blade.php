@@ -143,6 +143,7 @@
 
                                         <option value="0">0</option>
                                         <option value="1">1</option>
+                                        <option value="2">2</option>
 
                                     </x-inputs.select>
                                 </td>
@@ -227,6 +228,7 @@
 
                                         <option value="0">0</option>
                                         <option value="1">1</option>
+                                        <option value="2">2</option>
 
                                     </x-inputs.select>
                                 </td>
@@ -307,6 +309,8 @@
                     } else {
                         $('#room_one_extraBed').prop('disabled', true);
                     }
+                    $('#room_one_extraBed').val('');
+                        $('#room_one_extraBed').trigger('change');
                     var rate = parseFloat(roomData.rate);
                     rate = rate.toFixed(2);
                     $('#room_one_rate').text(rate);
@@ -354,6 +358,7 @@
                     } else {
                         $('#room_two_extraBed').prop('disabled', true);
                     }
+                    $('#room_two_extraBed').val('').trigger('change');
                     var rate = parseFloat(roomData.rate);
                     rate = rate.toFixed(2);
                     $('#room_two_rate').text(rate);

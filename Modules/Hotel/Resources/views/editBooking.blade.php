@@ -12,14 +12,15 @@
     <form role="form" method="post" enctype="multipart/form-data"
         action="{{ url('admin/bookings/update-booking/' . $booking->id) }}">
         @csrf
+        {{-- Room Information --}}
         <div class="nk-block">
             <div class="card card-bordered sp-plan">
                 <div class="row no-gutters">
                     <div class="col-md-3">
                         <div class="sp-plan-action card-inner">
                             <div class="icon">
-                                <em class="icon ni ni-box fs-36px o-5"></em>
-                                <h5 class="o-5">Room <br> Information</h5>
+                                
+                                <h5 class="o-5">Room Information</h5>
                             </div>
                         </div>
                     </div>
@@ -95,15 +96,15 @@
                 </div>
             </div>
         </div><!-- .nk-block -->
-
+        {{-- Room One  Guests --}}
         <div class="nk-block">
             <div class="card card-bordered sp-plan">
                 <div class="row no-gutters">
                     <div class="col-md-3">
                         <div class="sp-plan-action card-inner">
                             <div class="icon">
-                                <em class="icon ni ni-box fs-36px o-5"></em>
-                                <h5 class="o-5">Room One <br> Guests</h5>
+                                
+                                <h5 class="o-5">Room One  Guests</h5>
                             </div>
                         </div>
                     </div>
@@ -141,7 +142,7 @@
 
                                         <option @if ($bookingRooms[0]['childs'] == 0) selected @endif value="0">0</option>
                                         <option @if ($bookingRooms[0]['childs'] == 1) selected @endif value="1">1</option>
-
+                                        <option @if ($bookingRooms[0]['childs'] == 2) selected @endif value="2">2</option>
                                     </x-inputs.select>
                                 </td>
                                 <td>
@@ -181,15 +182,15 @@
                 </div>
             </div>
         </div><!-- .nk-block -->
-
+        {{-- Room Two Guests --}}
         <div class="nk-block">
             <div class="card card-bordered sp-plan">
                 <div class="row no-gutters">
                     <div class="col-md-3">
                         <div class="sp-plan-action card-inner">
                             <div class="icon">
-                                <em class="icon ni ni-box fs-36px o-5"></em>
-                                <h5 class="o-5">Room Two <br> Guests</h5>
+                                
+                                <h5 class="o-5">Room Two Guests</h5>
                             </div>
                         </div>
                     </div>
@@ -234,7 +235,8 @@
                                         </option>
                                         <option @if (isset($bookingRooms[1]) && $bookingRooms[1]['childs'] == 1) selected @endif value="1">1
                                         </option>
-
+                                        <option @if (isset($bookingRooms[1]) && $bookingRooms[1]['childs'] == 2) selected @endif value="2">2
+                                        </option>
                                     </x-inputs.select>
                                 </td>
                                 <td>
@@ -278,15 +280,15 @@
                 </div>
             </div>
         </div><!-- .nk-block -->
-
+        {{-- Special Request --}}
         <div class="nk-block">
             <div class="card card-bordered sp-plan">
                 <div class="row no-gutters">
                     <div class="col-md-3">
                         <div class="sp-plan-action card-inner">
                             <div class="icon">
-                                <em class="icon ni ni-box fs-36px o-5"></em>
-                                <h5 class="o-5">Special <br> Request</h5>
+                                
+                                <h5 class="o-5">Special Request</h5>
                             </div>
                         </div>
                     </div>
@@ -308,15 +310,15 @@
                 </div>
             </div>
         </div><!-- .nk-block -->
-
+        {{-- Status & Confirmation --}}
         <div class="nk-block">
             <div class="card card-bordered sp-plan">
                 <div class="row no-gutters">
                     <div class="col-md-3">
                         <div class="sp-plan-action card-inner">
                             <div class="icon">
-                                <em class="icon ni ni-box fs-36px o-5"></em>
-                                <h5 class="o-5">Confirmation & <br> Settlement</h5>
+                                
+                                <h5 class="o-5">Status & Confirmation #</h5>
                             </div>
                         </div>
                     </div>
@@ -363,7 +365,67 @@
                                          name="confirmation_number" />
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- .nk-block -->
 
+         {{-- Payment Details --}}
+         <div class="nk-block">
+            <div class="card card-bordered sp-plan">
+                <div class="row no-gutters">
+                    <div class="col-md-3">
+                        <div class="sp-plan-action card-inner">
+                            <div class="icon">
+                                
+                                <h5 class="o-5">Payment Details</h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-9">
+                        <div class="sp-plan-info card-inner">
+                            <div class="row g-3 align-center">
+                                <div class="col-lg-4">
+                                    <x-inputs.verticalFormLabel label="Payment Mode" for="payment_mode"
+                                        suggestion=""  />
+                                </div>
+                                <div class="col-lg-8">
+                                    <x-inputs.select value="{{ isset($booking) ? $booking->payment_mode : '' }}" 
+                                        for="payment_mode"  
+                                         name="payment_mode" >
+                                         <option value="Offline">Offline</option>
+                                         <option value="Online">Online</option>
+                                    </x-inputs.select>
+                                </div>
+                            </div>
+                            <div class="row g-3 align-center">
+                                <div class="col-lg-4">
+                                    <x-inputs.verticalFormLabel label="Payment Method" for="payment_method"
+                                        suggestion=""  />
+                                </div>
+                                <div class="col-lg-8">
+                                    <x-inputs.select value="{{ isset($booking) ? $booking->payment_method : '' }}" 
+                                        for="payment_method"  
+                                         name="payment_method" >
+                                         <option value="Payu">Payu</option>
+                                         <option value="Razorpay">Razorpay</option>
+                                         <option value="Billdesk">Billdesk</option>
+                                    </x-inputs.select>
+                                </div>
+                            </div>
+                            <div class="row g-3 align-center">
+                                <div class="col-lg-4">
+                                    <x-inputs.verticalFormLabel label="Transaction ID" for="transaction_id"
+                                        suggestion=""  />
+                                </div>
+                                <div class="col-lg-8">
+                                    <x-inputs.text value="{{ isset($booking) ? $booking->transaction_id : '' }}" 
+                                        for="transaction_id"  
+                                         name="transaction_id" />
+                                        
+                                </div>
+                            </div>
                             <div class="row g-3 align-center">
                                 <div class="col-lg-4">
                                     <x-inputs.verticalFormLabel label="UTR Number" for="utr_number" suggestion="" />
@@ -374,7 +436,16 @@
                                         name="utr_number" />
                                 </div>
                             </div>
-
+                            <div class="row g-3 align-center">
+                                <div class="col-lg-4">
+                                    <x-inputs.verticalFormLabel label="Settlement ID" for="settlement_id" suggestion="" />
+                                </div>
+                                <div class="col-lg-8">
+                                    <x-inputs.text value="{{ isset($booking) ? $booking->settlement_id : '' }}"
+                                        for="settlement_id" class="" icon="building-fill" 
+                                        name="settlement_id" />
+                                </div>
+                            </div>
                             <div class="row g-3 align-center">
                                 <div class="col-lg-4">
                                     <x-inputs.verticalFormLabel label="Settlement Date" for="settlement_date"
@@ -391,6 +462,139 @@
                 </div>
             </div>
         </div><!-- .nk-block -->
+        @if ($booking->booking_status == 'Cancellation Requested' || 
+        $booking->booking_status == 'Cancellation Approved' ||
+        $booking->booking_status == 'Refund Requested' ||
+        $booking->booking_status == 'Refund Approved' ||
+        $booking->booking_status == 'Refund Issued')
+        {{-- Cancellation --}}
+        <div class="nk-block">
+            <div class="card card-bordered sp-plan">
+                <div class="row no-gutters">
+                    <div class="col-md-3">
+                        <div class="sp-plan-action card-inner">
+                            <div class="icon">
+                                
+                                <h5 class="o-5">Cancellation Details</h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-9">
+                        <div class="sp-plan-info card-inner">
+                            <div class="row g-3 align-center">
+                                <div class="col-lg-4">
+                                    <x-inputs.verticalFormLabel label="Cancellation Requested Date" for="cancellation_request_date"
+                                        suggestion=""  />
+                                </div>
+                                <div class="col-lg-8">
+                                    <x-inputs.text value="{{ isset($booking) ? $booking->cancellation_request_date : '' }}" 
+                                        for="cancellation_request_date" icon="calender-date-fill"  
+                                         name="cancellation_request_date" readonly="true" />
+                                </div>
+                            </div>
+                            <div class="row g-3 align-center">
+                                <div class="col-lg-4">
+                                    <x-inputs.verticalFormLabel label="Cancellation Date" for="cancellation_date"
+                                        suggestion=""  />
+                                </div>
+                                <div class="col-lg-8">
+                                    <x-inputs.text value="{{ isset($booking) ? $booking->cancellation_date : '' }}" class="date-picker"
+                                        for="cancellation_date" icon="calender-date-fill"  
+                                         name="cancellation_date" />
+                                </div>
+                            </div>
+                            <div class="row g-3 align-center">
+                                <div class="col-lg-4">
+                                    <x-inputs.verticalFormLabel label="Cancellation Charges" for="cancellation_charges" suggestion=""
+                                         />
+                                </div>
+                                <div class="col-lg-8">
+                                    <x-inputs.select for="cancellation_charges" 
+                                        placeholder="Select Cancellation Charges" name="cancellation_charges">
+                                        <option @if ($booking->cancellation_charges == '0') selected @endif
+                                            value="0">0%</option>
+                                        <option @if ($booking->cancellation_charges == '20') selected @endif
+                                            value="20">20%</option>
+                                        <option @if ($booking->cancellation_charges == '50') selected @endif
+                                            value="50">50%</option>
+                                        <option @if ($booking->cancellation_charges == '100') selected @endif
+                                            value="100">100%</option>
+                                    </x-inputs.select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- .nk-block -->
+        @endif
+        @if ($booking->booking_status == 'Refund Requested' ||
+        $booking->booking_status == 'Refund Approved' ||
+        $booking->booking_status == 'Refund Issued')
+        {{-- Refund --}}
+        <div class="nk-block">
+            <div class="card card-bordered sp-plan">
+                <div class="row no-gutters">
+                    <div class="col-md-3">
+                        <div class="sp-plan-action card-inner">
+                            <div class="icon">
+                                
+                                <h5 class="o-5">Refund Details</h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-9">
+                        <div class="sp-plan-info card-inner">
+                            <div class="row g-3 align-center">
+                                <div class="col-lg-4">
+                                    <x-inputs.verticalFormLabel label="Refund Requested Date" for="refund_request_date"
+                                        suggestion=""  />
+                                </div>
+                                <div class="col-lg-8">
+                                    <x-inputs.text value="{{ isset($booking) ? $booking->refund_request_date : '' }}" 
+                                        for="refund_request_date" icon="calender-date-fill"  
+                                         name="refund_request_date" readonly="true" />
+                                </div>
+                            </div>
+                            <div class="row g-3 align-center">
+                                <div class="col-lg-4">
+                                    <x-inputs.verticalFormLabel label="Refund Date" for="refund_date"
+                                        suggestion=""  />
+                                </div>
+                                <div class="col-lg-8">
+                                    <x-inputs.text value="{{ isset($booking) ? $booking->refund_date : '' }}" class="date-picker"
+                                        for="refund_date" icon="calender-date-fill"  
+                                         name="refund_date" />
+                                </div>
+                            </div>
+                            <div class="row g-3 align-center">
+                                <div class="col-lg-4">
+                                    <x-inputs.verticalFormLabel label="Refund Amount" for="refund_amount" suggestion=""  
+                                       />
+                                </div>
+                                <div class="col-lg-8">
+                                    <x-inputs.text value="{{ isset($booking) ? $booking->refund_amount : '' }}" 
+                                        for="refund_amount" icon="sign-inr"  
+                                         name="refund_amount" readonly="true" />
+                                </div>
+                            </div>
+                            <div class="row g-3 align-center">
+                                <div class="col-lg-4">
+                                    <x-inputs.verticalFormLabel label="Refund Transaction UTR" for="refund_transaction_id" suggestion=""
+                                        />
+                                </div>
+                                <div class="col-lg-8">
+                                    <x-inputs.text value="{{ isset($booking) ? $booking->refund_transaction_id : '' }}" 
+                                        for="refund_transaction_id" icon="id"  
+                                         name="refund_transaction_id" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- .nk-block -->
+        @endif
 
         <div class="nk-block">
             @isset($user)
@@ -416,10 +620,15 @@
     <input type="hidden" name="role_type" id="role_type" value="{{ \Config::get('constants.ROLES.BUYER') }}">
     <input type="hidden" name="old_district" id="old_district" value="{{ old('district') }}">
     <input type="hidden" name="old_city" id="old_city" value="{{ old('city') }}">
-
+    <pre>
+        
     <script type="text/javascript">
         $(document).ready(function() {
-
+            var cancellation_charges = 10
+            var booking_ammount = {{$booking->amount}}
+            $('#refund_amount').val(booking_ammount - (booking_ammount * cancellation_charges / 100))
+            var nights = getNights();
+                $('#nights').html(parseFloat(nights))
 
             $('#room_one_type').change(function() {
                 if ($(this).val() != "") {
@@ -432,6 +641,7 @@
                     } else {
                         $('#room_one_extraBed').prop('disabled', true);
                     }
+                    $('#room_one_extraBed').val('').trigger('change');
                     var rate = parseFloat(roomData.rate);
                     rate = rate.toFixed(2);
                     $('#room_one_rate').text(rate);
@@ -477,6 +687,8 @@
                     } else {
                         $('#room_two_extraBed').prop('disabled', true);
                     }
+                    $('#room_two_extraBed').val('');
+                    $('#room_two_extraBed').trigger('change');
                     var rate = parseFloat(roomData.rate);
                     rate = rate.toFixed(2);
                     $('#room_two_rate').text(rate);
@@ -636,9 +848,6 @@
                 addRoomDetails('#cont_room_two_child', value, 1, true)
             });
 
-
-            console.log('room_one_data', room_one_data);
-            console.log('room_two_data', room_two_data);
 
             @if (isset($bookingRooms[0]))
                 var room_one_data = JSON.parse('<?php echo json_encode($bookingRooms[0]); ?>');

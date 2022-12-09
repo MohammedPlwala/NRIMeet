@@ -15,7 +15,7 @@
         <div class="nk-block">
             <div class="card card-bordered sp-plan">
                 <div class="row no-gutters">
-                    <div class="col-md-3">
+                    <div class="col-md-2">
                         <div class="sp-plan-action card-inner">
                             <div class="icon">
                                 <em class="icon ni ni-box fs-36px o-5"></em>
@@ -23,7 +23,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-9">
+                    <div class="col-md-10">
                         <div class="sp-plan-info card-inner">
 
                             <div class="row g-3 align-center">
@@ -181,11 +181,11 @@
                                     <div class="col-lg-10">
                                         <div class="row g-3">
                                             <div class="col-md-3">
-                                                <x-inputs.verticalFormLabel label="Hotel Confirmation Number" for="name" 
+                                                <x-inputs.verticalFormLabel label="Hotel Confirmation Number" for="name"  required="true"
                                                     suggestion="" />
                                             </div>
                                             <div class="col-md-2">
-                                                <x-inputs.verticalFormLabel label="Adult Count" for="name"
+                                                <x-inputs.verticalFormLabel label="Adult Count" for="name" required="true"
                                                     suggestion="" />
 
                                             </div>
@@ -216,29 +216,29 @@
                                         <div class="col-lg-10">
                                             <div class="row g-3">
                                                 <div class="col-md-3">
-                                                    <x-inputs.text for="bookingId" icon="building-fill" 
-                                                        placeholder="Booking Id" name="bookingId[]"
-                                                        value="{{ isset($bulkBookingRooms[$i]) ? $bulkBookingRooms[$i]['booking_id'] : '' }}" />
+                                                    <x-inputs.text for="bookingId[{{$i}}]" icon="building-fill" 
+                                                        placeholder="Booking Id" name="bookingId[{{$i}}]" required="true"
+                                                        value="{{ isset($bulkBookingRooms[$i]) && $bulkBookingRooms[$i]['booking_id'] ? $bulkBookingRooms[$i]['booking_id'] : '' }}" />
                                                 </div>
                                                 <div class="col-md-2">
-                                                    <x-inputs.number for="adultCount" icon="users-fill" 
-                                                        placeholder="Adult count" name="adultCount[]"
-                                                        value="{{ isset($bulkBookingRooms[$i]) ? $bulkBookingRooms[$i]['adult_count'] : '' }}" />
+                                                    <x-inputs.number for="adultCount[{{$i}}]" icon="users-fill" 
+                                                        placeholder="Adult count" name="adultCount[{{$i}}]" required="true"
+                                                        value="{{ isset($bulkBookingRooms[$i]) && $bulkBookingRooms[$i]['adult_count'] ? $bulkBookingRooms[$i]['adult_count'] : '' }}" />
                                                 </div>
                                                 <div class="col-md-2">
-                                                    <x-inputs.number for="childCount" icon="users-fill" 
-                                                        placeholder="Child count" name="childCount[]"
-                                                        value="{{ isset($bulkBookingRooms[$i]) ? $bulkBookingRooms[$i]['child_count'] : '' }}" />
+                                                    <x-inputs.number for="childCount[{{$i}}]" icon="users-fill" 
+                                                        placeholder="Child count" name="childCount[{{$i}}]"
+                                                        value="{{ isset($bulkBookingRooms[$i]) && $bulkBookingRooms[$i]['child_count'] ? $bulkBookingRooms[$i]['child_count'] : '0' }}" />
                                                 </div>
                                                 <div class="col-md-3">
-                                                    <x-inputs.number for="guest_name" icon="users-fill" 
-                                                        placeholder="Guest Name" name="guest_name[]"
-                                                        value="{{ isset($bulkBookingRooms[$i]) ? $bulkBookingRooms[$i]['guest_name'] : '' }}" />
+                                                    <x-inputs.text for="guest_name[{{$i}}]" icon="users-fill" 
+                                                        placeholder="Guest Name" name="guest_name[{{$i}}]"
+                                                        value="{{ isset($bulkBookingRooms[$i]) && $bulkBookingRooms[$i]['guest_name'] ? $bulkBookingRooms[$i]['guest_name'] : 'NA' }}" />
                                                 </div>
                                                 <div class="col-md-2">
-                                                    <x-inputs.number for="guest_designation" icon="users-fill" 
-                                                        placeholder="Guest Designation" name="guest_designation[]"
-                                                        value="{{ isset($bulkBookingRooms[$i]) ? $bulkBookingRooms[$i]['guest_designation'] : '' }}" />
+                                                    <x-inputs.text for="guest_designation[{{$i}}]" icon="users-fill" 
+                                                        placeholder="Guest Designation" name="guest_designation[{{$i}}]"
+                                                        value="{{ isset($bulkBookingRooms[$i]) && $bulkBookingRooms[$i]['guest_designation']  ? $bulkBookingRooms[$i]['guest_designation'] : 'NA' }}" />
                                                 </div>
                                             </div>
                                         </div>
