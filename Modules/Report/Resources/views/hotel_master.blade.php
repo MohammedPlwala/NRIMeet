@@ -32,7 +32,7 @@
             <table id="sales_SP" class="products-init nowrap nk-tb-list is-separate" data-auto-responsive="false">
                 <thead>
                     <tr class="nk-tb-item nk-tb-head">
-                        <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Start Rating</span></th>
+                        <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Classification</span></th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Hotel Name</span></th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Room Type</span></th>
                         <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Room Count</span></th>
@@ -72,10 +72,10 @@
                     <div class="gy-3">
                         <div class="row g-3 align-center">
                             <div class="col-lg-5">
-                                <x-inputs.verticalFormLabel label="Star Rating" for="star_rating" suggestion="Select the star rating." />
+                                <x-inputs.verticalFormLabel label="Classification" for="star_rating" suggestion="Select the classification." />
                             </div>
                             <div class="col-lg-7">
-                                <x-inputs.select  size="sm" name="star_rating" for="star_rating" placeholder="Select Star Rating" id="star_rating">
+                                <x-inputs.select  size="sm" name="star_rating" for="star_rating" placeholder="Select Classification" id="star_rating">
                                     <option value="">Select</option>
                                     <option value="7 Star Level">7 Star Level</option>
                                     <option value="5 Star Deluxe">5 Star Deluxe</option>

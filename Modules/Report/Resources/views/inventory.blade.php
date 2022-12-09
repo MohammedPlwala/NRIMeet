@@ -77,10 +77,10 @@
                     <div class="gy-3">
                         <div class="row g-3 align-center">
                             <div class="col-lg-5">
-                                <x-inputs.verticalFormLabel label="Rating" for="rating" suggestion="Select the rating." />
+                                <x-inputs.verticalFormLabel label="Classification" for="rating" suggestion="Select the classification." />
                             </div>
                             <div class="col-lg-7">
-                                <x-inputs.select  size="sm" name="rating" for="rating" placeholder="Select Rating">
+                                <x-inputs.select  size="sm" name="rating" for="rating" placeholder="Select Classification">
                                     <option value="">Select</option>
                                     <option value="7 Star">7 Star</option>
                                     <option value="5 Star">5 Star</option>

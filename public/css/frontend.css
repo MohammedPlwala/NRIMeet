@@ -761,6 +761,7 @@ header.header {
 .footer .footer-container p, .footer .footer-container a{
   font-size: 15px;
   color: #fff;
+  margin: 0;
 }
 .footer .footer-container p.sohohotel-footer-message{
   padding: 15px 0;

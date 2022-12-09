@@ -137,12 +137,12 @@
 		</table>
 		<!-- content Area End -->
 		<!-- footer start -->
-		<table cellpadding="0" cellspacing="0" border="0" width="100%" align="center">
+		<table cellpadding="0" cellspacing="0" border="0" width="100%" align="center" class="bg-blue">
 			<tbody>
 				<tr>
 					<td style="background: #1e306a; padding-left: 10px; padding-top: 2px; padding-bottom: 4px" class="bg-blue">
             <a href="https://pbdaccommodation.mptourism.com" target="_blank">
-              <img src="https://pbdaccommodation.mptourism.com/wp-content/uploads/2022/10/PBD.png" alt="PBD Accommodation" style="width: 130px;" align="left" />
+              <img src="https://pbdaccommodation.mptourism.com/wp-content/uploads/2022/10/PBD.png" alt="PBD Accommodation"  width="130" style="width: 130px;" align="left" />
             </a>
           </td>
 				</tr>
