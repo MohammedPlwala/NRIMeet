@@ -457,6 +457,10 @@ class HotelController extends Controller
                                     if ($request->get('room_name') != '') {
                                         $query->where('hr.name', $request->get('room_name'));
                                     }
+
+                                    if ($request->get('booking_type') != '') {
+                                        $query->where('b.booking_type', $request->get('booking_type'));
+                                    }
                                 }
                             })
                             ->orderby('b.id','desc')
