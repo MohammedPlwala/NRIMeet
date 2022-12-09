@@ -17,7 +17,7 @@
                             </a>
                         </li>
                         <li class="nk-block-tools-opt">
-                            <a href="{{ url('report/export-cancellation') }}" class="btn btn-primary"><em class="icon ni ni-download"></em><span>Export</span></a>
+                            <a href="javascript::void(0)" data-href="{{ url('admin/report/export-cancellation') }}" class="btn btn-primary export_data"><em class="icon ni ni-download"></em><span>Export</span></a>
                         </li>
                     </ul>
                 </div>
@@ -32,10 +32,10 @@
         <div class="nk-tb-list is-separate is-medium mb-3">
             <table id="sales_SP" class="products-init nowrap nk-tb-list is-separate" data-auto-responsive="false">
                 <thead>
-                    <tr class="nk-tb-item nk-tb-head">
+                    {{-- <tr class="nk-tb-item nk-tb-head">
                         <th class="nk-tb-col tb-col-mb text-center" colspan="14"><span class="sub-text">Booking Information</span></th>
                         <th class="nk-tb-col tb-col-mb text-center" colspan="5"><span class="sub-text">Cancellation Details</span></th>
-                    </tr>
+                    </tr> --}}
                     <tr class="nk-tb-item nk-tb-head">
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Guest Name</span></th>
                         <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Order Id</span></th>
@@ -50,11 +50,8 @@
                         <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Child</span></th>
                         <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Extra Bed</span></th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Amount</span></th>
+                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Status</span></th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Cancellation Request Date</span></th>
-                        {{-- <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Approved as per Policy</span></th>
-                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Amount Payable</span></th>
-                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Approved By</span></th>
-                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Status</span></th> --}}
                     </tr>
                 </thead>
                 <tbody>
@@ -212,17 +209,26 @@
         if($('#room_type').val() != ""){
             myUrl = addQSParm(myUrl,'room_type', $('#room_type').val());
         }
-        if($('#charges').val() != ""){
-            myUrl = addQSParm(myUrl,'charges', $('#charges').val());
+        if($('#booking_status').val() != ""){
+            myUrl = addQSParm(myUrl,'booking_status', $('#booking_status').val());
         }
-        if($('#closing_inventory').val() != ""){
-            myUrl = addQSParm(myUrl,'closing_inventory', $('#closing_inventory').val());
+        if($('#guest_count').val() != ""){
+            myUrl = addQSParm(myUrl,'guest_count', $('#guest_count').val());
         }
-        if($('#distance_from_airport').val() != ""){
-            myUrl = addQSParm(myUrl,'distance_from_airport', $('#distance_from_airport').val());
+        if($('#check_in_date').val() != ""){
+            myUrl = addQSParm(myUrl,'check_in_date', $('#check_in_date').val());
         }
-        if($('#distance_from_venue').val() != ""){
-            myUrl = addQSParm(myUrl,'distance_from_venue', $('#distance_from_venue').val());
+        if($('#check_out_date').val() != ""){
+            myUrl = addQSParm(myUrl,'check_out_date', $('#check_out_date').val());
+        }
+        if($('#adult').val() != ""){
+            myUrl = addQSParm(myUrl,'adult', $('#adult').val());
+        }
+        if($('#child').val() != ""){
+            myUrl = addQSParm(myUrl,'child', $('#child').val());
+        }
+        if($('#extra_bed').val() != ""){
+            myUrl = addQSParm(myUrl,'extra_bed', $('#extra_bed').val());
         }
 
         location.href = myUrl;
@@ -281,8 +287,8 @@
                 columns: [
                     {
                         "class": "nk-tb-col tb-col-lg",
-                        data: 'full_name',
-                        name: 'full_name'
+                        data: 'guest',
+                        name: 'guest'
                     },
                     {
                         "class": "nk-tb-col tb-col-lg",
@@ -303,13 +309,13 @@
 
                     {
                         "class": "nk-tb-col tb-col-lg",
-                        data: 'name',
-                        name: 'name'
+                        data: 'hotel',
+                        name: 'hotel'
                     },
                     {
                         "class": "nk-tb-col tb-col-lg",
-                        data: 'room_name',
-                        name: 'room_name'
+                        data: 'room_type_name',
+                        name: 'room_type_name'
                     },
                     {
                         "class": "nk-tb-col tb-col-lg",
@@ -328,13 +334,13 @@
                     },
                     {
                         "class": "nk-tb-col tb-col-lg",
-                        data: 'adult',
-                        name: 'adult'
+                        data: 'adults',
+                        name: 'adults'
                     },
                     {
                         "class": "nk-tb-col tb-col-lg",
-                        data: 'child',
-                        name: 'child',
+                        data: 'childs',
+                        name: 'childs',
                     },
                     {
                         "class": "nk-tb-col tb-col-lg",
@@ -346,6 +352,16 @@
                         data: 'amount',
                         name: 'amount',
                     },
+                    {
+                        "class": "nk-tb-col tb-col-lg",
+                        data: 'booking_status',
+                        name: 'booking_status',
+                    },
+                    {
+                        "class": "nk-tb-col tb-col-lg",
+                        data: 'cancellation_request_date',
+                        name: 'cancellation_request_date',
+                    }
                 ],
                 "fnDrawCallback": function() {
                     NioApp.BS.tooltip('[data-toggle="tooltip"]');

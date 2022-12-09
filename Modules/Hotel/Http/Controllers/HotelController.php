@@ -657,15 +657,14 @@ class HotelController extends Controller
                     $room->extra_bed_cost = $bookingRoom['extra_bed_cost'];
                     
                     if(!$room->save()){
-
-                            $hotelRoom = HotelRoom::findorfail($bookingRoom['room_id']);
-                            if($hotelRoom){
-                                $hotelRoom->count = $hotelRoom->count-1;
-                                $hotelRoom->save();
-                            }
-
                         \DB::rollback();
                         return redirect('/admin/bookings/add')->with('error', 'Something went wrong');
+                    }else{
+                        $hotelRoom = HotelRoom::findorfail($bookingRoom['room_id']);
+                        if($hotelRoom){
+                            $hotelRoom->count = $hotelRoom->count-1;
+                            $hotelRoom->save();
+                        }
                     }
 
                     
@@ -843,15 +842,20 @@ class HotelController extends Controller
             }
 
             if($request->status == 'Cancellation Requested'){
+                $booking->cancellation_request_date = date('Y-m-d');
                 $booking->customer_booking_status = 'Cancellation In Progress';
             }
 
-            if($request->status == 'Cancellation Requested'){
-                $booking->customer_booking_status = 'Cancellation In Progress';
+            if($request->status == 'Cancellation Approved'){
+                $booking->customer_booking_status = 'Cancellation Approved';
             }
 
-            if($request->status == 'Refund Requested' || $request->status == 'Cancellation Approved' || $request->status == 'Refund Approved'){
+            if($request->status == 'Refund Requested' || $request->status == 'Refund Approved'){
                 $booking->customer_booking_status = 'Refund In Progress';
+            }
+
+            if($request->status == 'Refund Requested'){
+                $booking->refund_request_date = date('Y-m-d');
             }
 
             if($request->status == 'Refund Issued'){
@@ -868,9 +872,15 @@ class HotelController extends Controller
                 $oldRooms = BookingRoom::select(\DB::Raw('GROUP_CONCAT(room_id) as room_ids'))->where('booking_id',$booking_id)->first();
                 $oldRooms = explode(',',$oldRooms->room_ids);
 
+
                 BookingRoom::where('booking_id',$booking_id)->forceDelete();
 
+                $roomIds = array();
+
                 foreach ($bookingRoomsData as $key => $bookingRoom) {
+
+                    $roomIds[] = $bookingRoom['room_id'];
+
                     $room = new BookingRoom();
                     $room->booking_id = $booking->id;
                     $room->room_id = $bookingRoom['room_id'];
@@ -894,12 +904,15 @@ class HotelController extends Controller
                         if($hotelRoom){
                             if(!in_array($bookingRoom['room_id'], $oldRooms)){
                                 $hotelRoom->count = $hotelRoom->count-1;
-                            }else{
-                                $hotelRoom->count = $hotelRoom->count+1;
                             }
                             $hotelRoom->save();
                         }
                     }
+                }
+
+                if($request->status != 'Cancellation Approved' && $request->status != 'Refund Requested' && $request->status != 'Refund Approved'){
+                    $diffRooms = array_diff($roomIds, $oldRooms);
+                    $this->updateCancelInventory($diffRooms);
                 }
 
                 if($request->guest != $oldGuestId){
@@ -933,6 +946,7 @@ class HotelController extends Controller
                 }
 
                 if($request->status == 'Cancellation Approved'){
+                    $this->updateCancelInventory($roomIds);
                     \Helpers::sendCancellationApprovedMail($booking->id);
                 }
 
@@ -953,6 +967,23 @@ class HotelController extends Controller
             return redirect('/admin/bookings')->with('error', $e->getMessage());
         }
     }
+
+    public function updateCancelInventory($roomIds = array()){
+
+        if(!empty($roomIds)){
+            foreach ($roomIds as $key => $room_id) {
+                $hotelRoom = HotelRoom::findorfail($room_id);
+                if($hotelRoom){
+                    $hotelRoom->count = $hotelRoom->count+1;
+                    $hotelRoom->save();
+                }
+            }
+        }
+
+        return true;
+    }
+
+
 
     public function hotelRooms(Request $request,$hotel_id){
         $hotelRooms = HotelRoom::from('hotel_rooms as hr')

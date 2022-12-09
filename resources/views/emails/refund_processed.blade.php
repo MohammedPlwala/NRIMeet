@@ -95,7 +95,7 @@
 					</tr>
 					<tr>
 						<td width="25%" style="color:000; font-size: 14px; font-family: arial; padding:5px; font-weight: 600; border-right: 1px solid #D6D4D4; border-bottom: 1px solid #D6D4D4;">Lead Guest: </td>
-						<td width="75%" style="color:000; font-size: 14px; font-family: arial; padding:5px; font-weight: 400; border-right: 1px solid #D6D4D4; border-bottom: 1px solid #D6D4D4;" colspan="3">{{ $bookingDetails->->guest }}</td>
+						<td width="75%" style="color:000; font-size: 14px; font-family: arial; padding:5px; font-weight: 400; border-right: 1px solid #D6D4D4; border-bottom: 1px solid #D6D4D4;" colspan="3">{{ $bookingDetails->guest }}</td>
 					</tr>
 					<tr>
 						<td width="25%" style="color:000; font-size: 14px; font-family: arial; padding:5px; font-weight: 600; border-right: 1px solid #D6D4D4; border-bottom: 1px solid #D6D4D4;">Check-In: </td>
