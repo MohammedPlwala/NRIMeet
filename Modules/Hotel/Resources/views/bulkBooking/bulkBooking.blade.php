@@ -120,11 +120,11 @@
                                         <div class="form-control-wrap">
                                             <div class="input-daterange date-picker-range input-group">
                                             <x-inputs.text value="" for="checkin_date" class="checkDate readonlyinput"
-                                                icon="calender-date-fill" required="true" placeholder="Date of birth"
+                                                icon="calender-date-fill" required="true" placeholder="Check In Date"
                                                 name="checkin_date" value="{{ isset($bulkBooking) ? $bulkBooking->checkin_date : old('checkin_date') }}" />
                                                 <div class="input-group-addon">TO</div>
                                                 <x-inputs.text value="" for="checkout_date" class="checkDate readonlyinput"
-                                                icon="calender-date-fill" required="true" placeholder="Date of birth" name="checkout_date" value="{{ isset($bulkBooking) ? $bulkBooking->checkout_date : old('checkout_date') }}"/>
+                                                icon="calender-date-fill" required="true" placeholder="Check In Out" name="checkout_date" value="{{ isset($bulkBooking) ? $bulkBooking->checkout_date : old('checkout_date') }}"/>
                                             </div>
                                         </div>
                                     </div>
