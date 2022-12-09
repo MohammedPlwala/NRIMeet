@@ -83,9 +83,9 @@
         <tr>
           <td width="13%" style="text-align: left; padding: 9px 4px 9px 10px; font-size: 14px; border-bottom: 1px solid #D6D4D4;">{{ $booking->hotel }}</td>
           <td width="13%" style="text-align: left; padding: 9px 4px; font-size: 14px; border-bottom: 1px solid #D6D4D4;">{{ $room->room_type_name }}</td>
-          <td width="13%" style="text-align: right; padding: 9px 4px; font-size: 14px; border-bottom: 1px solid #D6D4D4; white-space: nowrap;">INR {{ $room->rate }}</td>
-          <td width="13%" style="text-align: right; padding: 9px 4px; font-size: 14px; border-bottom: 1px solid #D6D4D4; white-space: nowrap;">INR {{ $room->amount }}</td>
-          <td width="13%" style="text-align: right; padding: 9px 4px; font-size: 14px; border-bottom: 1px solid #D6D4D4; padding-right: 10px; white-space: nowrap;">INR {{ $room->amount }}</td>
+          <td width="13%" style="text-align: right; padding: 9px 4px; font-size: 14px; border-bottom: 1px solid #D6D4D4; white-space: nowrap;">INR @convert($room->rate)</td>
+          <td width="13%" style="text-align: right; padding: 9px 4px; font-size: 14px; border-bottom: 1px solid #D6D4D4; white-space: nowrap;">INR @convert($room->amount)</td>
+          <td width="13%" style="text-align: right; padding: 9px 4px; font-size: 14px; border-bottom: 1px solid #D6D4D4; padding-right: 10px; white-space: nowrap;">INR @convert($room->amount)</td>
         </tr>
 				@empty
         @endforelse
@@ -96,11 +96,11 @@
 				</tr>
         <tr>
 					<td width="13%" colspan="4" style="text-align: right; padding: 9px 4px; border-bottom: 1px solid #D6D4D4; font-size: 15px; font-weight: bold;">Goods & Service Tax @ 18% / 12%</td>
-					<td width="13%" colspan="1" style="text-align: right; padding: 9px 4px; padding-right: 10px;font-size: 15px; font-weight: bold; border-bottom: 1px solid #D6D4D4;">{{ $booking->tax }}</td>
+					<td width="13%" colspan="1" style="text-align: right; padding: 9px 4px; padding-right: 10px;font-size: 15px; font-weight: bold; border-bottom: 1px solid #D6D4D4;">@convert($booking->tax)</td>
 				</tr>
         <tr>
 					<td width="13%" colspan="4" style="text-align: right; padding: 9px 4px; border-bottom: 1px solid #D6D4D4; font-size: 15px; font-weight: bold;">Net Amount Paid: IN INR</td>
-					<td width="13%" colspan="1" style="text-align: right; padding: 9px 4px; padding-right: 10px;font-size: 15px; font-weight: bold; border-bottom: 1px solid #D6D4D4;">{{ $booking->amount }}</td>
+					<td width="13%" colspan="1" style="text-align: right; padding: 9px 4px; padding-right: 10px;font-size: 15px; font-weight: bold; border-bottom: 1px solid #D6D4D4;">@convert($booking->amount)</td>
 				</tr>
 			</tbody>
 		</table>

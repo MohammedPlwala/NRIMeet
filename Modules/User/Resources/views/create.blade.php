@@ -177,10 +177,10 @@ $organization_type = \Session::get('organization_type');
 
                             <div class="row g-3 align-center">
                                 <div class="col-lg-5">
-                                    <x-inputs.verticalFormLabel label="Identity Type" for="identity_type" suggestion="Specify the identity type." required="true" />
+                                    <x-inputs.verticalFormLabel label="Identity Type" for="identity_type" suggestion="Specify the identity type." />
                                 </div>
                                 <div class="col-lg-7">
-                                    <x-inputs.text value="{{ isset($user) ? $user->identity_type : old('identity_type') }}" for="identity_type" class="" icon="user-fill-c" required="true" placeholder="Identity Type" name="identity_type" 
+                                    <x-inputs.text value="{{ isset($user) ? $user->identity_type : old('identity_type') }}" for="identity_type" class="" icon="user-fill-c" placeholder="Identity Type" name="identity_type" 
                                     />
                                     @if ($errors->has('identity_type'))
                                         <span class="text-danger">{{ $errors->first('identity_type') }}</span>
@@ -190,10 +190,10 @@ $organization_type = \Session::get('organization_type');
 
                              <div class="row g-3 align-center">
                                 <div class="col-lg-5">
-                                    <x-inputs.verticalFormLabel label="Identity Number" for="identity_number" suggestion="Specify the identity number." required="true" />
+                                    <x-inputs.verticalFormLabel label="Identity Number" for="identity_number" suggestion="Specify the identity number." />
                                 </div>
                                 <div class="col-lg-7">
-                                    <x-inputs.text value="{{ isset($user) ? $user->identity_number : old('identity_number') }}" for="identity_number" class="" icon="user-fill-c" required="true" placeholder="Identity Number" name="identity_number" 
+                                    <x-inputs.text value="{{ isset($user) ? $user->identity_number : old('identity_number') }}" for="identity_number" class="" icon="user-fill-c" placeholder="Identity Number" name="identity_number" 
                                     />
                                     @if ($errors->has('identity_number'))
                                         <span class="text-danger">{{ $errors->first('identity_number') }}</span>
@@ -226,10 +226,10 @@ $organization_type = \Session::get('organization_type');
                                 <div class="col-lg-7">
 
                                     @php
-                                        if(isset($user) && $user->status=='active'){
-                                            $checked = 'checked';
+                                        if(isset($user)){
+                                            $checked = $user->status=='active' ? 'checked' : '';
                                         }else{
-                                            $checked = '';
+                                            $checked = 'checked';
                                         }
                                     @endphp
                                     <x-inputs.switch for="status" size="md" name="status" checked={{$checked}}/>

@@ -281,9 +281,9 @@
             ],
             "Transportation": [
                 "Transportatin Booking",
-                "car Did not show up",
-                "car showed up late",
-                "change my booking",
+                "Car Did not show up",
+                "Car showed up late",
+                "Change my booking",
                 "What are the different modes of payment you support?",
                 "Can I buy for someone else using my credit/debit card?",
                 "Is it safe to use my credit/debit card on your site? Do you store my card number and details?",
@@ -302,7 +302,7 @@
                 "I was charged cancellation fees incoreectly",
                 "I need copy of my invoice ",
                 "I was charged more then given fare",
-                "does my charges include toll / parking fees",
+                "Does my charges include toll / parking fees",
                 "My payment failed ",
                 "Driver stoppped the car midway ",
                 "I missed my flight / train ",
@@ -324,4 +324,7 @@
             })
         });
     </script>
+@endpush
+@push('footerScripts')
+<script src="{{url('js/address.js')}}"></script>
 @endpush

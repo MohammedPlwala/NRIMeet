@@ -3079,14 +3079,14 @@ var countryStateSettings = {
 var countriesHTML = "";
 for (const country in countries) {
     countriesHTML +=
-        '<option value="' + country + '">' + countries[country] + "</option>";
+        '<option value="' + countries[country] + '" data-country="'+ country +'">' + countries[country] + "</option>";
 }
 $("#billing_country").append(countriesHTML);
 
 $("#billing_country").on("change", function () {
     $("#state_wrapper").show();
     $("#billing_state").html("");
-    var val = $(this).val();
+    var val = $(this).find(':selected').attr('data-country');
     var required = countryStateSettings[val] && countryStateSettings[val].state && countryStateSettings[val].state.required
     var isRequired = required === false ? 'required="false"' : 'required="true"'
 
@@ -3100,8 +3100,6 @@ $("#billing_country").on("change", function () {
                 placeholder="State" value="" autocomplete="address-level2">'
     
     var selectedStates = states[val];
-    console.log("selectedStates", val, selectedStates);
-    console.log("countryStateSettings", val, countryStateSettings[val]);
     if ($.isArray(selectedStates)) {
         $("#state_wrapper").hide();
      } else {
@@ -3109,7 +3107,7 @@ $("#billing_country").on("change", function () {
         for (const state in selectedStates) {
             statesSelectHTML +=
                 '<option value="' +
-                state +
+                selectedStates[state] +
                 '">' +
                 selectedStates[state] +
                 "</option>";
@@ -3143,7 +3141,7 @@ $("#billing_country").on("change", function () {
     } else {
         $("#billing_state_label").html("State / County");
     }
-    if(NioApp){
+    if(NioApp && NioApp.Select2 && NioApp.Select2.init){
         NioApp.Select2.init();
     }
     

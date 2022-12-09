@@ -25,11 +25,11 @@
 			  		<h5>Room {{ $rkey+1 }} </h5>
 			  		<ul>
 					  	<li><strong>Type:</strong> {{ $room->name }}</li>
-					  	<li><strong>Rate:</strong> ₹{{ $room->rate }}/Night</li>
+					  	<li><strong>Rate:</strong> ₹@convert($room->rate)/Night</li>
 					  	@if($room->extra_bed)
-					  	<li><strong>Extra Bed Rate:</strong> ₹{{ $room->extra_bed_cost }}</li></li>
+					  	<li><strong>Extra Bed Rate:</strong> ₹@convert($room->extra_bed_cost)</li></li>
 					  	@endif
-					  	<li><strong>Amount:</strong> ₹{{ $room->amount }}</li>
+					  	<li><strong>Amount:</strong> ₹@convert($room->amount)</li>
 					  	<li><strong>Guests:</strong> {{ $booking->adults }} Adult, {{ $booking->childs }} Children</li>
 					</ul>
 			  		<div class="my_account_guest_box">
@@ -53,9 +53,9 @@
 			  	@endforelse
 			</div>
 			<div class="shb-booking-summary-item amount_tax">
-				<p><strong>Base Price: </strong> ₹{{ $booking->sub_total }}</p>
-				<p><strong>TAX (18%): </strong> ₹{{ $booking->tax }}</p>
-				<p><strong>Total: </strong> ₹{{ $booking->amount }}</p>
+				<p><strong>Base Price: </strong> ₹@convert($booking->sub_total)</p>
+				<p><strong>TAX (18%): </strong> ₹@convert($booking->tax)</p>
+				<p><strong>Total: </strong> ₹@convert($booking->amount)</p>
 			</div>
 	  	</div>
 	  	@empty

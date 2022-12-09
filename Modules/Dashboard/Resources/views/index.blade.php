@@ -7,6 +7,21 @@
             <div class="nk-block-head-content">
                 <h3 class="nk-block-title page-title">Dashboard</h3>
             </div><!-- .nk-block-head-content -->
+            <div class="nk-block-head-content">
+                <div class="row g-3 align-center dashboard-date-filter">
+                    <div class="col-lg-5">
+                        <x-inputs.verticalFormLabel label="Date:" for="date" />
+                    </div>
+                    <div class="col-lg-7">
+                        <div class="form-control-wrap">
+                            <div class="form-icon form-icon-left">
+                                <em class="icon ni ni-calendar"></em>
+                            </div>
+                            <input type="text" class="form-control date-picker" placeholder="Date" data-date-format="yyyy-mm-dd" id="date" name="date">
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div><!-- .nk-block-between -->
     </div><!-- .nk-block-head -->
     <div class="nk-block">
@@ -57,21 +72,23 @@
                             <li class="item">
                                 <div class="info">
                                     <div class="title">Total Booking</div>
-                                    <div class="count">1,795</div>
+                                    <div class="count">
+                                        0.00
+                                    </div>
                                 </div>
                                 <em class="icon bg-primary-dim ni ni-calender-date"></em>
                             </li>
                             <li class="item">
                                 <div class="info">
                                     <div class="title">CC Booking</div>
-                                    <div class="count">2,327</div>
+                                    <div class="count">0.00</div>
                                 </div>
                                 <em class="icon bg-info-dim ni ni-calendar-booking"></em>
                             </li>
                             <li class="item">
                                 <div class="info">
                                     <div class="title">Failed Booking</div>
-                                    <div class="count">674</div>
+                                    <div class="count">0.00</div>
                                 </div>
                                 <em class="icon bg-danger-dim ni ni-calendar-alt"></em>
                             </li>

@@ -15,10 +15,14 @@
         <div class="shb-booking-page-wrapper shb-clearfix">
             <div class="shb-booking-page-main full-width">
                 <div class="shb-booking-step-wrapper shb-clearfix">
-                    <div class="shb-booking-step shb-booking-step-current"><a href="{{ url('/search') }}">1</a><a href="{{ url('/search') }}">Rooms</a></div>
-                    <div class="shb-booking-step shb-booking-step-current"><a href="{{ url('/booking-summary') }}">2</a><a href="{{ url('/booking-summary') }}">Booking Summary</a></div>
-                    <div class="shb-booking-step shb-booking-step-current"><a href="javascript:void(0)">3</a><a href="javascript:void(0)">Payment</a></div>
-                    <div class="shb-booking-step "><a href="javascript:void(0)">4</a><a href="javascript:void(0)">Complete</a></div>
+                    <div class="shb-booking-step shb-booking-step-current"><a href="{{ url('/search') }}">1</a><a
+                            href="{{ url('/search') }}">Rooms</a></div>
+                    <div class="shb-booking-step shb-booking-step-current"><a href="{{ url('/booking-summary') }}">2</a><a
+                            href="{{ url('/booking-summary') }}">Booking Summary</a></div>
+                    <div class="shb-booking-step shb-booking-step-current"><a href="javascript:void(0)">3</a><a
+                            href="javascript:void(0)">Payment</a></div>
+                    <div class="shb-booking-step "><a href="javascript:void(0)">4</a><a
+                            href="javascript:void(0)">Complete</a></div>
                     <div class="shb-booking-step-line">
                         <div style="width:66%;"></div>
                     </div>
@@ -61,7 +65,7 @@
                                         title="required">*</span></label>
                                 <div id="field_billing_state">
                                     <input type="text" class="input-text" name="state" id="state"
-                                    placeholder="State" value="" required />
+                                        placeholder="State" value="" required />
                                 </div>
                             </div>
                             <div class="form-item">
@@ -75,28 +79,29 @@
                                 <label class="form-label">Street address <span class="required"
                                         title="required">*</span></label>
                                 <input type="text" class="input-text " name="billing_address_1" id="billing_address_1"
-                                    placeholder="House number and street name" value="" autocomplete="address-line1"
-                                    data-gtm-form-interact-field-id="1" required />
+                                    placeholder="House number and street name" value=""
+                                    autocomplete="address-line1" data-gtm-form-interact-field-id="1" required />
                             </div>
                             <div class="form-item">
                                 <label class="form-label">&nbsp;</label>
-                                <input type="text" class="input-text " name="billing_address_2" id="billing_address_2"
-                                    placeholder="Apartment, suite, unit, etc. (optional)" value=""
-                                    autocomplete="address-line2" />
+                                <input type="text" class="input-text " name="billing_address_2"
+                                    id="billing_address_2" placeholder="Apartment, suite, unit, etc. (optional)"
+                                    value="" autocomplete="address-line2" />
                             </div>
                             <div class="form-item">
-                                <label class="form-label">PIN Code <span class="required" title="required">*</span></label>
+                                <label class="form-label">PIN Code <span class="required"
+                                        title="required">*</span></label>
                                 <input type="text" class="input-text " name="billing_postcode" id="billing_postcode"
                                     placeholder="" value="" autocomplete="postal-code" required />
                             </div>
 
-                            {{-- <div class="form-item">
+                            <div class="form-item hidden">
                                 <label class="form-label">PBD Registration No <span class="required"
                                         title="optional">(optional)</span></label>
                                 <input type="text" class="input-text " name="pbd_registration_no"
-                                    id="pbd_registration_no" placeholder="Town / City" value=""
+                                    id="pbd_registration_no" placeholder="PBD Registration No" value=""
                                     autocomplete="address-level2" />
-                            </div> --}}
+                            </div>
                             <div class="form-item">
                                 <label class="form-label">Phone <span class="required" title="required">*</span></label>
                                 <input type="tel" class="input-text " name="billing_phone" id="billing_phone"
@@ -138,20 +143,20 @@
                                     <tr class="cart-subtotal">
                                         <th>Subtotal</th>
                                         <td class="text-right"><span class="woocommerce-Price-amount amount"><bdi><span
-                                                        class="woocommerce-Price-currencySymbol">₹</span>{{ $bookingData['sub_total'] }}</bdi></span>
+                                                        class="woocommerce-Price-currencySymbol">₹</span>@convert($bookingData['sub_total'])</bdi></span>
                                         </td>
                                     </tr>
                                     <tr class="tax-rate tax-rate-2">
                                         <th>GST 18%</th>
                                         <td class="text-right"><span class="woocommerce-Price-amount amount"><span
-                                                    class="woocommerce-Price-currencySymbol">₹</span>{{ $bookingData['tax'] }}</span>
+                                                    class="woocommerce-Price-currencySymbol">₹</span>@convert($bookingData['tax'])</span>
                                         </td>
                                     </tr>
                                     <tr class="order-total">
                                         <th>Total</th>
                                         <td class="text-right">
                                             <strong><span class="woocommerce-Price-amount amount"><bdi><span
-                                                            class="woocommerce-Price-currencySymbol">₹</span>{{ $bookingData['amount'] }}</bdi></span></strong>
+                                                            class="woocommerce-Price-currencySymbol">₹</span>@convert($bookingData['amount'])</bdi></span></strong>
                                         </td>
                                     </tr>
                                 </tfoot>
@@ -162,30 +167,34 @@
 
                     <div class="payment-radio-list">
                         <div class="payment-radio-list-item">
-                            <input type="radio" name="gateway" class="gateway" value="razorpay" id="razorpay_radio" />
+                            <input type="radio" name="gateway" class="gateway" value="razorpay"
+                                id="razorpay_radio" />
                             <label for="razorpay_radio">
                                 Credit Card/Debit Card/NetBanking/UPI
-                                <img src="{{url('/images/razorpay.svg')}}" alt="razorpay" />
+                                <img src="{{ url('/images/razorpay.svg') }}" alt="razorpay" />
                             </label>
                         </div>
                         <div class="payment-radio-list-item">
-                            <input type="radio" name="gateway" class="gateway" value="payumoney" id="payumoney_radio" />
+                            <input type="radio" name="gateway" class="gateway" value="payumoney"
+                                id="payumoney_radio" />
                             <label for="payumoney_radio">
                                 Credit Card/Debit Card/NetBanking/UPI
-                                <img src="{{url('/images/payu-money.png')}}" alt="payu-money" />
+                                <img src="{{ url('/images/payu-money.png') }}" alt="payu-money" />
                             </label>
                         </div>
                     </div>
 
                     @csrf
-                    
+
                     <input type="hidden" name="bookingData" value="{{ json_encode($bookingData) }}">
 
                     <div class="razorpay-script"></div>
 
                     <div class="payment-buttons">
-                        <input type="submit" value="Pay Now" class="primary-button md razorpay-payment-button" style="display:none" />
-                        <input type="submit" value="Pay Now" class="primary-button md payu-payment-button" style="display:none" />
+                        <input type="submit" value="Pay Now" class="primary-button md razorpay-payment-button"
+                            style="display:none" />
+                        <input type="submit" value="Pay Now" class="primary-button md payu-payment-button"
+                            style="display:none" />
                     </div>
                 </form>
             </div>
@@ -197,32 +206,30 @@
         integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 @endsection
 @push('footerScripts')
-<script src="{{url('js/address.js')}}"></script>
-<script type="text/javascript">
-    $(document).ready(function() {
-        $('.gateway').change(function() {
-            var gateway = $(this).val();
+    <script src="{{ url('js/address.js') }}"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('.gateway').change(function() {
+                var gateway = $(this).val();
 
-            var root_url = "<?php echo Request::root(); ?>";
-            var action = '';
+                var root_url = "<?php echo Request::root(); ?>";
+                var action = '';
 
 
-            if(gateway == 'payumoney'){
-                action = root_url + '/payu-payment';
-                $('.razorpay-payment-button').hide();
-                $('.payu-payment-button').show();
-                $('#billing_form').attr('action', action);
-            }
+                if (gateway == 'payumoney') {
+                    action = root_url + '/payu-payment';
+                    $('.razorpay-payment-button').hide();
+                    $('.payu-payment-button').show();
+                    $('#billing_form').attr('action', action);
+                }
 
-            if(gateway == 'razorpay'){
-                action = root_url + '/razor-pay-form';
-                $('.payu-payment-button').hide();
-                $('.razorpay-payment-button').show();
-                $('#billing_form').attr('action', action);
-            }
+                if (gateway == 'razorpay') {
+                    action = root_url + '/razor-pay-form';
+                    $('.payu-payment-button').hide();
+                    $('.razorpay-payment-button').show();
+                    $('#billing_form').attr('action', action);
+                }
+            });
         });
-    });
-</script>
-
-
+    </script>
 @endpush
