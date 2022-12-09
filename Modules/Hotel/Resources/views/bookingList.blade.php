@@ -147,7 +147,7 @@
                             name: 'hotel'
                         },
                         {
-                            "class": "nk-tb-col tb-col-lg",
+                            "class": "nk-tb-col tb-col-lg text-center",
                             data: 'rooms',
                             name: 'rooms'
                         },
@@ -162,14 +162,17 @@
                             name: 'checkout_date'
                         },
                         {
-                            "class": "nk-tb-col tb-col-lg text-center",
+                            "class": "nk-tb-col tb-col-lg text-right",
                             data: 'amount',
                             name: 'amount'
                         },
                         {
                             "class": "nk-tb-col tb-col-lg text-center",
-                            data: 'booking_type',
-                            name: 'booking_type'
+                            // data: 'booking_type',
+                            name: 'booking_type',
+                            data: function(item){
+                                return item.booking_type
+                            }
                         },
                         {
                             "class": "nk-tb-col tb-col-lg text-center",

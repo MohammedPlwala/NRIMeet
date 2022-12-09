@@ -36,8 +36,8 @@
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Hotel Name</span></th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Room Type</span></th>
                         <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Room Count</span></th>
-                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Room Charges</span></th>
-                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Extra Bed Charges</span></th>
+                        <th class="nk-tb-col tb-col-mb text-right"><span class="sub-text">Room Charges</span></th>
+                        <th class="nk-tb-col tb-col-mb text-right"><span class="sub-text">Extra Bed Charges</span></th>
                         <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Closing Inventory</span></th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Contact Person</span></th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Contact Number</span></th>
@@ -262,24 +262,24 @@ console.log(myUrl);
                     },
 
                     {
-                        "class": "nk-tb-col tb-col-lg",
+                        "class": "nk-tb-col tb-col-lg text-center",
                         data: 'allocated_rooms',
                         name: 'allocated_rooms'
                     },
 
                     {
-                        "class": "nk-tb-col tb-col-lg",
+                        "class": "nk-tb-col tb-col-lg text-right",
                         data: 'rate',
                         name: 'rate'
                     },
 
                     {
-                        "class": "nk-tb-col tb-col-lg",
+                        "class": "nk-tb-col tb-col-lg text-right",
                         data: 'extra_bed_rate',
                         name: 'extra_bed_rate'
                     },
                     {
-                        "class": "nk-tb-col tb-col-lg",
+                        "class": "nk-tb-col tb-col-lg text-center",
                         data: 'available_rooms',
                         name: 'available_rooms'
                     },
@@ -299,12 +299,12 @@ console.log(myUrl);
                         name: 'description'
                     },
                     {
-                        "class": "nk-tb-col tb-col-lg",
+                        "class": "nk-tb-col tb-col-lg text-center",
                         data: 'airport_distance',
                         name: 'airport_distance'
                     },
                     {
-                        "class": "nk-tb-col tb-col-lg",
+                        "class": "nk-tb-col tb-col-lg text-center",
                         data: 'venue_distance',
                         name: 'venue_distance'
                     },
