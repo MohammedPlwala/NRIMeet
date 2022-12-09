@@ -436,7 +436,7 @@
             function addRoomDetails(container, value, room, isChild = false) {
                 $(container).html('')
                 var html = ''
-                var label = isChild ? 'Children' : 'Adults'
+                var label = isChild ? 'Child' : 'Adult'
                 var title = isChild ? 'child_title' : 'title'
                 var firstName = isChild ? 'child_first_name' : 'first_name'
                 var firstLast = isChild ? 'child_last_name' : 'last_name'
