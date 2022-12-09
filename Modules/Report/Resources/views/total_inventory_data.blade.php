@@ -74,13 +74,9 @@
                             <div class="col-lg-7">
                                 <x-inputs.select  size="sm" name="hotel_classification" for="hotel_classification" placeholder="Select Hotel Classification">
                                     <option value="">Select</option>
-                                    <option value="5 Star Deluxe">5 Star Deluxe</option>
                                     <option value="5 Star">5 Star</option>
                                     <option value="4 Star">4 Star</option>
                                     <option value="3 Star">3 Star</option>
-                                    <!-- @for ($i = 1; $i <= 12; $i++)
-                                        <option value="{{ $i }}">{{ date('F',strtotime('2012-'.$i.'-12')) }}</option>
-                                    @endfor -->
                                 </x-inputs.select>
                             </div>
                         </div>
@@ -122,32 +118,12 @@
 
     $('.export_data').on('click', function (e) {
         var myUrl = $(this).attr('data-href');
+
         if($('#hotel_name').val() != ""){
             myUrl = addQSParm(myUrl,'hotel_name', $('#hotel_name').val());
         }
-        if($('#room_type').val() != ""){
-            myUrl = addQSParm(myUrl,'room_type', $('#room_type').val());
-        }
-        if($('#booking_status').val() != ""){
-            myUrl = addQSParm(myUrl,'booking_status', $('#booking_status').val());
-        }
-        if($('#guest_count').val() != ""){
-            myUrl = addQSParm(myUrl,'guest_count', $('#guest_count').val());
-        }
-        if($('#check_in_date').val() != ""){
-            myUrl = addQSParm(myUrl,'check_in_date', $('#check_in_date').val());
-        }
-        if($('#check_out_date').val() != ""){
-            myUrl = addQSParm(myUrl,'check_out_date', $('#check_out_date').val());
-        }
-        if($('#adult').val() != ""){
-            myUrl = addQSParm(myUrl,'adult', $('#adult').val());
-        }
-        if($('#child').val() != ""){
-            myUrl = addQSParm(myUrl,'child', $('#child').val());
-        }
-        if($('#extra_bed').val() != ""){
-            myUrl = addQSParm(myUrl,'extra_bed', $('#extra_bed').val());
+        if($('#hotel_classification').val() != ""){
+            myUrl = addQSParm(myUrl,'hotel_classification', $('#hotel_classification').val());
         }
 
         location.href = myUrl;
@@ -214,23 +190,23 @@
                     },
 
                     {
-                        "class": "nk-tb-col tb-col-lg",
+                        "class": "nk-tb-col tb-col-lg text-center",
                         data: 'allocated_rooms',
                         name: 'allocated_rooms'
                     },
 
                     {
-                        "class": "nk-tb-col tb-col-lg",
+                        "class": "nk-tb-col tb-col-lg text-center",
                         data: 'mea_rooms',
                         name: 'mea_rooms'
                     },
                     {
-                        "class": "nk-tb-col tb-col-lg",
+                        "class": "nk-tb-col tb-col-lg text-center",
                         data: 'mpt_reserve',
                         name: 'mpt_reserve'
                     },
                     {
-                        "class": "nk-tb-col tb-col-lg",
+                        "class": "nk-tb-col tb-col-lg text-center",
                         data: 'available_rooms',
                         name: 'available_rooms'
                     }
