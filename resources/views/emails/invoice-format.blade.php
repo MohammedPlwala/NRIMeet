@@ -92,7 +92,7 @@
 
 				<tr>
 					<td width="13%" colspan="4" style="text-align: right; padding: 9px 4px; border-bottom: 1px solid #D6D4D4; font-size: 15px; font-weight: bold;">Amount: In INR</td>
-					<td width="13%" colspan="1" style="text-align: right; padding: 9px 4px; padding-right: 10px;font-size: 15px; font-weight: bold; border-bottom: 1px solid #D6D4D4;">11</td>
+					<td width="13%" colspan="1" style="text-align: right; padding: 9px 4px; padding-right: 10px;font-size: 15px; font-weight: bold; border-bottom: 1px solid #D6D4D4;">@convert($booking->sub_total)</td>
 				</tr>
         <tr>
 					<td width="13%" colspan="4" style="text-align: right; padding: 9px 4px; border-bottom: 1px solid #D6D4D4; font-size: 15px; font-weight: bold;">Goods & Service Tax @ 18% / 12%</td>
