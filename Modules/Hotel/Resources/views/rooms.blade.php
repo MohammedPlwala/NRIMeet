@@ -41,7 +41,7 @@
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Name</span></th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Type</span></th>
                         <th class="nk-tb-col tb-col-md"><span class="sub-text">Hotel</span></th>
-                        <th class="nk-tb-col tb-col-md"><span class="sub-text">Rate</span></th>
+                        <th class="nk-tb-col tb-col-md text-right"><span class="sub-text">Rate</span></th>
                         <th class="nk-tb-col tb-col-md text-center"><span class="sub-text">Allocated Rooms</span></th>
                         <th class="nk-tb-col tb-col-md text-center"><span class="sub-text">MPT Reserve</span></th>
                         <th class="nk-tb-col tb-col-md text-center"><span class="sub-text">Available Rooms</span></th>
@@ -165,7 +165,7 @@
                         },
 
                         {
-                            "class": "nk-tb-col tb-col-lg",
+                            "class": "nk-tb-col tb-col-lg text-right",
                             data: 'rate',
                             name: 'rate'
                         },
