@@ -78,7 +78,7 @@
                                 </div>
                             </div>
 
-                            <div class="row g-3 align-center">
+                            {{-- <div class="row g-3 align-center">
                                 <div class="col-lg-5">
                                     <x-inputs.verticalFormLabel label="Country" for="country"
                                         suggestion="Specify the Country." required="true"  />
@@ -87,7 +87,38 @@
                                     <x-inputs.text value="" for="country" icon="user" placeholder="Country"
                                         name="country" required="true" value="{{ isset($customerCare) ? $customerCare->country : old('country') }}" />
                                 </div>
+                            </div> --}}
+                            {{--  --}}
+
+                            <div class="row g-3 align-center">
+                                <div class="col-lg-5">
+                                    <x-inputs.verticalFormLabel label="Country / Region" for="Country / Region" suggestion="Specify the country name." required="true" />
+                                </div>
+                                <div class="col-lg-7">
+                                    <x-inputs.select name="country" for="billing_country"
+                                    value="{{ isset($user) ? $user->country : old('country') }}"
+                                    class="country_to_state country_select" autocomplete="country"
+                                    data-placeholder="Select a country / region…" data-label="Country / Region"
+                                    tabindex="-1" aria-hidden="true">
+                                    <option value="">Select a country / region…</option>
+                                </x-inputs.select>
+                                @if ($errors->has('country'))
+                                <span class="text-danger">{{ $errors->first('country') }}</span>
+                            @endif
+                                </div>
                             </div>
+                            {{-- <div class="row g-3" id="state_wrapper">
+                                <div class="col-lg-5">
+                                    <x-inputs.verticalFormLabel label="State" for="State" suggestion="Specify the nationality." required="true" />
+                                </div>
+                                <div class="col-lg-7">
+                                    <div id="field_billing_state">
+                            
+                                    </div>
+                                </div>
+                            </div> --}}
+
+                            {{--  --}}
 
                             <div class="row g-3 align-center">
                                 <div class="col-lg-5">
@@ -277,9 +308,9 @@
             ],
             "Transportation": [
                 "Transportatin Booking",
-                "car Did not show up",
-                "car showed up late",
-                "change my booking",
+                "Car Did not show up",
+                "Car showed up late",
+                "Change my booking",
                 "What are the different modes of payment you support?",
                 "Can I buy for someone else using my credit/debit card?",
                 "Is it safe to use my credit/debit card on your site? Do you store my card number and details?",
@@ -298,7 +329,7 @@
                 "I was charged cancellation fees incoreectly",
                 "I need copy of my invoice ",
                 "I was charged more then given fare",
-                "does my charges include toll / parking fees",
+                "Does my charges include toll / parking fees",
                 "My payment failed ",
                 "Driver stoppped the car midway ",
                 "I missed my flight / train ",
@@ -320,4 +351,7 @@
             })
         });
     </script>
+@endpush
+@push('footerScripts')
+<script src="{{url('js/address.js')}}"></script>
 @endpush

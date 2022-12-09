@@ -689,7 +689,8 @@
 
 	NioApp.Picker.init = function () {
 		NioApp.Picker.date('.date-picker', {
-			autoclose: true
+			autoclose: true,
+			// format: 'dd/mm/yyyy',
 		});
 		NioApp.Picker.dob('.date-picker-alt', {
 			autoclose: true
@@ -698,10 +699,10 @@
 		NioApp.Picker.date('.date-picker-range', {
 			todayHighlight: false,
 			autoclose: true,
-			startDate: '12/06/2022',
-			endDate: '12/13/2022',
+			startDate: '01/06/2023',
+			endDate: '01/13/2023',
 			autoUpdateInput: false,
-		});
+		})
 	}; // Addons @v1
 
 
