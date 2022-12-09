@@ -17,7 +17,7 @@
                             </a>
                         </li>
                         <li class="nk-block-tools-opt">
-                            <a href="{{ url('report/export-booking') }}" class="btn btn-primary"><em class="icon ni ni-download"></em><span>Export</span></a>
+                            <a href="{{ url('admin/report/booking-export') }}" class="btn btn-primary"><em class="icon ni ni-download"></em><span>Export</span></a>
                         </li>
                     </ul>
                 </div>
@@ -30,10 +30,9 @@
 <div class="nk-block table-compact">
     <div class="table-responsive">
         <div class="nk-tb-list is-separate is-medium mb-3">
-            <table id="sales_SP" class="products-init nowrap nk-tb-list is-separate" data-auto-responsive="false">
+            <table class="broadcast-init nowrap nk-tb-list is-separate" data-auto-responsive="false">
                 <thead>
                     <tr class="nk-tb-item nk-tb-head">
-                        <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">#</span></th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Guest Name</span></th>
                         <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Order Id</span></th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Confirmation No</span></th>
@@ -50,22 +49,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr class="nk-tb-item">
-                        <td class="nk-tb-col tb-col-mb text-center">1</td>
-                        <td class="nk-tb-col tb-col-mb">Guest name</td>
-                        <td class="nk-tb-col tb-col-mb text-center">5</td>
-                        <td class="nk-tb-col tb-col-mb">#fsfdas56456</td>
-                        <td class="nk-tb-col tb-col-mb">5</td>
-                        <td class="nk-tb-col tb-col-mb">Hotel Name</td>
-                        <td class="nk-tb-col tb-col-mb">Base</td>
-                        <td class="nk-tb-col tb-col-mb text-center">25</td>
-                        <td class="nk-tb-col tb-col-mb">11/11/2022</td>
-                        <td class="nk-tb-col tb-col-mb">11/11/2022</td>
-                        <td class="nk-tb-col tb-col-mb text-center">3</td>
-                        <td class="nk-tb-col tb-col-mb text-center">1</td>
-                        <td class="nk-tb-col tb-col-mb text-center">2</td>
-                        <td class="nk-tb-col tb-col-mb">&#8377; 90000</td>
-                    </tr>
+                    
                 </tbody>
             </table>
         </div>
@@ -207,50 +191,175 @@
 </div>
 @endsection
 @push('footerScripts')
-<script src="{{url('js/APIDataTable.js')}}"></script>
-<script src="{{url('js/dayjs.min.js?t='.time())}}"></script>
-<script type="text/javascript">
-    
-    var token = '{{ \Session::get('token') }}';//get logged in user session.
-    var organizationId = "{{ \Session::get('currentOrganization') }}";
+<script src="{{url('js/address.js')}}"></script>
 
-    var dataTable = new APIDataTable({
-        tableElem: '#sales_SP',
-        pageinationElem: '#table_pagination',
-        api: "{{ url('api/v1/report/total-inventory-data') }}/"+organizationId,
-        authToken: 'Bearer '+token,
-        filterIds: [
-            '#month',
-            '#year'
-        ],
-        filterSubmit: '.submitBtn',
-        filterSubmitCallback: function(){
-            $('#modalFilterorder').modal('toggle');
-        },
-        filterClearSubmit: '.resetFilter',
-        filterModalId: '#modalFilterorder',
-        tagId: '#filter_tag_list',
-        columns: [{
-                data: "order_number",
-            },
-            {
-                data: "username",
-            },
-            {
-                data: "amount",
-                render:function(row){
-                    return NioApp.formatToCurrency(row.amount);
-                }
-            },
-            {
-                data: "order_date",
-                render: function(row) {
-                    return row.order_date ? dayjs(row.order_date).format(
-                        "DD MMM YYYY"
-                    ) : "-";
+    <script src="{{url('js/tableFlow.js')}}"></script>
+    <script type="text/javascript">
+
+        $('.export_data').on('click', function (e) {
+            var myUrl = $(this).attr('data-href');
+
+            if($('#name').val() != ""){
+                myUrl = addQSParm(myUrl,'name', $('#name').val());
+            }
+            if($('#city').val() != ""){
+                myUrl = addQSParm(myUrl,'city', $('#city').val());
+            }
+            if($('#billing_state').val() != ""){
+                myUrl = addQSParm(myUrl,'state', $('#billing_state').val());
+            }
+            if($('#postal_code').val() != ""){
+                myUrl = addQSParm(myUrl,'postal_code', $('#postal_code').val());
+            }
+            if($('#billing_country').val() != ""){
+                myUrl = addQSParm(myUrl,'country', $('#billing_country').val());
+            }
+
+
+            location.href = myUrl;
+        });
+
+        function addQSParm(myUrl,name, value) {
+           var re = new RegExp("([?&]" + name + "=)[^&]+", "");
+
+           function add(sep) {
+              myUrl += sep + name + "=" + encodeURIComponent(value);
+           }
+
+           function change() {
+              myUrl = myUrl.replace(re, "$1" + encodeURIComponent(value));
+           }
+           if (myUrl.indexOf("?") === -1) {
+              add("?");
+           } else {
+              if (re.test(myUrl)) {
+                 change();
+              } else {
+                 add("&");
+              }
+           }
+           return myUrl;
+        }
+
+        $(function() {
+            var root_url = "<?php echo url('/'); ?>";
+
+            var logUrl = root_url + '/user/logs';
+            NioApp.getAuditLogs('.broadcast-init', '.audit_logs', 'resourceid', logUrl, '#modalLogs');
+
+            var items = [
+                '#hotel_name',
+                '#room_type',
+                '#guest_count',
+                '#check_in_date',
+                '#check_out_date',
+                '#adults',
+                '#child',
+                '#booking_status',
+                '#extra_bed'
+            ];
+            var user_table = "";
+            user_table = new CustomDataTable({
+                tableElem: '.broadcast-init',
+                option: {
+                    processing: true,
+                    serverSide: true,
+                    ordering: false,
+                    ajax: {
+                        type: "GET",
+                        url: "{{ url('admin/report/booking') }}",
+                    },
+                    columns: [
+                        {
+                            "class": "nk-tb-col tb-col-lg",
+                            data: 'guest_name',
+                            name: 'guest_name'
+                        },
+                        {
+                            "class": "nk-tb-col tb-col-lg",
+                            data: 'order_id',
+                            name: 'order_id'
+                        },
+                        {
+                            "class": "nk-tb-col tb-col-lg",
+                            data: 'confirmation_number',
+                            name: 'confirmation_number'
+                        },
+
+                        {
+                            "class": "nk-tb-col tb-col-lg",
+                            data: 'classification',
+                            name: 'classification'
+                        },
+
+                        {
+                            "class": "nk-tb-col tb-col-lg",
+                            data: 'hotel',
+                            name: 'hotel'
+                        },
+
+                        {
+                            "class": "nk-tb-col tb-col-lg",
+                            data: 'room_type_name',
+                            name: 'room_type_name'
+                        },
+                        {
+                            "class": "nk-tb-col tb-col-lg",
+                            data: 'guests',
+                            name: 'guests'
+                        },
+                        {
+                            "class": "nk-tb-col tb-col-lg",
+                            data: 'check_in_date',
+                            name: 'check_in_date'
+                        },
+                        {
+                            "class": "nk-tb-col tb-col-lg",
+                            data: 'check_out_date',
+                            name: 'check_out_date'
+                        },
+                        {
+                            "class": "nk-tb-col tb-col-lg",
+                            data: 'adults',
+                            name: 'adults'
+                        },
+                        {
+                            "class": "nk-tb-col tb-col-lg",
+                            data: 'childs',
+                            name: 'childs'
+                        },
+                        {
+                            "class": "nk-tb-col tb-col-lg",
+                            data: 'extra_bed',
+                            name: 'extra_bed'
+                        },
+                        {
+                            "class": "nk-tb-col tb-col-lg",
+                            data: 'amount',
+                            name: 'amount'
+                        }
+                    ],
+                    "fnDrawCallback": function() {
+                        NioApp.BS.tooltip('[data-toggle="tooltip"]');
+                        $('.changePassword').click(function() {
+                            var resourceId = $(this).attr('data-resourceid');
+                            $('#password_user_id').val(resourceId);
+                            $('#modalUserPassword').modal('show');
+                        });
+                    }
                 },
-            },
-        ]
-    });
-</script>
+                filterSubmit: '.submitBtn',
+                filterSubmitCallback: function() {
+                    $('#modalFilterUser').modal('toggle');
+                },
+                filterClearSubmit: '.resetFilter',
+                filterModalId: '#modalFilterUser',
+                filterItems: items,
+                tagId: '#filter_tag_list',
+            });
+
+
+
+        });
+    </script>
 @endpush

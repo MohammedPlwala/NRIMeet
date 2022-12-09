@@ -19,11 +19,14 @@ Route::prefix('admin/report')->group(function() {
 
     Route::get('hotel-master', 'ReportController@hotelMaster');
     Route::get('export-hotel-master', 'ReportController@hotelMasterExport');
+    
+
+    Route::get('booking', 'ReportController@booking');
+    Route::get('booking-export', 'ReportController@bookingExport');
 
 
     Route::get('inventory', 'ReportController@inventory');
     Route::get('payment', 'ReportController@payment');
-    Route::get('booking', 'ReportController@booking');
     Route::get('cancellation', 'ReportController@cancellation');
     Route::get('refund', 'ReportController@refund');
 

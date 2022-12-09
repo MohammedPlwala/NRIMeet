@@ -466,17 +466,19 @@ class HotelController extends Controller
                     $bookingData = json_decode($request->bookingData);
                     $billingDetails = json_decode($request->billingData);
                     $booking = $this->bookingSave($bookingData,$billingDetails,$response,'Razorpay',$response->id);
+                    return redirect('thankyou?booking_id='.$booking);
+                    // $booking_rooms = BookingRoom::where('booking_id',$booking)->get();
+                    // if(!empty($booking_rooms->toArray())){
+                    //     foreach ($booking_rooms as $key => $booking_room) {
+                    //         $hotelRoom = HotelRoom::findorfail($booking_room->room_id);
+                    //         if($hotelRoom){
+                    //             $hotelRoom->count = $hotelRoom->count-1;
+                    //             $hotelRoom->save();
+                    //         }
+                    //     }
+                    // }
 
-                    $booking_rooms = BookingRoom::where('booking_id',$booking)->get();
-                    if(!empty($booking_rooms->toArray())){
-                        foreach ($booking_rooms as $key => $booking_room) {
-                            $hotelRoom = HotelRoom::findorfail($booking_room->room_id);
-                            if($hotelRoom){
-                                $hotelRoom->count = $hotelRoom->count-1;
-                                $hotelRoom->save();
-                            }
-                        }
-                    }
+                    // \Session::put('date_to', $request->date_to);
 
                     // Session::forget('billingDetails');
                     // Session::forget('bookingData');
@@ -663,32 +665,7 @@ class HotelController extends Controller
             $bookingData = json_decode (json_encode ($bookingData), FALSE);
             $billingDetails = json_decode (json_encode ($billingDetails), FALSE);
             $booking = $this->bookingSave($bookingData,$billingDetails,$data,'Payu',$data['txnid']);
-
             return redirect('thankyou?booking_id='.$booking);
-
-            $booking_rooms = BookingRoom::where('booking_id',$booking)->get();
-            if(!empty($booking_rooms->toArray())){
-                foreach ($booking_rooms as $key => $booking_room) {
-                    $hotelRoom = HotelRoom::findorfail($booking_room->room_id);
-                    if($hotelRoom){
-                        $hotelRoom->count = $hotelRoom->count-1;
-                        $hotelRoom->save();
-                    }
-                }
-            }
-
-
-            Session::forget('billingDetails');
-            Session::forget('bookingData');
-            Session::forget('cartData');
-            Session::forget('date_from');
-            Session::forget('date_to');
-            Session::forget('room_one_adult');
-            Session::forget('room_one_child');
-            Session::forget('room_two_adult');
-            Session::forget('room_two_child');   
-
-            return view('frontend::thankyou');
 
         } else {
             echo "Payment failed";
@@ -795,7 +772,12 @@ class HotelController extends Controller
     public function bookingConfirmed(Request $request)
     {
 
+        $order_id = "";
         if(isset($request->booking_id)){
+            $booking = Booking::findorfail($request->booking_id);
+
+            $order_id = $booking->order_id;
+
             $booking_rooms = BookingRoom::where('booking_id',$request->booking_id)->get();
             if(!empty($booking_rooms->toArray())){
                 foreach ($booking_rooms as $key => $booking_room) {
@@ -808,18 +790,7 @@ class HotelController extends Controller
             }
         }
 
-
-        // Session::forget('billingDetails');
-        // Session::forget('bookingData');
-        // Session::forget('cartData');
-        // Session::forget('date_from');
-        // Session::forget('date_to');
-        // Session::forget('room_one_adult');
-        // Session::forget('room_one_child');
-        // Session::forget('room_two_adult');
-        // Session::forget('room_two_child');   
-
-        return view('frontend::thankyou');
+        return view('frontend::thankyou',['order_id'=>$order_id]);
     }
 
     public function createOrderNumber()

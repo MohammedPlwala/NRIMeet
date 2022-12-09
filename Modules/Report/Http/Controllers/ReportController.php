@@ -18,6 +18,7 @@ use Modules\Hotel\Entities\BillingDetail;
 use Modules\Hotel\Entities\Transaction;
 
 use Modules\Report\Exports\GuestExport;
+use Modules\Report\Exports\BookingExport;
 use Modules\Report\Exports\HotelMasterExport;
 
 use DataTables;
@@ -82,7 +83,7 @@ class ReportController extends Controller
                         return $status;
                     })
                     
-                    ->rawColumns(['status',])
+                    ->rawColumns(['status'])
                     ->make(true);
         }
 
@@ -231,6 +232,131 @@ class ReportController extends Controller
         }
     }
 
+    public function booking(Request $request)
+    {
+
+        $data = BookingRoom::from('booking_rooms as br')
+                ->select('br.id','u.full_name as guest_name','b.order_id','b.confirmation_number','h.classification','h.name as hotel','rt.name as room_type_name','br.guests','b.check_in_date','b.check_out_date','br.adults','br.childs','br.extra_bed','br.amount')
+                ->Join('bookings as b','b.id','=','br.booking_id')
+                ->leftJoin('hotel_rooms as hr','br.room_id','=','hr.id')
+                ->join('room_types as rt','rt.id','=','hr.type_id')
+                ->leftJoin('hotels as h','h.id','=','b.hotel_id')
+                ->leftJoin('users as u','u.id','=','b.user_id')
+                ->where(function ($query) use ($request) {
+                    if (!empty($request->toArray())) {
+                        if ($request->get('hotel_name') != '') {
+                            $query->where('h.name', 'like', '%' . $request->hotel_name . '%');
+                        }
+
+                        if ($request->get('room_type') != '') {
+                            $query->where('rt.name', 'like', '%' . $request->room_type . '%');
+                        }
+
+                        if ($request->get('guest_count') != '') {
+                            $query->where('br.guests', $request->get('guest_count'));
+                        }
+
+                        if ($request->get('adults') != '') {
+                            $query->where('br.adults', $request->get('adults'));
+                        }
+
+                        if ($request->get('child') != '') {
+                            $query->where('br.childs', $request->get('child'));
+                        }
+
+                        if ($request->get('extra_bed') != '') {
+                            $query->where('br.extra_bed', $request->get('extra_bed'));
+                        }
+
+                        if ($request->get('booking_status') != '') {
+                            $query->where('b.booking_status', $request->get('booking_status'));
+                        }
+
+                        if ($request->get('country') != '') {
+                            $query->where('u.country', $request->get('country'));
+                        }
+
+                        if ($request->get('postal_code') != '') {
+                            $query->where('u.zip', $request->get('postal_code'));
+                        }
+                    }
+                })
+                ->orderby('u.full_name','asc')
+                ->get();
+
+        if ($request->ajax()) {
+            return Datatables::of($data)
+                    ->addIndexColumn()
+                    ->addColumn('order_id', function ($row) {
+                        return $row->order_id;
+                    })
+                    ->rawColumns(['order_id'])
+                    ->make(true);
+        }
+
+        return view('report::booking');
+    }
+
+    public function bookingExport(Request $request)
+    {
+
+        $bookings = BookingRoom::from('booking_rooms as br')
+                ->select('u.full_name as guest_name','b.order_id','b.confirmation_number','h.classification','h.name as hotel','rt.name as room_type_name','br.guests','b.check_in_date','b.check_out_date','br.adults','br.childs','br.extra_bed','br.amount')
+                ->Join('bookings as b','b.id','=','br.booking_id')
+                ->leftJoin('hotel_rooms as hr','br.room_id','=','hr.id')
+                ->join('room_types as rt','rt.id','=','hr.type_id')
+                ->leftJoin('hotels as h','h.id','=','b.hotel_id')
+                ->leftJoin('users as u','u.id','=','b.user_id')
+                ->where(function ($query) use ($request) {
+                    if (!empty($request->toArray())) {
+                        if ($request->get('hotel_name') != '') {
+                            $query->where('h.name', 'like', '%' . $request->hotel_name . '%');
+                        }
+
+                        if ($request->get('room_type') != '') {
+                            $query->where('rt.name', 'like', '%' . $request->room_type . '%');
+                        }
+
+                        if ($request->get('guest_count') != '') {
+                            $query->where('br.guests', $request->get('guest_count'));
+                        }
+
+                        if ($request->get('adults') != '') {
+                            $query->where('br.adults', $request->get('adults'));
+                        }
+
+                        if ($request->get('child') != '') {
+                            $query->where('br.childs', $request->get('child'));
+                        }
+
+                        if ($request->get('extra_bed') != '') {
+                            $query->where('br.extra_bed', $request->get('extra_bed'));
+                        }
+
+                        if ($request->get('booking_status') != '') {
+                            $query->where('b.booking_status', $request->get('booking_status'));
+                        }
+
+                        if ($request->get('country') != '') {
+                            $query->where('u.country', $request->get('country'));
+                        }
+
+                        if ($request->get('postal_code') != '') {
+                            $query->where('u.zip', $request->get('postal_code'));
+                        }
+                    }
+                })
+                ->orderby('u.full_name','asc')
+                ->get();
+
+        if(!empty($bookings->toArray())){
+            return (new BookingExport($bookings->toArray()))->download('bookings' . '.xlsx', \Maatwebsite\Excel\Excel::XLSX);
+        }else{
+            return redirect('admin/report/booking')->with('error', 'No order');
+        }
+    }
+
+
     public function inventory(Request $request)
     {
         return view('report::inventory');
@@ -238,10 +364,6 @@ class ReportController extends Controller
     public function payment(Request $request)
     {
         return view('report::payment');
-    }
-    public function booking(Request $request)
-    {
-        return view('report::booking');
     }
     public function cancellation(Request $request)
     {
