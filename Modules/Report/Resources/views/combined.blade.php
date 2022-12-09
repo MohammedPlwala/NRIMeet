@@ -3,7 +3,7 @@
 <div class="nk-block-head nk-block-head-sm">
     <div class="nk-block-between">
         <div class="nk-block-head-content">
-            <h3 class="nk-block-title page-title">Booking</h3>
+            <h3 class="nk-block-title page-title">Combined</h3>
         </div><!-- .nk-block-head-content -->
         <div class="nk-block-head-content">
             <div class="toggle-wrap nk-block-tools-toggle">
@@ -33,22 +33,52 @@
             <table class="broadcast-init nowrap nk-tb-list is-separate" data-auto-responsive="false">
                 <thead>
                     <tr class="nk-tb-item nk-tb-head">
-                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Order Id</span></th>
+                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Hotel Name</span></th>
+                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Total Inventory</span></th>
+                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Payment Id</span></th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Guest Name</span></th>
-                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Guest Email (Static)</span></th>
-                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Guest Contact # (Static)</span></th>
-                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Hotel</span></th>
-                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Confirmation No</span></th>
-                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Classification</span></th>
+                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Contact</span></th>
+                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Email Address</span></th>
+                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Contact 2</span></th>
+                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Billing Address</span></th>
+                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">City</span></th>
+                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">State</span></th>
+                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Country</span></th>
+                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Postal Code</span></th>
+                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">User Id</span></th>
+                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Registration Date</span></th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Room Type</span></th>
                         <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Guest Count</span></th>
+                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Booking Date</span></th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Check In</span></th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Check Out</span></th>
-                        <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Booking Status (Static)</span></th>
+                        <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Booking Status</span></th>
+                        <th class="nk-tb-col tb-col-mb text-right"><span class="sub-text">Room / Night Charge</span></th>
+                        <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Total Room Nights</span></th>
                         <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Adults</span></th>
                         <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Child</span></th>
                         <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Extra Bed</span></th>
-                        <th class="nk-tb-col tb-col-mb text-right"><span class="sub-text">Amount</span></th>
+                        <th class="nk-tb-col tb-col-mb text-right"><span class="sub-text">Room Charges</span></th>
+                        <th class="nk-tb-col tb-col-mb text-right"><span class="sub-text">Extra Bed Charges</span></th>
+                        <th class="nk-tb-col tb-col-mb text-right"><span class="sub-text">GST (Taxes)</span></th>
+                        <th class="nk-tb-col tb-col-mb text-right"><span class="sub-text">GST (Tax%)</span></th>
+                        <th class="nk-tb-col tb-col-mb text-right"><span class="sub-text">Total Amount Paid</span></th>
+                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Hotel Contact Person</span></th>
+                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Hotel Contact No#</span></th>
+                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Hotel Email-Id</span></th>
+                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Hotel Landline (If Any)</span></th>
+                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Payment Method</span></th>
+                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Payment Via</span></th>
+                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Transaction Id</span></th>
+                        <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Transaction Status</span></th>
+                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Transaction Response</span></th>
+                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">UTR No (If Any)</span></th>
+                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Settlement Date</span></th>
+                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Cancellation Date</span></th>
+                        <th class="nk-tb-col tb-col-mb text-right"><span class="sub-text">Cancellation Charges</span></th>
+                        <th class="nk-tb-col tb-col-mb text-right"><span class="sub-text">Refundable Amount</span></th>
+                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Refund Date</span></th>
+                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Refund Transaction UTR</span></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -275,64 +305,116 @@
                     columns: [
                         {
                             "class": "nk-tb-col tb-col-lg",
-                            data: 'order_id',
-                            name: 'order_id'
+                            data: 'hotel_name',
+                            name: 'hotel_name'
                         },
+                        {
+                            "class": "nk-tb-col tb-col-lg",
+                            data: 'total_inventory',
+                            name: 'total_inventory'
+                        },
+                        {
+                            "class": "nk-tb-col tb-col-lg",
+                            data: 'payment_id',
+                            name: 'payment_id'
+                        },
+
                         {
                             "class": "nk-tb-col tb-col-lg",
                             data: 'guest_name',
                             name: 'guest_name'
                         },
+
                         {
                             "class": "nk-tb-col tb-col-lg",
-                            data: 'guest_email',
-                            name: 'guest_email'
-                        },
-                        {
-                            "class": "nk-tb-col tb-col-lg",
-                            data: 'guest_contact',
-                            name: 'guest_contact'
-                        },
-                        {
-                            "class": "nk-tb-col tb-col-lg",
-                            data: 'hotel',
-                            name: 'hotel'
-                        },
-                        {
-                            "class": "nk-tb-col tb-col-lg",
-                            data: 'confirmation_number',
-                            name: 'confirmation_number'
+                            data: 'contact',
+                            name: 'contact'
                         },
 
                         {
                             "class": "nk-tb-col tb-col-lg",
-                            data: 'classification',
-                            name: 'classification'
-                        },
-                        {
-                            "class": "nk-tb-col tb-col-lg",
-                            data: 'room_type_name',
-                            name: 'room_type_name'
+                            data: 'email_address',
+                            name: 'email_address'
                         },
                         {
                             "class": "nk-tb-col tb-col-lg text-center",
-                            data: 'guests',
-                            name: 'guests'
+                            data: 'contact_2',
+                            name: 'contact_2'
                         },
                         {
                             "class": "nk-tb-col tb-col-lg",
-                            data: 'check_in_date',
-                            name: 'check_in_date'
+                            data: 'billing_address',
+                            name: 'billing_address'
                         },
                         {
                             "class": "nk-tb-col tb-col-lg",
-                            data: 'check_out_date',
-                            name: 'check_out_date'
+                            data: 'city',
+                            name: 'city'
                         },
                         {
                             "class": "nk-tb-col tb-col-lg",
+                            data: 'state',
+                            name: 'state'
+                        },
+                        {
+                            "class": "nk-tb-col tb-col-lg",
+                            data: 'country',
+                            name: 'country'
+                        },
+                        {
+                            "class": "nk-tb-col tb-col-lg",
+                            data: 'postal_code',
+                            name: 'postal_code'
+                        },
+                        {
+                            "class": "nk-tb-col tb-col-lg",
+                            data: 'user_id',
+                            name: 'user_id'
+                        },
+                        {
+                            "class": "nk-tb-col tb-col-lg",
+                            data: 'registration_date',
+                            name: 'registration_date'
+                        },
+                        {
+                            "class": "nk-tb-col tb-col-lg",
+                            data: 'room_type',
+                            name: 'room_type'
+                        },
+                        {
+                            "class": "nk-tb-col tb-col-lg text-center",
+                            data: 'guest_count',
+                            name: 'guest_count'
+                        },
+                        {
+                            "class": "nk-tb-col tb-col-lg",
+                            data: 'booking_date',
+                            name: 'booking_date'
+                        },
+                        {
+                            "class": "nk-tb-col tb-col-lg",
+                            data: 'check_in',
+                            name: 'check_in'
+                        },
+                        {
+                            "class": "nk-tb-col tb-col-lg",
+                            data: 'check_out',
+                            name: 'check_out'
+                        },
+                        {
+                            "class": "nk-tb-col tb-col-lg text-center",
                             data: 'booking_status',
                             name: 'booking_status'
+                        },
+                        {
+                            "class": "nk-tb-col tb-col-lg text-right",
+                            data: 'room_night_charge',
+                            name: 'room_night_charge'
+                        },
+                        {
+                            "class": "nk-tb-col tb-col-lg text-center",
+                            data: 'total_room_nights',
+                            name: 'total_room_nights'
                         },
                         {
                             "class": "nk-tb-col tb-col-lg text-center",
@@ -341,8 +423,8 @@
                         },
                         {
                             "class": "nk-tb-col tb-col-lg text-center",
-                            data: 'childs',
-                            name: 'childs'
+                            data: 'child',
+                            name: 'child'
                         },
                         {
                             "class": "nk-tb-col tb-col-lg text-center",
@@ -351,9 +433,109 @@
                         },
                         {
                             "class": "nk-tb-col tb-col-lg text-right",
-                            data: 'amount',
-                            name: 'amount'
-                        }
+                            data: 'room_charges',
+                            name: 'room_charges'
+                        },
+                        {
+                            "class": "nk-tb-col tb-col-lg text-right",
+                            data: 'extra_bed_charges',
+                            name: 'extra_bed_charges'
+                        },
+                        {
+                            "class": "nk-tb-col tb-col-lg text-right",
+                            data: 'gst_taxes',
+                            name: 'gst_taxes'
+                        },
+                        {
+                            "class": "nk-tb-col tb-col-lg text-right",
+                            data: 'gst_tax',
+                            name: 'gst_tax'
+                        },
+                        {
+                            "class": "nk-tb-col tb-col-lg text-right",
+                            data: 'total_amount_paid',
+                            name: 'total_amount_paid'
+                        },
+                        {
+                            "class": "nk-tb-col tb-col-lg",
+                            data: 'hotel_contact_person',
+                            name: 'hotel_contact_person'
+                        },
+                        {
+                            "class": "nk-tb-col tb-col-lg",
+                            data: 'hotel_contact_no',
+                            name: 'hotel_contact_no'
+                        },
+                        {
+                            "class": "nk-tb-col tb-col-lg",
+                            data: 'hotel_email_id',
+                            name: 'hotel_email_id'
+                        },
+                        {
+                            "class": "nk-tb-col tb-col-lg",
+                            data: 'hotel_landline',
+                            name: 'hotel_landline'
+                        },
+                        {
+                            "class": "nk-tb-col tb-col-lg",
+                            data: 'payment_method',
+                            name: 'payment_method'
+                        },
+                        {
+                            "class": "nk-tb-col tb-col-lg",
+                            data: 'payment_via',
+                            name: 'payment_via'
+                        },
+                        {
+                            "class": "nk-tb-col tb-col-lg",
+                            data: 'transaction_id',
+                            name: 'transaction_id'
+                        },
+                        {
+                            "class": "nk-tb-col tb-col-lg text-center",
+                            data: 'transaction_status',
+                            name: 'transaction_status'
+                        },
+                        {
+                            "class": "nk-tb-col tb-col-lg",
+                            data: 'transaction_response',
+                            name: 'transaction_response'
+                        },
+                        {
+                            "class": "nk-tb-col tb-col-lg",
+                            data: 'utr_no',
+                            name: 'utr_no'
+                        },
+                        {
+                            "class": "nk-tb-col tb-col-lg",
+                            data: 'settlement_date',
+                            name: 'settlement_date'
+                        },
+                        {
+                            "class": "nk-tb-col tb-col-lg",
+                            data: 'cancellation_date',
+                            name: 'cancellation_date'
+                        },
+                        {
+                            "class": "nk-tb-col tb-col-lg text-right",
+                            data: 'cancellation_charges',
+                            name: 'cancellation_charges'
+                        },
+                        {
+                            "class": "nk-tb-col tb-col-lg text-right",
+                            data: 'refundable_amount',
+                            name: 'refundable_amount'
+                        },
+                        {
+                            "class": "nk-tb-col tb-col-lg",
+                            data: 'refund_date',
+                            name: 'refund_date'
+                        },
+                        {
+                            "class": "nk-tb-col tb-col-lg",
+                            data: 'refund_transaction_utr',
+                            name: 'refund_transaction_utr'
+                        },
                     ],
                     "fnDrawCallback": function() {
                         NioApp.BS.tooltip('[data-toggle="tooltip"]');

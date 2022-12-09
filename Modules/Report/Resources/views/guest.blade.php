@@ -41,6 +41,8 @@
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">State</span></th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Country</span></th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Postal Code</span></th>
+                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">User Id (Static)</span></th>
+                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Registration Date (Static)</span></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -287,6 +289,16 @@
                             "class": "nk-tb-col tb-col-lg",
                             data: 'zip',
                             name: 'zip'
+                        },
+                        {
+                            "class": "nk-tb-col tb-col-lg",
+                            data: 'user_id',
+                            name: 'user_id'
+                        },
+                        {
+                            "class": "nk-tb-col tb-col-lg",
+                            data: 'registration_date',
+                            name: 'registration_date'
                         }
                     ],
                     "fnDrawCallback": function() {
