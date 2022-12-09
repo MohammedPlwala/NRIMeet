@@ -17,7 +17,8 @@
                             </a>
                         </li>
                         <li class="nk-block-tools-opt">
-                            <a href="{{ url('report/export-booking-summary') }}" class="btn btn-primary"><em class="icon ni ni-download"></em><span>Export</span></a>
+
+                            <a href="javascript::void(0)" data-href="{{ url('admin/report/booking-summary-export') }}" class="btn btn-primary export_data"><em class="icon ni ni-download"></em><span>Export</span></a>
                         </li>
                     </ul>
                 </div>
@@ -35,38 +36,18 @@
                     <tr class="nk-tb-item nk-tb-head">
                         <th class="nk-tb-col tb-col-mb" rowspan="2"><span class="sub-text">Hotel Classification</span></th>
                         <th class="nk-tb-col tb-col-mb" rowspan="2"><span class="sub-text">Hotel Name</span></th>
-                        <th class="nk-tb-col tb-col-mb" rowspan="2"><span class="sub-text">Room Types</span></th>
+                        <th class="nk-tb-col tb-col-mb" rowspan="2"><span class="sub-text">Room Type</span></th>
                         <th class="nk-tb-col tb-col-mb" rowspan="2"><span class="sub-text">Room Count</span></th>
-                        <th class="nk-tb-col tb-col-mb text-center" rowspan="2"><span class="sub-text">Room Nights</span></th>
-                        <th class="nk-tb-col tb-col-mb text-center" colspan="3"><span class="sub-text">Booking Status</span></th>
+                        <th class="nk-tb-col tb-col-mb text-center" colspan="4"><span class="sub-text">Booking Status</span></th>
                     </tr>
                     <tr class="nk-tb-item nk-tb-head">
                         <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Confirmed</span></th>
                         <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Pending</span></th>
                         <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Cancelled</span></th>
+                        <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Refunded</span></th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr class="nk-tb-item">
-                        <td class="nk-tb-col tb-col-mb">5 Star Deluxe</td>
-                        <td class="nk-tb-col tb-col-mb">Sheraton Grand Palace Indore</td>
-                        <td class="nk-tb-col tb-col-mb">Premium</td>
-                        <td class="nk-tb-col tb-col-mb">PBD Awardees</td>
-                        <td class="nk-tb-col tb-col-mb text-center">2</td>
-                        <td class="nk-tb-col tb-col-mb text-center">20</td>
-                        <td class="nk-tb-col tb-col-mb text-center">10</td>
-                        <td class="nk-tb-col tb-col-mb text-center">5</td>
-                    </tr>
-                    <tr class="nk-tb-item">
-                        <td class="nk-tb-col tb-col-mb">5 Star Deluxe</td>
-                        <td class="nk-tb-col tb-col-mb">Sheraton Grand Palace Indore</td>
-                        <td class="nk-tb-col tb-col-mb">Premium</td>
-                        <td class="nk-tb-col tb-col-mb">PBD Awardees</td>
-                        <td class="nk-tb-col tb-col-mb text-center">3</td>
-                        <td class="nk-tb-col tb-col-mb text-center">20</td>
-                        <td class="nk-tb-col tb-col-mb text-center">10</td>
-                        <td class="nk-tb-col tb-col-mb text-center">5</td>
-                    </tr>
                 </tbody>
             </table>
         </div>
@@ -95,13 +76,9 @@
                             <div class="col-lg-7">
                                 <x-inputs.select  size="sm" name="hotel_classification" for="hotel_classification" placeholder="Select Hotel Classification">
                                     <option value="">Select</option>
-                                    <option value="5 Star Deluxe">5 Star Deluxe</option>
                                     <option value="5 Star">5 Star</option>
                                     <option value="4 Star">4 Star</option>
                                     <option value="3 Star">3 Star</option>
-                                    <!-- @for ($i = 1; $i <= 12; $i++)
-                                        <option value="{{ $i }}">{{ date('F',strtotime('2012-'.$i.'-12')) }}</option>
-                                    @endfor -->
                                 </x-inputs.select>
                             </div>
                         </div>
@@ -112,11 +89,11 @@
                             <div class="col-lg-7">
                                 <x-inputs.select  size="sm" name="hotel_name" for="hotel_name" placeholder="Select Hotel Name">
                                     <option value="">Select</option>
-                                    <option value="Sheraton Grand Palace Indore">Sheraton Grand Palace Indore</option>
-                                    <option value="Kyriad Hotel">Kyriad Hotel</option>
-                                    <!-- @for ($i = 2021; $i <= 2030; $i++)
-                                        <option value="{{ $i }}">{{ $i }}</option>
-                                    @endfor -->
+                                    @forelse ($hotels as $hotel)
+                                        <option value="{{ $hotel->name }}">{{ $hotel->name }}</option>
+                                    @empty
+                                        {{-- empty expr --}}
+                                    @endforelse
                                 </x-inputs.select>
                             </div>
                         </div>
@@ -138,50 +115,128 @@
 </div>
 @endsection
 @push('footerScripts')
-<script src="{{url('js/APIDataTable.js')}}"></script>
-<script src="{{url('js/dayjs.min.js?t='.time())}}"></script>
+<script src="{{url('js/tableFlow.js')}}"></script>
 <script type="text/javascript">
-    
-    var token = '{{ \Session::get('token') }}';//get logged in user session.
-    var organizationId = "{{ \Session::get('currentOrganization') }}";
 
-    var dataTable = new APIDataTable({
-        tableElem: '#sales_SP',
-        pageinationElem: '#table_pagination',
-        api: "{{ url('api/v1/report/total-inventory-data') }}/"+organizationId,
-        authToken: 'Bearer '+token,
-        filterIds: [
-            '#month',
-            '#year'
-        ],
-        filterSubmit: '.submitBtn',
-        filterSubmitCallback: function(){
-            $('#modalFilterorder').modal('toggle');
-        },
-        filterClearSubmit: '.resetFilter',
-        filterModalId: '#modalFilterorder',
-        tagId: '#filter_tag_list',
-        columns: [{
-                data: "order_number",
-            },
-            {
-                data: "username",
-            },
-            {
-                data: "amount",
-                render:function(row){
-                    return NioApp.formatToCurrency(row.amount);
+    $('.export_data').on('click', function (e) {
+        var myUrl = $(this).attr('data-href');
+
+        if($('#hotel_name').val() != ""){
+            myUrl = addQSParm(myUrl,'hotel_name', $('#hotel_name').val());
+        }
+        if($('#hotel_classification').val() != ""){
+            myUrl = addQSParm(myUrl,'hotel_classification', $('#hotel_classification').val());
+        }
+
+        location.href = myUrl;
+    });
+
+    function addQSParm(myUrl,name, value) {
+       var re = new RegExp("([?&]" + name + "=)[^&]+", "");
+
+       function add(sep) {
+          myUrl += sep + name + "=" + encodeURIComponent(value);
+       }
+
+       function change() {
+          myUrl = myUrl.replace(re, "$1" + encodeURIComponent(value));
+       }
+       if (myUrl.indexOf("?") === -1) {
+          add("?");
+       } else {
+          if (re.test(myUrl)) {
+             change();
+          } else {
+             add("&");
+          }
+       }
+       return myUrl;
+    }
+
+    $(function() {
+        var root_url = "<?php echo url('/'); ?>";
+
+        var logUrl = root_url + '/user/logs';
+        NioApp.getAuditLogs('.products-init', '.audit_logs', 'resourceid', logUrl, '#modalLogs');
+
+        var items = [
+            '#hotel_name',
+            '#hotel_classification'
+        ];
+        var user_table = "";
+        user_table = new CustomDataTable({
+            tableElem: '.products-init',
+            option: {
+                processing: true,
+                serverSide: true,
+                ordering: false,
+                ajax: {
+                    type: "GET",
+                    url: "{{ url('admin/report/booking-summary') }}",
+                },
+                columns: [
+                    {
+                        "class": "nk-tb-col tb-col-lg",
+                        data: 'classification',
+                        name: 'classification'
+                    },
+                    {
+                        "class": "nk-tb-col tb-col-lg",
+                        data: 'name',
+                        name: 'name'
+                    },
+                    {
+                        "class": "nk-tb-col tb-col-lg",
+                        data: 'room_type_name',
+                        name: 'room_type_name'
+                    },
+
+                    {
+                        "class": "nk-tb-col tb-col-lg text-center",
+                        data: 'allocated_rooms',
+                        name: 'allocated_rooms'
+                    },
+
+                    {
+                        "class": "nk-tb-col tb-col-lg text-center",
+                        data: 'confirmed',
+                        name: 'confirmed'
+                    },
+                    {
+                        "class": "nk-tb-col tb-col-lg text-center",
+                        data: 'pending',
+                        name: 'pending'
+                    },
+                    {
+                        "class": "nk-tb-col tb-col-lg text-center",
+                        data: 'cancelled',
+                        name: 'cancelled'
+                    },
+                    {
+                        "class": "nk-tb-col tb-col-lg text-center",
+                        data: 'refunded',
+                        name: 'refunded'
+                    }
+                ],
+                "fnDrawCallback": function() {
+                    NioApp.BS.tooltip('[data-toggle="tooltip"]');
+                    $('.changePassword').click(function() {
+                        var resourceId = $(this).attr('data-resourceid');
+                        $('#password_user_id').val(resourceId);
+                        $('#modalUserPassword').modal('show');
+                    });
                 }
             },
-            {
-                data: "order_date",
-                render: function(row) {
-                    return row.order_date ? dayjs(row.order_date).format(
-                        "DD MMM YYYY"
-                    ) : "-";
-                },
+            filterSubmit: '.submitBtn',
+            filterSubmitCallback: function() {
+                $('#modalFilterorder').modal('toggle');
             },
-        ]
+            filterClearSubmit: '.resetFilter',
+            filterModalId: '#modalFilterorder',
+            filterItems: items,
+            tagId: '#filter_tag_list',
+        });
+
     });
 </script>
 @endpush

@@ -24,6 +24,7 @@ use Modules\Report\Exports\InventoryExport;
 use Modules\Report\Exports\PaymentExport;
 use Modules\Report\Exports\CancellationExport;
 use Modules\Report\Exports\TotalInventoryDataExport;
+use Modules\Report\Exports\BookingSummaryExport;
 
 use DataTables;
 
@@ -794,17 +795,18 @@ class ReportController extends Controller
 
 
         $data =    HotelRoom::from('hotel_rooms as hr')
-                        ->select(
-                            'h.classification','h.name','rt.name as room_type_name','hr.allocated_rooms', 
+                        ->select('hr.id',
+                            'h.classification','h.name','rt.name as room_type_name','hr.allocated_rooms','br.booking_id',
+                        
 
-                            \DB::Raw('COALESCE((select sum(bulk_bookings.room_count) from bulk_bookings where bulk_bookings.room_type_id = hr.id ),0) as mea_rooms'),
-
-
-                            'hr.mpt_reserve','hr.count as available_rooms',
+                            \DB::Raw('COALESCE((select sum(bulk_bookings.room_count) from bulk_bookings where bulk_bookings.room_type_id = hr.id ),0) as cancelled'),
+                            \DB::Raw('COALESCE((select sum(bulk_bookings.room_count) from bulk_bookings where bulk_bookings.room_type_id = hr.id ),0) as refunded'),
                             
                         )
                         ->join('hotels as h','hr.hotel_id','=','h.id')
                         ->leftJoin('room_types as rt','rt.id','=','hr.type_id')
+                        ->leftJoin('booking_rooms as br','br.id','=','hr.id')
+                        ->leftJoin('bookings as b','br.booking_id','=','b.id')
 
                         ->where(function ($query) use ($request) {
                             if (!empty($request->toArray())) {
@@ -823,17 +825,112 @@ class ReportController extends Controller
                         ->orderby('h.name','asc')
                         ->get();
 
+        $pendingStatus = array('Booking Received','Payment Completed','Booking Shared');
+        $cancelStatus = array('Cancellation Requested','Cancellation Approved');
+        $refundStatus = array('Refund Requested','Refund Approved','Refund Issued');
+
         if ($request->ajax()) {
             return Datatables::of($data)
                     ->addIndexColumn()
+                    
+                    ->addColumn('confirmed', function ($row) use($pendingStatus) {
+                        $bookingRooms = BookingRoom::select(\DB::Raw('count(room_id) as confirmed'))->leftJoin('bookings as b','booking_rooms.booking_id','=','b.id')->where('room_id',$row->id)->whereIn('booking_status',['Confirmation Recevied'])->first();
+
+                        return $bookingRooms->confirmed;
+                    })                    
+
+                    ->addColumn('pending', function ($row) use($pendingStatus) {
+                        $bookingRooms = BookingRoom::select(\DB::Raw('count(room_id) as pending'))->leftJoin('bookings as b','booking_rooms.booking_id','=','b.id')->where('room_id',$row->id)->whereIn('booking_status',$pendingStatus)->first();
+
+                        return $bookingRooms->pending;
+                    })
+
+                    ->addColumn('cancelled', function ($row) use($cancelStatus) {
+                        $bookingRooms = BookingRoom::select(\DB::Raw('count(room_id) as cancelled'))->leftJoin('bookings as b','booking_rooms.booking_id','=','b.id')->where('room_id',$row->id)->whereIn('booking_status',$cancelStatus)->first();
+
+                        return $bookingRooms->cancelled;
+                    })
+
+                    ->addColumn('refunded', function ($row) use($refundStatus) {
+                        $bookingRooms = BookingRoom::select(\DB::Raw('count(room_id) as refunded'))->leftJoin('bookings as b','booking_rooms.booking_id','=','b.id')->where('room_id',$row->id)->whereIn('booking_status',$refundStatus)->first();
+
+                        return $bookingRooms->refunded;
+                    })
+                    ->rawColumns(['pending','refunded','cancelled','confirmed'])
                     ->make(true);
         }
 
-        return view('report::total_inventory_data',['hotels' => $hotels, 'room_types' => $roomTypes, 'request' => $request]);
-        return view('report::booking_summary');
+        return view('report::booking_summary',['hotels' => $hotels, 'room_types' => $roomTypes, 'request' => $request]);
     }
 
 
+    public function bookingSummaryExport(Request $request){
+        $bookings =    HotelRoom::from('hotel_rooms as hr')
+                        ->select('hr.id',
+                            'h.classification','h.name','rt.name as room_type_name','hr.allocated_rooms','br.booking_id',
+                        
+
+                            \DB::Raw('COALESCE((select sum(bulk_bookings.room_count) from bulk_bookings where bulk_bookings.room_type_id = hr.id ),0) as cancelled'),
+                            \DB::Raw('COALESCE((select sum(bulk_bookings.room_count) from bulk_bookings where bulk_bookings.room_type_id = hr.id ),0) as refunded'),
+                            
+                        )
+                        ->join('hotels as h','hr.hotel_id','=','h.id')
+                        ->leftJoin('room_types as rt','rt.id','=','hr.type_id')
+                        ->leftJoin('booking_rooms as br','br.id','=','hr.id')
+                        ->leftJoin('bookings as b','br.booking_id','=','b.id')
+
+                        ->where(function ($query) use ($request) {
+                            if (!empty($request->toArray())) {
+
+                                if ($request->get('hotel_name') != '') {
+                                    $query->where('h.name', $request->get('hotel_name'));
+                                }
+
+                                if ($request->get('hotel_classification') != '') {
+                                    $query->where('h.classification', 'like', '%' . $request->hotel_classification.'%');
+                                }
+                            }
+                            
+                        })
+
+                        ->orderby('h.name','asc')
+                        ->get();
+
+        $pendingStatus = array('Booking Received','Payment Completed','Booking Shared');
+        $cancelStatus = array('Cancellation Requested','Cancellation Approved');
+        $refundStatus = array('Refund Requested','Refund Approved','Refund Issued');
+
+        $data = array();
+        if(!empty($bookings->toArray())){
+            foreach ($bookings as $key => $booking) {
+
+                $confirmedRooms = BookingRoom::select(\DB::Raw('count(room_id) as confirmed'))->leftJoin('bookings as b','booking_rooms.booking_id','=','b.id')->where('room_id',$booking->id)->whereIn('booking_status',['Confirmation Recevied'])->first();
+
+                $pendingRooms = BookingRoom::select(\DB::Raw('count(room_id) as pending'))->leftJoin('bookings as b','booking_rooms.booking_id','=','b.id')->where('room_id',$booking->id)->whereIn('booking_status',$pendingStatus)->first();
+
+                $cancelledRooms = BookingRoom::select(\DB::Raw('count(room_id) as cancelled'))->leftJoin('bookings as b','booking_rooms.booking_id','=','b.id')->where('room_id',$booking->id)->whereIn('booking_status',$cancelStatus)->first();
+
+                $refundedRooms = BookingRoom::select(\DB::Raw('count(room_id) as refunded'))->leftJoin('bookings as b','booking_rooms.booking_id','=','b.id')->where('room_id',$booking->id)->whereIn('booking_status',$refundStatus)->first();
+
+                $data[] = array(
+                            'classification' => $booking->classification,
+                            'name' => $booking->name,
+                            'room_type_name' => $booking->room_type_name,
+                            'allocated_rooms' => $booking->allocated_rooms,
+                            'confirmed' => $confirmedRooms->confirmed,
+                            'pending' => $pendingRooms->pending,
+                            'cancelled' => $cancelledRooms->cancelled,
+                            'refunded' => $refundedRooms->refunded,
+                        );
+            }
+        }
+
+        if(!empty($bookings->toArray())){
+            return (new BookingSummaryExport($data))->download('BookingSummary' . '.xlsx', \Maatwebsite\Excel\Excel::XLSX);
+        }else{
+            return redirect('ecommerce/orders')->with('error', 'No order');
+        }
+    }
 
     public function groupBookings(Request $request)
     {

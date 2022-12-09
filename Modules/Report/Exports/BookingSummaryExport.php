@@ -12,7 +12,7 @@ use Maatwebsite\Excel\Concerns\WithTitle;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Illuminate\Http\Request;
 
-class TotalInventoryDataExport implements FromArray, WithHeadings, ShouldAutoSize, WithEvents, WithTitle 
+class BookingSummaryExport implements FromArray, WithHeadings, ShouldAutoSize, WithEvents, WithTitle 
 {
 
 	use Exportable;
@@ -21,7 +21,7 @@ class TotalInventoryDataExport implements FromArray, WithHeadings, ShouldAutoSiz
     {
         $this->data = $data;
 
-        $this->fileName = 'TotalInventoryData';
+        $this->fileName = 'BookingSummary';
     }
 
     /**
@@ -36,14 +36,16 @@ class TotalInventoryDataExport implements FromArray, WithHeadings, ShouldAutoSiz
     {
         return [
             'Hotel Classification',
-            'Hotel Nam',
+            'Hotel Name',
             'Room Type',
-            'Room Coun',
-            'MEA Room',
-            '20% Reserved MPT Inventor',
-            'Available for PBD Delegate',
+            'Room Count',
+            'Confirmed',
+            'Pending',
+            'Cancelled',
+            'Refunded',
         ];
     }
+
 
     /**
      * @return array
@@ -52,7 +54,7 @@ class TotalInventoryDataExport implements FromArray, WithHeadings, ShouldAutoSiz
     {
         return [
             AfterSheet::class    => function(AfterSheet $event) {
-                $cellRange = 'A1:G1'; // All headers
+                $cellRange = 'A1:H1'; // All headers
                 $event->sheet->getDelegate()->getStyle($cellRange)->getFont()->setSize(14);
             },
         ];

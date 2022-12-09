@@ -40,6 +40,8 @@ Route::prefix('admin/report')->group(function() {
     Route::get('total-inventory-data-export', 'ReportController@totalInventoryDataExport');
 
     Route::get('booking-summary', 'ReportController@bookingSummary');
+    Route::get('booking-summary-export', 'ReportController@bookingSummaryExport');
+
     Route::get('group-bookings', 'ReportController@groupBookings');
     Route::get('call-center', 'ReportController@callCenter');
     Route::get('financial', 'ReportController@financial');
