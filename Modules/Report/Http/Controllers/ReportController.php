@@ -359,15 +359,178 @@ class ReportController extends Controller
 
     public function inventory(Request $request)
     {
+        $data =   Hotel::from('hotels as h')
+                    ->select('h.name','h.classification','h.airport_distance','h.venue_distance','h.website','h.contact_person','h.address','h.contact_number','h.description','hr.name as hotel_type','hr.allocated_rooms', 'hr.mpt_reserve' ,'hr.count as available_rooms','hr.rate','hr.extra_bed_available','hr.extra_bed_rate',
+                    \DB::Raw('COALESCE((select count(booking_rooms.id) from booking_rooms where booking_rooms.room_id = hr.id ),0) as current_booking'),
+                    )
+                    ->Join('hotel_rooms as hr','hr.hotel_id','=','h.id')
+                    ->where(function ($query) use ($request) {
+                        if (!empty($request->toArray())) {
+                            if ($request->get('star_rating') != '') {
+                                $query->where('h.classification', $request->star_rating);
+                            }
+
+                            if ($request->get('room_type') != '') {
+                                $query->where('hr.type_id', $request->get('room_type'));
+                            }
+
+                            if ($request->get('charges') != '') {
+                                if($request->get('charges') == 1){
+                                    $query->whereBetween('hr.rate', [5000, 10000]);
+                                }elseif($request->get('charges') == 2){
+                                    $query->whereBetween('hr.rate', [10000, 15000]);
+                                }elseif($request->get('charges') == 3){
+                                    $query->whereBetween('hr.rate', [15000, 20000]);
+                                }elseif($request->get('charges') == 4){
+                                    $query->where('hr.rate','>', 20000);
+                                }
+                            }
+
+                            if ($request->get('distance_from_airport') != '') {
+                                $query->where('h.airport_distance','<=', $request->get('distance_from_airport'));
+                            }
+
+                            if ($request->get('distance_from_venue') != '') {
+                                $query->where('h.venue_distance','<=', $request->get('distance_from_venue'));
+                            }
+
+                            if ($request->get('closing_inventory') != '') {
+                                $query->where('hr.count', $request->get('closing_inventory'));
+                            }
+                        }
+                    })
+                    ->orderby('h.name','asc')
+                    ->get();
+
+        if ($request->ajax()) {
+            return Datatables::of($data)
+                    ->addIndexColumn()
+                    ->rawColumns(['status',])
+                    ->make(true);
+        }
         return view('report::inventory');
     }
     public function payment(Request $request)
     {
+        $data =   Booking::from('bookings as b')
+                    ->select('b.order_id', 
+                    'b.created_at', 
+                    'b.tax',
+                    'b.amount',
+                    // 'USER', 
+                    // 'TRANS',
+                    // 'USER-COUNTRY',  
+                    // 'RoomBooked',
+                    // 'Total Guest',
+                    // 'Room / Night Charge',
+                    // 'b.status'
+                    )
+                    // ->select('h.name','h.classification','h.airport_distance','h.venue_distance','h.website','h.contact_person','h.address','h.contact_number','h.description','hr.name as hotel_type','hr.allocated_rooms', 'hr.mpt_reserve' ,'hr.count as available_rooms','hr.rate','hr.extra_bed_available','hr.extra_bed_rate',
+                    // \DB::Raw('COALESCE((select count(booking_rooms.id) from booking_rooms where booking_rooms.room_id = hr.id ),0) as current_booking'),
+                    // )
+                   
+                    ->get();
+
+        if ($request->ajax()) {
+            return Datatables::of($data)
+                    ->addIndexColumn()
+                    ->rawColumns(['status',])
+                    ->make(true);
+        }
         return view('report::payment');
     }
     public function cancellation(Request $request)
     {
-        return view('report::cancellation');
+        $hotels = Hotel::from('hotels as h')
+        ->select('h.name', 'h.id')->get();
+
+        $roomTypes = RoomType::from('room_types as rt')
+        ->select('rt.name', 'rt.id')->get();
+
+        $data =   Booking::from('bookings as b')
+        ->select(
+        'u.full_name',
+        'b.order_id', 
+        'b.confirmation_number', 
+        'h.classification',
+        'h.name',
+        'hr.name as room_name',
+        \DB::Raw('COALESCE((select sum(booking_rooms.guests) from booking_rooms where booking_rooms.booking_id = b.id ),0) as guests'),
+        \DB::Raw('COALESCE((select sum(booking_rooms.adults) from booking_rooms where booking_rooms.booking_id = b.id ),0) as adult'),
+        \DB::Raw('COALESCE((select sum(booking_rooms.childs) from booking_rooms where booking_rooms.booking_id = b.id ),0) as child'),
+        \DB::Raw('COALESCE((select sum(booking_rooms.extra_bed) from booking_rooms where booking_rooms.booking_id = b.id ),0) as extra_bed'),
+        'b.check_in_date',
+        'b.check_out_date',
+        'b.amount'
+        )
+        ->join('hotels as h','h.id','=','b.hotel_id')
+        ->join('booking_rooms as r','r.id','=','b.id')
+        ->join('hotel_rooms as hr','hr.id','=','r.room_id')
+        ->join('users as u','u.id','=','b.user_id')
+        ->where(function ($query) use ($request) {
+            if (!empty($request->toArray())) {
+                if ($request->get('hotel_name') != '') {
+                    $query->where('h.name', $request->get('hotel_name'));
+                }
+
+                if ($request->get('room_type') != '') {
+                    $query->where('hr.type_id', $request->get('room_type'));
+                }
+
+                if ($request->get('guest_count') != '') {
+                    $query->where('guests', $request->get('guest_count'));
+                }
+
+                if ($request->get('check_in_date') != '') {
+                    $query->where('b.check_in_date', $request->get('check_in_date'));
+                }
+
+                if ($request->get('check_out_date') != '') {
+                    $query->where('b.check_out_date', $request->get('check_out_date'));
+                }
+
+                if ($request->get('adult') != '') {
+                    $query->where('adult', $request->get('adult'));
+                }
+                if ($request->get('child') != '') {
+                    $query->where('child', $request->get('child'));
+                }
+                if ($request->get('extra_bed') != '') {
+                    $query->where('extra_bed', $request->get('extra_bed'));
+                }
+                
+
+                if ($request->get('booking_status') != '') {
+                    $query->where('b.booking_status', $request->get('booking_status'));
+                } else {
+                    $query->where('b.booking_status', 'Cancellation Approved')
+                    ->orWhere('b.booking_status', 'Cancellation Requested')
+                    ->orWhere('b.booking_status', 'Refund Requested')
+                    ->orWhere('b.booking_status', 'Refund Approved')
+                    ->orWhere('b.booking_status', 'Refund Issued');
+                }
+
+
+
+               
+            } else {
+                $query->where('b.booking_status', 'Cancellation Approved')
+                ->orWhere('b.booking_status', 'Cancellation Requested')
+                ->orWhere('b.booking_status', 'Refund Requested')
+                ->orWhere('b.booking_status', 'Refund Approved')
+                ->orWhere('b.booking_status', 'Refund Issued');
+            }
+            
+        })
+        ->get();
+
+if ($request->ajax()) {
+return Datatables::of($data)
+        ->addIndexColumn()
+        ->rawColumns(['status',])
+        ->make(true);
+}
+        return view('report::cancellation', ['hotels' => $hotels, 'room_types' => $roomTypes, 'request' => $request]);
     }
     public function refund(Request $request)
     {

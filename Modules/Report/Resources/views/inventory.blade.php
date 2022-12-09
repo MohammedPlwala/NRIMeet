@@ -30,21 +30,19 @@
 <div class="nk-block table-compact">
     <div class="table-responsive">
         <div class="nk-tb-list is-separate is-medium mb-3">
-            <table id="sales_SP" class="products-init nowrap nk-tb-list is-separate table-head-top" data-auto-responsive="false">
+            <table id="sales_SP" class="products-init nowrap nk-tb-list is-separate" data-auto-responsive="false">
                 <thead>
                     <tr class="nk-tb-item nk-tb-head">
                         <th class="nk-tb-col tb-col-mb text-center" colspan="15"><span class="sub-text">Inventory Details</span></th>
                         <th class="nk-tb-col tb-col-mb text-center" colspan="7"><span class="sub-text">Hotel Payment (to be filled manually) </span></th>
                     </tr>
                     <tr class="nk-tb-item nk-tb-head">
-                        <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">#</span></th>
-                        <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Rating</span></th>
-                        <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Hotel Name</span></th>
-                        <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Old Room Type</span></th>
-                        <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">New Room Type</span></th>
+                        <th class="nk-tb-col tb-col-mb text-left"><span class="sub-text">Rating</span></th>
+                        <th class="nk-tb-col tb-col-mb text-left"><span class="sub-text">Hotel Name</span></th>
+                        <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Room Type</span></th>
                         <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Total Alloted <br/>Inventory</span></th>
-                        <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Total Alloted <br/>Extra bed</span></th>
                         <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">MPT Reserve</span></th>
+
                         <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Opening Room <br/>Inventory</span></th>
                         <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Opening Extra <br/>Bed Inventory</span></th>
                         <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Room Charge</span></th>
@@ -52,7 +50,6 @@
                         <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Current Bookings</span></th>
                         <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Closing Room <br/>Inventory</span></th>
                         <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Closing Extra <br/>Bed Inventory</span></th>
-
                         <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Total Payable to hotel</span></th>
                         <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Payment Date</span></th>
                         <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Payment Made by <br/>(Bank, Card, UPI etc.)</span></th>
@@ -63,30 +60,6 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr class="nk-tb-item">
-                        <td class="nk-tb-col tb-col-mb text-center">1</td>
-                        <td class="nk-tb-col tb-col-mb text-center">7</td>
-                        <td class="nk-tb-col tb-col-mb">Sayaji</td>
-                        <td class="nk-tb-col tb-col-mb">Premium</td>
-                        <td class="nk-tb-col tb-col-mb">Base</td>
-                        <td class="nk-tb-col tb-col-mb text-center">20</td>
-                        <td class="nk-tb-col tb-col-mb text-center">3</td>
-                        <td class="nk-tb-col tb-col-mb text-center">15</td>
-                        <td class="nk-tb-col tb-col-mb text-center">80</td>
-                        <td class="nk-tb-col tb-col-mb text-center">12</td>
-                        <td class="nk-tb-col tb-col-mb">25645</td>
-                        <td class="nk-tb-col tb-col-mb">12355</td>
-                        <td class="nk-tb-col tb-col-mb text-center">45</td>
-                        <td class="nk-tb-col tb-col-mb text-center">20</td>
-                        <td class="nk-tb-col tb-col-mb text-center">10</td>
-                        <td class="nk-tb-col tb-col-mb text-center">5</td>
-                        <td class="nk-tb-col tb-col-mb">12/11/2022</td>
-                        <td class="nk-tb-col tb-col-mb">Bank</td>
-                        <td class="nk-tb-col tb-col-mb">Online</td>
-                        <td class="nk-tb-col tb-col-mb text-center">20</td>
-                        <td class="nk-tb-col tb-col-mb text-center">10</td>
-                        <td class="nk-tb-col tb-col-mb text-center">5</td>
-                    </tr>
                 </tbody>
             </table>
         </div>
@@ -185,51 +158,186 @@
     </div>
 </div>
 @endsection
-@push('footerScripts')
-<script src="{{url('js/APIDataTable.js')}}"></script>
-<script src="{{url('js/dayjs.min.js?t='.time())}}"></script>
+@push('footerScripts')  
+<script src="{{url('js/tableFlow.js')}}"></script>
 <script type="text/javascript">
-    
-    var token = '{{ \Session::get('token') }}';//get logged in user session.
-    var organizationId = "{{ \Session::get('currentOrganization') }}";
 
-    var dataTable = new APIDataTable({
-        tableElem: '#sales_SP',
-        pageinationElem: '#table_pagination',
-        api: "{{ url('api/v1/report/total-inventory-data') }}/"+organizationId,
-        authToken: 'Bearer '+token,
-        filterIds: [
-            '#month',
-            '#year'
-        ],
-        filterSubmit: '.submitBtn',
-        filterSubmitCallback: function(){
-            $('#modalFilterorder').modal('toggle');
-        },
-        filterClearSubmit: '.resetFilter',
-        filterModalId: '#modalFilterorder',
-        tagId: '#filter_tag_list',
-        columns: [{
-                data: "order_number",
-            },
-            {
-                data: "username",
-            },
-            {
-                data: "amount",
-                render:function(row){
-                    return NioApp.formatToCurrency(row.amount);
+    $('.export_data').on('click', function (e) {
+        var myUrl = $(this).attr('data-href');
+        if($('#star_rating').val() != ""){
+            myUrl = addQSParm(myUrl,'star_rating', $('#star_rating').val());
+        }
+        if($('#room_type').val() != ""){
+            myUrl = addQSParm(myUrl,'room_type', $('#room_type').val());
+        }
+        if($('#charges').val() != ""){
+            myUrl = addQSParm(myUrl,'charges', $('#charges').val());
+        }
+        if($('#closing_inventory').val() != ""){
+            myUrl = addQSParm(myUrl,'closing_inventory', $('#closing_inventory').val());
+        }
+        if($('#distance_from_airport').val() != ""){
+            myUrl = addQSParm(myUrl,'distance_from_airport', $('#distance_from_airport').val());
+        }
+        if($('#distance_from_venue').val() != ""){
+            myUrl = addQSParm(myUrl,'distance_from_venue', $('#distance_from_venue').val());
+        }
+
+        location.href = myUrl;
+    });
+
+    function addQSParm(myUrl,name, value) {
+       var re = new RegExp("([?&]" + name + "=)[^&]+", "");
+
+       function add(sep) {
+          myUrl += sep + name + "=" + encodeURIComponent(value);
+       }
+
+       function change() {
+          myUrl = myUrl.replace(re, "$1" + encodeURIComponent(value));
+       }
+       if (myUrl.indexOf("?") === -1) {
+          add("?");
+       } else {
+          if (re.test(myUrl)) {
+             change();
+          } else {
+             add("&");
+          }
+       }
+       return myUrl;
+    }
+
+    $(function() {
+        var root_url = "<?php echo url('/'); ?>";
+
+        var logUrl = root_url + '/user/logs';
+        NioApp.getAuditLogs('.products-init', '.audit_logs', 'resourceid', logUrl, '#modalLogs');
+
+        var items = [
+            '#star_rating',
+            '#room_type',
+            '#charges',
+            '#closing_inventory',
+            '#distance_from_airport',
+            '#distance_from_venue'
+        ];
+        var user_table = "";
+        user_table = new CustomDataTable({
+            tableElem: '.products-init',
+            option: {
+                processing: true,
+                serverSide: true,
+                ordering: false,
+                ajax: {
+                    type: "GET",
+                    url: "{{ url('admin/report/inventory') }}",
+                },
+                columns: [
+                    {
+                        "class": "nk-tb-col tb-col-lg",
+                        data: 'classification',
+                        name: 'classification'
+                    },
+                    {
+                        "class": "nk-tb-col tb-col-lg",
+                        data: 'name',
+                        name: 'name'
+                    },
+                    {
+                        "class": "nk-tb-col tb-col-lg",
+                        data: 'hotel_type',
+                        name: 'hotel_type'
+                    },
+
+                    {
+                        "class": "nk-tb-col tb-col-lg",
+                        data: 'allocated_rooms',
+                        name: 'allocated_rooms'
+                    },
+
+                    {
+                        "class": "nk-tb-col tb-col-lg",
+                        data: 'mpt_reserve',
+                        name: 'mpt_reserve'
+                    },
+                    // available_rooms == OPENING ROOM INVENTORY
+                    {
+                        "class": "nk-tb-col tb-col-lg",
+                        data: 'available_rooms',
+                        name: 'available_rooms'
+                    },
+                    // available_rooms == OPENING EXTRA BED INVENTORY
+                    {
+                        "class": "nk-tb-col tb-col-lg",
+                        data: 'extra_bed_available',
+                        name: 'extra_bed_available'
+                    },
+                    // available_rooms == Room Charge
+                    {
+                        "class": "nk-tb-col tb-col-lg",
+                        data: 'rate',
+                        name: 'rate'
+                    },
+                    // available_rooms == extra bed Charge
+                    {
+                        "class": "nk-tb-col tb-col-lg",
+                        data: 'extra_bed_rate',
+                        name: 'extra_bed_rate'
+                    },
+                    // available_rooms == Current Booking
+                    {
+                        "class": "nk-tb-col tb-col-lg",
+                        data: 'current_booking',
+                        name: 'current_booking'
+                    },
+                    // available_rooms == Current Booking Ammount
+                    {
+                        "class": "nk-tb-col tb-col-lg",
+                        data: 'room_booking_amount',
+                        name: 'room_booking_amount',
+                        value: 'XXXX'
+                    },
+                    // {
+                    //     "class": "nk-tb-col tb-col-lg",
+                    //     data: 'airport_distance',
+                    //     name: 'airport_distance'
+                    // },
+                    // {
+                    //     "class": "nk-tb-col tb-col-lg",
+                    //     data: 'venue_distance',
+                    //     name: 'venue_distance'
+                    // },
+                    // {
+                    //     "class": "nk-tb-col tb-col-lg",
+                    //     data: 'address',
+                    //     name: 'address'
+                    // },
+                    // {
+                    //     "class": "nk-tb-col tb-col-lg",
+                    //     data: 'website',
+                    //     name: 'website'
+                    // }
+                ],
+                "fnDrawCallback": function() {
+                    NioApp.BS.tooltip('[data-toggle="tooltip"]');
+                    $('.changePassword').click(function() {
+                        var resourceId = $(this).attr('data-resourceid');
+                        $('#password_user_id').val(resourceId);
+                        $('#modalUserPassword').modal('show');
+                    });
                 }
             },
-            {
-                data: "order_date",
-                render: function(row) {
-                    return row.order_date ? dayjs(row.order_date).format(
-                        "DD MMM YYYY"
-                    ) : "-";
-                },
+            filterSubmit: '.submitBtn',
+            filterSubmitCallback: function() {
+                $('#modalFilterorder').modal('toggle');
             },
-        ]
+            filterClearSubmit: '.resetFilter',
+            filterModalId: '#modalFilterorder',
+            // filterItems: items,
+            tagId: '#filter_tag_list',
+        });
+
     });
 </script>
 @endpush
