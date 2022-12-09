@@ -79,8 +79,17 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="row g-3 align-center">
+                                <div class="col-lg-4">
+                                    <x-inputs.verticalFormLabel label="Total Nights" for="hotel"
+                                    suggestion="" />
+                                </div>
+                                <div class="col-lg-8">
+                                    <div id="nights"></div>
+                                </div>
+                            </div>
 
-
+                            
                         </div>
                     </div>
                 </div>
@@ -286,7 +295,7 @@
                             <div class="row g-3 align-center">
                                 <div class="col-lg-4">
                                     <x-inputs.verticalFormLabel label="Special Request Details" for="special_request"
-                                        suggestion="" required="true" />
+                                        suggestion="" />
                                 </div>
                                 <div class="col-lg-8">
                                     <x-inputs.textarea value="{{ isset($booking) ? $booking->special_request : '' }}"
@@ -345,7 +354,7 @@
 
                             <div class="row g-3 align-center">
                                 <div class="col-lg-4">
-                                    <x-inputs.verticalFormLabel label="Confirmation Number" for="confirmation_number"
+                                    <x-inputs.verticalFormLabel label="Hotel Confirmation Number" for="confirmation_number"
                                         suggestion="" />
                                 </div>
                                 <div class="col-lg-8">
@@ -516,6 +525,7 @@
 
             $('.checkDate').change(function() {
                 var nights = getNights();
+                $('#nights').html(parseFloat(nights))
                 $('#room_one_type').trigger('change');
                 $('#room_two_type').trigger('change');
             });

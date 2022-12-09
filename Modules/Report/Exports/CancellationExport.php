@@ -12,7 +12,7 @@ use Maatwebsite\Excel\Concerns\WithTitle;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Illuminate\Http\Request;
 
-class GuestExport implements FromArray, WithHeadings, ShouldAutoSize, WithEvents, WithTitle 
+class CancellationExport implements FromArray, WithHeadings, ShouldAutoSize, WithEvents, WithTitle 
 {
 
 	use Exportable;
@@ -21,7 +21,7 @@ class GuestExport implements FromArray, WithHeadings, ShouldAutoSize, WithEvents
     {
         $this->data = $data;
 
-        $this->fileName = 'Guests';
+        $this->fileName = 'Cancellation';
     }
 
     /**
@@ -35,15 +35,21 @@ class GuestExport implements FromArray, WithHeadings, ShouldAutoSize, WithEvents
     public function headings(): array
     {
         return [
-            'Name',
-            'Contact',
-            'Email Address',
-            'Whatsapp Contact',
-            'Billing Address',
-            'City',
-            'State',
-            'Country',
-            'Postal Code'
+            'Guest Name',
+            'Order Id',
+            'Confirmation No',
+            'Classification',
+            'Hotel',
+            'Room Type',
+            'Guest Count',
+            'Check In',
+            'Check Out',
+            'Adults',
+            'Child',
+            'Extra Bed',
+            'Amount',
+            'Status',
+            'Cancellation Request Date',
 
         ];
     }
@@ -55,7 +61,7 @@ class GuestExport implements FromArray, WithHeadings, ShouldAutoSize, WithEvents
     {
         return [
             AfterSheet::class    => function(AfterSheet $event) {
-                $cellRange = 'A1:I1'; // All headers
+                $cellRange = 'A1:O1'; // All headers
                 $event->sheet->getDelegate()->getStyle($cellRange)->getFont()->setSize(14);
             },
         ];

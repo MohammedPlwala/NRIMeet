@@ -58,7 +58,7 @@
                             </div>
                             <div class="row g-3 align-center">
                                 <div class="col-lg-4">
-                                    <x-inputs.verticalFormLabel label="Select check IN and Check out Date" for="hotel"
+                                    <x-inputs.verticalFormLabel label="Check In and Check Out Date" for="hotel"
                                         suggestion="" required="true" />
                                 </div>
                                 <div class="col-lg-8">
@@ -66,18 +66,32 @@
                                         <div class="form-control-wrap">
                                             <div class="input-daterange date-picker-range input-group">
                                                 <x-inputs.text value="" for="checkin_date" class="checkDate"
-                                                icon="calender-date-fill" required="true" placeholder="Check In Date"
-                                                name="checkin_date" />
+                                                    icon="calender-date-fill" required="true" placeholder="Check In Date"
+                                                    name="checkin_date" />
 
                                                 <div class="input-group-addon">TO</div>
                                                 <x-inputs.text value="" for="checkout_date" class="checkDate"
-                                                icon="calender-date-fill" required="true" placeholder="Check Out Date"
-                                                name="checkout_date" />
+                                                    icon="calender-date-fill" required="true" placeholder="Check Out Date"
+                                                    name="checkout_date" />
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>                          
+                            </div>
+                            <div class="row g-3 align-center">
+                                <div class="col-lg-4">
+                                    <x-inputs.verticalFormLabel label="Total Nights" for="hotel"
+                                        suggestion="" />
+                                </div>
+                                <div class="col-lg-8">
+                                    <div class="form-group">
+                                        <div class="form-control-wrap">
+                                            <div id="nights"></div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -98,12 +112,12 @@
                     <div class="col-md-9">
                         <table class="table table-borderd">
                             <tr>
-                                <th  class="pt-3 pb-3">Room Name</th>
-                                <th  class="pt-3 pb-3">Adult</th>
-                                <th  class="pt-3 pb-3">Child</th>
-                                <th  class="pt-3 pb-3">Extra Bed</th>
-                                <th  class="pt-3 pb-3">Extra Bed Cost</th>
-                                <th  class="pt-3 pb-3">Per/Night</th>
+                                <th class="pt-3 pb-3">Room Name</th>
+                                <th class="pt-3 pb-3">Adult</th>
+                                <th class="pt-3 pb-3">Child</th>
+                                <th class="pt-3 pb-3">Extra Bed</th>
+                                <th class="pt-3 pb-3">Extra Bed Cost</th>
+                                <th class="pt-3 pb-3">Per/Night</th>
                                 <th class="text-right pt-3 pb-3">Price</th>
                             </tr>
                             <tr>
@@ -181,24 +195,24 @@
                     <div class="col-md-9">
                         <table class="table table-borderd">
                             <tr>
-                                <th  class="pt-3 pb-3">Room Name</th>
-                                <th  class="pt-3 pb-3">Adult</th>
-                                <th  class="pt-3 pb-3">Child</th>
-                                <th  class="pt-3 pb-3">Extra Bed</th>
-                                <th  class="pt-3 pb-3">Extra Bed Cost</th>
-                                <th  class="pt-3 pb-3">Per/Night</th>
+                                <th class="pt-3 pb-3">Room Name</th>
+                                <th class="pt-3 pb-3">Adult</th>
+                                <th class="pt-3 pb-3">Child</th>
+                                <th class="pt-3 pb-3">Extra Bed</th>
+                                <th class="pt-3 pb-3">Extra Bed Cost</th>
+                                <th class="pt-3 pb-3">Per/Night</th>
                                 <th class="text-right pt-3 pb-3">Price</th>
                             </tr>
                             <tr>
                                 <td>
-                                    <select class="form-select roomType" id="room_two_type"
-                                        placeholder="Select Type" name="room_two_type">
+                                    <select class="form-select roomType" id="room_two_type" placeholder="Select Type"
+                                        name="room_two_type">
                                         <option value="">Select Room</option>
                                     </select>
                                 </td>
                                 <td>
-                                    <x-inputs.select for="room_two_adult" icon="mail" required="true"
-                                        class="" name="room_two_adult">
+                                    <x-inputs.select for="room_two_adult" icon="mail" required="true" class=""
+                                        name="room_two_adult">
 
                                         <option value="0">0</option>
                                         <option value="1">1</option>
@@ -208,8 +222,8 @@
                                     </x-inputs.select>
                                 </td>
                                 <td>
-                                    <x-inputs.select for="room_two_child" icon="mail" required="true"
-                                        class="" name="room_two_child">
+                                    <x-inputs.select for="room_two_child" icon="mail" required="true" class=""
+                                        name="room_two_child">
 
                                         <option value="0">0</option>
                                         <option value="1">1</option>
@@ -217,8 +231,8 @@
                                     </x-inputs.select>
                                 </td>
                                 <td>
-                                    <select id="room_two_extraBed" icon="mail" required="true"
-                                        class="form-select" name="room_two_extraBed">
+                                    <select id="room_two_extraBed" icon="mail" required="true" class="form-select"
+                                        name="room_two_extraBed">
 
                                         <option value="0">No</option>
                                         <option value="1">Yes</option>
@@ -277,6 +291,8 @@
     <input type="hidden" name="old_city" id="old_city" value="{{ old('city') }}">
 @endsection
 @push('footerScripts')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.3/moment.min.js"></script>
+
     <script type="text/javascript">
         $(document).ready(function() {
 
@@ -315,7 +331,8 @@
 
                         $('#room_one_extraBed_rate').text(roomData.extra_bed_rate);
 
-                        price = ((parseFloat(roomData.rate) * nights) + (parseFloat(roomData.extra_bed_rate) * nights));
+                        price = ((parseFloat(roomData.rate) * nights) + (parseFloat(roomData
+                            .extra_bed_rate) * nights));
                     } else {
                         price = (parseFloat(roomData.rate) * nights);
                         $('#room_one_extraBed_rate').text(0);
@@ -361,7 +378,8 @@
 
                         $('#room_two_extraBed_rate').text(roomData.extra_bed_rate);
 
-                        price = ((parseFloat(roomData.rate) * nights) + (parseFloat(roomData.extra_bed_rate) * nights));
+                        price = ((parseFloat(roomData.rate) * nights) + (parseFloat(roomData
+                            .extra_bed_rate) * nights));
                     } else {
 
                         $('#room_two_extraBed_rate').text(0);
@@ -389,6 +407,7 @@
 
             $('.checkDate').change(function() {
                 var nights = getNights();
+                $('#nights').html(parseFloat(nights))
                 $('#room_one_type').trigger('change');
                 $('#room_two_type').trigger('change');
             });
@@ -494,6 +513,7 @@
                 var value = $(this).val()
                 addRoomDetails('#cont_room_two_child', value, 1, true)
             });
+
 
 
         });

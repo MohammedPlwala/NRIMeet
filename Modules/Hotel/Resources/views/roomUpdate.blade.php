@@ -141,7 +141,8 @@
                                             $value = $room->allocated_rooms;
                                         }
                                     @endphp
-                                    <x-inputs.number for="allocated_rooms" icon="home-alt" required="true" class="" placeholder="0" name="allocated_rooms" value="{{ $value }}"/>
+                                    <x-inputs.number for="allocated_rooms" icon="home-alt" required="true" class="" placeholder="0" name="allocated_rooms" value="{{ $value }}"
+                                    />
                                     @if ($errors->has('allocated_rooms'))
                                         <span class="text-danger custom-error-text">{{ $errors->first('allocated_rooms') }}</span>
                                     @endif
@@ -158,7 +159,8 @@
                                             $value = $room->mpt_reserve;
                                         }
                                     @endphp
-                                    <x-inputs.number value="{{ $value }}" for="mpt_reserve" icon="umbrela" required="true" class="" placeholder="Email" name="mpt_reserve" />
+                                    <x-inputs.number value="{{ $value }}" for="mpt_reserve" icon="umbrela" required="true" class="" placeholder="Email" name="mpt_reserve" 
+                                    />
                                     @if ($errors->has('mpt_reserve'))
                                         <span class="text-danger custom-error-text">{{ $errors->first('mpt_reserve') }}</span>
                                     @endif
@@ -216,7 +218,7 @@
                                 <div class="col-lg-7 text-right offset-lg-5">
                                     <div class="form-group">
                                         <a href="javascript:history.back()" class="btn btn-outline-light">Cancel</a>
-                                        <x-button type="submit" class="btn btn-primary">Submit</x-button>
+                                        <x-button type="submit" class="submit btn btn-primary">Submit</x-button>
                                     </div>
                                 </div>
                             </div>
@@ -225,4 +227,20 @@
             </div><!-- .row -->
         </div>
     </form>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#allocated_rooms, #mpt_reserve').on('change', function(e){
+                var allocated_rooms = $('#allocated_rooms').val()
+                var mpt_reserve = $('#mpt_reserve').val()
+                if(allocated_rooms < mpt_reserve){
+                    alert("Reserved rooms can't be greater then allocated rooms value.")
+                    $('.submit').attr('disabled', true)
+                } else {
+                    $('.submit').attr('disabled', false)
+                }
+            })
+        })
+    </script>
 @endsection
+
+

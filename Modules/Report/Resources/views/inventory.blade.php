@@ -16,7 +16,7 @@
                             </a>
                         </li>
                         <li class="nk-block-tools-opt">
-                            <a href="{{ url('report/export-inventory') }}" class="btn btn-primary"><em class="icon ni ni-download"></em><span>Export</span></a>
+                            <a href="javascript::void(0)" data-href="{{ url('admin/report/export-inventory') }}" class="btn btn-primary export_data"><em class="icon ni ni-download"></em><span>Export</span></a>
                         </li>
                     </ul>
                 </div>
@@ -29,17 +29,16 @@
 <div class="nk-block table-compact">
     <div class="table-responsive">
         <div class="nk-tb-list is-separate is-medium mb-3">
-            <table id="sales_SP" class="products-init nowrap nk-tb-list is-separate" data-auto-responsive="false">
+            <table class="broadcast-init nowrap nk-tb-list is-separate" data-auto-responsive="false">
                 <thead>
                     <tr class="nk-tb-item nk-tb-head">
-                        <th class="nk-tb-col tb-col-mb text-left"><span class="sub-text">Rating</span></th>
+                        <th class="nk-tb-col tb-col-mb text-left"><span class="sub-text">Classification</span></th>
                         <th class="nk-tb-col tb-col-mb text-left"><span class="sub-text">Hotel Name</span></th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Room Type</span></th>
                         <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Total Alloted <br/>Inventory</span></th>
                         <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">MPT Reserve</span></th>
 
                         <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Opening Room <br/>Inventory</span></th>
-                        <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Opening Extra <br/>Bed Inventory</span></th>
                         <th class="nk-tb-col tb-col-mb text-right"><span class="sub-text">Room Charge</span></th>
                         <th class="nk-tb-col tb-col-mb text-right"><span class="sub-text">Extra Bed Charge</span></th>
                         <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Current Bookings</span></th>
@@ -75,14 +74,10 @@
                             <div class="col-lg-7">
                                 <x-inputs.select  size="sm" name="rating" for="rating" placeholder="Select Rating">
                                     <option value="">Select</option>
-                                    <option value="5 Star">7 Star</option>
-                                    <option value="5 Star Deluxe">5 Star Deluxe</option>
+                                    <option value="7 Star">7 Star</option>
                                     <option value="5 Star">5 Star</option>
                                     <option value="4 Star">4 Star</option>
                                     <option value="3 Star">3 Star</option>
-                                    <!-- @for ($i = 1; $i <= 12; $i++)
-                                        <option value="{{ $i }}">{{ date('F',strtotime('2012-'.$i.'-12')) }}</option>
-                                    @endfor -->
                                 </x-inputs.select>
                             </div>
                         </div>
@@ -150,24 +145,22 @@
 <script type="text/javascript">
 
     $('.export_data').on('click', function (e) {
+
         var myUrl = $(this).attr('data-href');
-        if($('#star_rating').val() != ""){
-            myUrl = addQSParm(myUrl,'star_rating', $('#star_rating').val());
+        if($('#rating').val() != ""){
+            myUrl = addQSParm(myUrl,'rating', $('#rating').val());
         }
         if($('#room_type').val() != ""){
             myUrl = addQSParm(myUrl,'room_type', $('#room_type').val());
         }
-        if($('#charges').val() != ""){
-            myUrl = addQSParm(myUrl,'charges', $('#charges').val());
+        if($('#room_count').val() != ""){
+            myUrl = addQSParm(myUrl,'room_count', $('#room_count').val());
         }
-        if($('#closing_inventory').val() != ""){
-            myUrl = addQSParm(myUrl,'closing_inventory', $('#closing_inventory').val());
+        if($('#room_charges').val() != ""){
+            myUrl = addQSParm(myUrl,'room_charges', $('#room_charges').val());
         }
-        if($('#distance_from_airport').val() != ""){
-            myUrl = addQSParm(myUrl,'distance_from_airport', $('#distance_from_airport').val());
-        }
-        if($('#distance_from_venue').val() != ""){
-            myUrl = addQSParm(myUrl,'distance_from_venue', $('#distance_from_venue').val());
+        if($('#status').val() != ""){
+            myUrl = addQSParm(myUrl,'status', $('#status').val());
         }
 
         location.href = myUrl;
@@ -199,19 +192,18 @@
         var root_url = "<?php echo url('/'); ?>";
 
         var logUrl = root_url + '/user/logs';
-        NioApp.getAuditLogs('.products-init', '.audit_logs', 'resourceid', logUrl, '#modalLogs');
+        NioApp.getAuditLogs('.broadcast-init', '.audit_logs', 'resourceid', logUrl, '#modalLogs');
 
         var items = [
-            '#star_rating',
+            '#rating',
             '#room_type',
-            '#charges',
-            '#closing_inventory',
-            '#distance_from_airport',
-            '#distance_from_venue'
+            '#room_count',
+            '#room_charges',
+            '#status'
         ];
         var user_table = "";
         user_table = new CustomDataTable({
-            tableElem: '.products-init',
+            tableElem: '.broadcast-init',
             option: {
                 processing: true,
                 serverSide: true,
@@ -233,8 +225,8 @@
                     },
                     {
                         "class": "nk-tb-col tb-col-lg",
-                        data: 'hotel_type',
-                        name: 'hotel_type'
+                        data: 'room_type_name',
+                        name: 'room_type_name'
                     },
 
                     {
@@ -248,63 +240,31 @@
                         data: 'mpt_reserve',
                         name: 'mpt_reserve'
                     },
-                    // available_rooms == OPENING ROOM INVENTORY
                     {
                         "class": "nk-tb-col tb-col-lg text-center",
-                        data: 'available_rooms',
-                        name: 'available_rooms'
+                        data: 'opening_room',
+                        name: 'opening_room'
                     },
-                    // available_rooms == OPENING EXTRA BED INVENTORY
-                    {
-                        "class": "nk-tb-col tb-col-lg text-center",
-                        data: 'extra_bed_available',
-                        name: 'extra_bed_available'
-                    },
-                    // available_rooms == Room Charge
                     {
                         "class": "nk-tb-col tb-col-lg text-right",
                         data: 'rate',
                         name: 'rate'
                     },
-                    // available_rooms == extra bed Charge
                     {
                         "class": "nk-tb-col tb-col-lg text-right",
                         data: 'extra_bed_rate',
                         name: 'extra_bed_rate'
                     },
-                    // available_rooms == Current Booking
                     {
                         "class": "nk-tb-col tb-col-lg text-center",
                         data: 'current_booking',
                         name: 'current_booking'
                     },
-                    // available_rooms == Current Booking Ammount
                     {
                         "class": "nk-tb-col tb-col-lg text-center",
-                        data: 'room_booking_amount',
-                        name: 'room_booking_amount',
-                        value: 'XXXX'
-                    },
-                    // {
-                    //     "class": "nk-tb-col tb-col-lg",
-                    //     data: 'airport_distance',
-                    //     name: 'airport_distance'
-                    // },
-                    // {
-                    //     "class": "nk-tb-col tb-col-lg",
-                    //     data: 'venue_distance',
-                    //     name: 'venue_distance'
-                    // },
-                    // {
-                    //     "class": "nk-tb-col tb-col-lg",
-                    //     data: 'address',
-                    //     name: 'address'
-                    // },
-                    // {
-                    //     "class": "nk-tb-col tb-col-lg",
-                    //     data: 'website',
-                    //     name: 'website'
-                    // }
+                        data: 'available_rooms',
+                        name: 'available_rooms'
+                    }
                 ],
                 "fnDrawCallback": function() {
                     NioApp.BS.tooltip('[data-toggle="tooltip"]');
@@ -321,7 +281,7 @@
             },
             filterClearSubmit: '.resetFilter',
             filterModalId: '#modalFilterorder',
-            // filterItems: items,
+            filterItems: items,
             tagId: '#filter_tag_list',
         });
 

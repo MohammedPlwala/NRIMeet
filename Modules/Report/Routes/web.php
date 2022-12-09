@@ -24,14 +24,21 @@ Route::prefix('admin/report')->group(function() {
     Route::get('booking', 'ReportController@booking');
     Route::get('booking-export', 'ReportController@bookingExport');
 
-
     Route::get('inventory', 'ReportController@inventory');
+    Route::get('export-inventory', 'ReportController@inventoryExport');
+
     Route::get('payment', 'ReportController@payment');
+    Route::get('export-payment', 'ReportController@paymentExport');
+
     Route::get('cancellation', 'ReportController@cancellation');
+    Route::get('export-cancellation', 'ReportController@cancellationExport');
+
     Route::get('cancellation-export', 'ReportController@cancellation');
     Route::get('refund', 'ReportController@refund');
 
     Route::get('total-inventory-data', 'ReportController@totalInventoryData');
+    Route::get('total-inventory-data-export', 'ReportController@totalInventoryDataExport');
+
     Route::get('booking-summary', 'ReportController@bookingSummary');
     Route::get('group-bookings', 'ReportController@groupBookings');
     Route::get('call-center', 'ReportController@callCenter');

@@ -17,7 +17,7 @@
                             </a>
                         </li>
                         <li class="nk-block-tools-opt">
-                            <a href="{{ url('report/export-payment') }}" class="btn btn-primary"><em class="icon ni ni-download"></em><span>Export</span></a>
+                            <a href="javascript::void(0)" data-href="{{ url('admin/report/export-payment') }}" class="btn btn-primary export_data"><em class="icon ni ni-download"></em><span>Export</span></a>
                         </li>
                     </ul>
                 </div>
@@ -41,7 +41,6 @@
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Hotel Name</span></th>
                         <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Rooms Booked</span></th>
                         <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Total Guest</span></th>
-                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Room / Night Charge</span></th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Tax Collected</span></th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Total Amount</span></th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Status</span></th>
@@ -50,10 +49,6 @@
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Transaction ID</span></th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Settlement Date</span></th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">UTR NO.</span></th>
-                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Payment Status</span></th>
-                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Paytm Response</span></th>
-                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Settlement ID</span></th>
-                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">URT No.</span></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -87,16 +82,14 @@
                                 <x-inputs.text  value="" for="guest_name" name="guest_name" placeholder="Enter Guest Name" />
                             </div>
                         </div>
+
+
                         <div class="row g-3 align-center">
                             <div class="col-lg-5">
-                                <x-inputs.verticalFormLabel label="Hotel Name" for="hotel_name" suggestion="Select the hotel name." />
+                                <x-inputs.verticalFormLabel label="Hotel Name" for="hotel_name" suggestion="Enter the hotel name." />
                             </div>
                             <div class="col-lg-7">
-                                <x-inputs.select  size="sm" name="hotel_name" for="hotel_name" placeholder="Select Hotel Name">
-                                    <option value="">Select</option>
-                                    <option value="Hotel 1">Hotel 1</option>
-                                    <option value="Hotel 2">Hotel 2</option>
-                                </x-inputs.select>
+                                <x-inputs.text  value="" for="hotel_name" name="hotel_name" placeholder="Enter Hotel Name" />
                             </div>
                         </div>
                         <div class="row g-3 align-center">
@@ -139,23 +132,14 @@
 
     $('.export_data').on('click', function (e) {
         var myUrl = $(this).attr('data-href');
-        if($('#star_rating').val() != ""){
-            myUrl = addQSParm(myUrl,'star_rating', $('#star_rating').val());
+        if($('#guest_name').val() != ""){
+            myUrl = addQSParm(myUrl,'guest_name', $('#guest_name').val());
         }
-        if($('#room_type').val() != ""){
-            myUrl = addQSParm(myUrl,'room_type', $('#room_type').val());
+        if($('#hotel_name').val() != ""){
+            myUrl = addQSParm(myUrl,'hotel_name', $('#hotel_name').val());
         }
-        if($('#charges').val() != ""){
-            myUrl = addQSParm(myUrl,'charges', $('#charges').val());
-        }
-        if($('#closing_inventory').val() != ""){
-            myUrl = addQSParm(myUrl,'closing_inventory', $('#closing_inventory').val());
-        }
-        if($('#distance_from_airport').val() != ""){
-            myUrl = addQSParm(myUrl,'distance_from_airport', $('#distance_from_airport').val());
-        }
-        if($('#distance_from_venue').val() != ""){
-            myUrl = addQSParm(myUrl,'distance_from_venue', $('#distance_from_venue').val());
+        if($('#status').val() != ""){
+            myUrl = addQSParm(myUrl,'status', $('#status').val());
         }
 
         location.href = myUrl;
@@ -190,12 +174,9 @@
         NioApp.getAuditLogs('.products-init', '.audit_logs', 'resourceid', logUrl, '#modalLogs');
 
         var items = [
-            '#star_rating',
-            '#room_type',
-            '#charges',
-            '#closing_inventory',
-            '#distance_from_airport',
-            '#distance_from_venue'
+            '#guest_name',
+            '#hotel_name',
+            '#status'
         ];
         var user_table = "";
         user_table = new CustomDataTable({
@@ -206,93 +187,97 @@
                 ordering: false,
                 ajax: {
                     type: "GET",
-                    url: "{{ url('admin/report/inventory') }}",
+                    url: "{{ url('admin/report/payment') }}",
                 },
                 columns: [
                     {
                         "class": "nk-tb-col tb-col-lg",
-                        data: 'classification',
-                        name: 'classification'
+                        data: 'order_id',
+                        name: 'order_id'
                     },
                     {
                         "class": "nk-tb-col tb-col-lg",
-                        data: 'name',
-                        name: 'name'
+                        data: 'guest',
+                        name: 'guest'
                     },
                     {
                         "class": "nk-tb-col tb-col-lg",
-                        data: 'hotel_type',
-                        name: 'hotel_type'
-                    },
-
-                    {
-                        "class": "nk-tb-col tb-col-lg",
-                        data: 'allocated_rooms',
-                        name: 'allocated_rooms'
+                        data: 'booking_date',
+                        name: 'booking_date'
                     },
 
                     {
                         "class": "nk-tb-col tb-col-lg",
-                        data: 'mpt_reserve',
-                        name: 'mpt_reserve'
+                        data: 'payment_date',
+                        name: 'payment_date'
+                    },
+
+                    {
+                        "class": "nk-tb-col tb-col-lg",
+                        data: 'country',
+                        name: 'country'
                     },
                     // available_rooms == OPENING ROOM INVENTORY
                     {
                         "class": "nk-tb-col tb-col-lg",
-                        data: 'available_rooms',
-                        name: 'available_rooms'
+                        data: 'hotel',
+                        name: 'hotel'
                     },
                     // available_rooms == OPENING EXTRA BED INVENTORY
                     {
                         "class": "nk-tb-col tb-col-lg",
-                        data: 'extra_bed_available',
-                        name: 'extra_bed_available'
+                        data: 'rooms',
+                        name: 'rooms'
                     },
                     // available_rooms == Room Charge
                     {
                         "class": "nk-tb-col tb-col-lg",
-                        data: 'rate',
-                        name: 'rate'
+                        data: 'guests',
+                        name: 'guests'
                     },
                     // available_rooms == extra bed Charge
                     {
                         "class": "nk-tb-col tb-col-lg",
-                        data: 'extra_bed_rate',
-                        name: 'extra_bed_rate'
+                        data: 'tax',
+                        name: 'tax'
                     },
                     // available_rooms == Current Booking
                     {
                         "class": "nk-tb-col tb-col-lg",
-                        data: 'current_booking',
-                        name: 'current_booking'
+                        data: 'amount',
+                        name: 'amount'
                     },
                     // available_rooms == Current Booking Ammount
                     {
                         "class": "nk-tb-col tb-col-lg",
-                        data: 'room_booking_amount',
-                        name: 'room_booking_amount',
-                        value: 'XXXX'
+                        data: 'booking_status',
+                        name: 'booking_status',
                     },
-                    // {
-                    //     "class": "nk-tb-col tb-col-lg",
-                    //     data: 'airport_distance',
-                    //     name: 'airport_distance'
-                    // },
-                    // {
-                    //     "class": "nk-tb-col tb-col-lg",
-                    //     data: 'venue_distance',
-                    //     name: 'venue_distance'
-                    // },
-                    // {
-                    //     "class": "nk-tb-col tb-col-lg",
-                    //     data: 'address',
-                    //     name: 'address'
-                    // },
-                    // {
-                    //     "class": "nk-tb-col tb-col-lg",
-                    //     data: 'website',
-                    //     name: 'website'
-                    // }
+                    {
+                        "class": "nk-tb-col tb-col-lg",
+                        data: 'booking_type',
+                        name: 'booking_type'
+                    },
+                    {
+                        "class": "nk-tb-col tb-col-lg",
+                        data: 'payment_method',
+                        name: 'payment_method'
+                    },
+                    {
+                        "class": "nk-tb-col tb-col-lg",
+                        data: 'transaction_id',
+                        name: 'transaction_id'
+                    },
+                    {
+                        "class": "nk-tb-col tb-col-lg",
+                        data: 'settlement_date',
+                        name: 'settlement_date'
+                    },
+                    {
+                        "class": "nk-tb-col tb-col-lg",
+                        data: 'utr_number',
+                        name: 'utr_number'
+                    }
                 ],
                 "fnDrawCallback": function() {
                     NioApp.BS.tooltip('[data-toggle="tooltip"]');
@@ -309,7 +294,7 @@
             },
             filterClearSubmit: '.resetFilter',
             filterModalId: '#modalFilterorder',
-            // filterItems: items,
+            filterItems: items,
             tagId: '#filter_tag_list',
         });
 
