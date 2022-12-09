@@ -67,14 +67,14 @@
                                             <img src="{{ url('/uploads/hotels/' . $room->hotel->image) }}" alt="{{ $room->hotel->name }}" />
                                         </a>
                                         <div class="shb-booking-your-stay-item-info">
-                                            <h4 class="shb-clearfix"><a href="#">{{ $room->hotel->name }}</a><span> ₹{{ $cartData['nights']*$room->rate }}</span>
+                                            <h4 class="shb-clearfix"><a href="#">{{ $room->hotel->name }}</a><span> ₹@convert($cartData['nights']*$room->rate)</span>
                                             </h4>
                                             <p class="shb-booking-your-stay-item-info-detail">{{ $room->room_type }}</p>
                                             <p class="shb-booking-price-expand"><a href="#">{{ $cartData['nights'] }} Night</a><i
                                                     class="fas fa-chevron-down"></i></p>
                                             <div class="shb-booking-price-expanded">
                                                 {{-- <p class="shb-clearfix"><span>Fri, Jan 06, 2023</span><span> ₹10,800</span> --}}
-                                                <p class="shb-clearfix"><span> ₹{{ $room->rate }} per night</span>
+                                                <p class="shb-clearfix"><span> ₹@convert($room->rate) per night</span>
                                                 </p>
                                             </div>
                                         </div>
@@ -98,7 +98,7 @@
                                         <div class="shb-additionalfee-info">
                                             <h4>Extra Bed</h4>
                                             <div class="shb-additionalfee-price">
-                                                <span> ₹{{ $room->extra_bed_rate }} | Per Night</span>
+                                                <span> ₹@convert($room->extra_bed_rate) | Per Night</span>
                                                 <div><br>
 
                                                     @php
@@ -132,7 +132,7 @@
                         <!-- BEGIN .shb-booking-total -->
                         <div class="shb-booking-total border_bottom">
                             <h4>Total</h4>
-                            <h4>₹{{ $total }}</h4>
+                            <h4>₹@convert($total)</h4>
                             <!-- END .shb-booking-total -->
                         </div>
                         <a href="javascript:void(0)" class="shb-booking-continue"

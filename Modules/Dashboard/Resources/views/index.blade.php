@@ -7,6 +7,22 @@
             <div class="nk-block-head-content">
                 <h3 class="nk-block-title page-title">Dashboard</h3>
             </div><!-- .nk-block-head-content -->
+            <div class="nk-block-head-content">
+                <div class="toggle-wrap nk-block-tools-toggle">
+                    <a href="#" class="btn btn-icon btn-trigger toggle-expand mr-n1" data-target="more-options"><em
+                            class="icon ni ni-more-v"></em></a>
+                    <div class="toggle-expand-content" data-content="more-options">
+                        <ul class="nk-block-tools g-3">
+                            <li>
+                                <a href="#" class="btn btn-outline-primary dropdown-toggle" data-toggle="modal"
+                                    title="filter" data-target="#modalFilterUser">
+                                    <em class="icon ni ni-filter"></em><span>Filter</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </div><!-- .nk-block-between -->
     </div><!-- .nk-block-head -->
     <div class="nk-block">
@@ -57,21 +73,23 @@
                             <li class="item">
                                 <div class="info">
                                     <div class="title">Total Booking</div>
-                                    <div class="count">1,795</div>
+                                    <div class="count">
+                                        0.00
+                                    </div>
                                 </div>
                                 <em class="icon bg-primary-dim ni ni-calender-date"></em>
                             </li>
                             <li class="item">
                                 <div class="info">
                                     <div class="title">CC Booking</div>
-                                    <div class="count">2,327</div>
+                                    <div class="count">0.00</div>
                                 </div>
                                 <em class="icon bg-info-dim ni ni-calendar-booking"></em>
                             </li>
                             <li class="item">
                                 <div class="info">
                                     <div class="title">Failed Booking</div>
-                                    <div class="count">674</div>
+                                    <div class="count">0.00</div>
                                 </div>
                                 <em class="icon bg-danger-dim ni ni-calendar-alt"></em>
                             </li>
@@ -426,5 +444,47 @@
             </div><!-- .col -->
         </div><!-- .row -->
     </div><!-- .nk-block -->
+    <div class="modal fade zoom" tabindex="-1" id="modalFilterUser">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Filter</h5>
+                    <a href="#" class="close" data-dismiss="modal" aria-label="Close">
+                        <em class="icon ni ni-cross"></em>
+                    </a>
+                </div>
+                <form role="form" class="mb-0" method="get" action="#">
+                @csrf
+                <div class="modal-body modal-body-lg">
+                    <div class="gy-3">
+                        <div class="row g-3 align-center">
+                            <div class="col-lg-5">
+                                <x-inputs.verticalFormLabel label="Date" for="date" suggestion="Select the date." />
+                            </div>
+                            <div class="col-lg-7">
+                                <div class="form-control-wrap">
+                                    <div class="form-icon form-icon-left">
+                                        <em class="icon ni ni-calendar"></em>
+                                    </div>
+                                    <input type="text" class="form-control date-picker" placeholder="Date" data-date-format="yyyy-mm-dd" id="date" name="date">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <input type="hidden" id="userId" name="user_id" value="0">
+                <div class="modal-footer bg-light">
+                    <div class="row">
+                        <div class="col-lg-12 p-0 text-right">
+                            <button class="btn btn-outline-light" data-dismiss="modal" aria-label="Close">Cancel</button>
+                            <button class="btn btn-danger resetFilter" data-dismiss="modal" aria-label="Close">Clear Filter</button>
+                            <button class="btn btn-primary submitBtn" type="button">Submit</button>
+                        </div>
+                    </div>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </div><!-- .dashboard-page -->
 @endsection

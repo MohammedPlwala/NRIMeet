@@ -143,20 +143,20 @@
                                     <tr class="cart-subtotal">
                                         <th>Subtotal</th>
                                         <td class="text-right"><span class="woocommerce-Price-amount amount"><bdi><span
-                                                        class="woocommerce-Price-currencySymbol">₹</span>{{ $bookingData['sub_total'] }}</bdi></span>
+                                                        class="woocommerce-Price-currencySymbol">₹</span>@convert($bookingData['sub_total'])</bdi></span>
                                         </td>
                                     </tr>
                                     <tr class="tax-rate tax-rate-2">
                                         <th>GST 18%</th>
                                         <td class="text-right"><span class="woocommerce-Price-amount amount"><span
-                                                    class="woocommerce-Price-currencySymbol">₹</span>{{ $bookingData['tax'] }}</span>
+                                                    class="woocommerce-Price-currencySymbol">₹</span>@convert($bookingData['tax'])</span>
                                         </td>
                                     </tr>
                                     <tr class="order-total">
                                         <th>Total</th>
                                         <td class="text-right">
                                             <strong><span class="woocommerce-Price-amount amount"><bdi><span
-                                                            class="woocommerce-Price-currencySymbol">₹</span>{{ $bookingData['amount'] }}</bdi></span></strong>
+                                                            class="woocommerce-Price-currencySymbol">₹</span>@convert($bookingData['amount'])</bdi></span></strong>
                                         </td>
                                     </tr>
                                 </tfoot>
