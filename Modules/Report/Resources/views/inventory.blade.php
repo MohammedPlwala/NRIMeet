@@ -11,9 +11,8 @@
                 <div class="toggle-expand-content" data-content="more-options">
                     <ul class="nk-block-tools g-3">
                         <li>
-                            <a href="#" class="btn btn-trigger btn-icon dropdown-toggle" data-toggle="modal" title="filter" data-target="#modalFilterorder">
-                                <div class="dot dot-primary"></div>
-                                <em class="icon ni ni-filter-alt"></em>
+                            <a href="#" class="btn btn-outline-primary dropdown-toggle" data-toggle="modal" title="filter" data-target="#modalFilterorder">
+                                <em class="icon ni ni-filter"></em><span>Filter</span>
                             </a>
                         </li>
                         <li class="nk-block-tools-opt">
@@ -33,30 +32,18 @@
             <table id="sales_SP" class="products-init nowrap nk-tb-list is-separate" data-auto-responsive="false">
                 <thead>
                     <tr class="nk-tb-item nk-tb-head">
-                        <th class="nk-tb-col tb-col-mb text-center" colspan="15"><span class="sub-text">Inventory Details</span></th>
-                        <th class="nk-tb-col tb-col-mb text-center" colspan="7"><span class="sub-text">Hotel Payment (to be filled manually) </span></th>
-                    </tr>
-                    <tr class="nk-tb-item nk-tb-head">
                         <th class="nk-tb-col tb-col-mb text-left"><span class="sub-text">Rating</span></th>
                         <th class="nk-tb-col tb-col-mb text-left"><span class="sub-text">Hotel Name</span></th>
-                        <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Room Type</span></th>
+                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Room Type</span></th>
                         <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Total Alloted <br/>Inventory</span></th>
                         <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">MPT Reserve</span></th>
 
                         <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Opening Room <br/>Inventory</span></th>
                         <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Opening Extra <br/>Bed Inventory</span></th>
-                        <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Room Charge</span></th>
-                        <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Extra Bed Charge</span></th>
+                        <th class="nk-tb-col tb-col-mb text-right"><span class="sub-text">Room Charge</span></th>
+                        <th class="nk-tb-col tb-col-mb text-right"><span class="sub-text">Extra Bed Charge</span></th>
                         <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Current Bookings</span></th>
                         <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Closing Room <br/>Inventory</span></th>
-                        <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Closing Extra <br/>Bed Inventory</span></th>
-                        <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Total Payable to hotel</span></th>
-                        <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Payment Date</span></th>
-                        <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Payment Made by <br/>(Bank, Card, UPI etc.)</span></th>
-                        <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Mode of Payment</span></th>
-                        <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Transaction ID</span></th>
-                        <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Settlement ID</span></th>
-                        <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">URT NO</span></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -251,49 +238,49 @@
                     },
 
                     {
-                        "class": "nk-tb-col tb-col-lg",
+                        "class": "nk-tb-col tb-col-lg text-center",
                         data: 'allocated_rooms',
                         name: 'allocated_rooms'
                     },
 
                     {
-                        "class": "nk-tb-col tb-col-lg",
+                        "class": "nk-tb-col tb-col-lg text-center",
                         data: 'mpt_reserve',
                         name: 'mpt_reserve'
                     },
                     // available_rooms == OPENING ROOM INVENTORY
                     {
-                        "class": "nk-tb-col tb-col-lg",
+                        "class": "nk-tb-col tb-col-lg text-center",
                         data: 'available_rooms',
                         name: 'available_rooms'
                     },
                     // available_rooms == OPENING EXTRA BED INVENTORY
                     {
-                        "class": "nk-tb-col tb-col-lg",
+                        "class": "nk-tb-col tb-col-lg text-center",
                         data: 'extra_bed_available',
                         name: 'extra_bed_available'
                     },
                     // available_rooms == Room Charge
                     {
-                        "class": "nk-tb-col tb-col-lg",
+                        "class": "nk-tb-col tb-col-lg text-right",
                         data: 'rate',
                         name: 'rate'
                     },
                     // available_rooms == extra bed Charge
                     {
-                        "class": "nk-tb-col tb-col-lg",
+                        "class": "nk-tb-col tb-col-lg text-right",
                         data: 'extra_bed_rate',
                         name: 'extra_bed_rate'
                     },
                     // available_rooms == Current Booking
                     {
-                        "class": "nk-tb-col tb-col-lg",
+                        "class": "nk-tb-col tb-col-lg text-center",
                         data: 'current_booking',
                         name: 'current_booking'
                     },
                     // available_rooms == Current Booking Ammount
                     {
-                        "class": "nk-tb-col tb-col-lg",
+                        "class": "nk-tb-col tb-col-lg text-center",
                         data: 'room_booking_amount',
                         name: 'room_booking_amount',
                         value: 'XXXX'

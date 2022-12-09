@@ -9,6 +9,7 @@ class email extends Component
     public $for;
     public $label;
     public $value;
+    public $placeholder;
     public $id;
     public $name;
     public $icon;
@@ -26,6 +27,7 @@ class email extends Component
         $for = '',
         $label = '',
         $value = '',
+        $placeholder = '',
         $id = '',
         $name = '',
         $icon = '',
@@ -36,6 +38,7 @@ class email extends Component
         $this->for = $for;
         $this->label = $label;
         $this->value = $value;
+        $this->placeholder = $placeholder;
         $this->id = $id;
         $this->name = $name;
         $this->icon = $icon;

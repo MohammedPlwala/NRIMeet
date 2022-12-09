@@ -14,10 +14,9 @@
                     <div class="toggle-expand-content" data-content="more-options">
                         <ul class="nk-block-tools g-3">
                             <li>
-                                <a href="#" class="btn btn-trigger btn-icon dropdown-toggle" data-toggle="modal"
+                                <a href="#" class="btn btn-outline-primary dropdown-toggle" data-toggle="modal"
                                     title="filter" data-target="#modalFilterUser">
-                                    <div class="dot dot-primary"></div>
-                                    <em class="icon ni ni-filter-alt"></em>
+                                    <em class="icon ni ni-filter"></em><span>Filter</span>
                                 </a>
                             </li>
 
@@ -31,7 +30,7 @@
             </div>
         </div><!-- .nk-block-between -->
     </div><!-- .nk-block-head -->
-    <div class="nk-block table-compact pt-28">
+    <div class="nk-block table-compact">
         <!--  Filter Tag List -->
         <div id="filter_tag_list" class="filter-tag-list"></div>
         <!-- -->
