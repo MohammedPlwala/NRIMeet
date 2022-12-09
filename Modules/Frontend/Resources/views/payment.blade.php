@@ -90,13 +90,13 @@
                                     placeholder="" value="" autocomplete="postal-code" required />
                             </div>
 
-                            <div class="form-item">
+                            {{-- <div class="form-item">
                                 <label class="form-label">PBD Registration No <span class="required"
                                         title="optional">(optional)</span></label>
                                 <input type="text" class="input-text " name="pbd_registration_no"
                                     id="pbd_registration_no" placeholder="Town / City" value=""
                                     autocomplete="address-level2" />
-                            </div>
+                            </div> --}}
                             <div class="form-item">
                                 <label class="form-label">Phone <span class="required" title="required">*</span></label>
                                 <input type="tel" class="input-text " name="billing_phone" id="billing_phone"
@@ -131,34 +131,25 @@
                                 <thead>
                                     <tr>
                                         <th class="product-name">Room Payment Details</th>
-                                        <th class="product-total">Subtotal</th>
+                                        <th class="product-total text-right">Amount</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <tr class="cart_item">
-                                        <td class="product-name">Reservation</td>
-                                        <td class="product-total">
-                                            <span class="woocommerce-Price-amount amount"><bdi><span
-                                                        class="woocommerce-Price-currencySymbol">₹</span>{{ $bookingData['sub_total'] }}</bdi></span>
-                                        </td>
-                                    </tr>
-                                </tbody>
                                 <tfoot>
                                     <tr class="cart-subtotal">
                                         <th>Subtotal</th>
-                                        <td><span class="woocommerce-Price-amount amount"><bdi><span
+                                        <td class="text-right"><span class="woocommerce-Price-amount amount"><bdi><span
                                                         class="woocommerce-Price-currencySymbol">₹</span>{{ $bookingData['sub_total'] }}</bdi></span>
                                         </td>
                                     </tr>
                                     <tr class="tax-rate tax-rate-2">
                                         <th>GST 18%</th>
-                                        <td><span class="woocommerce-Price-amount amount"><span
+                                        <td class="text-right"><span class="woocommerce-Price-amount amount"><span
                                                     class="woocommerce-Price-currencySymbol">₹</span>{{ $bookingData['tax'] }}</span>
                                         </td>
                                     </tr>
                                     <tr class="order-total">
                                         <th>Total</th>
-                                        <td>
+                                        <td class="text-right">
                                             <strong><span class="woocommerce-Price-amount amount"><bdi><span
                                                             class="woocommerce-Price-currencySymbol">₹</span>{{ $bookingData['amount'] }}</bdi></span></strong>
                                         </td>

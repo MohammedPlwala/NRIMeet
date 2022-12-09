@@ -418,7 +418,7 @@
                                                                 <div class="search_center">
                                                                     <h3 class="custom_the_per_night"><a
                                                                             href="javascript:void(0)" class="per_night">
-                                                                            ₹{{ $room->rate }}<span> / Night</span><span
+                                                                            ₹@convert($room->rate)<span> / Night</span><span
                                                                                 class="tax_inclusive">Tax
                                                                                 Inclusive</span></a></h3>
                                                                 </div>
@@ -427,7 +427,7 @@
                                                                     <a href="javascript::void(0)"
                                                                         class="bookRoom hotel-search-button px-4 py-2 font-semibold text-sm bg-slate-900 text-white rounded-5 shadow-sm"
                                                                         data-room="{{ $room }}"> Book
-                                                                        ₹{{ Session::get('nights') * $room->rate }} </a>
+                                                                        ₹@convert(Session::get('nights') * $room->rate) </a>
                                                                 </div>
                                                             </div>
                                                         </li>
