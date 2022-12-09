@@ -23,6 +23,7 @@ use Modules\Report\Exports\HotelMasterExport;
 use Modules\Report\Exports\InventoryExport;
 use Modules\Report\Exports\PaymentExport;
 use Modules\Report\Exports\CancellationExport;
+use Modules\Report\Exports\TotalInventoryDataExport;
 
 use DataTables;
 
@@ -723,8 +724,8 @@ class ReportController extends Controller
                                     $query->where('h.name', $request->get('hotel_name'));
                                 }
 
-                                if ($request->get('room_type') != '') {
-                                    $query->where('hr.type_id', $request->get('room_type'));
+                                if ($request->get('hotel_classification') != '') {
+                                    $query->where('h.classification', 'like', '%' . $request->hotel_classification.'%');
                                 }
                             }
                             
@@ -742,11 +743,98 @@ class ReportController extends Controller
         return view('report::total_inventory_data',['hotels' => $hotels, 'room_types' => $roomTypes, 'request' => $request]);
     }
 
+    public function totalInventoryDataExport(Request $request)
+    {
+
+        $data =    HotelRoom::from('hotel_rooms as hr')
+                        ->select(
+                            'h.classification','h.name','rt.name as room_type_name','hr.allocated_rooms', 
+
+                            \DB::Raw('COALESCE((select sum(bulk_bookings.room_count) from bulk_bookings where bulk_bookings.room_type_id = hr.id ),0) as mea_rooms'),
+
+
+                            'hr.mpt_reserve','hr.count as available_rooms',
+                            
+                        )
+                        ->join('hotels as h','hr.hotel_id','=','h.id')
+                        ->leftJoin('room_types as rt','rt.id','=','hr.type_id')
+
+                        ->where(function ($query) use ($request) {
+                            if (!empty($request->toArray())) {
+
+                                if ($request->get('hotel_name') != '') {
+                                    $query->where('h.name', $request->get('hotel_name'));
+                                }
+
+                                if ($request->get('hotel_classification') != '') {
+                                    $query->where('h.classification', 'like', '%' . $request->hotel_classification.'%');
+                                }
+                            }
+                            
+                        })
+
+                        ->orderby('h.name','asc')
+                        ->get();
+
+        if(!empty($data->toArray())){
+            return (new TotalInventoryDataExport($data->toArray()))->download('TotalInventoryData' . '.xlsx', \Maatwebsite\Excel\Excel::XLSX);
+        }else{
+            return redirect('ecommerce/orders')->with('error', 'No order');
+        }
+    }
+
 
     public function bookingSummary(Request $request)
     {
+        $hotels = Hotel::from('hotels as h')
+        ->select('h.name', 'h.id')->get();
+
+        $roomTypes = RoomType::from('room_types as rt')
+        ->select('rt.name', 'rt.id')->get();
+
+
+        $data =    HotelRoom::from('hotel_rooms as hr')
+                        ->select(
+                            'h.classification','h.name','rt.name as room_type_name','hr.allocated_rooms', 
+
+                            \DB::Raw('COALESCE((select sum(bulk_bookings.room_count) from bulk_bookings where bulk_bookings.room_type_id = hr.id ),0) as mea_rooms'),
+
+
+                            'hr.mpt_reserve','hr.count as available_rooms',
+                            
+                        )
+                        ->join('hotels as h','hr.hotel_id','=','h.id')
+                        ->leftJoin('room_types as rt','rt.id','=','hr.type_id')
+
+                        ->where(function ($query) use ($request) {
+                            if (!empty($request->toArray())) {
+
+                                if ($request->get('hotel_name') != '') {
+                                    $query->where('h.name', $request->get('hotel_name'));
+                                }
+
+                                if ($request->get('hotel_classification') != '') {
+                                    $query->where('h.classification', 'like', '%' . $request->hotel_classification.'%');
+                                }
+                            }
+                            
+                        })
+
+                        ->orderby('h.name','asc')
+                        ->get();
+
+        if ($request->ajax()) {
+            return Datatables::of($data)
+                    ->addIndexColumn()
+                    ->make(true);
+        }
+
+        return view('report::total_inventory_data',['hotels' => $hotels, 'room_types' => $roomTypes, 'request' => $request]);
         return view('report::booking_summary');
     }
+
+
+
     public function groupBookings(Request $request)
     {
         return view('report::group_bookings');
