@@ -57,7 +57,7 @@
                                 <div class="sidebar_left">
                                     <ul>
                                         <li><span></span> Check in - {{ date('M d, Y',strtotime($cartData['date_from'])) }} Check out - {{ date('M d, Y',strtotime($cartData['date_to'])) }}</li>
-                                        <li><span>Guests:</span> {{ $adults }} Adults, {{ $childs }} Child</li>
+                                        <li><span>Guests:</span> {{ $adults }} Adult(s), {{ $childs }} Child</li>
                                     </ul>
                                 </div>
                                 <div class="sidebar_center">
