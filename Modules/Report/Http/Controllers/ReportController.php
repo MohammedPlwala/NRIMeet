@@ -843,6 +843,10 @@ class ReportController extends Controller
     {
         return view('report::call_center');
     }
+    public function combined(Request $request)
+    {
+        return view('report::combined');
+    }
     public function financial(Request $request)
     {
         return view('report::financial');
