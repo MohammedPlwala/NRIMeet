@@ -393,12 +393,12 @@
                                                     class="fas fa-chevron-down"></i></span>
                                             <p>{{ $hotel->description }} </p>
                                             <ul class="info">
-                                                <li><a href="{{ $hotel->location }}"><i
-                                                            class="fas fa-map-marker-alt"></i></a>Location </li>
+                                                <li>
+                                                    <a href="{{ $hotel->location }}"><i class="fas fa-map-marker-alt"></i>Location</a>
+                                                </li>
                                                 <li><strong>Airport</strong>: {{ $hotel->airport_distance }}KM</li>
                                                 <li><strong>Venue:</strong> {{ $hotel->venue_distance }}KM</li>
-                                                <li><a href="{{ $hotel->website }}" target="_blank"><i
-                                                            class="fas fa-globe"></i>Website </a> </li>
+                                                <li><a href="{{ $hotel->website }}" target="_blank"><i class="fas fa-globe"></i>Website </a> </li>
                                                 <li><i class="fa fa-star" aria-hidden="true"></i><span>Rating:
                                                     </span>{{ $hotel->classification }}
                                                 </li>
