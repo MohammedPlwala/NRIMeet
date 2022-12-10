@@ -101,6 +101,9 @@ $planApprovalRequired = \Session::get('planApprovalRequired');
                                 <a href="{{url('admin/report/booking')}}" class="nk-menu-link"><span class="nk-menu-text">Booking</span></a>
                             </li>
                             <li class="nk-menu-item">
+                                <a href="{{url('admin/report/booking-status')}}" class="nk-menu-link"><span class="nk-menu-text">Booking Status</span></a>
+                            </li>
+                            <li class="nk-menu-item">
                                 <a href="{{url('admin/report/cancellation')}}" class="nk-menu-link"><span class="nk-menu-text">Cancellation</span></a>
                             </li>
                             <li class="nk-menu-item">
@@ -121,6 +124,7 @@ $planApprovalRequired = \Session::get('planApprovalRequired');
                             <li class="nk-menu-item">
                                 <a href="{{url('admin/report/combined')}}" class="nk-menu-link"><span class="nk-menu-text">Combined</span></a>
                             </li>
+                            
                         </ul>
                     </li>
 

@@ -48,4 +48,7 @@ Route::prefix('admin/report')->group(function() {
     Route::get('combined', 'ReportController@combined');
     Route::get('financial', 'ReportController@financial');
     Route::get('financial-2', 'ReportController@financial2');
+
+    Route::get('booking-status', 'ReportController@bookingStatus');
+    Route::get('booking-status-export', 'ReportController@bookingStatusExport');
 });
