@@ -38,6 +38,9 @@
                             <div class="data">
                                 <div class="data-group">
                                     <div class="amount">1,945</div>
+                                    <div class="nk-ecwg6-ck">
+                                        <em class="icon ni ni-reports"></em>
+                                    </div>
                                 </div>
                             </div>
                         </div><!-- .card-inner -->
@@ -585,3 +588,6 @@
     </div><!-- .nk-block -->
 </div><!-- .dashboard-page -->
 @endsection
+@push('footerScripts')
+<script src="{{url('js/chart-ecommerce.js')}}"></script>
+@endpush

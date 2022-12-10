@@ -1084,6 +1084,10 @@ class ReportController extends Controller
     {
         return view('report::combined');
     }
+    public function bulkBookingRooms(Request $request)
+    {
+        return view('report::bulk_booking_rooms');
+    }
     public function financial(Request $request)
     {
         return view('report::financial');

@@ -1257,6 +1257,18 @@ a.fc-event-custom-completed{
 .dashboard-date-filter .form-group{
     text-align: right;
 }
+.readonlyselect, .readonlyselect + .select2{
+    pointer-events: none !important;
+}
+.readonlyselect + .select2 .select2-selection{
+    background-color: #f4f5f8;
+}
+.required_label:after{
+    content: '*';
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #e85347 !important;
+}
 
 @media screen and (max-width: 1600px) {
     .nk-ecwg .amount{
