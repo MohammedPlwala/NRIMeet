@@ -221,6 +221,7 @@ class HotelController extends Controller
         $hotel->venue_distance = $request->venue_distance;
         $hotel->contact_person = $request->contact_person;
         $hotel->contact_number = $request->contact_number;
+        $hotel->email = $request->email;
         $hotel->description = $request->description;
         $hotel->address = $request->address;
         $hotel->status = $request->status;
@@ -475,7 +476,7 @@ class HotelController extends Controller
             return Datatables::of($data)
                     ->addIndexColumn()
                     ->addColumn('order_id', function ($row) {
-                        $detailUrl = \URL::to('eadmin/bookings/edit/'.$row->id);
+                        $detailUrl = \URL::to('admin/bookings/edit/'.$row->id);
                         $order_id = '<a href="'.$detailUrl.'" ><span>'. $row->order_id .'</span></a>';
                         return $order_id;
                     })

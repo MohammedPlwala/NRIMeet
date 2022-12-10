@@ -77,6 +77,14 @@ $organization_type = \Session::get('organization_type');
                             </div>
                             <div class="row g-3 align-center">
                                 <div class="col-lg-5">
+                                    <x-inputs.verticalFormLabel label="Hotel Email" for="email" suggestion="Specify the hotel email." />
+                                </div>
+                                <div class="col-lg-7">
+                                    <x-inputs.text value="{{ isset($hotel) ? $hotel->email : '' }}" for="email" class="" icon="user-fill" placeholder="Hotel Email" name="email" />
+                                </div>
+                            </div>
+                            <div class="row g-3 align-center">
+                                <div class="col-lg-5">
                                     <x-inputs.verticalFormLabel label="Contact Person" for="contact_person" suggestion="Specify the venue distance." />
                                 </div>
                                 <div class="col-lg-7">

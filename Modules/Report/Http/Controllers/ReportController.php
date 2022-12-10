@@ -26,6 +26,7 @@ use Modules\Report\Exports\CancellationExport;
 use Modules\Report\Exports\RefundExport;
 use Modules\Report\Exports\TotalInventoryDataExport;
 use Modules\Report\Exports\BookingSummaryExport;
+use Modules\Report\Exports\CombinedExport;
 
 use DataTables;
 
@@ -1087,6 +1088,92 @@ class ReportController extends Controller
             return redirect('ecommerce/orders')->with('error', 'No order');
         }
     }
+    
+    public function combined(Request $request)
+    {
+        $bookings = BookingRoom::from('booking_rooms as br')
+                ->select('h.name as hotel','hr.allocated_rooms','t.id as payment_id','u.full_name as guest_name','u.mobile as contact','u.email as email',
+                    \DB::raw("CONCAT(bd.address_1,',',bd.address_2) AS billing_address"),
+                    'bd.city','bd.state_province as state','bd.country','bd.zip_code as postal_code','u.id as user_id',
+                    \DB::raw('DATE_FORMAT(u.created_at, "%d-%b-%Y") as registration_date'),
+                    'rt.name as room_type_name','br.guests',
+                    \DB::raw('DATE_FORMAT(b.created_at, "%d-%b-%Y") as booking_date'),
+                    \DB::raw('DATE_FORMAT(b.check_in_date, "%d-%b-%Y") as check_in_date'),
+                    \DB::raw('DATE_FORMAT(b.check_out_date, "%d-%b-%Y") as check_out_date'),
+                    'b.booking_status','hr.rate','b.nights','br.adults','br.childs',
+
+                    \DB::raw('(CASE WHEN br.extra_bed = 1 THEN "Yes" ELSE "No" END) AS extra_bed'),
+                    \DB::raw('br.amount-br.tax as room_charges'),
+                    'hr.extra_bed_rate','br.tax','br.tax_percentage','br.amount',
+                    'h.contact_person','h.contact_number','h.email as hotel_email','t.payment_mode as payment_method','t.payment_method as payment_via','t.transaction_id','t.status as transaction_status','b.utr_number',
+                    \DB::raw('DATE_FORMAT(b.settlement_date, "%d-%b-%Y") as settlement_date'),
+                    \DB::raw('DATE_FORMAT(b.cancellation_date, "%d-%b-%Y") as cancellation_date'),
+                    'b.cancellation_charges','br.refundable_amount',
+                    \DB::raw('DATE_FORMAT(b.refund_date, "%d-%b-%Y") as refund_date'),
+                    'b.refund_transaction_utr')
+
+                ->join('bookings as b','b.id','=','br.booking_id')
+                ->leftJoin('transactions as t','b.id','=','t.booking_id')
+                ->leftJoin('billing_details as bd','b.id','=','bd.booking_id')
+                ->leftJoin('hotel_rooms as hr','br.room_id','=','hr.id')
+                ->join('room_types as rt','rt.id','=','hr.type_id')
+                ->leftJoin('hotels as h','h.id','=','b.hotel_id')
+                ->leftJoin('users as u','u.id','=','b.user_id')
+                ->where(function ($query) use ($request) {
+                    if (!empty($request->toArray())) {
+                        if ($request->get('hotel_name') != '') {
+                            $query->where('h.name', 'like', '%' . $request->hotel_name . '%');
+                        }
+
+                        if ($request->get('room_type') != '') {
+                            $query->where('rt.id', $request->room_type);
+                        }
+
+                        if ($request->get('guest_count') != '') {
+                            $query->where('br.guests', $request->get('guest_count'));
+                        }
+
+                        if ($request->get('adults') != '') {
+                            $query->where('br.adults', $request->get('adults'));
+                        }
+
+                        if ($request->get('child') != '') {
+                            $query->where('br.childs', $request->get('child'));
+                        }
+
+                        if ($request->get('booking_status') != '') {
+                            $query->where('b.booking_status', $request->get('booking_status'));
+                        }
+
+                        if ($request->get('check_in_date') != '') {
+                            $query->whereDate('b.check_in_date', date('Y-m-d',strtotime($request->get('check_in_date'))));
+                        }
+
+                        if ($request->get('check_out_date') != '') {
+                            $query->whereDate('b.check_out_date', date('Y-m-d',strtotime($request->get('check_out_date'))));
+                        }
+
+                    }
+                })
+                ->orderby('br.created_at','desc')
+                ->get();
+
+        $hotels = Hotel::from('hotels as h')
+        ->select('h.name', 'h.id')->get();
+
+        $roomTypes = RoomType::from('room_types as rt')
+        ->select('rt.name', 'rt.id')->get();
+
+        if(isset($request->type) && $request->type == 'export'){
+            if(!empty($bookings->toArray())){
+                return (new CombinedExport($bookings->toArray()))->download('combined' . '.xlsx', \Maatwebsite\Excel\Excel::XLSX);
+            }else{
+                return redirect('admin/report/combined')->with('error', 'No bookings');
+            }
+        }else{
+            return view('report::combined',['bookings' => $bookings, 'hotels' => $hotels,'room_types' => $roomTypes, 'request' => $request]);
+        }
+    }
 
     public function groupBookings(Request $request)
     {
@@ -1095,10 +1182,6 @@ class ReportController extends Controller
     public function callCenter(Request $request)
     {
         return view('report::call_center');
-    }
-    public function combined(Request $request)
-    {
-        return view('report::combined');
     }
     public function financial(Request $request)
     {

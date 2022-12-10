@@ -42,10 +42,12 @@ Route::prefix('admin/report')->group(function() {
 
     Route::get('booking-summary', 'ReportController@bookingSummary');
     Route::get('booking-summary-export', 'ReportController@bookingSummaryExport');
+    
+    Route::get('combined', 'ReportController@combined');
+    Route::post('combined', 'ReportController@combined');
 
     Route::get('group-bookings', 'ReportController@groupBookings');
     Route::get('call-center', 'ReportController@callCenter');
-    Route::get('combined', 'ReportController@combined');
     Route::get('financial', 'ReportController@financial');
     Route::get('financial-2', 'ReportController@financial2');
 });
