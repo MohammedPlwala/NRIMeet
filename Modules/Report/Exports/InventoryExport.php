@@ -35,16 +35,20 @@ class InventoryExport implements FromArray, WithHeadings, ShouldAutoSize, WithEv
     public function headings(): array
     {
         return [
-            'Classification',
             'Hotel Name',
+            'Classification',
             'Room Type',
             'Total Alloted Inventory',
-            'MPT Reserve',
+            'MPT Reserved',
+            'MEA Reserved',
             'Opening Room Inventory',
             'Room Charge',
             'Extra Bed Charge',
+            'Total Bookings (IN Rs.)',
             'Current Bookings',
             'Closing Room Inventory',
+            'Contact Person',
+            'Mobile No.',
 
         ];
     }
@@ -56,7 +60,7 @@ class InventoryExport implements FromArray, WithHeadings, ShouldAutoSize, WithEv
     {
         return [
             AfterSheet::class    => function(AfterSheet $event) {
-                $cellRange = 'A1:J1'; // All headers
+                $cellRange = 'A1:N1'; // All headers
                 $event->sheet->getDelegate()->getStyle($cellRange)->getFont()->setSize(14);
             },
         ];

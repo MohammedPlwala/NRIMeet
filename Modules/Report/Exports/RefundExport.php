@@ -63,7 +63,7 @@ class RefundExport implements FromArray, WithHeadings, ShouldAutoSize, WithEvent
     {
         return [
             AfterSheet::class    => function(AfterSheet $event) {
-                $cellRange = 'A1:O1'; // All headers
+                $cellRange = 'A1:R1'; // All headers
                 $event->sheet->getDelegate()->getStyle($cellRange)->getFont()->setSize(14);
             },
         ];

@@ -947,12 +947,20 @@ class HotelController extends Controller
 
                 foreach ($bookingRoomsData as $key => $bookingRoom) {
 
+                    $refundable_amount = 0;
+
+                    if(isset($request->cancellation_charges)){
+                        $cancellation_charges = ($bookingRoom['amount']*($request->cancellation_charges/100));
+                        $refundable_amount = $bookingRoom['amount']-$cancellation_charges;
+                    }
+
                     $roomIds[] = $bookingRoom['room_id'];
 
                     $room = new BookingRoom();
                     $room->booking_id = $booking->id;
                     $room->room_id = $bookingRoom['room_id'];
                     $room->amount = $bookingRoom['amount'];
+                    $room->refundable_amount = $refundable_amount;
                     $room->tax_percentage = $bookingRoom['tax_percentage'];
                     $room->tax = $bookingRoom['tax'];
                     $room->guests = $bookingRoom['guests'];

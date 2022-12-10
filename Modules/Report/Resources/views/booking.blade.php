@@ -35,8 +35,8 @@
                     <tr class="nk-tb-item nk-tb-head">
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Order Id</span></th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Guest Name</span></th>
-                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Guest Email (Static)</span></th>
-                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Guest Contact # (Static)</span></th>
+                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Guest Email</span></th>
+                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Guest Contact #</span></th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Hotel</span></th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Confirmation No</span></th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Classification</span></th>
@@ -44,7 +44,7 @@
                         <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Guest Count</span></th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Check In</span></th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Check Out</span></th>
-                        <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Booking Status (Static)</span></th>
+                        <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Booking Status</span></th>
                         <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Adults</span></th>
                         <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Child</span></th>
                         <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Extra Bed</span></th>
@@ -202,20 +202,32 @@
         $('.export_data').on('click', function (e) {
             var myUrl = $(this).attr('data-href');
 
-            if($('#name').val() != ""){
-                myUrl = addQSParm(myUrl,'name', $('#name').val());
+            if($('#hotel_name').val() != ""){
+                myUrl = addQSParm(myUrl,'hotel_name', $('#hotel_name').val());
             }
-            if($('#city').val() != ""){
-                myUrl = addQSParm(myUrl,'city', $('#city').val());
+            if($('#room_type').val() != ""){
+                myUrl = addQSParm(myUrl,'room_type', $('#room_type').val());
             }
-            if($('#billing_state').val() != ""){
-                myUrl = addQSParm(myUrl,'state', $('#billing_state').val());
+            if($('#guest_count').val() != ""){
+                myUrl = addQSParm(myUrl,'guest_count', $('#guest_count').val());
             }
-            if($('#postal_code').val() != ""){
-                myUrl = addQSParm(myUrl,'postal_code', $('#postal_code').val());
+            if($('#check_in_date').val() != ""){
+                myUrl = addQSParm(myUrl,'check_in_date', $('#check_in_date').val());
             }
-            if($('#billing_country').val() != ""){
-                myUrl = addQSParm(myUrl,'country', $('#billing_country').val());
+            if($('#check_out_date').val() != ""){
+                myUrl = addQSParm(myUrl,'check_out_date', $('#check_out_date').val());
+            }
+            if($('#adults').val() != ""){
+                myUrl = addQSParm(myUrl,'adults', $('#adults').val());
+            }
+            if($('#child').val() != ""){
+                myUrl = addQSParm(myUrl,'child', $('#child').val());
+            }
+            if($('#booking_status').val() != ""){
+                myUrl = addQSParm(myUrl,'booking_status', $('#booking_status').val());
+            }
+            if($('#extra_bed').val() != ""){
+                myUrl = addQSParm(myUrl,'extra_bed', $('#extra_bed').val());
             }
 
 
@@ -285,13 +297,13 @@
                         },
                         {
                             "class": "nk-tb-col tb-col-lg",
-                            data: 'guest_email',
-                            name: 'guest_email'
+                            data: 'email',
+                            name: 'email'
                         },
                         {
                             "class": "nk-tb-col tb-col-lg",
-                            data: 'guest_contact',
-                            name: 'guest_contact'
+                            data: 'mobile',
+                            name: 'mobile'
                         },
                         {
                             "class": "nk-tb-col tb-col-lg",

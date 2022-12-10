@@ -35,8 +35,10 @@ class BookingExport implements FromArray, WithHeadings, ShouldAutoSize, WithEven
     public function headings(): array
     {
         return [
-            'Guest Name',
             'Order ID',
+            'Guest Name',
+            'Guest Email',
+            'Guest Contact',
             'Confirmation NO',
             'Star Rating',
             'Hotel',
@@ -44,6 +46,7 @@ class BookingExport implements FromArray, WithHeadings, ShouldAutoSize, WithEven
             'Guest Count',
             'Check In',
             'Check Out',
+            'Booking Status',
             'Adults',
             'Child',
             'Extra Bed',
@@ -59,7 +62,7 @@ class BookingExport implements FromArray, WithHeadings, ShouldAutoSize, WithEven
     {
         return [
             AfterSheet::class    => function(AfterSheet $event) {
-                $cellRange = 'A1:M1'; // All headers
+                $cellRange = 'A1:P1'; // All headers
                 $event->sheet->getDelegate()->getStyle($cellRange)->getFont()->setSize(14);
             },
         ];
