@@ -12,7 +12,7 @@ use Maatwebsite\Excel\Concerns\WithTitle;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Illuminate\Http\Request;
 
-class BookingStatusExport implements FromArray, WithHeadings, ShouldAutoSize, WithEvents, WithTitle 
+class BookingCheckOutStatusExport implements FromArray, WithHeadings, ShouldAutoSize, WithEvents, WithTitle 
 {
 
 	use Exportable;
@@ -21,7 +21,7 @@ class BookingStatusExport implements FromArray, WithHeadings, ShouldAutoSize, Wi
     {
         $this->data = $data;
 
-        $this->fileName = 'BookingStatus';
+        $this->fileName = 'Orders';
     }
 
     /**
@@ -35,10 +35,11 @@ class BookingStatusExport implements FromArray, WithHeadings, ShouldAutoSize, Wi
     public function headings(): array
     {
         return [
+            'Check Out Date',
             'Hotel',
-            'Alloted Rooms',
             'Bookings',
-            'Guest Count',
+            'Guest Count'
+
         ];
     }
 

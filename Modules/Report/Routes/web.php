@@ -59,4 +59,7 @@ Route::prefix('admin/report')->group(function() {
 
     Route::get('booking-checkin-status', 'ReportController@bookingCheckInStatus');
     Route::get('booking-checkin-status-export', 'ReportController@bookingCheckInStatusExport');
+
+    Route::get('booking-checkout-status', 'ReportController@bookingCheckOutStatus');
+    Route::get('booking-checkout-status-export', 'ReportController@bookingCheckOutStatusExport');
 });

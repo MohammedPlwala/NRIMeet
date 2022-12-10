@@ -14,6 +14,7 @@ use Modules\User\Entities\UserRole;
 use Modules\User\Entities\Role;
 use Modules\Hotel\Entities\Booking;
 use Modules\Hotel\Entities\BookingRoom;
+use Modules\Hotel\Entities\BulkBookingRoom;
 use Modules\Hotel\Entities\BillingDetail;
 use Modules\Hotel\Entities\Transaction;
 
@@ -30,6 +31,8 @@ use Modules\Report\Exports\BookingStatusExport;
 use Modules\Report\Exports\PendingConfirmationExport;
 use Modules\Report\Exports\CombinedExport;
 use Modules\Report\Exports\BookingCheckInStatusExport;
+use Modules\Report\Exports\BookingCheckOutStatusExport;
+
 
 
 use DataTables;
@@ -1407,6 +1410,54 @@ class ReportController extends Controller
         }
     }
 
+    public function bookingCheckOutStatus(Request $request)
+    {
+
+        $data = Booking::from('bookings as b')
+                ->select(\DB::raw('DATE_FORMAT(b.check_out_date, "%d-%b-%Y") as check_out_date'), 'h.name',
+                    \DB::Raw('sum(case when (br.room_id!="") then 1 else 0 end) AS bookings'),
+                    \DB::Raw('sum(case when (br.room_id!="") then br.guests else 0 end) AS guests'),
+                )
+                ->join('hotels as h','h.id','=','b.hotel_id')
+                ->leftJoin('booking_rooms as br','br.booking_id','=','b.id')
+                ->groupby('b.check_out_date', 'b.hotel_id')
+                ->orderby('b.check_out_date','asc')
+                ->get();
+        
+                if ($request->ajax()) {
+                    return Datatables::of($data)
+                    ->addIndexColumn()
+                    ->rawColumns(['order_id'])
+                    ->skipPaging()
+                    ->make(true);
+        }
+
+        return view('report::booking_checkin_status');
+    }
+
+    public function bookingCheckOutStatusExport(Request $request)
+    {
+
+       $data = Booking::from('bookings as b')
+                ->select(
+                    \DB::raw('DATE_FORMAT(b.check_out_date, "%d-%b-%Y") as check_out_date'),
+                     'h.name',
+                    \DB::Raw('sum(case when (br.room_id!="") then 1 else 0 end) AS bookings'),
+                    \DB::Raw('sum(case when (br.room_id!="") then br.guests else 0 end) AS guests'),
+                )
+                ->join('hotels as h','h.id','=','b.hotel_id')
+                ->leftJoin('booking_rooms as br','br.booking_id','=','b.id')
+                ->groupby('b.check_out_date', 'b.hotel_id')
+                ->orderby('b.check_out_date','asc')
+                ->get();
+
+        if(!empty($data->toArray())){
+            return (new BookingCheckOutStatusExport($data->toArray()))->download('booking-checkout-status' . '.xlsx', \Maatwebsite\Excel\Excel::XLSX);
+        }else{
+            return redirect('admin/report/booking-checkout-status')->with('error', 'No order');
+        }
+    }
+
     public function groupBookings(Request $request)
     {
         return view('report::group_bookings');
@@ -1418,6 +1469,35 @@ class ReportController extends Controller
     
     public function bulkBookingRooms(Request $request)
     {
+        // $data = BulkBookingRoom::from('bulk_booking_rooms as bm')
+        //             ->select(
+        //                 // 'bb.checkin_date',
+        //                 // 'h.name',
+        //                 // 'bb.room_type_id',
+        //                 // 'bb.room_type_id as confirmationNumber',
+        //                 // \DB::raw('DATE_FORMAT(b.check_out_date, "%d-%b-%Y") as check_out_date'), 
+        //         // 'h.name',
+        //             // \DB::Raw('sum(case when (br.room_id!="") then 1 else 0 end) AS bookings'),
+        //             // \DB::Raw('sum(case when (br.room_id!="") then br.guests else 0 end) AS guests'),
+        //         )
+        //         ->join('bulk_bookings as bb','bb.id','=','b.bulk_booking_id')
+        //         ->join('hotels as h','h.id','=','bb.hotel_id')
+        //         // ->leftJoin('booking_rooms as br','br.booking_id','=','b.id')
+        //         ->groupby('b.check_out_date', 'b.hotel_id')
+        //         ->orderby('b.check_out_date','asc')
+        //         ->get();
+        
+        //                 echo "<pre>";
+        //                 print_r($data->toArray());
+        //                 die;
+
+        //         if ($request->ajax()) {
+        //             return Datatables::of($data)
+        //             ->addIndexColumn()
+        //             ->rawColumns(['order_id'])
+        //             ->skipPaging()
+        //             ->make(true);
+        // }
         return view('report::bulk_booking_rooms');
     }
     public function financial(Request $request)
