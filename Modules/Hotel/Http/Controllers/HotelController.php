@@ -739,7 +739,9 @@ class HotelController extends Controller
 
     public function editBooking(Request $request,$booking_id)
     {   
-        
+        \Helpers::sendCancellationApprovedMail(39);
+        die;
+
         $booking = Booking::findorfail($booking_id);
 
         $users = User::select('id')->get();
@@ -1031,7 +1033,7 @@ class HotelController extends Controller
                     }
                 }
 
-                if($request->status == 'Confirmation Recevied'){
+                if($request->status == 'Confirmation Recevied' && $request->confirmation_number != ""){
                     \Helpers::sendBookingConfirmationMails($booking->id);
                 }
 

@@ -135,11 +135,13 @@ class Helpers {
 	public static function sendCancellationApprovedMail($booking_id) {
 
 		$bookingDetails = self::bookingDetails($booking_id);
+
 		$to_name = $bookingDetails->guest;
 		// $to_email = $bookingDetails->guest_email; //uncomment for live
 		$to_email = 'vikalp@yopmail.com';
 
 		$emails = array($to_email);
+		$emails[] = \Config::get('constants.MPT_EMAIL');
 
 		$data = array('bookingDetails'=>$bookingDetails);
 		Mail::send('emails.cancellation_approved', $data, function ($message)  use ($to_name, $to_email,$emails,$bookingDetails) {

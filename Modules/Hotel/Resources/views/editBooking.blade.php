@@ -672,6 +672,13 @@
         
     <script type="text/javascript">
         $(document).ready(function() {
+            $('#status').change(function() {
+                if($(this).val() == 'Confirmation Recevied'){
+                    $('#confirmation_number').attr('required',true);
+                }else{
+                    $('#confirmation_number').attr('required',false);
+                }
+            });
 
             $('#hotel option:not(:selected)').prop('disabled', true);
             $('#guest option:not(:selected)').prop('disabled', true);
