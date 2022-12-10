@@ -121,13 +121,13 @@
                             </tr>
                             <tr>
                                 <td>
-                                    <select id="room_one_type" required="true" class="form-select roomType"
+                                    <select id="room_one_type" required="true" class="form-select roomType readonlyselect"
                                         name="room_one_type">
                                         <option value="">Select Room</option>
-                                        <select>
+                                    <select>
                                 </td>
                                 <td>
-                                    <x-inputs.select for="room_one_adult" icon="mail" required="true" class=""
+                                    <x-inputs.select for="room_one_adult" icon="mail" required="true" class="readonlyselect"
                                         name="room_one_adult" id="room_one_adult">
                                         <option @if ($bookingRooms[0]['adults'] == 0) selected @endif value="0">0</option>
                                         <option @if ($bookingRooms[0]['adults'] == 1) selected @endif value="1">1</option>
@@ -137,7 +137,7 @@
                                     </x-inputs.select>
                                 </td>
                                 <td>
-                                    <x-inputs.select for="room_one_child" icon="mail" required="true" class=""
+                                    <x-inputs.select for="room_one_child" icon="mail" required="true" class="readonlyselect"
                                         name="room_one_child">
 
                                         <option @if ($bookingRooms[0]['childs'] == 0) selected @endif value="0">0</option>
@@ -207,13 +207,13 @@
                             </tr>
                             <tr>
                                 <td>
-                                    <select class="form-select roomType" id="room_two_type" placeholder="Select Type"
+                                    <select class="form-select roomType readonlyselect" id="room_two_type" placeholder="Select Type"
                                         name="room_two_type">
                                         <option value="">Select Room</option>
                                     </select>
                                 </td>
                                 <td>
-                                    <x-inputs.select for="room_two_adult" icon="mail" required="true" class=""
+                                    <x-inputs.select for="room_two_adult" icon="mail" required="true" class="readonlyselect"
                                         name="room_two_adult">
 
                                         <option @if (isset($bookingRooms[1]) && $bookingRooms[1]['adults'] == 0) selected @endif value="0">0
@@ -228,7 +228,7 @@
                                     </x-inputs.select>
                                 </td>
                                 <td>
-                                    <x-inputs.select for="room_two_child" icon="mail" required="true" class=""
+                                    <x-inputs.select for="room_two_child" icon="mail" required="true" class="readonlyselect"
                                         name="room_two_child">
 
                                         <option @if (isset($bookingRooms[1]) && $bookingRooms[1]['childs'] == 0) selected @endif value="0">0
@@ -240,7 +240,7 @@
                                     </x-inputs.select>
                                 </td>
                                 <td>
-                                    <select id="room_two_extraBed" icon="mail" required="true" class="form-select"
+                                    <select id="room_two_extraBed" icon="mail" required="true" class="form-select readonlyselect"
                                         name="room_two_extraBed">
 
                                         <option @if (isset($bookingRooms[1]) && $bookingRooms[1]['extra_bed'] == 0) selected @endif value="0">No
@@ -332,7 +332,56 @@
                                 <div class="col-lg-8">
                                     <x-inputs.select for="status" icon="mail" required="true" class=""
                                         placeholder="Select Status" name="status">
-                                        <option @if ($booking->booking_status == 'Booking Received') selected @endif
+                                        @if ($booking->booking_status == 'Booking Received')
+                                            <option @if ($booking->booking_status == 'Booking Received') selected @endif value="Booking Received">Booking Received</option>
+                                            <option @if ($booking->booking_status == 'Booking Shared') selected @endif value="Booking Shared">
+                                            Booking Shared</option>
+                                            <option @if ($booking->booking_status == 'Payment Completed') selected @endif value="Payment Completed">Payment Completed</option>
+                                            <option @if ($booking->booking_status == 'Confirmation Recevied') selected @endif value="Confirmation Recevied">Confirmation Recevied</option>
+                                            <option @if ($booking->booking_status == 'Cancellation Requested') selected @endif value="Cancellation Requested">Cancellation Requested</option>
+                                        @endif
+
+                                        @if ($booking->booking_status == 'Booking Shared')
+                                            <option @if ($booking->booking_status == 'Booking Shared') selected @endif value="Booking Shared"> Booking Shared</option>
+                                            <option @if ($booking->booking_status == 'Payment Completed') selected @endif value="Payment Completed">Payment Completed</option>
+                                            <option @if ($booking->booking_status == 'Confirmation Recevied') selected @endif value="Confirmation Recevied">Confirmation Recevied</option>
+                                            <option @if ($booking->booking_status == 'Cancellation Requested') selected @endif value="Cancellation Requested">Cancellation Requested</option>
+                                        @endif
+
+                                        @if ($booking->booking_status == 'Payment Completed')
+                                            <option @if ($booking->booking_status == 'Payment Completed') selected @endif value="Payment Completed">Payment Completed</option>
+                                            <option @if ($booking->booking_status == 'Cancellation Requested') selected @endif value="Cancellation Requested">Cancellation Requested</option>
+                                        @endif
+
+                                        @if ($booking->booking_status == 'Cancellation Requested')
+                                            <option @if ($booking->booking_status == 'Cancellation Requested') selected @endif value="Cancellation Requested">Cancellation Requested</option>
+                                            <option @if ($booking->booking_status == 'Cancellation Approved') selected @endif value="Cancellation Approved">Cancellation Approved</option>
+                                        @endif
+
+                                        @if ($booking->booking_status == 'Cancellation Approved')
+                                            <option @if ($booking->booking_status == 'Cancellation Approved') selected @endif value="Cancellation Approved">Cancellation Approved</option>
+                                            <option @if ($booking->booking_status == 'Refund Requested') selected @endif value="Refund Requested">Refund Requested</option>
+                                        @endif
+
+                                        @if ($booking->booking_status == 'Refund Requested')
+                                            <option @if ($booking->booking_status == 'Refund Requested') selected @endif value="Refund Requested">Refund Requested</option>
+                                            <option @if ($booking->booking_status == 'Refund Approved') selected @endif value="Refund Approved">Refund Approved</option>
+                                        @endif
+
+                                        @if ($booking->booking_status == 'Refund Approved')
+                                            <option @if ($booking->booking_status == 'Refund Approved') selected @endif value="Refund Approved">Refund Approved</option>
+                                            <option @if ($booking->booking_status == 'Refund Issued') selected @endif value="Refund Issued"> Refund Issued</option>
+                                        @endif
+
+                                        @if ($booking->booking_status == 'Confirmation Recevied')
+                                            <option @if ($booking->booking_status == 'Confirmation Recevied') selected @endif value="Confirmation Recevied">Confirmation Recevied</option>
+                                        @endif
+
+                                        @if ($booking->booking_status == 'Refund Issued')
+                                            <option @if ($booking->booking_status == 'Refund Issued') selected @endif value="Refund Issued"> Refund Issued</option>
+                                        @endif
+
+                                        <!-- <option @if ($booking->booking_status == 'Booking Received') selected @endif
                                             value="Booking Received">Booking Received</option>
                                         <option @if ($booking->booking_status == 'Payment Completed') selected @endif
                                             value="Payment Completed">Payment Completed</option>
@@ -349,20 +398,20 @@
                                         <option @if ($booking->booking_status == 'Refund Approved') selected @endif
                                             value="Refund Approved">Refund Approved</option>
                                         <option @if ($booking->booking_status == 'Refund Issued') selected @endif value="Refund Issued">
-                                            Refund Issued</option>
+                                            Refund Issued</option> -->
                                     </x-inputs.select>
                                 </div>
                             </div>
 
                             <div class="row g-3 align-center">
-                                <div class="col-lg-4">
+                                <div class="col-lg-4 confirmation_number_label">
                                     <x-inputs.verticalFormLabel label="Hotel Confirmation Number" for="confirmation_number"
                                         suggestion="" />
                                 </div>
                                 <div class="col-lg-8">
                                     <x-inputs.text value="{{ isset($booking) ? $booking->confirmation_number : '' }}"
                                         for="confirmation_number" class="" icon="building-fill"
-                                         name="confirmation_number" />
+                                         name="confirmation_number" required="@if ($booking->booking_status == 'Confirmation Recevied') true @endif" />
                                 </div>
                             </div>
                         </div>
@@ -492,7 +541,7 @@
                                 </div>
                             </div>
                             <div class="row g-3 align-center">
-                                <div class="col-lg-4">
+                                <div class="col-lg-4 cancellation_date_label">
                                     <x-inputs.verticalFormLabel label="Cancellation Date" for="cancellation_date"
                                         suggestion=""  />
                                 </div>
@@ -556,7 +605,7 @@
                                 </div>
                             </div>
                             <div class="row g-3 align-center">
-                                <div class="col-lg-4">
+                                <div class="col-lg-4 refund_date_label">
                                     <x-inputs.verticalFormLabel label="Refund Date" for="refund_date"
                                         suggestion=""  />
                                 </div>
@@ -855,6 +904,55 @@
             $("#room_two_child").on("change", function() {
                 var value = $(this).val()
                 addRoomDetails('#cont_room_two_child', value, 1, true)
+            });
+            
+
+            // Set field required base on status
+            var statusValue = $('#status').val();
+            if(statusValue == 'Confirmation Recevied'){
+                $('#confirmation_number').attr('required', 'true');
+                $('.confirmation_number_label .form-group label').addClass("required_label");
+            }else {
+                $('#confirmation_number').removeAttr('required', 'true');
+                $('.confirmation_number_label .form-group label').removeClass("required_label");
+            };
+            if(statusValue == 'Cancellation Approved'){
+                $('#cancellation_date').attr('required', 'true');
+                $('.cancellation_date_label .form-group label').addClass("required_label");
+            }else {
+                $('#cancellation_date').removeAttr('required', 'true');
+                $('.cancellation_date_label .form-group label').removeClass("required_label");
+            };
+            if(statusValue == 'Refund Approved'){
+                $('#refund_date').attr('required', 'true');
+                $('.refund_date_label .form-group label').addClass("required_label");
+            }else {
+                $('#refund_date').removeAttr('required', 'true');
+                $('.refund_date_label .form-group label').removeClass("required_label");
+            };
+            $("#status").on("change", function() {
+                var value = $(this).val();
+                if(value == 'Confirmation Recevied'){
+                    $('#confirmation_number').attr('required', 'true');
+                    $('.confirmation_number_label .form-group label').addClass("required_label");
+                }else {
+                    $('#confirmation_number').removeAttr('required', 'true');
+                    $('.confirmation_number_label .form-group label').removeClass("required_label");
+                }
+                if(value == 'Cancellation Approved'){
+                    $('#cancellation_date').attr('required', 'true');
+                    $('.cancellation_date_label .form-group label').addClass("required_label");
+                }else {
+                    $('#cancellation_date').removeAttr('required', 'true');
+                    $('.cancellation_date_label .form-group label').removeClass("required_label");
+                };
+                if(value == 'Refund Approved'){
+                    $('#refund_date').attr('required', 'true');
+                    $('.refund_date_label .form-group label').addClass("required_label");
+                }else {
+                    $('#refund_date').removeAttr('required', 'true');
+                    $('.refund_date_label .form-group label').removeClass("required_label");
+                };
             });
 
 

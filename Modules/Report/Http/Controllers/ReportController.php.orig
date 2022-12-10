@@ -26,10 +26,13 @@ use Modules\Report\Exports\CancellationExport;
 use Modules\Report\Exports\RefundExport;
 use Modules\Report\Exports\TotalInventoryDataExport;
 use Modules\Report\Exports\BookingSummaryExport;
+<<<<<<< HEAD
+use Modules\Report\Exports\CombinedExport;
+=======
 use Modules\Report\Exports\BookingStatusExport;
 use Modules\Report\Exports\PendingConfirmationExport;
-use Modules\Report\Exports\CombinedExport;
 
+>>>>>>> 28296981f61be6a925340f49c6205d232b277b99
 
 use DataTables;
 
@@ -853,8 +856,6 @@ class ReportController extends Controller
         }
     }
     
-
-
     public function totalInventoryData(Request $request)
     {
 
@@ -1028,11 +1029,8 @@ class ReportController extends Controller
         $bookings =    HotelRoom::from('hotel_rooms as hr')
                         ->select('hr.id',
                             'h.classification','h.name','rt.name as room_type_name','hr.allocated_rooms','br.booking_id',
-                        
-
                             \DB::Raw('COALESCE((select sum(bulk_bookings.room_count) from bulk_bookings where bulk_bookings.room_type_id = hr.id ),0) as cancelled'),
                             \DB::Raw('COALESCE((select sum(bulk_bookings.room_count) from bulk_bookings where bulk_bookings.room_type_id = hr.id ),0) as refunded'),
-                            
                         )
                         ->join('hotels as h','hr.hotel_id','=','h.id')
                         ->leftJoin('room_types as rt','rt.id','=','hr.type_id')
@@ -1177,7 +1175,8 @@ class ReportController extends Controller
             return view('report::combined',['bookings' => $bookings, 'hotels' => $hotels,'room_types' => $roomTypes, 'request' => $request]);
         }
     }
- public function bookingStatus(Request $request)
+
+    public function bookingStatus(Request $request)
     {
 
         $data = Hotel::from('hotels as h')
@@ -1419,6 +1418,8 @@ class ReportController extends Controller
     {
         return view('report::call_center');
     }
+<<<<<<< HEAD
+=======
     public function combined(Request $request)
     {
         return view('report::combined');
@@ -1427,6 +1428,7 @@ class ReportController extends Controller
     {
         return view('report::bulk_booking_rooms');
     }
+>>>>>>> 28296981f61be6a925340f49c6205d232b277b99
     public function financial(Request $request)
     {
         return view('report::financial');

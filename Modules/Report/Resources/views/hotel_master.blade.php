@@ -295,7 +295,14 @@ console.log(myUrl);
                     },
                     {
                         "class": "nk-tb-col tb-col-lg",
-                        data: 'description',
+                        // data: 'description',
+                        data: function(item){
+                            if(item.description == null){
+                                return '<span class="fixcol-200">&nbsp;</span>'
+                            }else{
+                                return '<span class="fixcol-200">'+item.description+'</span>'
+                            }
+                        },
                         name: 'description'
                     },
                     {
@@ -310,12 +317,22 @@ console.log(myUrl);
                     },
                     {
                         "class": "nk-tb-col tb-col-lg",
-                        data: 'address',
+                        // data: 'address',
+                        data: function(item){
+                            if(item.address == null){
+                                return '<span class="fixcol-200">&nbsp;</span>'
+                            }else{
+                                return '<span class="fixcol-200">'+item.address+'</span>'
+                            }
+                        },
                         name: 'address'
                     },
                     {
                         "class": "nk-tb-col tb-col-lg",
-                        data: 'website',
+                        // data: 'website',
+                        data: function(item){
+                            return '<span class="fixcol-200">'+item.website+'</span>'
+                        },
                         name: 'website'
                     }
                 ],

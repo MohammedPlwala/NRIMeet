@@ -37,7 +37,7 @@ $planApprovalRequired = \Session::get('planApprovalRequired');
 
                     <li class="nk-menu-item has-sub">
                         <a href="#" class="nk-menu-link nk-menu-toggle">
-                            <span class="nk-menu-icon"><em class="icon ni ni-users-fill"></em></span>
+                            <span class="nk-menu-icon"><em class="icon ni ni-building"></em></span>
                             <span class="nk-menu-text">Hotels</span>
                         </a>
                         <ul class="nk-menu-sub">
@@ -52,7 +52,7 @@ $planApprovalRequired = \Session::get('planApprovalRequired');
 
                     <li class="nk-menu-item has-sub">
                         <a href="#" class="nk-menu-link nk-menu-toggle">
-                            <span class="nk-menu-icon"><em class="icon ni ni-users-fill"></em></span>
+                            <span class="nk-menu-icon"><em class="icon ni ni-calender-date"></em></span>
                             <span class="nk-menu-text">Bookings</span>
                         </a>
                         <ul class="nk-menu-sub">
@@ -101,6 +101,9 @@ $planApprovalRequired = \Session::get('planApprovalRequired');
                                 <a href="{{url('admin/report/booking')}}" class="nk-menu-link"><span class="nk-menu-text">Booking</span></a>
                             </li>
                             <li class="nk-menu-item">
+                                <a href="{{url('admin/report/booking-status')}}" class="nk-menu-link"><span class="nk-menu-text">Booking Status</span></a>
+                            </li>
+                            <li class="nk-menu-item">
                                 <a href="{{url('admin/report/cancellation')}}" class="nk-menu-link"><span class="nk-menu-text">Cancellation</span></a>
                             </li>
                             <li class="nk-menu-item">
@@ -121,26 +124,35 @@ $planApprovalRequired = \Session::get('planApprovalRequired');
                             <li class="nk-menu-item">
                                 <a href="{{url('admin/report/combined')}}" class="nk-menu-link"><span class="nk-menu-text">Combined</span></a>
                             </li>
+                            <li class="nk-menu-item">
+                                <a href="{{url('admin/report/bulk-booking-rooms')}}" class="nk-menu-link"><span class="nk-menu-text">Bulk Booking Rooms</span></a>
+                            </li>
+                                <a href="{{url('admin/report/pending-confirmation')}}" class="nk-menu-link"><span class="nk-menu-text">Pending Confirmation</span></a>
+                            </li>
+                            <li class="nk-menu-item">
+                                <a href="{{url('admin/report/booking-checkin-status')}}" class="nk-menu-link"><span class="nk-menu-text">Booking Checkin Status</span></a>
+                            </li>
+                            
                         </ul>
                     </li>
 
                     <li class="nk-menu-item has-sub">
                         <a href="{{url('/admin/mahankal-lok-darshan')}}" class="nk-menu-link">
-                            <span class="nk-menu-icon"><em class="icon ni ni-users-fill"></em></span>
+                            <span class="nk-menu-icon"><em class="icon ni ni-centos"></em></span>
                             <span class="nk-menu-text">Mahakal Lok Darshan</span>
                         </a>
                     </li>
 
                     <li class="nk-menu-item has-sub">
                         <a href="{{url('/admin/contacts')}}" class="nk-menu-link">
-                            <span class="nk-menu-icon"><em class="icon ni ni-users-fill"></em></span>
+                            <span class="nk-menu-icon"><em class="icon ni ni-contact"></em></span>
                             <span class="nk-menu-text">Contacts</span>
                         </a>
                     </li>
 
                     <li class="nk-menu-item has-sub">
                         <a href="{{url('/admin/call-center')}}" class="nk-menu-link">
-                            <span class="nk-menu-icon"><em class="icon ni ni-users-fill"></em></span>
+                            <span class="nk-menu-icon"><em class="icon ni ni-headphone"></em></span>
                             <span class="nk-menu-text">Call Center</span>
                         </a>
                     </li>
