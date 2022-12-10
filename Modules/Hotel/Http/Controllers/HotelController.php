@@ -561,7 +561,7 @@ class HotelController extends Controller
             $rooms = $request->rooms;
             foreach ($rooms as $key => $room) {
 
-                $amount = $extra_bed_cost = 0;
+                $tax_percentage = $amount = $extra_bed_cost = $room_tax = 0;
 
                 if($key == 0){
 
@@ -571,10 +571,10 @@ class HotelController extends Controller
                     $adults = $request->room_one_adult;
                     $childs = $request->room_one_child;
 
-                    $total += $nights*$data['rate'];
+                    // $total += $nights*$data['rate'];
                     $extra_bed = $extra_bed_cost = 0;
                     if($request->room_one_extraBed == 1){
-                        $total += ($data['extra_bed_rate']*$nights);
+                        // $total += ($data['extra_bed_rate']*$nights);
                         $extra_bed = 1;
                         $extra_bed_cost = ($data['extra_bed_rate']*$nights);
                     }
@@ -584,16 +584,26 @@ class HotelController extends Controller
                     $adults = $request->room_two_adult;
                     $childs = $request->room_two_child;
 
-                    $total += $nights*$data['rate'];
+                    // $total += $nights*$data['rate'];
                     $extra_bed = $extra_bed_cost = 0;
                     if($request->room_two_extraBed == 1){
-                        $total += ($data['extra_bed_rate']*$nights);
+                        // $total += ($data['extra_bed_rate']*$nights);
                         $extra_bed = 1;
                         $extra_bed_cost = ($data['extra_bed_rate']*$nights);
                     }
                 }
 
+                $amount = (($nights*$data['rate'])+$extra_bed_cost);
 
+                if($data['rate'] <= 7500 ){
+                    $tax_percentage = 12;
+                    $room_tax = ($amount*($tax_percentage/100));
+                }else{
+                    $tax_percentage = 18;
+                    $room_tax = ($amount*($tax_percentage/100));
+                }
+                $tax += $room_tax;
+                $total += $amount;
 
                 $guest_one_name = $guest_two_name = $guest_three_name = $child_name = Null;
 
@@ -625,13 +635,13 @@ class HotelController extends Controller
                                 'guest_three_name' => $guest_three_name,
                                 'child_name' => $child_name,
                                 'room_id' => $data['id'],
-                                'amount' => (($nights*$data['rate'])+$extra_bed_cost),
+                                'tax_percentage' => $tax_percentage,
+                                'tax' => $room_tax,
+                                'amount' => $amount,
                                 'extra_bed' => $extra_bed,
                                 'extra_bed_cost' => $extra_bed_cost,
                             );
             }
-
-            $tax = ($total*(18/100));
 
             $booking = new Booking();
             $booking->order_id = $this->createOrderNumber();
@@ -643,7 +653,6 @@ class HotelController extends Controller
             $booking->amount = $total;
             $booking->sub_total = $total-$tax;
             $booking->tax = $tax;
-            $booking->tax_percentage = 18;
             $booking->special_request = "";
             $booking->customer_booking_status = 'Received';
             $booking->booking_status = 'Booking Received';
@@ -654,6 +663,8 @@ class HotelController extends Controller
                     $room = new BookingRoom();
                     $room->booking_id = $booking->id;
                     $room->room_id = $bookingRoom['room_id'];
+                    $room->tax_percentage = $bookingRoom['tax_percentage'];
+                    $room->tax = $bookingRoom['tax'];
                     $room->amount = $bookingRoom['amount'];
                     $room->guests = $bookingRoom['guests'];
                     $room->adults = $bookingRoom['adults'];
@@ -769,21 +780,23 @@ class HotelController extends Controller
 
             $diff = strtotime($request->checkout_date) - strtotime($request->checkin_date);
             $nights = $diff/86400;
-            $total = 0;
+            $total = 0; $tax = 0;
 
             $rooms = $request->rooms;
 
             foreach ($rooms as $key => $room) {
+                $tax_percentage = $amount = $extra_bed_cost = $room_tax = 0;
+
                 if($key == 0){
                     $type_id = $request->room_one_type;
                     $data = json_decode($request->room_one_data,true);
                     $adults = $request->room_one_adult;
                     $childs = $request->room_one_child;
 
-                    $total += $nights*$data['rate'];
+                    // $total += $nights*$data['rate'];
                     $extra_bed = $extra_bed_cost = 0;
                     if($request->room_one_extraBed == 1){
-                        $total += ($data['extra_bed_rate']*$nights);
+                        // $total += ($data['extra_bed_rate']*$nights);
                         $extra_bed = 1;
                         $extra_bed_cost = ($data['extra_bed_rate']*$nights);
                     }
@@ -792,14 +805,26 @@ class HotelController extends Controller
                     $adults = $request->room_two_adult;
                     $childs = $request->room_two_child;
 
-                    $total += $nights*$data['rate'];
+                    // $total += $nights*$data['rate'];
                     $extra_bed = $extra_bed_cost = 0;
                     if($request->room_two_extraBed == 1){
-                        $total += ($data['extra_bed_rate']*$nights);
+                        // $total += ($data['extra_bed_rate']*$nights);
                         $extra_bed = 1;
                         $extra_bed_cost = ($data['extra_bed_rate']*$nights);
                     }
                 }
+
+                $amount = (($nights*$data['rate'])+$extra_bed_cost);
+
+                if($data['rate'] <= 7500 ){
+                    $tax_percentage = 12;
+                    $room_tax = ($amount*($tax_percentage/100));
+                }else{
+                    $tax_percentage = 18;
+                    $room_tax = ($amount*($tax_percentage/100));
+                }
+                $tax += $room_tax;
+                $total += $amount;
 
                 $guest_one_name = $guest_two_name = $guest_three_name = $child_name = Null;
 
@@ -830,13 +855,14 @@ class HotelController extends Controller
                                     'guest_three_name' => $guest_three_name,
                                     'child_name' => $child_name,
                                     'room_id' => $data['id'],
-                                    'amount' => (($nights*$data['rate'])+$extra_bed_cost),
+                                    'tax_percentage' => $tax_percentage,
+                                    'tax' => $room_tax,
+                                    'amount' => $amount,
                                     'extra_bed' => $extra_bed,
                                     'extra_bed_cost' => $extra_bed_cost,
                                 );
             }
 
-            $tax = ($total*(18/100));
 
             $booking = Booking::findorfail($booking_id);
 
@@ -850,7 +876,6 @@ class HotelController extends Controller
             $booking->amount = $total;
             $booking->sub_total = $total-$tax;
             $booking->tax = $tax;
-            $booking->tax_percentage = 18;
             $booking->special_request = $request->special_request;
 
             
@@ -922,12 +947,22 @@ class HotelController extends Controller
 
                 foreach ($bookingRoomsData as $key => $bookingRoom) {
 
+                    $refundable_amount = 0;
+
+                    if(isset($request->cancellation_charges)){
+                        $cancellation_charges = ($bookingRoom['amount']*($request->cancellation_charges/100));
+                        $refundable_amount = $bookingRoom['amount']-$cancellation_charges;
+                    }
+
                     $roomIds[] = $bookingRoom['room_id'];
 
                     $room = new BookingRoom();
                     $room->booking_id = $booking->id;
                     $room->room_id = $bookingRoom['room_id'];
                     $room->amount = $bookingRoom['amount'];
+                    $room->refundable_amount = $refundable_amount;
+                    $room->tax_percentage = $bookingRoom['tax_percentage'];
+                    $room->tax = $bookingRoom['tax'];
                     $room->guests = $bookingRoom['guests'];
                     $room->adults = $bookingRoom['adults'];
                     $room->childs = $bookingRoom['childs'];
@@ -958,7 +993,7 @@ class HotelController extends Controller
                     $this->updateCancelInventory($diffRooms);
                 }
 
-                if(isset($request->payment_mode) || isset($request->payment_method) || isset($request->transaction_id)){
+                if((isset($request->payment_mode) || isset($request->payment_method)) && isset($request->transaction_id)){
                     $transaction = Transaction::where('booking_id',$booking->id)->first();
                     
                     if(!$transaction){

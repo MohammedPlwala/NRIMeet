@@ -35,22 +35,18 @@
                         <th class="nk-tb-col tb-col-mb text-left"><span class="sub-text">Hotel Name</span></th>
                         <th class="nk-tb-col tb-col-mb text-left"><span class="sub-text">Classification</span></th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Room Type</span></th>
-                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Total Room Count (Static)</span></th>
-                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">MEA Reserved (Static)</span></th>
-                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Reserved (Static)</span></th>
                         <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Total Alloted <br/>Inventory</span></th>
                         <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">MPT Reserve</span></th>
-                        <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Current Inventory (Static)</span></th>
+                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">MEA Reserved</span></th>
+                        
                         <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Opening Room <br/>Inventory</span></th>
                         <th class="nk-tb-col tb-col-mb text-right"><span class="sub-text">Room Charge</span></th>
                         <th class="nk-tb-col tb-col-mb text-right"><span class="sub-text">Extra Bed Charge</span></th>
-                        <th class="nk-tb-col tb-col-mb text-right"><span class="sub-text">Total Booking(In Rs.) (Static)</span></th>
+                        <th class="nk-tb-col tb-col-mb text-right"><span class="sub-text">Total Booking(In Rs.)</span></th>
                         <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Current Bookings</span></th>
                         <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Closing Room <br/>Inventory</span></th>
-                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Contact Person (Static)</span></th>
-                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Email Address (Static)</span></th>
-                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Mobile No. (Static)</span></th>
-                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Landline No. (Static)</span></th>
+                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Contact Person</span></th>
+                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Mobile No.</span></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -238,22 +234,6 @@
                     },
                     {
                         "class": "nk-tb-col tb-col-lg text-center",
-                        data: 'total_room_count',
-                        name: 'total_room_count'
-                    },
-                    {
-                        "class": "nk-tb-col tb-col-lg text-center",
-                        data: 'mea_reserved',
-                        name: 'mea_reserved'
-                    },
-                    {
-                        "class": "nk-tb-col tb-col-lg text-center",
-                        data: 'reserved',
-                        name: 'reserved'
-                    },
-
-                    {
-                        "class": "nk-tb-col tb-col-lg text-center",
                         data: 'allocated_rooms',
                         name: 'allocated_rooms'
                     },
@@ -265,8 +245,8 @@
                     },
                     {
                         "class": "nk-tb-col tb-col-lg text-center",
-                        data: 'current_inventory',
-                        name: 'current_inventory'
+                        data: 'mea_rooms',
+                        name: 'mea_rooms'
                     },
                     {
                         "class": "nk-tb-col tb-col-lg text-center",
@@ -305,18 +285,8 @@
                     },
                     {
                         "class": "nk-tb-col tb-col-lg text-center",
-                        data: 'email_address',
-                        name: 'email_address'
-                    },
-                    {
-                        "class": "nk-tb-col tb-col-lg text-center",
-                        data: 'mobile_no',
-                        name: 'mobile_no'
-                    },
-                    {
-                        "class": "nk-tb-col tb-col-lg text-center",
-                        data: 'landline_no',
-                        name: 'landline_no'
+                        data: 'contact_number',
+                        name: 'contact_number'
                     }
                 ],
                 "fnDrawCallback": function() {

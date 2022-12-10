@@ -270,11 +270,14 @@ class HotelController extends Controller
         $rooms = $request->rooms;
 
         $bookingData = $roomsData = array();
-        $total = 0;
+        $total = 0; $tax = 0;
 
         $nights = Session::get('nights');
 
         foreach ($rooms as $key => $room) {
+
+            $tax_percentage = $amount = $extra_bed_cost = $room_tax = 0;
+
             $data = json_decode($room['data'],true);
             $title = $room['title'];
             $first_name = $room['first_name'];
@@ -319,13 +322,24 @@ class HotelController extends Controller
                 }
             }
 
-            $total += $cartData['nights']*$data['rate'];
-            $extra_bed = $extra_bed_cost = 0;
+            $extra_bed = 0;
             if($data['extra_bed_required'] == 1){
-                $total += $data['extra_bed_rate']*$nights;
+                // $total += $data['extra_bed_rate']*$nights;
                 $extra_bed = 1;
                 $extra_bed_cost = $data['extra_bed_rate']*$nights;
             }
+
+            $amount = (($nights*$data['rate'])+$extra_bed_cost);
+
+            if($data['rate'] <= 7500 ){
+                $tax_percentage = 12;
+                $room_tax = ($amount*($tax_percentage/100));
+            }else{
+                $tax_percentage = 18;
+                $room_tax = ($amount*($tax_percentage/100));
+            }
+            $tax += $room_tax;
+            $total += $amount;
 
             $roomsData[] =  array(
                                 'guests' => $room_one_adult+$room_one_child,
@@ -336,12 +350,13 @@ class HotelController extends Controller
                                 'guest_three_name' => $guest_three_name,
                                 'child_name' => $child_name,
                                 'room_id' => $data['id'],
-                                'amount' => (($cartData['nights']*$data['rate'])+$extra_bed_cost),
+                                'tax' => $room_tax,
+                                'tax_percentage' => $tax_percentage,
+                                'amount' => $amount,
                                 'extra_bed' => $extra_bed,
                                 'extra_bed_cost' => $extra_bed_cost,
                             );
         }
-        $tax = ($total*(18/100));
         $bookingData =  array(
                             'user_id' => $user->id,
                             'hotel_id' => $cartData['hotel_id'],
@@ -351,7 +366,6 @@ class HotelController extends Controller
                             'amount' => $total,
                             'sub_total' => $total-$tax,
                             'tax' => $tax,
-                            'tax_percentage' => 18,
                             'special_request' => $request->special_request,
                             'rooms' => $roomsData,
 
@@ -686,7 +700,6 @@ class HotelController extends Controller
         $booking->nights = $bookingData->nights;
         $booking->sub_total = $bookingData->sub_total;
         $booking->tax = $bookingData->tax;
-        $booking->tax_percentage = $bookingData->tax_percentage;
         $booking->amount = $bookingData->amount;
         $booking->special_request = $bookingData->special_request;
         $booking->customer_booking_status = 'Received';
@@ -697,6 +710,8 @@ class HotelController extends Controller
                 $room = new BookingRoom();
                 $room->booking_id = $booking->id;
                 $room->room_id = $bookingRoom->room_id;
+                $room->tax_percentage = $bookingRoom->tax_percentage;
+                $room->tax = $bookingRoom->tax;
                 $room->amount = $bookingRoom->amount;
                 $room->guests = $bookingRoom->guests;
                 $room->adults = $bookingRoom->adults;

@@ -37,20 +37,18 @@
                         <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Order Id</span></th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Booking Date</span></th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Payment Date</span></th>
-                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">City (Static)</span></th>
+                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">City</span></th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Country</span></th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Hotel Name</span></th>
                         <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Rooms Booked</span></th>
                         <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Total Guest</span></th>
-                        <th class="nk-tb-col tb-col-mb text-right"><span class="sub-text">Room / Night Charge (Static)</span></th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Tax Collected</span></th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Total Amount</span></th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Status</span></th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Payment Method</span></th>
-                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Payment Mode (Static)</span></th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Payment Via</span></th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Transaction ID</span></th>
-                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Settlement ID (Static)</span></th>
+                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Settlement ID</span></th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Settlement Date</span></th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">UTR NO.</span></th>
                     </tr>
@@ -243,11 +241,6 @@
                         data: 'guests',
                         name: 'guests'
                     },
-                    {
-                        "class": "nk-tb-col tb-col-lg text-right",
-                        data: 'room_night_charge',
-                        name: 'room_night_charge'
-                    },
                     // available_rooms == extra bed Charge
                     {
                         "class": "nk-tb-col tb-col-lg",
@@ -268,18 +261,13 @@
                     },
                     {
                         "class": "nk-tb-col tb-col-lg",
-                        data: 'booking_type',
-                        name: 'booking_type'
+                        data: 'payment_mode',
+                        name: 'payment_mode'
                     },
                     {
                         "class": "nk-tb-col tb-col-lg",
                         data: 'payment_method',
                         name: 'payment_method'
-                    },
-                    {
-                        "class": "nk-tb-col tb-col-lg",
-                        data: 'payment_mode',
-                        name: 'payment_mode'
                     },
                     {
                         "class": "nk-tb-col tb-col-lg",

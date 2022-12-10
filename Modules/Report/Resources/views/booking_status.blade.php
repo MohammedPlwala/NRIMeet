@@ -3,7 +3,7 @@
 <div class="nk-block-head nk-block-head-sm">
     <div class="nk-block-between">
         <div class="nk-block-head-content">
-            <h3 class="nk-block-title page-title">Guest</h3>
+            <h3 class="nk-block-title page-title">Bookings Status</h3>
         </div><!-- .nk-block-head-content -->
         <div class="nk-block-head-content">
             <div class="toggle-wrap nk-block-tools-toggle">
@@ -11,12 +11,13 @@
                 <div class="toggle-expand-content" data-content="more-options">
                     <ul class="nk-block-tools g-3">
                         <li>
-                            <a href="#" class="btn btn-outline-primary dropdown-toggle" data-toggle="modal" title="filter" data-target="#modalFilterorder">
-                                <em class="icon ni ni-filter"></em><span>Filter</span>
+                            <a href="#" class="btn btn-trigger btn-icon dropdown-toggle" data-toggle="modal" title="filter" data-target="#modalFilterorder">
+                                <div class="dot dot-primary"></div>
+                                <em class="icon ni ni-filter-alt"></em>
                             </a>
                         </li>
                         <li class="nk-block-tools-opt">
-                            <a href="javascript:void(0);" data-href="{{ url('admin/report/guest-export') }}" class="btn btn-primary export_data"><em class="icon ni ni-download"></em><span>Export</span></a>
+                            <a  href="javascript::void(0)" data-href="{{ url('admin/report/booking-export') }}" class="btn btn-primary export_data"><em class="icon ni ni-download"></em><span>Export</span></a>
                         </li>
                     </ul>
                 </div>
@@ -32,20 +33,14 @@
             <table class="broadcast-init nowrap nk-tb-list is-separate" data-auto-responsive="false">
                 <thead>
                     <tr class="nk-tb-item nk-tb-head">
-                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Name</span></th>
-                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Contact</span></th>
-                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Email Address</span></th>
-                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Whatsapp Contact</span></th>
-                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Billing Address</span></th>
-                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">City</span></th>
-                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">State</span></th>
-                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Country</span></th>
-                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Postal Code</span></th>
-                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">User Id</span></th>
-                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Registration Date</span></th>
+                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Hotel</span></th>
+                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Bookings</span></th>
+                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Guest Count</span></th>
+                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Alloted Rooms</span></th>
                     </tr>
                 </thead>
                 <tbody>
+                    
                 </tbody>
             </table>
         </div>
@@ -67,86 +62,106 @@
                 @csrf
                 <div class="modal-body modal-body-lg">
                     <div class="gy-3">
-                        
                         <div class="row g-3 align-center">
                             <div class="col-lg-5">
-                                <x-inputs.verticalFormLabel label="Name" for="name" suggestion="Enter the name." />
+                                <x-inputs.verticalFormLabel label="Hotel Name" for="hotel_name" suggestion="Select the hotel name." />
                             </div>
                             <div class="col-lg-7">
-                                <x-inputs.text  value="" for="name" name="name" placeholder="Name" />
+                                <x-inputs.select  size="sm" name="hotel_name" for="hotel_name" placeholder="Select Hotel Name">
+                                    <option value="">Select</option>
+                                    <option value="Hotel 1">Hotel 1</option>
+                                    <option value="Hotel 2">Hotel 2</option>
+                                </x-inputs.select>
                             </div>
                         </div>
-
                         <div class="row g-3 align-center">
                             <div class="col-lg-5">
-                                <x-inputs.verticalFormLabel label="Country / Region" for="Country / Region" suggestion="Specify the country name." />
+                                <x-inputs.verticalFormLabel label="Room Type" for="room_type" suggestion="Select the room type." />
                             </div>
                             <div class="col-lg-7">
-                                <x-inputs.select name="country" for="billing_country"
-                                value="{{ isset($user) ? $user->country : old('country') }}"
-                                class="country_to_state country_select" autocomplete="country"
-                                data-placeholder="Select a country / region…" data-label="Country / Region"
-                                tabindex="-1" aria-hidden="true">
-                                <option value="">Select a country / region…</option>
-                            </x-inputs.select>
-                            @if ($errors->has('country'))
-                            <span class="text-danger">{{ $errors->first('country') }}</span>
-                        @endif
+                                <x-inputs.select  size="sm" name="room_type" for="room_type" placeholder="Select Room Type">
+                                    <option value="">Select</option>
+                                    <option value="Base">Base</option>
+                                    <option value="Suite">Suite</option>
+                                    <option value="Premier">Premier</option>
+                                </x-inputs.select>
                             </div>
                         </div>
-                        <div class="row g-3" id="state_wrapper">
+                        <div class="row g-3 align-center">
                             <div class="col-lg-5">
-                                <x-inputs.verticalFormLabel label="State" for="State" suggestion="Specify the nationality." />
+                                <x-inputs.verticalFormLabel label="Guest Count" for="guest_count" suggestion="Enter the guest count." />
                             </div>
                             <div class="col-lg-7">
-                                <div id="field_billing_state">
-                                    <x-inputs.text  value="" for="billing_state" name="billing_state" placeholder="State" />
+                                <x-inputs.number  value="" for="guest_count" name="guest_count" placeholder="Enter Guest Count" />
+                            </div>
+                        </div>
+                        <div class="row g-3 align-center">
+                            <div class="col-lg-5">
+                                <x-inputs.verticalFormLabel label="Check in Date" for="check_in_date" suggestion="Select the check in date." />
+                            </div>
+                            <div class="col-lg-7">
+                                <div class="form-control-wrap">
+                                    <div class="form-icon form-icon-left">
+                                        <em class="icon ni ni-calendar"></em>
+                                    </div>
+                                    <input type="text" class="form-control date-picker" id="check_in_date" placeholder="Check in Date" data-date-format="yyyy-mm-dd">
                                 </div>
                             </div>
                         </div>
-
                         <div class="row g-3 align-center">
                             <div class="col-lg-5">
-                                <x-inputs.verticalFormLabel label="City" for="city" suggestion="Enter the city." />
+                                <x-inputs.verticalFormLabel label="Check out Date" for="check_out_date" suggestion="Select the check out date." />
                             </div>
                             <div class="col-lg-7">
-                                <x-inputs.text  value="" for="city" name="city" placeholder="City" />
+                                <div class="form-control-wrap">
+                                    <div class="form-icon form-icon-left">
+                                        <em class="icon ni ni-calendar"></em>
+                                    </div>
+                                    <input type="text" class="form-control date-picker" id="check_out_date" placeholder="Check out Date" data-date-format="yyyy-mm-dd">
+                                </div>
                             </div>
                         </div>
-                        {{-- <div class="row g-3 align-center">
+                        <div class="row g-3 align-center">
                             <div class="col-lg-5">
-                                <x-inputs.verticalFormLabel label="State" for="state" suggestion="Select the state." />
+                                <x-inputs.verticalFormLabel label="Booking Status" for="booking_status" suggestion="Select the booking status." />
                             </div>
                             <div class="col-lg-7">
-                                <x-inputs.select  size="sm" name="state" for="state" placeholder="Select State">
+                                <x-inputs.select  size="sm" name="booking_status" for="booking_status" placeholder="Select Booking Status">
                                     <option value="">Select</option>
-                                    <option value="State">State</option>
-                                    <!-- @for ($i = 1; $i <= 12; $i++)
-                                        <option value="{{ $i }}">{{ date('F',strtotime('2012-'.$i.'-12')) }}</option>
-                                    @endfor -->
+                                    <option value="Recevied">Recevied</option>
+                                    <option value="Confirmed">Confirmed</option>
+                                    <option value="Booking Shared">Booking Shared</option>
+                                    <option value="Confirmation Recevied">Confirmation Recevied</option>
+                                    <option value="Cancellation Requested">Cancellation Requested</option>
+                                    <option value="Cancellation Approved">Cancellation Approved</option>
+                                    <option value="Refund Requested">Refund Requested</option>
+                                    <option value="Refund Approved">Refund Approved</option>
+                                    <option value="Refund Issued">Refund Issued</option>
                                 </x-inputs.select>
                             </div>
                         </div>
                         <div class="row g-3 align-center">
                             <div class="col-lg-5">
-                                <x-inputs.verticalFormLabel label="Country" for="country" suggestion="Select the country." />
+                                <x-inputs.verticalFormLabel label="Adults" for="adults" suggestion="Enter the adults." />
                             </div>
                             <div class="col-lg-7">
-                                <x-inputs.select  size="sm" name="country" for="country" placeholder="Select Country">
-                                    <option value="">Select</option>
-                                    <option value="India">India</option>
-                                    <!-- @for ($i = 1; $i <= 12; $i++)
-                                        <option value="{{ $i }}">{{ date('F',strtotime('2012-'.$i.'-12')) }}</option>
-                                    @endfor -->
-                                </x-inputs.select>
+                                <x-inputs.number  value="" for="adults" name="adults" placeholder="Enter Adults" />
                             </div>
-                        </div> --}}
+                        </div>
                         <div class="row g-3 align-center">
                             <div class="col-lg-5">
-                                <x-inputs.verticalFormLabel label="Postal Code" for="postal_code" suggestion="Enter the postal code." />
+                                <x-inputs.verticalFormLabel label="Child" for="child" suggestion="Enter the child." />
                             </div>
                             <div class="col-lg-7">
-                                <x-inputs.number  value="" for="postal_code" name="postal_code" placeholder="Postal Code" />
+                                <x-inputs.number  value="" for="child" name="child" placeholder="Enter Child" />
+                            </div>
+                        </div>
+                        <div class="row g-3 align-center">
+                            <div class="col-lg-5">
+                                <x-inputs.verticalFormLabel label="Extra Bed" for="extra_bed" suggestion="Enter the extra bed." />
+                            </div>
+                            <div class="col-lg-7">
+                                <x-inputs.number  value="" for="extra_bed" name="extra_bed" placeholder="Enter Extra Bed" />
                             </div>
                         </div>
                     </div>
@@ -157,7 +172,7 @@
                         <div class="col-lg-12 p-0 text-right">
                             <button class="btn btn-outline-light" data-dismiss="modal" aria-label="Close">Cancel</button>
                             <button class="btn btn-danger resetFilter" data-dismiss="modal" aria-label="Close">Clear Filter</button>
-                            <button class="btn btn-primary submitBtn" data-dismiss="modal" type="button">Submit</button>
+                            <button class="btn btn-primary submitBtn" type="button">Submit</button>
                         </div>
                     </div>
                 </div>
@@ -224,11 +239,15 @@
             NioApp.getAuditLogs('.broadcast-init', '.audit_logs', 'resourceid', logUrl, '#modalLogs');
 
             var items = [
-                '#city',
-                '#billing_state',
-                '#billing_country',
-                '#name',
-                '#postal_code'
+                '#hotel_name',
+                '#room_type',
+                '#guest_count',
+                '#check_in_date',
+                '#check_out_date',
+                '#adults',
+                '#child',
+                '#booking_status',
+                '#extra_bed'
             ];
             var user_table = "";
             user_table = new CustomDataTable({
@@ -239,67 +258,40 @@
                     ordering: false,
                     ajax: {
                         type: "GET",
-                        url: "{{ url('admin/report/guest') }}",
+                        url: "{{ url('admin/report/booking-status') }}",
                     },
                     columns: [
                         {
                             "class": "nk-tb-col tb-col-lg",
-                            data: 'full_name',
-                            name: 'full_name'
+                            data: 'name',
+                            name: 'name'
                         },
                         {
                             "class": "nk-tb-col tb-col-lg",
-                            data: 'mobile',
-                            name: 'mobile'
+                            data: 'bookings',
+                            name: 'bookings'
                         },
                         {
                             "class": "nk-tb-col tb-col-lg",
-                            data: 'email',
-                            name: 'email'
-                        },
-
-                        {
-                            "class": "nk-tb-col tb-col-lg",
-                            data: 'mobile',
-                            name: 'mobile'
-                        },
-
-                        {
-                            "class": "nk-tb-col tb-col-lg",
-                            data: 'address',
-                            name: 'address'
-                        },
-
-                        {
-                            "class": "nk-tb-col tb-col-lg",
-                            data: 'city',
-                            name: 'city'
+                            data: 'allotedRooms',
+                            name: 'allotedRooms'
                         },
                         {
                             "class": "nk-tb-col tb-col-lg",
-                            data: 'state',
-                            name: 'state'
+                            data: 'allotedRooms',
+                            name: 'allotedRooms'
                         },
-                        {
-                            "class": "nk-tb-col tb-col-lg",
-                            data: 'country',
-                            name: 'country'
-                        },
-                        {
-                            "class": "nk-tb-col tb-col-lg",
-                            data: 'zip',
-                            name: 'zip'
-                        },
-                        {
-                            "class": "nk-tb-col tb-col-lg",
-                            data: 'id',
-                            name: 'id'
-                        },
-                        {
-                            "class": "nk-tb-col tb-col-lg",
-                            data: 'registration_date',
-                            name: 'registration_date'
-                        }
+                        // {
+                        //     "class": "nk-tb-col tb-col-lg",
+                        //     data: 'guest_email',
+                        //     name: 'guest_email'
+                        // },
+                        // {
+                        //     "class": "nk-tb-col tb-col-lg",
+                        //     data: 'guest_contact',
+                        //     name: 'guest_contact'
+                        // }
+                        
                     ],
                     "fnDrawCallback": function() {
                         NioApp.BS.tooltip('[data-toggle="tooltip"]');
@@ -316,7 +308,7 @@
                 },
                 filterClearSubmit: '.resetFilter',
                 filterModalId: '#modalFilterUser',
-                filterItems: items,
+                // filterItems: items,
                 tagId: '#filter_tag_list',
             });
 

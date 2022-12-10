@@ -49,4 +49,7 @@ Route::prefix('admin/report')->group(function() {
     Route::get('bulk-booking-rooms', 'ReportController@bulkBookingRooms');
     Route::get('financial', 'ReportController@financial');
     Route::get('financial-2', 'ReportController@financial2');
+
+    Route::get('booking-status', 'ReportController@bookingStatus');
+    Route::get('booking-status-export', 'ReportController@bookingStatusExport');
 });

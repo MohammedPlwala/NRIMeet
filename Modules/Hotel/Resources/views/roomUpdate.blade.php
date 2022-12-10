@@ -230,8 +230,8 @@
     <script type="text/javascript">
         $(document).ready(function() {
             $('#allocated_rooms, #mpt_reserve').on('change', function(e){
-                var allocated_rooms = $('#allocated_rooms').val()
-                var mpt_reserve = $('#mpt_reserve').val()
+                var allocated_rooms = parseFloat($('#allocated_rooms').val()) || 0
+                var mpt_reserve = parseFloat($('#mpt_reserve').val()) || 0
                 if(allocated_rooms < mpt_reserve){
                     alert("Reserved rooms can't be greater then allocated rooms value.")
                     $('.submit').attr('disabled', true)

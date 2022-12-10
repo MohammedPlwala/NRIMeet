@@ -12,7 +12,7 @@ use Maatwebsite\Excel\Concerns\WithTitle;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Illuminate\Http\Request;
 
-class RefundExport implements FromArray, WithHeadings, ShouldAutoSize, WithEvents, WithTitle 
+class BookingStatusExport implements FromArray, WithHeadings, ShouldAutoSize, WithEvents, WithTitle 
 {
 
 	use Exportable;
@@ -21,7 +21,7 @@ class RefundExport implements FromArray, WithHeadings, ShouldAutoSize, WithEvent
     {
         $this->data = $data;
 
-        $this->fileName = 'Refund';
+        $this->fileName = 'Orders';
     }
 
     /**
@@ -36,9 +36,9 @@ class RefundExport implements FromArray, WithHeadings, ShouldAutoSize, WithEvent
     {
         return [
             'Guest Name',
-            'Order Id',
-            'Confirmation No',
-            'Classification',
+            'Order ID',
+            'Confirmation NO',
+            'Star Rating',
             'Hotel',
             'Room Type',
             'Guest Count',
@@ -47,12 +47,8 @@ class RefundExport implements FromArray, WithHeadings, ShouldAutoSize, WithEvent
             'Adults',
             'Child',
             'Extra Bed',
-            'Amount',
-            'Status',
-            'Refund Request Date',
-            'Refund Date',
-            'Refundable Amount',
-            'Refund Transaction UTR'
+            'Amount'
+
         ];
     }
 
@@ -63,7 +59,7 @@ class RefundExport implements FromArray, WithHeadings, ShouldAutoSize, WithEvent
     {
         return [
             AfterSheet::class    => function(AfterSheet $event) {
-                $cellRange = 'A1:R1'; // All headers
+                $cellRange = 'A1:M1'; // All headers
                 $event->sheet->getDelegate()->getStyle($cellRange)->getFont()->setSize(14);
             },
         ];
