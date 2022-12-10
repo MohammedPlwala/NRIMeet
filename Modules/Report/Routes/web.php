@@ -49,8 +49,6 @@ Route::prefix('admin/report')->group(function() {
     Route::get('bulk-booking-rooms', 'ReportController@bulkBookingRooms');
     Route::get('financial', 'ReportController@financial');
     Route::get('financial-2', 'ReportController@financial2');
-Route::get('combined', 'ReportController@combined');
-    Route::post('combined', 'ReportController@combined');
 
 
     Route::get('booking-status', 'ReportController@bookingStatus');

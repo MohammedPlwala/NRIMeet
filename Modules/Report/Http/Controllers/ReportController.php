@@ -29,6 +29,7 @@ use Modules\Report\Exports\BookingSummaryExport;
 use Modules\Report\Exports\BookingStatusExport;
 use Modules\Report\Exports\PendingConfirmationExport;
 use Modules\Report\Exports\CombinedExport;
+use Modules\Report\Exports\BookingCheckInStatusExport;
 
 
 use DataTables;
@@ -1177,7 +1178,7 @@ class ReportController extends Controller
             return view('report::combined',['bookings' => $bookings, 'hotels' => $hotels,'room_types' => $roomTypes, 'request' => $request]);
         }
     }
- public function bookingStatus(Request $request)
+    public function bookingStatus(Request $request)
     {
 
         $data = Hotel::from('hotels as h')
@@ -1362,23 +1363,18 @@ class ReportController extends Controller
     {
 
         $data = Booking::from('bookings as b')
-                ->select('b.id', 'b.hotel_id', 'b.check_in_date', 'h.name',\DB::Raw('GROUP_CONCAT(b.id)'),
-                    \DB::Raw('SUM(CASE WHEN br.room_id != 0 THEN 1 ELSE 0) as booking_rooms')
+                ->select(\DB::raw('DATE_FORMAT(b.check_in_date, "%d-%b-%Y") as check_in_date'), 'h.name',
+                    \DB::Raw('sum(case when (br.room_id!="") then 1 else 0 end) AS bookings'),
+                    \DB::Raw('sum(case when (br.room_id!="") then br.guests else 0 end) AS guests'),
                 )
                 ->join('hotels as h','h.id','=','b.hotel_id')
                 ->leftJoin('booking_rooms as br','br.booking_id','=','b.id')
-                // ->join('bookings as hr','hr.hotel_id','=','h.id')
                 ->groupby('b.check_in_date', 'b.hotel_id')
                 ->orderby('b.check_in_date','asc')
-
                 ->get();
-
-                echo "<pre>";
-                print_r($data->toArray());
-                die;
         
                 if ($request->ajax()) {
-            return Datatables::of($data)
+                    return Datatables::of($data)
                     ->addIndexColumn()
                     ->rawColumns(['order_id'])
                     ->skipPaging()
@@ -1391,21 +1387,21 @@ class ReportController extends Controller
     public function bookingCheckInStatusExport(Request $request)
     {
 
-        $data = Hotel::from('hotels as h')
-                ->select('h.id', 'h.name',
-                \DB::Raw('COALESCE((select sum(hotel_rooms.allocated_rooms) from hotel_rooms where hotel_rooms.hotel_id = h.id ),0) as allotedRooms', 'booking_rooms'),
-                \DB::Raw('COALESCE((select count(booking_rooms.id) from booking_rooms where booking_rooms.room_id = hr.id ),0) as bookings'),
-                \DB::Raw('COALESCE((select sum(booking_rooms.guests) from booking_rooms where booking_rooms.room_id = hr.id ),0) as guests'),
-                // \DB::Raw('COALESCE((select sum(hotel_rooms.allocated_rooms) from hotel_rooms where hotel_rooms.hotel_id = h.id ),0) as allotedRooms', 'booking_rooms'),
+       $data = Booking::from('bookings as b')
+                ->select(
+                    \DB::raw('DATE_FORMAT(b.check_in_date, "%d-%b-%Y") as check_in_date'),
+                     'h.name',
+                    \DB::Raw('sum(case when (br.room_id!="") then 1 else 0 end) AS bookings'),
+                    \DB::Raw('sum(case when (br.room_id!="") then br.guests else 0 end) AS guests'),
                 )
-                ->join('hotel_rooms as hr','hr.hotel_id','=','h.id')
-                ->groupby('h.id')
-                ->orderby('h.name','asc')
-
+                ->join('hotels as h','h.id','=','b.hotel_id')
+                ->leftJoin('booking_rooms as br','br.booking_id','=','b.id')
+                ->groupby('b.check_in_date', 'b.hotel_id')
+                ->orderby('b.check_in_date','asc')
                 ->get();
 
         if(!empty($data->toArray())){
-            return (new BookingStatusExport($data->toArray()))->download('booking-status' . '.xlsx', \Maatwebsite\Excel\Excel::XLSX);
+            return (new BookingCheckInStatusExport($data->toArray()))->download('booking-checkin-status' . '.xlsx', \Maatwebsite\Excel\Excel::XLSX);
         }else{
             return redirect('admin/report/booking-status')->with('error', 'No order');
         }
@@ -1419,10 +1415,7 @@ class ReportController extends Controller
     {
         return view('report::call_center');
     }
-    public function combined(Request $request)
-    {
-        return view('report::combined');
-    }
+    
     public function bulkBookingRooms(Request $request)
     {
         return view('report::bulk_booking_rooms');
