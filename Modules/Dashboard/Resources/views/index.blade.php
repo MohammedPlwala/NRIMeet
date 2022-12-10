@@ -26,8 +26,8 @@
     </div><!-- .nk-block-head -->
     <div class="nk-block">
         <div class="row g-gs">
-            <div class="col-xxl-3 col-sm-6">
-                <div class="card">
+            <div class="col-md-3 col-sm-6">
+                <div class="card h-100">
                     <div class="nk-ecwg nk-ecwg6">
                         <div class="card-inner">
                             <div class="card-title-group">
@@ -47,8 +47,8 @@
                     </div><!-- .nk-ecwg -->
                 </div><!-- .card -->
             </div><!-- .col -->
-            <div class="col-xxl-3 col-sm-6">
-                <div class="card">
+            <div class="col-md-3 col-sm-6">
+                <div class="card h-100">
                     <div class="nk-ecwg nk-ecwg6">
                         <div class="card-inner">
                             <div class="card-title-group">
@@ -68,8 +68,8 @@
                     </div><!-- .nk-ecwg -->
                 </div><!-- .card -->
             </div><!-- .col -->
-            <div class="col-xxl-3 col-sm-6">
-                <div class="card">
+            <div class="col-md-3 col-sm-6">
+                <div class="card h-100">
                     <div class="nk-ecwg nk-ecwg6">
                         <div class="card-inner">
                             <div class="card-title-group">
@@ -89,8 +89,8 @@
                     </div><!-- .nk-ecwg -->
                 </div><!-- .card -->
             </div><!-- .col -->
-            <div class="col-xxl-3 col-sm-6">
-                <div class="card">
+            <div class="col-md-3 col-sm-6">
+                <div class="card h-100">
                     <div class="nk-ecwg nk-ecwg6">
                         <div class="card-inner">
                             <div class="card-title-group">

@@ -239,3 +239,14 @@
     </div>
   </div>
 @endsection
+@push('footerScripts')
+<script>
+    $(document).ready(function(){
+        $(".booking-form-wrap .shb-booking-form-col").on('click',function() {
+            $('html, body').animate({
+                'scrollTop' : $(".booking-form-wrap").position().top
+            });
+        });
+    })
+</script>
+@endpush
