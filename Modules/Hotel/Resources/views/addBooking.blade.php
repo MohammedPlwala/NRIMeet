@@ -309,8 +309,8 @@
                     } else {
                         $('#room_one_extraBed').prop('disabled', true);
                     }
-                    $('#room_one_extraBed').val('');
-                        $('#room_one_extraBed').trigger('change');
+                    $('#room_one_extraBed').val(0);
+                    $('#room_one_extraBed').trigger('change');
                     var rate = parseFloat(roomData.rate);
                     rate = rate.toFixed(2);
                     $('#room_one_rate').text(rate);
@@ -358,7 +358,7 @@
                     } else {
                         $('#room_two_extraBed').prop('disabled', true);
                     }
-                    $('#room_two_extraBed').val('').trigger('change');
+                    $('#room_two_extraBed').val(0).trigger('change');
                     var rate = parseFloat(roomData.rate);
                     rate = rate.toFixed(2);
                     $('#room_two_rate').text(rate);
