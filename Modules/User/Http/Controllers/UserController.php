@@ -385,16 +385,12 @@ class UserController extends Controller
         $userPermission = \Session::get('userPermission');
 
         $authUser = \Auth::user();
-
-        $guestRoleId = Role::where('name','Guest')
-                    ->first()->id;
-
         $users = User::from('users as u')
                 ->select('u.id','u.full_name','u.email','u.status','u.mobile','u.created_at','u.updated_at','roles.name as roleName')
                 ->leftJoin('user_role as ur','ur.user_id','u.id')
                 ->leftJoin('roles','roles.id','ur.role_id')
                 ->where('u.id','!=',$authUser->id)
-                ->where('ur.role_id','!=',$guestRoleId)
+                ->whereNotIn('roles.name',['Guest','Administrator'])
                 ->where(function ($query) use ($request) {
                     if (!empty($request->toArray())) {
                         if ($request->get('firstname') != '') {
@@ -558,14 +554,24 @@ class UserController extends Controller
      * @return Renderable
      */
     public function storeStaff(Request $request)
-    {   
-        
+    {           
         if(isset($request->userId)){
             $user = User::findorfail($request->userId);
             $msg = "User updated successfully";
+
+            $checkEmail = User::where('id','!=',$request->userId)->where('email',$request->email)->first();
+            if($checkEmail){
+                return redirect('/admin/user/staff')->with('error', 'Email already exists');
+            }
+
         }else{
             $user = new User();
             $msg = "User added successfully";
+
+            $checkEmail = User::where('email',$request->email)->first();
+            if($checkEmail){
+                return redirect('/admin/user/staff')->with('error', 'Email already exists');
+            }
         }
 
         $user->full_name = $request->name;
@@ -587,10 +593,10 @@ class UserController extends Controller
         
         if($user->save()){
             $userRoles = array('role_id' => $request->role, 'user_id' =>  $user->id);
-
             $userRole = UserRole::where('user_id', $user->id)->first();
             if($userRole){
-                UserRole::update([ 'role_id' => $request->role ]);
+                $userRole->role_id = $request->role;
+                $userRole->save();
             }else{
                 UserRole::insert($userRoles);
             }

@@ -556,10 +556,13 @@ class HotelController extends Controller
 
             $diff = strtotime($request->checkout_date) - strtotime($request->checkin_date);
             $nights = $diff/86400;
-            $total = 0;
+            $total = 0; $tax = 0;
 
             $rooms = $request->rooms;
             foreach ($rooms as $key => $room) {
+
+                $amount = $extra_bed_cost = 0;
+
                 if($key == 0){
 
                     $type_id = $request->room_one_type;
@@ -589,6 +592,8 @@ class HotelController extends Controller
                         $extra_bed_cost = ($data['extra_bed_rate']*$nights);
                     }
                 }
+
+
 
                 $guest_one_name = $guest_two_name = $guest_three_name = $child_name = Null;
 
@@ -743,12 +748,20 @@ class HotelController extends Controller
                     ->where('r.name','Guest')
                     ->where('u.status','active')
                     ->get();
+
+        $transaction = Transaction::where('booking_id',$booking->id)->first();
+        if($transaction){
+            $booking->transaction_id = $transaction->transaction_id;
+            $booking->payment_method = $transaction->payment_method;
+        }
+
+
         return view('hotel::editBooking',['booking' => $booking,'hotels' => $hotels,'roomTypes' => $roomTypes,'guests' => $guests,'bookingRooms' => $bookingRooms->toArray()]);
         
     }
 
     public function updateBooking(Request $request,$booking_id){
-        
+
         try{
             $bookingRoomsData = array();
 
@@ -839,6 +852,32 @@ class HotelController extends Controller
             $booking->tax = $tax;
             $booking->tax_percentage = 18;
             $booking->special_request = $request->special_request;
+
+            
+            if(isset($request->cancellation_date)){
+                $booking->cancellation_date = date('Y-m-d',strtotime($request->cancellation_date));
+            }
+            if(isset($request->cancellation_charges)){
+                $booking->cancellation_charges = $request->cancellation_charges;
+            }
+
+
+            if(isset($request->refund_date)){
+                $booking->refund_date = date('Y-m-d',strtotime($request->refund_date));
+            }
+
+            if(isset($request->refundable_amount)){
+                $booking->refundable_amount = $request->refundable_amount;
+            }
+
+            if(isset($request->refund_transaction_utr)){
+                $booking->refund_transaction_utr = $request->refund_transaction_utr;
+            }
+
+            if(isset($request->settlement_id)){
+                $booking->settlement_id = $request->settlement_id;
+            }
+
             $booking->customer_booking_status = 'Received';
             
             if($request->status == 'Confirmation Recevied'){
@@ -917,6 +956,21 @@ class HotelController extends Controller
                 if($request->status != 'Cancellation Approved' && $request->status != 'Refund Requested' && $request->status != 'Refund Approved'){
                     $diffRooms = array_diff($roomIds, $oldRooms);
                     $this->updateCancelInventory($diffRooms);
+                }
+
+                if(isset($request->payment_mode) || isset($request->payment_method) || isset($request->transaction_id)){
+                    $transaction = Transaction::where('booking_id',$booking->id)->first();
+                    
+                    if(!$transaction){
+                        $transaction = new Transaction();
+                    }
+
+                    $transaction->booking_id = $booking->id;
+                    $transaction->transaction_id = $request->transaction_id;
+                    $transaction->payment_method = $request->payment_method;
+                    $transaction->payment_mode = $request->payment_mode;
+                    $transaction->status = 'confirmed';
+                    $transaction->save();
                 }
 
                 if($request->guest != $oldGuestId){

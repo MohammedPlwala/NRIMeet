@@ -98,7 +98,7 @@
                                     {{-- <div class="status dot dot-lg dot-success"></div> --}}
                                 </div>
                                 <div class="user-info">
-                                    @if($user->status == '1')
+                                    @if($user->status == 'active')
                                     <h6>{{ ucfirst($user->name.' '.$user->last_name) }} <span class="badge badge-success mb-0">Approved</span></h6>
                                     @else
                                     <h6>{{ ucfirst($user->name.' '.$user->last_name) }} <span class="badge badge-danger mb-0">Not Approved</span></h6>

@@ -93,7 +93,7 @@ class HotelController extends Controller
 
         $hotels =   HotelRoom::from('hotels as h')
                     ->select('id','name','image','classification','description','location','airport_distance','venue_distance','website','contact_person','contact_number')
-                    ->where('is_verified',1)
+                    // ->where('is_verified',1)
                     ->where('status','active')
                     ->where(function ($query) use ($request) {
                         if (!empty($request->toArray())) {

@@ -62,19 +62,19 @@
                             </div>
                             <div class="row g-3 align-center">
                                 <div class="col-lg-4">
-                                    <x-inputs.verticalFormLabel label="Select check IN and Check out Date" for="hotel"
+                                    <x-inputs.verticalFormLabel label="Check-In and Check-Out Date" for="hotel"
                                         suggestion="" required="true" />
                                 </div>
                                 <div class="col-lg-8">
                                     <div class="row">
                                         <div class="col-lg-6">
                                             <x-inputs.text value="{{ date('m/d/Y', strtotime($booking->check_in_date)) }}"
-                                                for="checkin_date" class="date-picker checkDate" icon="calender-date-fill"
+                                                for="checkin_date" class="checkDate" icon="calender-date-fill" readonly='true'
                                                 required="true" placeholder="Date of birth" name="checkin_date" />
                                         </div>
                                         <div class="col-lg-6">
                                             <x-inputs.text value="{{ date('m/d/Y', strtotime($booking->check_out_date)) }}"
-                                                for="checkout_date" class="date-picker checkDate" icon="calender-date-fill"
+                                                for="checkout_date"  readonly='true' class="checkDate" icon="calender-date-fill"
                                                 required="true" placeholder="Date of birth" name="checkout_date" />
                                         </div>
                                     </div>
@@ -394,7 +394,6 @@
                                     <x-inputs.select value="{{ isset($booking) ? $booking->payment_mode : '' }}" 
                                         for="payment_mode"  
                                          name="payment_mode" >
-                                         <option value="Offline">Offline</option>
                                          <option value="Online">Online</option>
                                     </x-inputs.select>
                                 </div>
@@ -569,24 +568,24 @@
                             </div>
                             <div class="row g-3 align-center">
                                 <div class="col-lg-4">
-                                    <x-inputs.verticalFormLabel label="Refund Amount" for="refund_amount" suggestion=""  
+                                    <x-inputs.verticalFormLabel label="Refund Amount" for="refundable_amount" suggestion=""  
                                        />
                                 </div>
                                 <div class="col-lg-8">
-                                    <x-inputs.text value="{{ isset($booking) ? $booking->refund_amount : '' }}" 
-                                        for="refund_amount" icon="sign-inr"  
-                                         name="refund_amount" readonly="true" />
+                                    <x-inputs.text value="{{ isset($booking) ? $booking->refundable_amount : '' }}" 
+                                        for="refundable_amount" icon="sign-inr"  
+                                         name="refundable_amount" readonly="true" />
                                 </div>
                             </div>
                             <div class="row g-3 align-center">
                                 <div class="col-lg-4">
-                                    <x-inputs.verticalFormLabel label="Refund Transaction UTR" for="refund_transaction_id" suggestion=""
+                                    <x-inputs.verticalFormLabel label="Refund Transaction UTR" for="refund_transaction_utr" suggestion=""
                                         />
                                 </div>
                                 <div class="col-lg-8">
-                                    <x-inputs.text value="{{ isset($booking) ? $booking->refund_transaction_id : '' }}" 
-                                        for="refund_transaction_id" icon="id"  
-                                         name="refund_transaction_id" />
+                                    <x-inputs.text value="{{ isset($booking) ? $booking->refund_transaction_utr : '' }}" 
+                                        for="refund_transaction_utr" icon="list"  
+                                         name="refund_transaction_utr" />
                                 </div>
                             </div>
                         </div>
@@ -624,9 +623,19 @@
         
     <script type="text/javascript">
         $(document).ready(function() {
-            var cancellation_charges = 10
+
+            $('#hotel option:not(:selected)').prop('disabled', true);
+            $('#guest option:not(:selected)').prop('disabled', true);
+
+            var cancellation_charges = 0;
+
+            @if(isset($booking->cancellation_charges) && !is_null($booking->cancellation_charges))
+            var cancellation_charges = "<?php echo $booking->cancellation_charges; ?>";
+            @endif
+
+
             var booking_ammount = {{$booking->amount}}
-            $('#refund_amount').val(booking_ammount - (booking_ammount * cancellation_charges / 100))
+            $('#refundable_amount').val(booking_ammount - (booking_ammount * cancellation_charges / 100))
             var nights = getNights();
                 $('#nights').html(parseFloat(nights))
 
@@ -641,7 +650,7 @@
                     } else {
                         $('#room_one_extraBed').prop('disabled', true);
                     }
-                    $('#room_one_extraBed').val('').trigger('change');
+                    // $('#room_one_extraBed').val('').trigger('change');
                     var rate = parseFloat(roomData.rate);
                     rate = rate.toFixed(2);
                     $('#room_one_rate').text(rate);
@@ -687,8 +696,8 @@
                     } else {
                         $('#room_two_extraBed').prop('disabled', true);
                     }
-                    $('#room_two_extraBed').val('');
-                    $('#room_two_extraBed').trigger('change');
+                    // $('#room_two_extraBed').val('');
+                    // $('#room_two_extraBed').trigger('change');
                     var rate = parseFloat(roomData.rate);
                     rate = rate.toFixed(2);
                     $('#room_two_rate').text(rate);
