@@ -127,6 +127,12 @@ $planApprovalRequired = \Session::get('planApprovalRequired');
                             <li class="nk-menu-item">
                                 <a href="{{url('admin/report/bulk-booking-rooms')}}" class="nk-menu-link"><span class="nk-menu-text">Bulk Booking Rooms</span></a>
                             </li>
+                                <a href="{{url('admin/report/pending-confirmation')}}" class="nk-menu-link"><span class="nk-menu-text">Pending Confirmation</span></a>
+                            </li>
+                            <li class="nk-menu-item">
+                                <a href="{{url('admin/report/booking-checkin-status')}}" class="nk-menu-link"><span class="nk-menu-text">Booking Checkin Status</span></a>
+                            </li>
+                            
                         </ul>
                     </li>
 

@@ -3,7 +3,7 @@
 <div class="nk-block-head nk-block-head-sm">
     <div class="nk-block-between">
         <div class="nk-block-head-content">
-            <h3 class="nk-block-title page-title">Bookings Status</h3>
+            <h3 class="nk-block-title page-title">Bookings Check in Status</h3>
         </div><!-- .nk-block-head-content -->
         <div class="nk-block-head-content">
             <div class="toggle-wrap nk-block-tools-toggle">
@@ -33,11 +33,10 @@
             <table class="broadcast-init nowrap nk-tb-list is-separate" data-auto-responsive="false">
                 <thead>
                     <tr class="nk-tb-item nk-tb-head">
+                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Checkin Date</span></th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Hotel</span></th>
-                        <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Alloted Rooms</span></th>
                         <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Bookings</span></th>
                         <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Guest Count</span></th>
-                        
                     </tr>
                 </thead>
                 <tbody>
@@ -260,18 +259,18 @@
                     pageLength:100,
                     ajax: {
                         type: "GET",
-                        url: "{{ url('admin/report/booking-status') }}",
+                        url: "{{ url('admin/report/booking-checkin-status') }}",
                     },
                     columns: [
                         {
                             "class": "nk-tb-col tb-col-lg",
-                            data: 'name',
-                            name: 'name'
+                            data: 'check_in_date',
+                            name: 'check_in_date'
                         },
                         {
-                            "class": "nk-tb-col tb-col-lg text-center",
-                            data: 'allotedRooms',
-                            name: 'allotedRooms'
+                            "class": "nk-tb-col tb-col-lg",
+                            data: 'name',
+                            name: 'name'
                         },
                         {
                             "class": "nk-tb-col tb-col-lg text-center",
@@ -282,8 +281,7 @@
                             "class": "nk-tb-col tb-col-lg text-center",
                             data: 'guests',
                             name: 'guests'
-                        }
-                    ],
+                        }],
                     "fnDrawCallback": function() {
                         NioApp.BS.tooltip('[data-toggle="tooltip"]');
                         $('.changePassword').click(function() {

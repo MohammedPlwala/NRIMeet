@@ -27,6 +27,8 @@ use Modules\Report\Exports\RefundExport;
 use Modules\Report\Exports\TotalInventoryDataExport;
 use Modules\Report\Exports\BookingSummaryExport;
 use Modules\Report\Exports\BookingStatusExport;
+use Modules\Report\Exports\PendingConfirmationExport;
+
 
 use DataTables;
 
@@ -1023,11 +1025,8 @@ class ReportController extends Controller
         $bookings =    HotelRoom::from('hotel_rooms as hr')
                         ->select('hr.id',
                             'h.classification','h.name','rt.name as room_type_name','hr.allocated_rooms','br.booking_id',
-                        
-
                             \DB::Raw('COALESCE((select sum(bulk_bookings.room_count) from bulk_bookings where bulk_bookings.room_type_id = hr.id ),0) as cancelled'),
                             \DB::Raw('COALESCE((select sum(bulk_bookings.room_count) from bulk_bookings where bulk_bookings.room_type_id = hr.id ),0) as refunded'),
-                            
                         )
                         ->join('hotels as h','hr.hotel_id','=','h.id')
                         ->leftJoin('room_types as rt','rt.id','=','hr.type_id')
@@ -1093,73 +1092,25 @@ class ReportController extends Controller
         $data = Hotel::from('hotels as h')
                 ->select('h.id', 'h.name',
                 \DB::Raw('COALESCE((select sum(hotel_rooms.allocated_rooms) from hotel_rooms where hotel_rooms.hotel_id = h.id ),0) as allotedRooms', 'booking_rooms'),
+                \DB::Raw('COALESCE((select count(booking_rooms.id) from booking_rooms where booking_rooms.room_id = hr.id ),0) as bookings'),
+                \DB::Raw('COALESCE((select sum(booking_rooms.guests) from booking_rooms where booking_rooms.room_id = hr.id ),0) as guests'),
+                // \DB::Raw('COALESCE((select sum(hotel_rooms.allocated_rooms) from hotel_rooms where hotel_rooms.hotel_id = h.id ),0) as allotedRooms', 'booking_rooms'),
                 )
-                ->Join('hotel_rooms as hr','hr.hotel_id','=','h.id')
-                ->Join('booking_rooms as br','br.room_id','=','hr.id')
+                ->join('hotel_rooms as hr','hr.hotel_id','=','h.id')
+                ->groupby('h.id')
                 ->orderby('h.name','asc')
+
                 ->get();
 
-                echo "<pre>";
-                print_r($data->toArray());
-                die;
-
-        // $data = BookingRoom::from('booking_rooms as br')
-        //         ->select('br.id','u.full_name as guest_name','b.order_id','b.confirmation_number','h.classification','h.name as hotel','rt.name as room_type_name','br.guests','b.check_in_date','b.check_out_date','br.adults','br.childs','br.extra_bed','br.amount')
-        //         ->Join('bookings as b','b.id','=','br.booking_id')
-        //         ->leftJoin('hotel_rooms as hr','br.room_id','=','hr.id')
-        //         ->join('room_types as rt','rt.id','=','hr.type_id')
-        //         ->leftJoin('hotels as h','h.id','=','b.hotel_id')
-        //         ->leftJoin('users as u','u.id','=','b.user_id')
-        //         ->where(function ($query) use ($request) {
-        //             if (!empty($request->toArray())) {
-        //                 if ($request->get('hotel_name') != '') {
-        //                     $query->where('h.name', 'like', '%' . $request->hotel_name . '%');
-        //                 }
-
-        //                 if ($request->get('room_type') != '') {
-        //                     $query->where('rt.name', 'like', '%' . $request->room_type . '%');
-        //                 }
-
-        //                 if ($request->get('guest_count') != '') {
-        //                     $query->where('br.guests', $request->get('guest_count'));
-        //                 }
-
-        //                 if ($request->get('adults') != '') {
-        //                     $query->where('br.adults', $request->get('adults'));
-        //                 }
-
-        //                 if ($request->get('child') != '') {
-        //                     $query->where('br.childs', $request->get('child'));
-        //                 }
-
-        //                 if ($request->get('extra_bed') != '') {
-        //                     $query->where('br.extra_bed', $request->get('extra_bed'));
-        //                 }
-
-        //                 if ($request->get('booking_status') != '') {
-        //                     $query->where('b.booking_status', $request->get('booking_status'));
-        //                 }
-
-        //                 if ($request->get('country') != '') {
-        //                     $query->where('u.country', $request->get('country'));
-        //                 }
-
-        //                 if ($request->get('postal_code') != '') {
-        //                     $query->where('u.zip', $request->get('postal_code'));
-        //                 }
-        //             }
-        //         })
-        //         ->orderby('u.full_name','asc')
-        //         ->get();
-
+                // echo "<pre>";
+                // print_r($data->toArray());
+                // die;
         
                 if ($request->ajax()) {
             return Datatables::of($data)
                     ->addIndexColumn()
-                    // ->addColumn('order_id', function ($row) {
-                    //     return $row->order_id;
-                    // })
                     ->rawColumns(['order_id'])
+                    ->skipPaging()
                     ->make(true);
         }
 
@@ -1169,13 +1120,104 @@ class ReportController extends Controller
     public function bookingStatusExport(Request $request)
     {
 
-        $bookings = BookingRoom::from('booking_rooms as br')
-                ->select('u.full_name as guest_name','b.order_id','b.confirmation_number','h.classification','h.name as hotel','rt.name as room_type_name','br.guests','b.check_in_date','b.check_out_date','br.adults','br.childs','br.extra_bed','br.amount')
+        $data = Hotel::from('hotels as h')
+                ->select('h.id', 'h.name',
+                \DB::Raw('COALESCE((select sum(hotel_rooms.allocated_rooms) from hotel_rooms where hotel_rooms.hotel_id = h.id ),0) as allotedRooms', 'booking_rooms'),
+                \DB::Raw('COALESCE((select count(booking_rooms.id) from booking_rooms where booking_rooms.room_id = hr.id ),0) as bookings'),
+                \DB::Raw('COALESCE((select sum(booking_rooms.guests) from booking_rooms where booking_rooms.room_id = hr.id ),0) as guests'),
+                // \DB::Raw('COALESCE((select sum(hotel_rooms.allocated_rooms) from hotel_rooms where hotel_rooms.hotel_id = h.id ),0) as allotedRooms', 'booking_rooms'),
+                )
+                ->join('hotel_rooms as hr','hr.hotel_id','=','h.id')
+                ->groupby('h.id')
+                ->orderby('h.name','asc')
+
+                ->get();
+
+        if(!empty($data->toArray())){
+            return (new BookingStatusExport($data->toArray()))->download('booking-status' . '.xlsx', \Maatwebsite\Excel\Excel::XLSX);
+        }else{
+            return redirect('admin/report/booking-status')->with('error', 'No order');
+        }
+    }
+
+    public function pendingHotelConfirmation(Request $request)
+    {
+
+        $data = BookingRoom::from('booking_rooms as br')
+                ->select('br.id','u.full_name as guest_name','u.email','u.mobile','b.order_id','b.confirmation_number','h.classification','h.name as hotel','rt.name as room_type_name','br.guests','b.check_in_date','b.check_out_date','br.adults','br.childs','br.extra_bed','br.amount','b.booking_status',)
                 ->Join('bookings as b','b.id','=','br.booking_id')
                 ->leftJoin('hotel_rooms as hr','br.room_id','=','hr.id')
                 ->join('room_types as rt','rt.id','=','hr.type_id')
                 ->leftJoin('hotels as h','h.id','=','b.hotel_id')
                 ->leftJoin('users as u','u.id','=','b.user_id')
+                ->whereNull('b.confirmation_number')
+                ->where(function ($query) use ($request) {
+                    if (!empty($request->toArray())) {
+                        if ($request->get('hotel_name') != '') {
+                            $query->where('h.name', 'like', '%' . $request->hotel_name . '%');
+                        }
+
+                        if ($request->get('room_type') != '') {
+                            $query->where('rt.name', 'like', '%' . $request->room_type . '%');
+                        }
+
+                        if ($request->get('guest_count') != '') {
+                            $query->where('br.guests', $request->get('guest_count'));
+                        }
+
+                        if ($request->get('adults') != '') {
+                            $query->where('br.adults', $request->get('adults'));
+                        }
+
+                        if ($request->get('child') != '') {
+                            $query->where('br.childs', $request->get('child'));
+                        }
+
+                        if ($request->get('extra_bed') != '') {
+                            $query->where('br.extra_bed', $request->get('extra_bed'));
+                        }
+
+                        if ($request->get('booking_status') != '') {
+                            $query->where('b.booking_status', $request->get('booking_status'));
+                        }
+
+                        if ($request->get('country') != '') {
+                            $query->where('u.country', $request->get('country'));
+                        }
+
+                        if ($request->get('postal_code') != '') {
+                            $query->where('u.zip', $request->get('postal_code'));
+                        }
+                    }
+                })
+                ->orderby('u.full_name','asc')
+                ->get();
+
+        if ($request->ajax()) {
+            return Datatables::of($data)
+                    ->addIndexColumn()
+                    ->addColumn('order_id', function ($row) {
+                        return $row->order_id;
+                    })
+                    ->rawColumns(['order_id'])
+                    ->make(true);
+        }
+
+        return view('report::pending_confirmation');
+    }
+
+    public function pendingHotelConfirmationExport(Request $request)
+    {
+
+
+        $bookings = BookingRoom::from('booking_rooms as br')
+                ->select('b.order_id','u.full_name as guest_name','u.email','u.mobile','b.confirmation_number','h.classification','h.name as hotel','rt.name as room_type_name','br.guests','b.check_in_date','b.check_out_date','b.booking_status','br.adults','br.childs','br.extra_bed','br.amount')
+                ->Join('bookings as b','b.id','=','br.booking_id')
+                ->leftJoin('hotel_rooms as hr','br.room_id','=','hr.id')
+                ->join('room_types as rt','rt.id','=','hr.type_id')
+                ->leftJoin('hotels as h','h.id','=','b.hotel_id')
+                ->leftJoin('users as u','u.id','=','b.user_id')
+                ->whereNull('b.confirmation_number')
                 ->where(function ($query) use ($request) {
                     if (!empty($request->toArray())) {
                         if ($request->get('hotel_name') != '') {
@@ -1219,9 +1261,62 @@ class ReportController extends Controller
                 ->get();
 
         if(!empty($bookings->toArray())){
-            return (new BookingExport($bookings->toArray()))->download('bookings' . '.xlsx', \Maatwebsite\Excel\Excel::XLSX);
+            return (new PendingConfirmationExport($bookings->toArray()))->download('Pending Confirmation' . '.xlsx', \Maatwebsite\Excel\Excel::XLSX);
         }else{
-            return redirect('admin/report/booking')->with('error', 'No order');
+            return redirect('admin/report/pending-confirmation')->with('error', 'No order');
+        }
+    }
+
+    public function bookingCheckInStatus(Request $request)
+    {
+
+        $data = Booking::from('bookings as b')
+                ->select('b.id', 'b.hotel_id', 'b.check_in_date', 'h.name',\DB::Raw('GROUP_CONCAT(b.id)'),
+                    \DB::Raw('SUM(CASE WHEN br.room_id != 0 THEN 1 ELSE 0) as booking_rooms')
+                )
+                ->join('hotels as h','h.id','=','b.hotel_id')
+                ->leftJoin('booking_rooms as br','br.booking_id','=','b.id')
+                // ->join('bookings as hr','hr.hotel_id','=','h.id')
+                ->groupby('b.check_in_date', 'b.hotel_id')
+                ->orderby('b.check_in_date','asc')
+
+                ->get();
+
+                echo "<pre>";
+                print_r($data->toArray());
+                die;
+        
+                if ($request->ajax()) {
+            return Datatables::of($data)
+                    ->addIndexColumn()
+                    ->rawColumns(['order_id'])
+                    ->skipPaging()
+                    ->make(true);
+        }
+
+        return view('report::booking_checkin_status');
+    }
+
+    public function bookingCheckInStatusExport(Request $request)
+    {
+
+        $data = Hotel::from('hotels as h')
+                ->select('h.id', 'h.name',
+                \DB::Raw('COALESCE((select sum(hotel_rooms.allocated_rooms) from hotel_rooms where hotel_rooms.hotel_id = h.id ),0) as allotedRooms', 'booking_rooms'),
+                \DB::Raw('COALESCE((select count(booking_rooms.id) from booking_rooms where booking_rooms.room_id = hr.id ),0) as bookings'),
+                \DB::Raw('COALESCE((select sum(booking_rooms.guests) from booking_rooms where booking_rooms.room_id = hr.id ),0) as guests'),
+                // \DB::Raw('COALESCE((select sum(hotel_rooms.allocated_rooms) from hotel_rooms where hotel_rooms.hotel_id = h.id ),0) as allotedRooms', 'booking_rooms'),
+                )
+                ->join('hotel_rooms as hr','hr.hotel_id','=','h.id')
+                ->groupby('h.id')
+                ->orderby('h.name','asc')
+
+                ->get();
+
+        if(!empty($data->toArray())){
+            return (new BookingStatusExport($data->toArray()))->download('booking-status' . '.xlsx', \Maatwebsite\Excel\Excel::XLSX);
+        }else{
+            return redirect('admin/report/booking-status')->with('error', 'No order');
         }
     }
 

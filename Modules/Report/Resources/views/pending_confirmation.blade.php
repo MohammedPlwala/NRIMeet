@@ -3,21 +3,21 @@
 <div class="nk-block-head nk-block-head-sm">
     <div class="nk-block-between">
         <div class="nk-block-head-content">
-            <h3 class="nk-block-title page-title">Bookings Status</h3>
+            <h3 class="nk-block-title page-title">Pending Hotel Confirmation</h3>
         </div><!-- .nk-block-head-content -->
         <div class="nk-block-head-content">
             <div class="toggle-wrap nk-block-tools-toggle">
                 <a href="#" class="btn btn-icon btn-trigger toggle-expand mr-n1" data-target="more-options"><em class="icon ni ni-more-v"></em></a>
                 <div class="toggle-expand-content" data-content="more-options">
                     <ul class="nk-block-tools g-3">
-                        {{-- <li>
+                        <li>
                             <a href="#" class="btn btn-trigger btn-icon dropdown-toggle" data-toggle="modal" title="filter" data-target="#modalFilterorder">
                                 <div class="dot dot-primary"></div>
                                 <em class="icon ni ni-filter-alt"></em>
                             </a>
-                        </li> --}}
+                        </li>
                         <li class="nk-block-tools-opt">
-                            <a  href="javascript::void(0)" data-href="{{ url('admin/report/booking-status-export') }}" class="btn btn-primary export_data"><em class="icon ni ni-download"></em><span>Export</span></a>
+                            <a  href="javascript::void(0)" data-href="{{ url('admin/report/pending-confirmation-export') }}" class="btn btn-primary export_data"><em class="icon ni ni-download"></em><span>Export</span></a>
                         </li>
                     </ul>
                 </div>
@@ -33,11 +33,21 @@
             <table class="broadcast-init nowrap nk-tb-list is-separate" data-auto-responsive="false">
                 <thead>
                     <tr class="nk-tb-item nk-tb-head">
+                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Order Id</span></th>
+                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Guest Name</span></th>
+                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Guest Email</span></th>
+                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Guest Contact #</span></th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Hotel</span></th>
-                        <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Alloted Rooms</span></th>
-                        <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Bookings</span></th>
+                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Classification</span></th>
+                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Room Type</span></th>
                         <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Guest Count</span></th>
-                        
+                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Check In</span></th>
+                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Check Out</span></th>
+                        <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Booking Status</span></th>
+                        <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Adults</span></th>
+                        <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Child</span></th>
+                        <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Extra Bed</span></th>
+                        <th class="nk-tb-col tb-col-mb text-right"><span class="sub-text">Amount</span></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -191,20 +201,32 @@
         $('.export_data').on('click', function (e) {
             var myUrl = $(this).attr('data-href');
 
-            if($('#name').val() != ""){
-                myUrl = addQSParm(myUrl,'name', $('#name').val());
+            if($('#hotel_name').val() != ""){
+                myUrl = addQSParm(myUrl,'hotel_name', $('#hotel_name').val());
             }
-            if($('#city').val() != ""){
-                myUrl = addQSParm(myUrl,'city', $('#city').val());
+            if($('#room_type').val() != ""){
+                myUrl = addQSParm(myUrl,'room_type', $('#room_type').val());
             }
-            if($('#billing_state').val() != ""){
-                myUrl = addQSParm(myUrl,'state', $('#billing_state').val());
+            if($('#guest_count').val() != ""){
+                myUrl = addQSParm(myUrl,'guest_count', $('#guest_count').val());
             }
-            if($('#postal_code').val() != ""){
-                myUrl = addQSParm(myUrl,'postal_code', $('#postal_code').val());
+            if($('#check_in_date').val() != ""){
+                myUrl = addQSParm(myUrl,'check_in_date', $('#check_in_date').val());
             }
-            if($('#billing_country').val() != ""){
-                myUrl = addQSParm(myUrl,'country', $('#billing_country').val());
+            if($('#check_out_date').val() != ""){
+                myUrl = addQSParm(myUrl,'check_out_date', $('#check_out_date').val());
+            }
+            if($('#adults').val() != ""){
+                myUrl = addQSParm(myUrl,'adults', $('#adults').val());
+            }
+            if($('#child').val() != ""){
+                myUrl = addQSParm(myUrl,'child', $('#child').val());
+            }
+            if($('#booking_status').val() != ""){
+                myUrl = addQSParm(myUrl,'booking_status', $('#booking_status').val());
+            }
+            if($('#extra_bed').val() != ""){
+                myUrl = addQSParm(myUrl,'extra_bed', $('#extra_bed').val());
             }
 
 
@@ -257,31 +279,85 @@
                     processing: true,
                     serverSide: true,
                     ordering: false,
-                    pageLength:100,
                     ajax: {
                         type: "GET",
-                        url: "{{ url('admin/report/booking-status') }}",
+                        url: "{{ url('admin/report/pending-confirmation') }}",
                     },
                     columns: [
                         {
                             "class": "nk-tb-col tb-col-lg",
-                            data: 'name',
-                            name: 'name'
+                            data: 'order_id',
+                            name: 'order_id'
                         },
                         {
-                            "class": "nk-tb-col tb-col-lg text-center",
-                            data: 'allotedRooms',
-                            name: 'allotedRooms'
+                            "class": "nk-tb-col tb-col-lg",
+                            data: 'guest_name',
+                            name: 'guest_name'
                         },
                         {
-                            "class": "nk-tb-col tb-col-lg text-center",
-                            data: 'bookings',
-                            name: 'bookings'
+                            "class": "nk-tb-col tb-col-lg",
+                            data: 'email',
+                            name: 'email'
+                        },
+                        {
+                            "class": "nk-tb-col tb-col-lg",
+                            data: 'mobile',
+                            name: 'mobile'
+                        },
+                        {
+                            "class": "nk-tb-col tb-col-lg",
+                            data: 'hotel',
+                            name: 'hotel'
+                        },
+                        {
+                            "class": "nk-tb-col tb-col-lg",
+                            data: 'classification',
+                            name: 'classification'
+                        },
+                        {
+                            "class": "nk-tb-col tb-col-lg",
+                            data: 'room_type_name',
+                            name: 'room_type_name'
                         },
                         {
                             "class": "nk-tb-col tb-col-lg text-center",
                             data: 'guests',
                             name: 'guests'
+                        },
+                        {
+                            "class": "nk-tb-col tb-col-lg",
+                            data: 'check_in_date',
+                            name: 'check_in_date'
+                        },
+                        {
+                            "class": "nk-tb-col tb-col-lg",
+                            data: 'check_out_date',
+                            name: 'check_out_date'
+                        },
+                        {
+                            "class": "nk-tb-col tb-col-lg",
+                            data: 'booking_status',
+                            name: 'booking_status'
+                        },
+                        {
+                            "class": "nk-tb-col tb-col-lg text-center",
+                            data: 'adults',
+                            name: 'adults'
+                        },
+                        {
+                            "class": "nk-tb-col tb-col-lg text-center",
+                            data: 'childs',
+                            name: 'childs'
+                        },
+                        {
+                            "class": "nk-tb-col tb-col-lg text-center",
+                            data: 'extra_bed',
+                            name: 'extra_bed'
+                        },
+                        {
+                            "class": "nk-tb-col tb-col-lg text-right",
+                            data: 'amount',
+                            name: 'amount'
                         }
                     ],
                     "fnDrawCallback": function() {
@@ -299,7 +375,7 @@
                 },
                 filterClearSubmit: '.resetFilter',
                 filterModalId: '#modalFilterUser',
-                // filterItems: items,
+                filterItems: items,
                 tagId: '#filter_tag_list',
             });
 

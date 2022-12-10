@@ -52,4 +52,10 @@ Route::prefix('admin/report')->group(function() {
 
     Route::get('booking-status', 'ReportController@bookingStatus');
     Route::get('booking-status-export', 'ReportController@bookingStatusExport');
+
+    Route::get('pending-confirmation', 'ReportController@pendingHotelConfirmation');
+    Route::get('pending-confirmation-export', 'ReportController@pendingHotelConfirmationExport');
+
+    Route::get('booking-checkin-status', 'ReportController@bookingCheckInStatus');
+    Route::get('booking-checkin-status-export', 'ReportController@bookingCheckInStatusExport');
 });
