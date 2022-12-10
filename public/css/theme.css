@@ -1269,7 +1269,13 @@ a.fc-event-custom-completed{
     font-weight: 500;
     color: #e85347 !important;
 }
-
+.fixcol-200{
+    white-space: normal;
+    word-break: break-all;
+    max-width: 300px;
+    display: inline-block;
+    min-width: 200px;
+}
 @media screen and (max-width: 1600px) {
     .nk-ecwg .amount{
         font-size: 1.45rem;

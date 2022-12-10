@@ -39,7 +39,7 @@
                                 <div class="data-group">
                                     <div class="amount">1,945</div>
                                     <div class="nk-ecwg6-ck">
-                                        <em class="icon ni ni-reports"></em>
+                                        <canvas class="ecommerce-line-chart-s3" id="todayOrders"></canvas>
                                     </div>
                                 </div>
                             </div>
@@ -59,6 +59,9 @@
                             <div class="data">
                                 <div class="data-group">
                                     <div class="amount">1,945</div>
+                                    <div class="nk-ecwg6-ck">
+                                        <canvas class="ecommerce-line-chart-s3" id="todayRevenue"></canvas>
+                                    </div>
                                 </div>
                             </div>
                         </div><!-- .card-inner -->
@@ -77,6 +80,9 @@
                             <div class="data">
                                 <div class="data-group">
                                     <div class="amount">1,945</div>
+                                    <div class="nk-ecwg6-ck">
+                                        <canvas class="ecommerce-line-chart-s3" id="todayCustomers"></canvas>
+                                    </div>
                                 </div>
                             </div>
                         </div><!-- .card-inner -->
@@ -95,6 +101,9 @@
                             <div class="data">
                                 <div class="data-group">
                                     <div class="amount">1,945</div>
+                                    <div class="nk-ecwg6-ck">
+                                        <canvas class="ecommerce-line-chart-s3" id="todayVisitors"></canvas>
+                                    </div>
                                 </div>
                             </div>
                         </div><!-- .card-inner -->
