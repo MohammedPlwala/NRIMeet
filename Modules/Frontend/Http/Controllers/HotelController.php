@@ -468,7 +468,7 @@ class HotelController extends Controller
     {
         $input = $request->all();
   
-        $api = new Api(env('RAZORPAY_KEY'), env('RAZORPAY_SECRET'));
+        $api = new Api(config('constants.RAZORPAY_KEY'),config('constants.RAZORPAY_SECRET'));
         $payment = $api->payment->fetch($input['razorpay_payment_id']);
   
         if(count($input)  && !empty($input['razorpay_payment_id'])) {
@@ -516,6 +516,28 @@ class HotelController extends Controller
           
         Session::put('success', 'Payment successful');
         return redirect()->back();
+    }
+
+     public function billDeskForm(Request $request){
+        $data = $request->all();
+        return view('frontend::bill_desk');
+    }
+
+    public function billDeskResponse(Request $request){
+        $data = $request->all();
+        print_r($data);
+        die;
+    }
+
+    public function billDeskChecksum(Request $request)
+    {
+
+        $url = url('billdesk-payment-response');
+        $str = 'MPSTDWCV2|789654|NA|100.00|NA|NA|NA|INR|DIRECT|R|6rVIafDL8nyzydKEAEGmXl0srhAENnjx|NA|NA|F|john@doe1.com|8989067984|NA|NA|NA|NA|NA|NA';
+
+        $checksum = hash_hmac('sha256', $str, 'checksum_key', false);
+        $checksum = strtoupper($checksum);
+        return $checksum;
     }
 
     public function razorPayForm(Request $request){

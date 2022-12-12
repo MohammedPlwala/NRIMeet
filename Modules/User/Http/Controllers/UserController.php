@@ -37,6 +37,50 @@ class UserController extends Controller
 
     }
 
+    public function import()
+    {
+        $file = fopen('guest.csv', 'r');
+        $hotelsData = [];
+        $firstLine = true;
+
+        $i = 0;
+
+        while (($column = fgetcsv($file, 0, ',')) !== false) {
+            if ($firstLine) {
+                $firstLine = false;
+                continue;
+            }
+
+
+            
+            $user = User::where('email',$column[2])->first();
+            if(!$user){
+                $user = new User();
+                
+                $user->full_name = $column[0];
+                $user->mobile = $column[1];
+                $user->email = $column[2];
+                $user->gender = $column[3];
+                $user->nationality = $column[4];
+                $user->address = $column[5];
+                $user->city = $column[6];
+                $user->state = $column[7];
+                $user->country = $column[8];
+                $user->zip = $column[9];
+                $user->old_user_id = $column[10];
+                $user->created_at = date('Y-m-d',strtotime($column[11]));
+                
+                $user->status = 'active';
+                if($user->save()){
+                    $userRole = array('role_id' => 3, 'user_id' =>  $user->id);
+                    UserRole::insert($userRole);
+                    $i++;
+                }
+            }
+        }
+
+    }
+
     /**
      * Display a listing of the resource.
      * @return Renderable
@@ -796,10 +840,7 @@ class UserController extends Controller
         }
     }
 
-    public function import(Request $request)
-    {
-        return view('user::import');
-    }
+    
 
     /**
      * Show the form for creating a new resource.
