@@ -102,7 +102,7 @@
                                 </div>
                             </div>
                             <div class="nk-block nk-auth-footer">
-                                <div class="nk-block-between">
+                                <!-- <div class="nk-block-between">
                                     <ul class="nav nav-sm">
                                         <li class="nav-item">
                                             <a class="nav-link" href="https://www.profitley.com/terms-of-use/" target="_blank"  rel="noopener">Terms & Condition</a>
@@ -113,10 +113,10 @@
                                         <li class="nav-item">
                                             <a class="nav-link" href="https://www.profitley.com/faqs/" target="_blank" rel="noopener">Help</a>
                                         </li>
-                                    </ul><!-- .nav -->
-                                </div>
+                                    </ul>
+                                </div> -->
                                 <div class="mt-3">
-                                    <p>&copy; {{ date('Y') }} MPT. All Rights Reserved.</p>
+                                    <p>Copyright &copy; {{ date('Y') }}, MPT. All Rights Reserved.</p>
                                 </div>
                             </div><!-- .nk-block -->
                         </div>
