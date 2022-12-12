@@ -658,7 +658,7 @@
                             <div class="col-lg-7 text-right offset-lg-5">
                                 <div class="form-group">
                                     <a href="javascript:history.back()" class="btn btn-outline-light">Cancel</a>
-                                    <x-button style="display: none;" type="submit" class="btn btn-primary submitBtn">Submit</x-button>
+                                    <x-button type="submit" class="btn btn-primary submitBtn">Submit</x-button>
                                 </div>
                             </div>
                         </div>
@@ -671,14 +671,16 @@
     <input type="hidden" name="role_type" id="role_type" value="{{ \Config::get('constants.ROLES.BUYER') }}">
     <input type="hidden" name="old_district" id="old_district" value="{{ old('district') }}">
     <input type="hidden" name="old_city" id="old_city" value="{{ old('city') }}">
-    <pre>
+  
         
     <script type="text/javascript">
         $(document).ready(function() {
 
-            $('.submitBtn').click(function() {
-                $(this).hide();
-            });
+            var checkValid = function(){
+                $('.submitBtn').attr("disabled", "disabled");
+            }
+
+            $.listen('parsley:form:success', checkValid)
 
 
             $('#status').change(function() {
