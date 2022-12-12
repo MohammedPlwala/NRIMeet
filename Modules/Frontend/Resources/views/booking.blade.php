@@ -30,22 +30,27 @@
                                 <label for="shb-hotal-rating" class="filter_label  mb-2 block">Price</label>
                                 <div class="range-slider">
                                     <span class="rangeValues block mb-4 text-center"></span>
-                                    <input value="3000" min="3000" max="23000" step="500" type="range"
-                                        name="shb-hotal-price-min">
-                                    <input value="23000" min="3000" max="23000" step="500" type="range"
-                                        name="shb-hotal-price-max">
+                                    <input 
+                                    @if(isset($request->room_price_min))value="{{$request->room_price_min}}" @else value="3000" @endif
+                                    min="3000" max="23000" step="500" type="range"
+                                        name="room_price_min">
+                                    <input @if(isset($request->room_price_max))value="{{$request->room_price_max}}" @else value="23000" @endif min="3000" max="23000" step="500" type="range"
+                                        name="room_price_max">
                                 </div>
                             </div>
                             <div class="custom_filter_innder_div">
                                 <label for="shb-hotal-rating" class="filter_label mb-2 block">Rating</label>
-                                <select name="shb-hotal-rating" id="shb-hotal-rating"
+                                <select name="classification" id="shb-hotal-rating"
+                                onchange="this.form.submit()"
                                     class="form-control form-control-lg block text-sm mb-2shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                                     <option value="">Select Rating</option>
-                                    <!-- END <option    value="1 Star">1 Star</option>
-                                      <option    value="2 Star">2 Star</option> -->
-                                    <option value="5 Star">5 Star</option>
-                                    <option value="4 Star">4 Star</option>
-                                    <option value="3 Star">3 Star</option>
+                                    @if(!empty($classifications->toArray()))
+                                      @foreach ($classifications as $item)
+                                        <option 
+                                        @if(isset($request->classification) && $request->classification == $item->classification) selected @endif
+                                        value="{{$item->classification}}">{{$item->classification}}</option>
+                                      @endforeach
+                                    @endif
                                 </select>
                                 <br>
                             </div>
@@ -363,7 +368,6 @@
 
                                     <!-- END .shb-booking-form-col -->
                                 </div>
-
                                 <!-- BEGIN .shb-booking-form-col -->
                                 <div class="shb-booking-form-col shb-clearfix">
 
@@ -440,6 +444,7 @@
 
                                 </li>
                             @empty
+                            <p>No Record found!</p>
                             @endforelse
                         </ul>
                     </div>

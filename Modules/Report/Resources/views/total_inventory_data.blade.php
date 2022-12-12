@@ -11,9 +11,8 @@
                 <div class="toggle-expand-content" data-content="more-options">
                     <ul class="nk-block-tools g-3">
                         <li>
-                            <a href="#" class="btn btn-trigger btn-icon dropdown-toggle" data-toggle="modal" title="filter" data-target="#modalFilterorder">
-                                <div class="dot dot-primary"></div>
-                                <em class="icon ni ni-filter-alt"></em>
+                            <a href="#" class="btn btn-outline-primary dropdown-toggle" data-toggle="modal" title="filter" data-target="#modalFilterorder">
+                                <em class="icon ni ni-filter"></em><span>Filter</span>
                             </a>
                         </li>
                         <li class="nk-block-tools-opt">

@@ -11,9 +11,8 @@
                 <div class="toggle-expand-content" data-content="more-options">
                     <ul class="nk-block-tools g-3">
                         <li>
-                            <a href="#" class="btn btn-trigger btn-icon dropdown-toggle" data-toggle="modal" title="filter" data-target="#modalFilterorder">
-                                <div class="dot dot-primary"></div>
-                                <em class="icon ni ni-filter-alt"></em>
+                            <a href="#" class="btn btn-outline-primary dropdown-toggle" data-toggle="modal" title="filter" data-target="#modalFilterorder">
+                                <em class="icon ni ni-filter"></em><span>Filter</span>
                             </a>
                         </li>
                         <li class="nk-block-tools-opt">
@@ -51,7 +50,7 @@
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Booking Date</span></th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Check In</span></th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Check Out</span></th>
-                        <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Booking Status</span></th>
+                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Booking Status</span></th>
                         <th class="nk-tb-col tb-col-mb text-right"><span class="sub-text">Room / Night Charge</span></th>
                         <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Total Room Nights</span></th>
                         <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Adults</span></th>
@@ -82,7 +81,7 @@
                     @forelse($bookings as $key => $booking)
                     <tr class="nk-tb-item">
                         <td class="nk-tb-col tb-col-lg">{{ $booking->hotel }} </td>
-                        <td class="nk-tb-col tb-col-lg">{{ $booking->allocated_rooms }} </td>
+                        <td class="nk-tb-col tb-col-lg text-center">{{ $booking->allocated_rooms }} </td>
                         <td class="nk-tb-col tb-col-lg">{{ $booking->payment_id }} </td>
                         <td class="nk-tb-col tb-col-lg">{{ $booking->guest_name }} </td>
                         <td class="nk-tb-col tb-col-lg">{{ $booking->contact }} </td>
@@ -95,21 +94,21 @@
                         <td class="nk-tb-col tb-col-lg">{{ $booking->user_id }} </td>
                         <td class="nk-tb-col tb-col-lg">{{ $booking->registration_date }} </td>
                         <td class="nk-tb-col tb-col-lg">{{ $booking->room_type_name }} </td>
-                        <td class="nk-tb-col tb-col-lg">{{ $booking->guests }} </td>
+                        <td class="nk-tb-col tb-col-lg text-center">{{ $booking->guests }} </td>
                         <td class="nk-tb-col tb-col-lg">{{ $booking->booking_date }} </td>
                         <td class="nk-tb-col tb-col-lg">{{ $booking->check_in_date }} </td>
                         <td class="nk-tb-col tb-col-lg">{{ $booking->check_out_date }} </td>
                         <td class="nk-tb-col tb-col-lg">{{ $booking->booking_status }} </td>
-                        <td class="nk-tb-col tb-col-lg">{{ $booking->rate }} </td>
-                        <td class="nk-tb-col tb-col-lg">{{ $booking->nights }} </td>
-                        <td class="nk-tb-col tb-col-lg">{{ $booking->adults }} </td>
-                        <td class="nk-tb-col tb-col-lg">{{ $booking->childs }} </td>
-                        <td class="nk-tb-col tb-col-lg">{{ $booking->extra_bed }} </td>
-                        <td class="nk-tb-col tb-col-lg">{{ $booking->room_charges }} </td>
-                        <td class="nk-tb-col tb-col-lg">{{ $booking->extra_bed_rate }} </td>
-                        <td class="nk-tb-col tb-col-lg">{{ $booking->tax }} </td>
-                        <td class="nk-tb-col tb-col-lg">{{ $booking->tax_percentage }} </td>
-                        <td class="nk-tb-col tb-col-lg">{{ $booking->amount }} </td>
+                        <td class="nk-tb-col tb-col-lg text-right">{{ $booking->rate }} </td>
+                        <td class="nk-tb-col tb-col-lg text-center">{{ $booking->nights }} </td>
+                        <td class="nk-tb-col tb-col-lg text-center">{{ $booking->adults }} </td>
+                        <td class="nk-tb-col tb-col-lg text-center">{{ $booking->childs }} </td>
+                        <td class="nk-tb-col tb-col-lg text-center">{{ $booking->extra_bed }} </td>
+                        <td class="nk-tb-col tb-col-lg text-right">{{ $booking->room_charges }} </td>
+                        <td class="nk-tb-col tb-col-lg text-right">{{ $booking->extra_bed_rate }} </td>
+                        <td class="nk-tb-col tb-col-lg text-right">{{ $booking->tax }} </td>
+                        <td class="nk-tb-col tb-col-lg text-center">{{ $booking->tax_percentage }} </td>
+                        <td class="nk-tb-col tb-col-lg text-right">{{ $booking->amount }} </td>
                         <td class="nk-tb-col tb-col-lg">{{ $booking->contact_person }} </td>
                         <td class="nk-tb-col tb-col-lg">{{ $booking->contact_number }} </td>
                         <td class="nk-tb-col tb-col-lg">{{ $booking->hotel_email }} </td>
@@ -120,8 +119,8 @@
                         <td class="nk-tb-col tb-col-lg">{{ $booking->utr_number }} </td>
                         <td class="nk-tb-col tb-col-lg">{{ $booking->settlement_date }} </td>
                         <td class="nk-tb-col tb-col-lg">{{ $booking->cancellation_date }} </td>
-                        <td class="nk-tb-col tb-col-lg">{{ $booking->cancellation_charges }} </td>
-                        <td class="nk-tb-col tb-col-lg">{{ $booking->refundable_amount }} </td>
+                        <td class="nk-tb-col tb-col-lg text-right">{{ $booking->cancellation_charges }} </td>
+                        <td class="nk-tb-col tb-col-lg text-right">{{ $booking->refundable_amount }} </td>
                         <td class="nk-tb-col tb-col-lg">{{ $booking->refund_date }} </td>
                         <td class="nk-tb-col tb-col-lg">{{ $booking->refund_transaction_utr }} </td>
                     </tr>

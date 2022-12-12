@@ -35,6 +35,10 @@ class HotelController extends Controller
 
     public function search(Request $request)
     {
+        $classifications = Hotel::from('hotels as h')
+                        ->select('h.classification')
+                        ->groupby('h.classification')
+                        ->get();
 
         $user = \Auth::user();
         $checkBookedRooms = Booking::from('bookings as b')
@@ -110,6 +114,9 @@ class HotelController extends Controller
                             if ($request->get('name') != '') {
                                 $query->where('h.name', 'like', '%' . $request->name . '%');
                             }
+                            if ($request->get('classification') != '') {
+                                $query->where('h.classification', 'like', '%' . $request->classification . '%');
+                            }
                         }
                     })
                     ->orderby('h.classification',$request->rating_orderby === 'asc'? 'asc' : 'desc')
@@ -124,6 +131,17 @@ class HotelController extends Controller
                             ->where('hotel_id',$hotel->id)
                             ->where('hr.status','active')
                             ->where('count','>=',$roomsCount)
+                            ->where(function ($query) use ($request) {
+                                if (!empty($request->toArray())) {
+                                    if ($request->get('room_price_min') != '') {
+                                        $query->where('rate', '>=', $request->room_price_min);
+                                    }
+                                    if ($request->get('room_price_max') != '') {
+                                        $query->where('rate', '<=', $request->room_price_max );
+                                    }
+                                }
+                            })
+                            ->orderBy('rate', 'asc') // desc / asc 
                             ->get();
 
                 if(!empty($rooms->toArray())){
@@ -136,7 +154,7 @@ class HotelController extends Controller
             $hotels = array();
         }
 
-    	return view('frontend::booking',['hotels' => $hotels, 'request' => $request]);
+    	return view('frontend::booking',['hotels' => $hotels, 'request' => $request, 'classifications' => $classifications]);
     }
 
     public function addRoom(Request $request){

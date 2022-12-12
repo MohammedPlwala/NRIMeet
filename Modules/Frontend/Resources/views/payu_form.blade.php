@@ -1,16 +1,7 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
-          integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
-          crossorigin="anonymous"/>
+@extends('frontend.layouts.app')
+
+@section('content')
     <link rel="stylesheet" href="{{asset('payumoney/payu.css')}}">
-    <title>Paymoney</title>
 
     <script>
         var hash = '{{$hash}}';
@@ -23,16 +14,14 @@
             payuForm.submit();
         }
     </script>
-</head>
-<body onload="submitPayuForm()">
-<div class="payfrom">
+
+<div class="payfrom" onload="submitPayuForm()">
     <div class="main-form position-relative">
         <div class="infyom-logo">
             <img src="{{asset('payumoney/infyom-logo.png')}}" alt="infyom logo">
         </div>
-        <div class="text-center mb-4 grp-logo">
-            <img src="https://sboxcheckout-static.citruspay.com/web/images/payuBanrding.png" alt="paymoney logo"
-                 class="logo">
+        <div class="text-center grp-logo">
+            <img src="{{url('images/logo-dark.png')}}" alt="paymoney logo" class="logo" />
         </div>
         <br/>
         @if($formError)
@@ -97,8 +86,14 @@
                 </div>
             </div>
            @if(!$hash)
-            <div class="col-12 text-center">
-                <button type="submit" class="btn btn-primary w-100 continue-pay-btn">Continue to pay</button>
+            <div class="px-5 pt-0 pb-4">
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <p class="shb-booking-error-4-animation">please wait while your transaction is being processed.<br> do not close your browser or use <br>the back button at this time.</p>
+                        
+                        <button type="submit" class="btn btn-primary w-100 continue-pay-btn">Continue to pay</button>
+                    </div>
+                </div>
             </div>
             @endif
             <input name="surl" value="{{ url('payu-payment-success') }}" hidden/>
@@ -111,10 +106,10 @@
         </form>
     </div>
 </div>
-
-
+@endsection
+@push('footerScripts')
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
         crossorigin="anonymous"></script>
-</body>
-</html>
+
+@endpush

@@ -167,20 +167,26 @@
 
                     <div class="payment-radio-list">
                         <div class="payment-radio-list-item">
-                            <input type="radio" name="gateway" class="gateway" value="razorpay"
-                                id="razorpay_radio" />
-                            <label for="razorpay_radio">
-                                Credit Card/Debit Card/NetBanking/UPI
-                                <img src="{{ url('/images/razorpay.svg') }}" alt="razorpay" />
-                            </label>
-                        </div>
-                        <div class="payment-radio-list-item">
                             <input type="radio" name="gateway" class="gateway" value="payumoney"
                                 id="payumoney_radio" />
                             <label for="payumoney_radio">
                                 Credit Card/Debit Card/NetBanking/UPI
-                                <img src="{{ url('/images/payu-money.png') }}" alt="payu-money" />
+                                <img src="{{ url('/images/payubizlogo.png') }}" alt="payubizlogo" />
                             </label>
+                            <div class="payment_box payment_method_payumoney">
+                                <p>Pay securely by Credit or Debit card or net banking through PayUBiz.</p>
+                            </div>
+                        </div>
+                        <div class="payment-radio-list-item">
+                            <input type="radio" name="gateway" class="gateway" value="razorpay"
+                                id="razorpay_radio" />
+                            <label for="razorpay_radio">
+                                Credit Card/Debit Card/NetBanking/UPI
+                                <img src="{{ url('/images/icici-logo.png') }}" alt="icici-logo" />
+                            </label>
+                            <div class="payment_box payment_method_razorpay">
+                                <p>Pay securely by Credit or Debit card or net banking through RazorPay.</p>
+                            </div>
                         </div>
                     </div>
 
@@ -220,6 +226,8 @@
                     action = root_url + '/payu-payment';
                     $('.razorpay-payment-button').hide();
                     $('.payu-payment-button').show();
+                    $('.payment_method_payumoney').slideDown("fast");
+                    $('.payment_method_razorpay').slideUp("fast");
                     $('#billing_form').attr('action', action);
                 }
 
@@ -227,6 +235,8 @@
                     action = root_url + '/razor-pay-form';
                     $('.payu-payment-button').hide();
                     $('.razorpay-payment-button').show();
+                    $('.payment_method_razorpay').slideDown("fast");
+                    $('.payment_method_payumoney').slideUp("fast");
                     $('#billing_form').attr('action', action);
                 }
             });

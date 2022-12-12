@@ -1318,6 +1318,7 @@ table.shop_table td:last-child{
   border-bottom: 1px solid #dedede;
   padding: 12px 0;
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 15px;
 }
@@ -1328,7 +1329,25 @@ table.shop_table td:last-child{
   gap: 20px;
 }
 .payment-radio-list-item img{
-  height: 50px;
+  height: 49px;
+}
+.payment-radio-list-item .payment_box{
+  display: none;
+  flex-basis: 100%;
+  background: #fff;
+  border: #dedede 1px solid;
+  position: relative;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 1em;
+  margin: 0 0 1em 0;
+  font-size: .92em;
+  border-radius: 2px;
+  line-height: 1.5;
+  color: #515151;
+}
+.payment-radio-list-item .payment_box p{
+  margin: 0;
 }
 .payment-buttons{
   display: flex;

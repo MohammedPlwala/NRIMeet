@@ -158,9 +158,10 @@ $planApprovalRequired = \Session::get('planApprovalRequired');
                             <span class="nk-menu-text">Call Center</span>
                         </a>
                     </li>
-
+                    
                     @if(isset($userRole) && $userRole != \Config::get('constants.ROLES.SUPERUSER'))
                     @if(isset($userPermission['orders']) || isset($userPermission['invoices']) || isset($userPermission['ledger']) || isset($userPermission['targets']))
+                    
                     <li class="nk-menu-item has-sub">
                         <a href="#" class="nk-menu-link nk-menu-toggle">
                             <span class="nk-menu-icon"><em class="icon ni ni-activity-round-fill"></em></span>
@@ -347,6 +348,7 @@ $planApprovalRequired = \Session::get('planApprovalRequired');
                         </ul>
                     </li>
                     @endif
+                    {{--
                     <li class="nk-menu-item has-sub">
                         <a href="#" class="nk-menu-link nk-menu-toggle">
                             <span class="nk-menu-icon"><em class="icon ni ni-location"></em></span>
@@ -363,6 +365,7 @@ $planApprovalRequired = \Session::get('planApprovalRequired');
                             @endif
                         </ul>
                     </li>
+                    --}}
                     @if(isset($userPermission['notification_templates']) || isset($userPermission['settings']) || isset($userPermission['roles']) || isset($userPermission['permissions']) || isset($userPermission['mapping']))
                     <li class="nk-menu-item has-sub">
                         <a href="#" class="nk-menu-link nk-menu-toggle">
@@ -411,6 +414,7 @@ $planApprovalRequired = \Session::get('planApprovalRequired');
                     </li>
                     @endif
                     {{-- @if(isset($userPermission['reports'])) --}}
+                    {{-- 
                     <li class="nk-menu-item has-sub">
                         <a href="#" class="nk-menu-link nk-menu-toggle">
                             <span class="nk-menu-icon"><em class="icon ni ni-list-index-fill"></em></span>
@@ -500,16 +504,17 @@ $planApprovalRequired = \Session::get('planApprovalRequired');
                                 </ul>
                             </li>
 
-                            {{-- <li class="nk-menu-item">
+                            <li class="nk-menu-item">
                                             <a href="{{url('admin/report/billing')}}" class="nk-menu-link"><span class="nk-menu-text">Billing</span></a>
-                    </li> --}}
+                    </li>
 
-                    {{-- <li class="nk-menu-item">
+                    <li class="nk-menu-item">
                                             <a href="{{url('admin/report/collection-report')}}" class="nk-menu-link"><span class="nk-menu-text">Collection Report</span></a>
-                    </li> --}}
+                    </li>
 
                 </ul>
                 </li>
+                --}}
                 {{-- @endif --}}
                 @if(isset($userPermission['banners']) || isset($userPermission['pages']))
                 <li class="nk-menu-item has-sub">
@@ -539,7 +544,7 @@ $planApprovalRequired = \Session::get('planApprovalRequired');
                     </a>
                 </li>
                 @endisset
-
+                {{--
                 <li class="nk-menu-item">
                     <a href="{{url('administration/contactus')}}" class="nk-menu-link">
                         <span class="nk-menu-icon"><em class="icon ni ni-call"></em></span>
@@ -562,6 +567,7 @@ $planApprovalRequired = \Session::get('planApprovalRequired');
                         </li>
                     </ul>
                 </li>
+                --}}
 
 
                 @endif

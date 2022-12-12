@@ -27,8 +27,10 @@
                         data-amount="{{ $bookingData['amount'] }}" data-buttontext="" data-name="NRI MEET" data-description="PBD NRI MEET"
                         data-image="https://www.itsolutionstuff.com/frontTheme/images/logo.png" data-prefill.name="name"
                         data-prefill.email="email" data-theme.color="#ff7529"></script>
-                    <input style="display:none;" type="submit" value="Pay {{ $bookingData['amount'] }} INR" class="primary-button razorpay-payment-button">
+                        <p class="shb-booking-error-4-animation text-center">Please wait while your transaction is being processed.<br> do not close your browser or use <br>the back button at this time.</p>
+                        <div class="text-center"><input type="submit" value="Pay {{ $bookingData['amount'] }} INR" class="primary-button razorpay-payment-button"></div>
                 </form>
+                
             </div>
         </div>
     </div>
