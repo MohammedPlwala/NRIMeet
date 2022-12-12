@@ -2421,3 +2421,24 @@ label.filter_label {
 .fe-alert-msg .alert .close{
   font-size: 20px;
 }
+/* No Data Found CSS */
+.no-data-found{
+  max-width: 200px;
+  margin: 0 auto;
+  text-align: center;
+  padding: 60px 0;
+}
+.no-data-found i{
+  font-size: 50px;
+  opacity: 0.2;
+}
+.no-data-found img{
+  height: 90px;
+  opacity: 0.2;
+  margin: 0 auto;
+}
+.no-data-found p{
+  margin: 6px 0;
+  font-size: 16px;
+  color: #cf2256;
+}
