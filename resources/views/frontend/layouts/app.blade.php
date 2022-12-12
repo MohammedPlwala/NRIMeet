@@ -49,16 +49,19 @@
         @if (session()->has('message'))
         <div class="fe-alert-msg">
             <div class="alert alert-success alert-icon alert-dismissible">
-                <em class="icon ni ni-check-circle"></em>
-                {{ session('message') }}<button class="close" data-dismiss="alert"></button>
+                <p class="alert-heading"><strong>Success!</strong></p>
+                <i class="far fa-check-circle"></i>
+                {{ session('message') }}<button class="close" data-dismiss="alert"><i class="fas fa-times"></i></button>
             </div>
         </div>
         @endif
         @if (session()->has('error'))
         <div class="fe-alert-msg">
             <div class="alert alert-danger alert-icon alert-dismissible">
+                <p class="alert-heading"><strong>Error!</strong></p>
+                <i class="fas fa-exclamation-triangle"></i>
                 <em class="icon ni ni-cross-circle"></em>
-                {{ session('error') }}<button class="close" data-dismiss="alert"></button>
+                {{ session('error') }}<button class="close" data-dismiss="alert"><i class="fas fa-times"></i></button>
             </div>
         </div>
         @endif
@@ -289,6 +292,19 @@
                     passwordInput.type = "password";
                     $(this).removeClass('fa-eye-slash')
                 }
+            })
+            // Handle the Custom Alert box
+            setTimeout(function(){
+                $('.fe-alert-msg').addClass('show');
+            }, 500);
+            setTimeout(function(){
+                $('.fe-alert-msg').removeClass('show');
+            }, 10000);
+            setTimeout(function(){
+                $('.fe-alert-msg').addClass('hide');
+            }, 10500);
+            $('.fe-alert-msg .close').on('click', function(){
+                $('.fe-alert-msg').removeClass('show');
             })
         });
     </script>

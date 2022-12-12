@@ -62,6 +62,7 @@ class LoginController extends Controller
                 Auth::logout();
                 return redirect('admin/login')->with('error', 'You are not allowed to access this portal.');
             }
+            \Session::put('role', $userRole->role);
             return redirect('admin/dashboard');
         }else{
             $user = User::where('email',$request->get('email'))->first();
