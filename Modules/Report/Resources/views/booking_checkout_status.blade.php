@@ -17,7 +17,7 @@
                             </a>
                         </li> --}}
                         <li class="nk-block-tools-opt">
-                            <a  href="javascript::void(0)" data-href="{{ url('admin/report/booking-checkin-status-export') }}" class="btn btn-primary export_data"><em class="icon ni ni-download"></em><span>Export</span></a>
+                            <a  href="javascript::void(0)" data-href="{{ url('admin/report/booking-checkout-status-export') }}" class="btn btn-primary export_data"><em class="icon ni ni-download"></em><span>Export</span></a>
                         </li>
                     </ul>
                 </div>
