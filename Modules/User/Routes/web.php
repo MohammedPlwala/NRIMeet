@@ -13,6 +13,10 @@
 Route::group(['middleware' => 'admin'], function(){
     Route::prefix('admin')->group(function() {
         Route::prefix('user')->group(function() {
+            
+            Route::get('/import', 'UserController@import');
+
+
             Route::get('/set-organization', 'UserController@setOrganization');
             Route::post('/set-organization', 'UserController@setUserOrganization');
 

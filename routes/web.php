@@ -14,17 +14,19 @@ use App\Http\Controllers\RazorpayPaymentController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
 Route::prefix('admin')->group(function() {
     Auth::routes();
     Route::post('post-admin-login', 'App\Http\Controllers\Auth\LoginController@adminLogin'); 
 });
+Route::group(['middleware' => 'admin'], function(){
+    Route::get('/admin', '\Modules\Dashboard\Http\Controllers\DashboardController@index');
+});
 
 Route::get('/', '\Modules\Frontend\Http\Controllers\HotelController@index');
-Route::get('/admin', '\Modules\Dashboard\Http\Controllers\DashboardController@index');
 Route::post('post-login', 'App\Http\Controllers\Auth\LoginController@postLogin'); 
 Route::get('razorpay-payment', [RazorpayPaymentController::class, 'index']);
 Route::post('razorpay-payment', [RazorpayPaymentController::class, 'store'])->name('razorpay.payment.store');
