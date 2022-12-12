@@ -186,7 +186,11 @@
                             // data: 'booking_type',
                             name: 'booking_type',
                             data: function(item){
-                                return item.booking_type
+                                if(item.booking_type == 'Online'){
+                                    return '<span class="badge badge-success">'+item.booking_type+'</span>'
+                                }else{
+                                    return '<span class="badge badge-danger">'+item.booking_type+'</span>'
+                                }
                             }
                         },
                         {
