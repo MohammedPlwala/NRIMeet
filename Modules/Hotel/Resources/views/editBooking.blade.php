@@ -70,12 +70,12 @@
                                         <div class="col-lg-6">
                                             <x-inputs.text value="{{ date('m/d/Y', strtotime($booking->check_in_date)) }}"
                                                 for="checkin_date" class="checkDate" icon="calender-date-fill" readonly='true'
-                                                required="true" placeholder="Date of birth" name="checkin_date" />
+                                                required="true" placeholder="Check in Date" name="checkin_date" />
                                         </div>
                                         <div class="col-lg-6">
                                             <x-inputs.text value="{{ date('m/d/Y', strtotime($booking->check_out_date)) }}"
                                                 for="checkout_date"  readonly='true' class="checkDate" icon="calender-date-fill"
-                                                required="true" placeholder="Date of birth" name="checkout_date" />
+                                                required="true" placeholder="Check out Date" name="checkout_date" />
                                         </div>
                                     </div>
                                 </div>
@@ -350,6 +350,7 @@
 
                                         @if ($booking->booking_status == 'Payment Completed')
                                             <option @if ($booking->booking_status == 'Payment Completed') selected @endif value="Payment Completed">Payment Completed</option>
+                                            <option @if ($booking->booking_status == 'Confirmation Recevied') selected @endif value="Confirmation Recevied">Confirmation Recevied</option>
                                             <option @if ($booking->booking_status == 'Cancellation Requested') selected @endif value="Cancellation Requested">Cancellation Requested</option>
                                         @endif
 
@@ -375,6 +376,8 @@
 
                                         @if ($booking->booking_status == 'Confirmation Recevied')
                                             <option @if ($booking->booking_status == 'Confirmation Recevied') selected @endif value="Confirmation Recevied">Confirmation Recevied</option>
+                                            <option @if ($booking->booking_status == 'Cancellation Requested') selected @endif
+                                            value="Cancellation Requested">Cancellation Requested</option>
                                         @endif
 
                                         @if ($booking->booking_status == 'Refund Issued')

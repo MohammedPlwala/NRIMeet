@@ -59,7 +59,10 @@
 			</div>
 	  	</div>
 	  	@empty
-	  	<h5>No Bookings</h5>
+			<div class="alert alert-danger">
+				<h6 class="mb-0 text-center">You have no bookings</h6>
+			</div>
+	  	
  		@endforelse
 	</div>
 </div>
