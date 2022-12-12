@@ -46,7 +46,7 @@ Route::group(['middleware' => 'admin'], function(){
         Route::get('group-bookings', 'ReportController@groupBookings');
         Route::get('call-center', 'ReportController@callCenter');
         Route::get('combined', 'ReportController@combined');
-        Route::get('bulk-booking-rooms', 'ReportController@bulkBookingRooms');
+        
         Route::get('financial', 'ReportController@financial');
         Route::get('financial-2', 'ReportController@financial2');
 
@@ -62,5 +62,8 @@ Route::group(['middleware' => 'admin'], function(){
 
         Route::get('booking-checkout-status', 'ReportController@bookingCheckOutStatus');
         Route::get('booking-checkout-status-export', 'ReportController@bookingCheckOutStatusExport');
+
+        Route::get('bulk-booking-rooms', 'ReportController@bulkBookingRooms');
+        Route::get('bulk-booking-rooms-export', 'ReportController@bulkBookingRoomsExport');
     });
 });
