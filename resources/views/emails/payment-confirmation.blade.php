@@ -108,7 +108,7 @@
 				</tr>
 				<tr>
 					<td width="25%" style="color:000; font-size: 14px; font-family: arial; padding:5px; font-weight: 600; border-right: 1px solid #D6D4D4; border-bottom: 1px solid #D6D4D4;">Payment Amount:</td>
-					<td width="25%" style="color:000; font-size: 14px; font-family: arial; padding:5px; font-weight: 400; border-right: 1px solid #D6D4D4; border-bottom: 1px solid #D6D4D4;">RS. 4554545</td>
+					<td width="25%" style="color:000; font-size: 14px; font-family: arial; padding:5px; font-weight: 400; border-right: 1px solid #D6D4D4; border-bottom: 1px solid #D6D4D4;">RS. @convert(4554545)</td>
 					<td width="25%" style="color:000; font-size: 14px; font-family: arial; padding:5px; font-weight: 600; border-right: 1px solid #D6D4D4; border-bottom: 1px solid #D6D4D4;">GST: </td>
 					<td width="25%" style="color:000; font-size: 14px; font-family: arial; padding:5px; font-weight: 400; border-right: 1px solid #D6D4D4; border-bottom: 1px solid #D6D4D4;">18%</td>
 				</tr>

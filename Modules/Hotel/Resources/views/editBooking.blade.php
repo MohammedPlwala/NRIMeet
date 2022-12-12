@@ -70,12 +70,12 @@
                                         <div class="col-lg-6">
                                             <x-inputs.text value="{{ date('m/d/Y', strtotime($booking->check_in_date)) }}"
                                                 for="checkin_date" class="checkDate" icon="calender-date-fill" readonly='true'
-                                                required="true" placeholder="Date of birth" name="checkin_date" />
+                                                required="true" placeholder="Check in Date" name="checkin_date" />
                                         </div>
                                         <div class="col-lg-6">
                                             <x-inputs.text value="{{ date('m/d/Y', strtotime($booking->check_out_date)) }}"
                                                 for="checkout_date"  readonly='true' class="checkDate" icon="calender-date-fill"
-                                                required="true" placeholder="Date of birth" name="checkout_date" />
+                                                required="true" placeholder="Check out Date" name="checkout_date" />
                                         </div>
                                     </div>
                                 </div>
@@ -350,6 +350,7 @@
 
                                         @if ($booking->booking_status == 'Payment Completed')
                                             <option @if ($booking->booking_status == 'Payment Completed') selected @endif value="Payment Completed">Payment Completed</option>
+                                            <option @if ($booking->booking_status == 'Confirmation Recevied') selected @endif value="Confirmation Recevied">Confirmation Recevied</option>
                                             <option @if ($booking->booking_status == 'Cancellation Requested') selected @endif value="Cancellation Requested">Cancellation Requested</option>
                                         @endif
 
@@ -375,6 +376,8 @@
 
                                         @if ($booking->booking_status == 'Confirmation Recevied')
                                             <option @if ($booking->booking_status == 'Confirmation Recevied') selected @endif value="Confirmation Recevied">Confirmation Recevied</option>
+                                            <option @if ($booking->booking_status == 'Cancellation Requested') selected @endif
+                                            value="Cancellation Requested">Cancellation Requested</option>
                                         @endif
 
                                         @if ($booking->booking_status == 'Refund Issued')
@@ -655,7 +658,7 @@
                             <div class="col-lg-7 text-right offset-lg-5">
                                 <div class="form-group">
                                     <a href="javascript:history.back()" class="btn btn-outline-light">Cancel</a>
-                                    <x-button style="display: none;" type="submit" class="btn btn-primary submitBtn">Submit</x-button>
+                                    <x-button type="submit" class="btn btn-primary submitBtn">Submit</x-button>
                                 </div>
                             </div>
                         </div>
@@ -668,14 +671,16 @@
     <input type="hidden" name="role_type" id="role_type" value="{{ \Config::get('constants.ROLES.BUYER') }}">
     <input type="hidden" name="old_district" id="old_district" value="{{ old('district') }}">
     <input type="hidden" name="old_city" id="old_city" value="{{ old('city') }}">
-    <pre>
+  
         
     <script type="text/javascript">
         $(document).ready(function() {
 
-            $('.submitBtn').click(function() {
-                $(this).hide();
-            });
+            var checkValid = function(){
+                $('.submitBtn').attr("disabled", "disabled");
+            }
+
+            $.listen('parsley:form:success', checkValid)
 
 
             $('#status').change(function() {

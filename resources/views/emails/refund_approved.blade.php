@@ -166,7 +166,7 @@
 				</tr>
 				{{-- <tr>
 					<td width="25%" style="color:000; font-size: 14px; font-family: arial; padding:5px;font-weight: 600; border-right: 1px solid #D6D4D4; border-bottom: 1px solid #D6D4D4;">Amount Refunded: (In INR) </td>
-					<td width="75%" style="color:000; font-size: 14px; font-family: arial; padding:5px;font-weight: 400; border-right: 1px solid #D6D4D4; border-bottom: 1px solid #D6D4D4;">30,000</td>
+					<td width="75%" style="color:000; font-size: 14px; font-family: arial; padding:5px;font-weight: 400; border-right: 1px solid #D6D4D4; border-bottom: 1px solid #D6D4D4;">@convert(30000)</td>
 				</tr>
 				<tr>
 					<td width="25%" style="color:000; font-size: 14px; font-family: arial; padding:5px;font-weight: 600; border-right: 1px solid #D6D4D4; border-bottom: 1px solid #D6D4D4;">Payment Via: </td>
