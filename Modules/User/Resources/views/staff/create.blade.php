@@ -97,6 +97,7 @@ $currentOrganization = \Session::get('currentOrganization');
                                 </div>
                                 <div class="col-lg-7">
                                     <x-inputs.text value="{{ isset($user) ? $user->mobile : old('mobileNumber') }}" for="mobileNumber" icon="call" required="true" placeholder="Mobile Number" name="mobileNumber"
+                                    data-parsley-pattern="{{ \Config::get('constants.REGEX.VALIDATE_MOBILE_NUMBER_LENGTH') }}"
                                     />
                                     @if ($errors->has('mobileNumber'))
                                         <span class="text-danger">{{ $errors->first('mobileNumber') }}</span>
