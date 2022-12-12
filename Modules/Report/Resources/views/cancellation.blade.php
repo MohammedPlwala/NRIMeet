@@ -11,9 +11,8 @@
                 <div class="toggle-expand-content" data-content="more-options">
                     <ul class="nk-block-tools g-3">
                         <li>
-                            <a href="#" class="btn btn-trigger btn-icon dropdown-toggle" data-toggle="modal" title="filter" data-target="#modalFilterorder">
-                                <div class="dot dot-primary"></div>
-                                <em class="icon ni ni-filter-alt"></em>
+                            <a href="#" class="btn btn-outline-primary dropdown-toggle" data-toggle="modal" title="filter" data-target="#modalFilterorder">
+                                <em class="icon ni ni-filter"></em><span>Filter</span>
                             </a>
                         </li>
                         <li class="nk-block-tools-opt">
@@ -38,7 +37,7 @@
                     </tr> --}}
                     <tr class="nk-tb-item nk-tb-head">
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Guest Name</span></th>
-                        <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Order Id</span></th>
+                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Order Id</span></th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Confirmation No</span></th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Classification</span></th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Hotel</span></th>
@@ -318,7 +317,7 @@
                         name: 'room_type_name'
                     },
                     {
-                        "class": "nk-tb-col tb-col-lg",
+                        "class": "nk-tb-col tb-col-lg text-center",
                         data: 'guests',
                         name: 'guests'
                     },
@@ -333,22 +332,22 @@
                         name: 'check_out_date'
                     },
                     {
-                        "class": "nk-tb-col tb-col-lg",
+                        "class": "nk-tb-col tb-col-lg text-center",
                         data: 'adults',
                         name: 'adults'
                     },
                     {
-                        "class": "nk-tb-col tb-col-lg",
+                        "class": "nk-tb-col tb-col-lg text-center",
                         data: 'childs',
                         name: 'childs',
                     },
                     {
-                        "class": "nk-tb-col tb-col-lg",
+                        "class": "nk-tb-col tb-col-lg text-center",
                         data: 'extra_bed',
                         name: 'extra_bed',
                     },
                     {
-                        "class": "nk-tb-col tb-col-lg",
+                        "class": "nk-tb-col tb-col-lg text-right",
                         data: 'amount',
                         name: 'amount',
                     },

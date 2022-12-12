@@ -279,12 +279,12 @@
                         name: 'available_rooms'
                     },
                     {
-                        "class": "nk-tb-col tb-col-lg text-center",
+                        "class": "nk-tb-col tb-col-lg",
                         data: 'contact_person',
                         name: 'contact_person'
                     },
                     {
-                        "class": "nk-tb-col tb-col-lg text-center",
+                        "class": "nk-tb-col tb-col-lg",
                         data: 'contact_number',
                         name: 'contact_number'
                     }

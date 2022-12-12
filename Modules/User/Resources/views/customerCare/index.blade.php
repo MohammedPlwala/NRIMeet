@@ -60,90 +60,90 @@
                 <tbody>
                 </tbody>
             </table>
-
-        </div><!-- .nk-block -->
-        <div class="modal fade zoom" tabindex="-1" id="modalFilterUser">
-            <div class="modal-dialog modal-lg" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Filter</h5>
-                        <a href="#" class="close" data-dismiss="modal" aria-label="Close">
-                            <em class="icon ni ni-cross"></em>
-                        </a>
-                    </div>
-                    <form role="form" class="mb-0" method="get" action="#">
-                    @csrf
-                    <div class="modal-body modal-body-lg">
-                        <div class="gy-3">
-                            <div class="row g-3 align-center">
-                                <div class="col-lg-5">
-                                    <x-inputs.verticalFormLabel label="Guest Name" for="guest_name" suggestion="Specify the name of the guest name." />
-                                </div>
-                                <div class="col-lg-7">
-                                    <x-inputs.text value="" for="firstName" icon="user" placeholder="Name" name="guest_name"/>
-                                </div>
+        </div>
+    </div><!-- .nk-block -->
+    <div class="modal fade zoom" tabindex="-1" id="modalFilterUser">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Filter</h5>
+                    <a href="#" class="close" data-dismiss="modal" aria-label="Close">
+                        <em class="icon ni ni-cross"></em>
+                    </a>
+                </div>
+                <form role="form" class="mb-0" method="get" action="#">
+                @csrf
+                <div class="modal-body modal-body-lg">
+                    <div class="gy-3">
+                        <div class="row g-3 align-center">
+                            <div class="col-lg-5">
+                                <x-inputs.verticalFormLabel label="Guest Name" for="guest_name" suggestion="Specify the name of the guest name." />
                             </div>
-                            <div class="row g-3 align-center">
-                                <div class="col-lg-5">
-                                    <x-inputs.verticalFormLabel label="Case ID" for="case_id" suggestion="Specify the name of the case" />
-                                </div>
-                                <div class="col-lg-7">
-                                    <x-inputs.text value="" for="firstName" icon="user" placeholder="Name" name="case_id"/>
-                                </div>
+                            <div class="col-lg-7">
+                                <x-inputs.text value="" for="firstName" icon="user" placeholder="Name" name="guest_name"/>
                             </div>
-                            <div class="row g-3 align-center">
-                                <div class="col-lg-5">
-                                    <x-inputs.verticalFormLabel label="Contact Number" for="contact" suggestion="Specify the mobile number of the user."  />
-                                </div>
-                                <div class="col-lg-7">
-                                    <x-inputs.text value="" for="contact_number" icon="call" placeholder="Mobile Number" name="contact"
-                                    {{-- data-parsley-pattern="{{ \Config::get('constants.REGEX.VALIDATE_MOBILE_NUMBER_LENGTH') }}" --}}
-                                    />
-                                </div>
+                        </div>
+                        <div class="row g-3 align-center">
+                            <div class="col-lg-5">
+                                <x-inputs.verticalFormLabel label="Case ID" for="case_id" suggestion="Specify the name of the case" />
                             </div>
-                            <div class="row g-3 align-center">
-                                <div class="col-lg-5">
-                                    <x-inputs.verticalFormLabel label="Created at" for="createdAt" suggestion="Select the dates of created at." />
-                                </div>
-                                <div class="col-lg-7">
-                                    <div class="row">
-                                        <div class="col-lg-6">
-                                            <div class="form-control-wrap">
-                                                <div class="form-icon form-icon-left">
-                                                    <em class="icon ni ni-calendar"></em>
-                                                </div>
-                                                <input type="text" class="form-control date-picker" placeholder="Form Date" data-date-format="yyyy-mm-dd" id="fromDate" name="fromDate">
+                            <div class="col-lg-7">
+                                <x-inputs.text value="" for="firstName" icon="user" placeholder="Name" name="case_id"/>
+                            </div>
+                        </div>
+                        <div class="row g-3 align-center">
+                            <div class="col-lg-5">
+                                <x-inputs.verticalFormLabel label="Contact Number" for="contact" suggestion="Specify the mobile number of the user."  />
+                            </div>
+                            <div class="col-lg-7">
+                                <x-inputs.text value="" for="contact_number" icon="call" placeholder="Mobile Number" name="contact"
+                                {{-- data-parsley-pattern="{{ \Config::get('constants.REGEX.VALIDATE_MOBILE_NUMBER_LENGTH') }}" --}}
+                                />
+                            </div>
+                        </div>
+                        <div class="row g-3 align-center">
+                            <div class="col-lg-5">
+                                <x-inputs.verticalFormLabel label="Created at" for="createdAt" suggestion="Select the dates of created at." />
+                            </div>
+                            <div class="col-lg-7">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="form-control-wrap">
+                                            <div class="form-icon form-icon-left">
+                                                <em class="icon ni ni-calendar"></em>
                                             </div>
-                                            <!-- <div class="form-note mt-0">Form Date</div> -->
+                                            <input type="text" class="form-control date-picker" placeholder="Form Date" data-date-format="yyyy-mm-dd" id="fromDate" name="fromDate">
                                         </div>
-                                        <div class="col-lg-6">
-                                            <div class="form-control-wrap">
-                                                <div class="form-icon form-icon-left">
-                                                    <em class="icon ni ni-calendar"></em>
-                                                </div>
-                                                <input type="text" class="form-control date-picker" placeholder="To Date" data-date-format="yyyy-mm-dd"  id="toDate" name="toDate">
+                                        <!-- <div class="form-note mt-0">Form Date</div> -->
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-control-wrap">
+                                            <div class="form-icon form-icon-left">
+                                                <em class="icon ni ni-calendar"></em>
                                             </div>
-                                            <!-- <div class="form-note mt-0">To Date</div> -->
+                                            <input type="text" class="form-control date-picker" placeholder="To Date" data-date-format="yyyy-mm-dd"  id="toDate" name="toDate">
                                         </div>
+                                        <!-- <div class="form-note mt-0">To Date</div> -->
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <input type="hidden" id="userId" name="user_id" value="0">
-                    <div class="modal-footer bg-light">
-                        <div class="row">
-                            <div class="col-lg-12 p-0 text-right">
-                                <button class="btn btn-outline-light" data-dismiss="modal" aria-label="Close">Cancel</button>
-                                <button class="btn btn-danger resetFilter" data-dismiss="modal" aria-label="Close">Clear Filter</button>
-                                <button class="btn btn-primary submitBtn" type="button">Submit</button>
-                            </div>
+                </div>
+                <input type="hidden" id="userId" name="user_id" value="0">
+                <div class="modal-footer bg-light">
+                    <div class="row">
+                        <div class="col-lg-12 p-0 text-right">
+                            <button class="btn btn-outline-light" data-dismiss="modal" aria-label="Close">Cancel</button>
+                            <button class="btn btn-danger resetFilter" data-dismiss="modal" aria-label="Close">Clear Filter</button>
+                            <button class="btn btn-primary submitBtn" type="button">Submit</button>
                         </div>
                     </div>
-                    </form>
                 </div>
+                </form>
             </div>
         </div>
+    </div>
        
 @endsection
 @push('footerScripts')

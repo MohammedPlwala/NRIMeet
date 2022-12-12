@@ -11,9 +11,8 @@
                 <div class="toggle-expand-content" data-content="more-options">
                     <ul class="nk-block-tools g-3">
                         <li>
-                            <a href="#" class="btn btn-trigger btn-icon dropdown-toggle" data-toggle="modal" title="filter" data-target="#modalFilterorder">
-                                <div class="dot dot-primary"></div>
-                                <em class="icon ni ni-filter-alt"></em>
+                            <a href="#" class="btn btn-outline-primary dropdown-toggle" data-toggle="modal" title="filter" data-target="#modalFilterorder">
+                                <em class="icon ni ni-filter"></em><span>Filter</span>
                             </a>
                         </li>
                         <li class="nk-block-tools-opt">
@@ -42,8 +41,8 @@
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Hotel Name</span></th>
                         <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Rooms Booked</span></th>
                         <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Total Guest</span></th>
-                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Tax Collected</span></th>
-                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Total Amount</span></th>
+                        <th class="nk-tb-col tb-col-mb text-right"><span class="sub-text">Tax Collected</span></th>
+                        <th class="nk-tb-col tb-col-mb text-right"><span class="sub-text">Total Amount</span></th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Status</span></th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Payment Method</span></th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Payment Via</span></th>
@@ -243,7 +242,7 @@
                     },
                     // available_rooms == extra bed Charge
                     {
-                        "class": "nk-tb-col tb-col-lg",
+                        "class": "nk-tb-col tb-col-lg text-right",
                         data: 'tax',
                         name: 'tax'
                     },
