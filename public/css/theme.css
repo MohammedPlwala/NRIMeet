@@ -723,6 +723,8 @@ iframe#printJS{position: absolute;top: 0;}
     display: block;
     flex: 0 0 calc(100% - 350px);
     max-width: calc(100% - 350px);
+    background: url('../images/rajwada-historical-palace-indore-city.png') no-repeat center bottom;
+    background-size: 100% 60%;
 }
 .login-box .login-box-row .login-box-col-left .brand-logo{
     padding: 0 0 47px 0;
@@ -808,6 +810,7 @@ iframe#printJS{position: absolute;top: 0;}
     .login-box .login-box-row .login-box-col-left{
         flex: 0 0 100%;
         max-width: 100%;
+        height: 34vh;
     }
     .login-box .login-box-row .login-box-col-left .login-form{
         padding: 20px;
