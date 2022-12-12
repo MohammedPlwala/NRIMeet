@@ -444,7 +444,10 @@
 
                                 </li>
                             @empty
-                            <p>No Record found!</p>
+                            <div class="no-data-found">
+                                <img src="{{url('images/hotel_icon2.png')}}" alt="" />
+                                <p>No Record Found!</p>
+                            </div>
                             @endforelse
                         </ul>
                     </div>

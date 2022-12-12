@@ -561,7 +561,7 @@
                                 </div>
                                 <div class="col-lg-8">
                                     <x-inputs.select for="cancellation_charges" 
-                                        placeholder="Select Cancellation Charges" name="cancellation_charges">
+                                        placeholder="Select Cancellation Charges" name="cancellation_charges" id="cancellation_charges">
                                         <option @if ($booking->cancellation_charges == '0') selected @endif
                                             value="0">0%</option>
                                         <option @if ($booking->cancellation_charges == '20') selected @endif

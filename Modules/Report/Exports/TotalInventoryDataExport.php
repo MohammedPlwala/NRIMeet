@@ -36,9 +36,9 @@ class TotalInventoryDataExport implements FromArray, WithHeadings, ShouldAutoSiz
     {
         return [
             'Hotel Classification',
-            'Hotel Nam',
+            'Hotel Name',
             'Room Type',
-            'Room Coun',
+            'Room Count',
             'MEA Room',
             '20% Reserved MPT Inventor',
             'Available for PBD Delegate',
