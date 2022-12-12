@@ -858,8 +858,6 @@ class ReportController extends Controller
         }
     }
     
-
-
     public function totalInventoryData(Request $request)
     {
 
@@ -949,7 +947,6 @@ class ReportController extends Controller
         }
     }
 
-
     public function bookingSummary(Request $request)
     {
         $hotels = Hotel::from('hotels as h')
@@ -1027,7 +1024,6 @@ class ReportController extends Controller
 
         return view('report::booking_summary',['hotels' => $hotels, 'room_types' => $roomTypes, 'request' => $request]);
     }
-
 
     public function bookingSummaryExport(Request $request){
         $bookings =    HotelRoom::from('hotel_rooms as hr')
@@ -1217,7 +1213,7 @@ class ReportController extends Controller
     {
 
         $data = Hotel::from('hotels as h')
-                ->select('h.id', 'h.name',
+                ->select('h.name',
                 \DB::Raw('COALESCE((select sum(hotel_rooms.allocated_rooms) from hotel_rooms where hotel_rooms.hotel_id = h.id ),0) as allotedRooms', 'booking_rooms'),
                 \DB::Raw('COALESCE((select count(booking_rooms.id) from booking_rooms where booking_rooms.room_id = hr.id ),0) as bookings'),
                 \DB::Raw('COALESCE((select sum(booking_rooms.guests) from booking_rooms where booking_rooms.room_id = hr.id ),0) as guests'),
@@ -1433,7 +1429,7 @@ class ReportController extends Controller
                     ->make(true);
         }
 
-        return view('report::booking_checkin_status');
+        return view('report::booking_checkout_status');
     }
 
     public function bookingCheckOutStatusExport(Request $request)
