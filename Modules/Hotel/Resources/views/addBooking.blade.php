@@ -278,7 +278,7 @@
                             <div class="col-lg-7 text-right offset-lg-5">
                                 <div class="form-group">
                                     <a href="javascript:history.back()" class="btn btn-outline-light">Cancel</a>
-                                    <x-button type="submit" class="btn btn-primary">Submit</x-button>
+                                    <x-button type="submit" class="btn btn-primary submitBtnx">Submit</x-button>
                                 </div>
                             </div>
                         </div>
@@ -297,6 +297,10 @@
 
     <script type="text/javascript">
         $(document).ready(function() {
+            var checkValid = function(){
+                    $('.submitBtnx').attr("disabled", "disabled");
+                }
+                $.listen('parsley:form:success', checkValid)
 
             $('#room_one_type').change(function() {
                 if ($(this).val() != "") {
