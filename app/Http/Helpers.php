@@ -76,8 +76,8 @@ class Helpers {
 
 		$bookingDetails = self::bookingDetails($booking_id);
 		$to_name = $bookingDetails->guest;
-		// $to_email = $bookingDetails->guest_email; //uncomment for live
-		$to_email = 'vikalp@yopmail.com';
+		$to_email = $bookingDetails->guest_email;
+		// $to_email = $bookingDetails->guest_email;
 
 		$emails = array($to_email);
 
@@ -99,7 +99,7 @@ class Helpers {
 		$bookingDetails = self::bookingDetails($booking_id);
 		$to_name = $bookingDetails->guest;
 		// $to_email = $bookingDetails->guest_email; //uncomment for live
-		$to_email = 'vikalp@yopmail.com';
+		$to_email = $bookingDetails->guest_email;
 
 		$emails = array($to_email);
 		$emails[] = \Config::get('constants.MPT_EMAIL');
@@ -119,7 +119,7 @@ class Helpers {
 		$bookingDetails = self::bookingDetails($booking_id);
 		$to_name = $bookingDetails->guest;
 		// $to_email = $bookingDetails->guest_email; //uncomment for live
-		$to_email = 'vikalp@yopmail.com';
+		$to_email = $bookingDetails->guest_email;
 
 		$emails = array($to_email);
 
@@ -138,7 +138,7 @@ class Helpers {
 
 		$to_name = $bookingDetails->guest;
 		// $to_email = $bookingDetails->guest_email; //uncomment for live
-		$to_email = 'vikalp@yopmail.com';
+		$to_email = $bookingDetails->guest_email;
 
 		$emails = array($to_email);
 		$emails[] = \Config::get('constants.MPT_EMAIL');
@@ -157,7 +157,7 @@ class Helpers {
 		$bookingDetails = self::bookingDetails($booking_id);
 		$to_name = $bookingDetails->guest;
 		// $to_email = $bookingDetails->guest_email; //uncomment for live
-		$to_email = 'vikalp@yopmail.com';
+		$to_email = $bookingDetails->guest_email;
 
 		$emails = array($to_email);
 
@@ -175,7 +175,7 @@ class Helpers {
 		$bookingDetails = self::bookingDetails($booking_id);
 		$to_name = $bookingDetails->guest;
 		// $to_email = $bookingDetails->guest_email; //uncomment for live
-		$to_email = 'vikalp@yopmail.com';
+		$to_email = $bookingDetails->guest_email;
 
 		$emails = array($to_email);
 

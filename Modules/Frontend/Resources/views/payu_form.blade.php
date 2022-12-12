@@ -3,19 +3,7 @@
 @section('content')
     <link rel="stylesheet" href="{{asset('payumoney/payu.css')}}">
 
-    <script>
-        var hash = '{{$hash}}';
-
-        function submitPayuForm() {
-            if (hash == '') {
-                return;
-            }
-            var payuForm = document.forms.payuForm;
-            payuForm.submit();
-        }
-    </script>
-
-<div class="payfrom" onload="submitPayuForm()">
+<div class="payfrom">
     <div class="main-form position-relative">
         <div class="infyom-logo">
             <img src="{{asset('payumoney/infyom-logo.png')}}" alt="infyom logo">
@@ -69,7 +57,7 @@
                     <div class="col-12">
                         <div class="form-group mb-3 position-relative">
                             <input class="input-box form-control w-100" placeholder="Amount *" type="text" name="amount" readonly 
-                                   value="{{!empty($bookingData['amount']) ? 1 : '1'}}">
+                                   value="{{!empty($bookingData['amount']) ? $bookingData['amount'] : '10000'}}">
                             <div class="icon-group-append">
                                 <i class="fas fa-tag"></i>
                             </div>
@@ -111,5 +99,21 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
         crossorigin="anonymous"></script>
+
+<script>
+
+    $(window).on('load', function(){
+        submitPayuForm();
+    });
+        var hash = '{{$hash}}';
+
+        function submitPayuForm() {
+            if (hash == '') {
+                return;
+            }
+            var payuForm = document.forms.payuForm;
+            payuForm.submit();
+        }
+    </script>
 
 @endpush

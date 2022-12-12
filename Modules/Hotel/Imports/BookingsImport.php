@@ -108,29 +108,32 @@ class BookingsImport implements
 
                     $userRole = array('role_id' => 3, 'user_id' =>  $user->id);
                     UserRole::insert($userRole);
+                    // $importError = 1;
                 }
-            }else{
-                $email = str_replace(' ', '_', $row['guest_name']);
-                $email = strtolower($email);
-                $email = $email.'@yopmail.com';
+            }
+            else{
+                $importError = 1;
+                // $email = str_replace(' ', '_', $row['guest_name']);
+                // $email = strtolower($email);
+                // $email = $email.'@yopmail.com';
 
-                $user = User::select('id','city','state','country','zip','full_name')
-                ->where('email',$email)
-                ->first();
+                // $user = User::select('id','city','state','country','zip','full_name')
+                // ->where('email',$email)
+                // ->first();
 
-                if($user){
-                    $userId =  $user->id;
-                }else{
-                    $user = new User();
-                    $user->email = $email;
-                    $user->full_name = $row['guest_name'];
-                    $user->status = 'active';
-                    $user->save();
-                    $userId =  $user->id;
+                // if($user){
+                //     $userId =  $user->id;
+                // }else{
+                //     $user = new User();
+                //     $user->email = $email;
+                //     $user->full_name = $row['guest_name'];
+                //     $user->status = 'active';
+                //     $user->save();
+                //     $userId =  $user->id;
 
-                    $userRole = array('role_id' => 3, 'user_id' =>  $user->id);
-                    UserRole::insert($userRole);
-                }
+                //     $userRole = array('role_id' => 3, 'user_id' =>  $user->id);
+                //     UserRole::insert($userRole);
+                // }
 
             }
 

@@ -52,10 +52,10 @@
                   </div>
                 </div>
               </div>
-              <div class="form-item large">
+              {{-- <div class="form-item large">
                 <label class="form-label">PBD Registration No: <span class="required" title="required">*</span></label>
                 <input type="text" name="registration_number" value="" size="40" placeholder="PBD Registration No" required />
-              </div>
+              </div> --}}
               <div class="form-item large">
                 <label class="form-label">Country of Residence <span class="required" title="required">*</span></label>
                 <input type="text" name="country" value="" size="40" placeholder="Country of Residence" required />
@@ -85,18 +85,9 @@
                     <label class="form-label">Select Departure From Indore </label>
                     <span class="wpcf7-form-control-wrap" data-name="menu-998">
                         <select name="departure_from_indore">
-                          <option value="01:30 AM BHASMARTI">01:30 AM BHASMARTI</option>
-                          <option value="07:00 AM">07:00 AM</option>
-                          <option value="08:00 AM">08:00 AM</option>
-                          <option value="09:00 AM">09:00 AM</option>
-                          <option value="10:00 AM">10:00 AM</option>
-                          <option value="11:00 AM">11:00 AM</option>
-                          <option value="12:00 PM">12:00 PM</option>
-                          <option value="01:00 PM">01:00 PM</option>
-                          <option value="02:00 PM">02:00 PM</option>
-                          <option value="03:00 PM">03:00 PM</option>
-                          <option value="04:00 PM">04:00 PM</option>
-                          <option value="05:00 PM">05:00 PM</option>
+                          <option value="06:00 PM">06:00 PM</option>
+                          <option value="09:00 PM">09:00 PM</option>
+                          <option value="11:00 PM">11:00 PM</option>
                         </select>
                     </span>
                   </div>
@@ -106,18 +97,9 @@
                     <label class="form-label">Select Departure From Ujjain   </label>
                     <span class="wpcf7-form-control-wrap" data-name="menu-573">
                         <select name="departure_from_ujjain" class="wpcf7-form-control wpcf7-select wpcf7-validates-as-required" aria-required="true" aria-invalid="false">
-                          <option value="06:30 AM">06:30 AM</option>
-                          <option value="11:00 AM">11:00 AM</option>
-                          <option value="12:00 PM">12:00 PM</option>
-                          <option value="01:00 PM">01:00 PM</option>
-                          <option value="02:00 PM">02:00 PM</option>
-                          <option value="03:00 PM">03:00 PM</option>
-                          <option value="04:00 PM">04:00 PM</option>
-                          <option value="05:00 PM">05:00 PM</option>
-                          <option value="06:00 PM">06:00 PM</option>
-                          <option value="07:00 PM">07:00 PM</option>
-                          <option value="08:00 PM">08:00 PM</option>
-                          <option value="09:00 PM">09:00 PM</option>
+                          <option value="06:00 AM">06:00 AM</option>
+                          <option value="08:00 AM">08:00 AM</option>
+                          <option value="10:00 AM">10:00 AM</option>
                         </select>
                     </span>
                   </div>
@@ -125,7 +107,7 @@
               </div>
             </div>
 
-            <p class="mahakal_lok">Shuttle service is organised by MP Tourism Corporation on 11th Jan 2023.<br>
+            <p class="mahakal_lok">Shuttle service is organised by MP Govt on 10th Jan 2023.<br>
               Shuttle service are complimentary.
             </p>
             <div class="form-item large">
