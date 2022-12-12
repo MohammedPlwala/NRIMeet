@@ -91,7 +91,7 @@
                                     <a href="{{ $removeRoom }}">Remove</a>
                                 </div>
 
-                                <input type="text" data-extraBedAvailable="{{ $room->extra_bed_available }}" class="room" data-roomKey="{{ $key }}" data-guests="{{ $guests }}" name="">
+                                <input type="hidden" data-extraBedAvailable="{{ $room->extra_bed_available }}" class="room" data-roomKey="{{ $key }}" data-guests="{{ $guests }}" name="">
 
                                 @if($room->extra_bed_available)
                                 
