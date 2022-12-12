@@ -32,7 +32,7 @@
                                         required="true" />
                                 </div>
                                 <div class="col-lg-8">
-                                    <x-inputs.select for="guest" icon="mail" required="true" class=""
+                                    <x-inputs.select for="guest" icon="mail" required="true" class="readonlyselect"
                                         placeholder="Select Guest" name="guest">
                                         <option>Select Guest</option>
                                         @forelse($guests as $key => $guest)
@@ -49,7 +49,7 @@
                                         required="true" />
                                 </div>
                                 <div class="col-lg-8">
-                                    <x-inputs.select for="hotel" icon="mail" required="true" class=""
+                                    <x-inputs.select for="hotel" icon="mail" required="true" class="readonlyselect"
                                         placeholder="Select Hotel" name="hotel">
                                         <option>Select Hotel</option>
                                         @forelse($hotels as $key => $hotel)
@@ -146,7 +146,7 @@
                                     </x-inputs.select>
                                 </td>
                                 <td>
-                                    <select id="room_one_extraBed" icon="mail" required="true" class="form-select"
+                                    <select id="room_one_extraBed" icon="mail" required="true" class="form-select readonlyselect"
                                         name="room_one_extraBed">
 
                                         <option @if ($bookingRooms[0]['extra_bed'] == 0) selected @endif value="0">No
@@ -890,7 +890,7 @@
                                         required="true" />
                                 </div>
                                 <div class="col-lg-8">
-                                    <x-inputs.text value="" for="rooms_${room}_${firstName}_${index}" name="rooms[${room}][${firstName}][${index}]" placeholder="Full Name" />
+                                    <x-inputs.text value="" for="rooms_${room}_${firstName}_${index}" name="rooms[${room}][${firstName}][${index}]" placeholder="Full Name" readonly />
                                 </div>
                             </div>
                         `

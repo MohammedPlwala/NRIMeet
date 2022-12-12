@@ -32,6 +32,7 @@ use Modules\Report\Exports\PendingConfirmationExport;
 use Modules\Report\Exports\CombinedExport;
 use Modules\Report\Exports\BookingCheckInStatusExport;
 use Modules\Report\Exports\BookingCheckOutStatusExport;
+use Modules\Report\Exports\BulkBookingRoomExport;
 
 
 
@@ -1469,37 +1470,117 @@ class ReportController extends Controller
     
     public function bulkBookingRooms(Request $request)
     {
-        // $data = BulkBookingRoom::from('bulk_booking_rooms as bm')
-        //             ->select(
-        //                 // 'bb.checkin_date',
-        //                 // 'h.name',
-        //                 // 'bb.room_type_id',
-        //                 // 'bb.room_type_id as confirmationNumber',
-        //                 // \DB::raw('DATE_FORMAT(b.check_out_date, "%d-%b-%Y") as check_out_date'), 
-        //         // 'h.name',
-        //             // \DB::Raw('sum(case when (br.room_id!="") then 1 else 0 end) AS bookings'),
-        //             // \DB::Raw('sum(case when (br.room_id!="") then br.guests else 0 end) AS guests'),
-        //         )
-        //         ->join('bulk_bookings as bb','bb.id','=','b.bulk_booking_id')
-        //         ->join('hotels as h','h.id','=','bb.hotel_id')
-        //         // ->leftJoin('booking_rooms as br','br.booking_id','=','b.id')
-        //         ->groupby('b.check_out_date', 'b.hotel_id')
-        //         ->orderby('b.check_out_date','asc')
-        //         ->get();
-        
-        //                 echo "<pre>";
-        //                 print_r($data->toArray());
-        //                 die;
+        $hotels = Hotel::from('hotels as h')
+        ->select('h.name', 'h.id')->get();
 
-        //         if ($request->ajax()) {
-        //             return Datatables::of($data)
-        //             ->addIndexColumn()
-        //             ->rawColumns(['order_id'])
-        //             ->skipPaging()
-        //             ->make(true);
-        // }
-        return view('report::bulk_booking_rooms');
+        $room_types = RoomType::from('room_types as rt')
+        ->select('rt.name', 'rt.id')->get();
+
+        $data = BulkBookingRoom::from('bulk_booking_rooms as bm')
+                    ->select(
+                        'bm.booking_id as confirmation_number',
+                        'bm.guest_name',
+                        'bm.guest_designation',
+                        'bm.adult_count',
+                        'bm.child_count',
+                        'bb.name',
+                        'bb.checkin_date',
+                        'bb.checkout_date',
+                        'bb.booking_person',
+                        'bb.name',
+                        'h.name as hotel_name',
+                        'rt.name as room_type'
+                )
+                ->join('bulk_bookings as bb','bb.id','=','bm.bulk_booking_id')
+                ->join('hotels as h','h.id','=','bb.hotel_id')
+                ->join('room_types as rt','rt.id','=','bb.room_type_id')
+                ->where(function ($query) use ($request) {
+                    if (!empty($request->toArray())) {
+                        if ($request->get('hotel_name') != '') {
+                            $query->where('h.id',  $request->hotel_name);
+                        }
+
+                        if ($request->get('room_type') != '') {
+                            $query->where('rt.id',  $request->room_type );
+                        }
+
+                        if ($request->get('booking_from') != '') {
+                            $query->where('bb.booking_person',  $request->booking_from );
+                        }
+
+                        if ($request->get('checkin_date') != '') {
+                            $query->where('bb.checkin_date',  $request->checkin_date );
+                        }
+
+                        if ($request->get('checkout_date') != '') {
+                            $query->where('bb.checkout_date',  $request->checkout_date );
+                        }
+                    }
+                })
+                ->get();
+
+                if ($request->ajax()) {
+                    return Datatables::of($data)
+                    ->addIndexColumn()
+                    // ->rawColumns(['order_id'])
+                    ->make(true);
+        }
+        return view('report::bulk_booking_rooms', ['hotels' => $hotels, 'room_types' => $room_types]);
     }
+
+    public function bulkBookingRoomsExport(Request $request)
+    {
+        $data = BulkBookingRoom::from('bulk_booking_rooms as bm')
+                    ->select(
+                        'bb.booking_person',
+                        'bb.name',
+                        'h.name as hotel_name',
+                        'rt.name as room_type',
+                        'bm.booking_id as confirmation_number',
+                        'bm.guest_name',
+                        'bm.guest_designation',
+                        'bm.adult_count',
+                        'bm.child_count',
+                        'bb.checkin_date',
+                        'bb.checkout_date',
+                )
+                ->join('bulk_bookings as bb','bb.id','=','bm.bulk_booking_id')
+                ->join('hotels as h','h.id','=','bb.hotel_id')
+                ->join('room_types as rt','rt.id','=','bb.room_type_id')
+                ->where(function ($query) use ($request) {
+                    if (!empty($request->toArray())) {
+                        if ($request->get('hotel_name') != '') {
+                            $query->where('h.id',  $request->hotel_name);
+                        }
+
+                        if ($request->get('room_type') != '') {
+                            $query->where('rt.id',  $request->room_type );
+                        }
+
+                        if ($request->get('booking_from') != '') {
+                            $query->where('bb.booking_person',  $request->booking_from );
+                        }
+
+                        if ($request->get('checkin_date') != '') {
+                            $query->where('bb.checkin_date',  $request->checkin_date );
+                        }
+
+                        if ($request->get('checkout_date') != '') {
+                            $query->where('bb.checkout_date',  $request->checkout_date );
+                        }
+                    }
+                })
+                ->get();
+
+          
+        if(!empty($data->toArray())){
+            return (new BulkBookingRoomExport($data->toArray()))->download('bulk-booking-rooms' . '.xlsx', \Maatwebsite\Excel\Excel::XLSX);
+        }else{
+            return redirect('admin/report/bulk-booking-rooms')->with('error', 'No order');
+        }
+    }
+
+
     public function financial(Request $request)
     {
         return view('report::financial');
