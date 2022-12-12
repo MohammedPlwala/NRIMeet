@@ -30,7 +30,7 @@
 					  	<li><strong>Extra Bed Rate:</strong> ₹@convert($room->extra_bed_cost)</li></li>
 					  	@endif
 					  	<li><strong>Amount:</strong> ₹@convert($room->amount)</li>
-					  	<li><strong>Guests:</strong> {{ $booking->adults }} Adult, {{ $booking->childs }} Children</li>
+					  	<li><strong>Guests:</strong> {{ $room->adults }} Adult, {{ $room->childs }} Children</li>
 					</ul>
 			  		<div class="my_account_guest_box">
 						<h5>Guests Infomation</h5>

@@ -39,7 +39,7 @@
                     var url = root_url+'/billdesk-payment-response';
                     bdPayment.initialize({
                         // "msg": "MPSTDWCV2|7410|NA|100.00|NA|NA|NA|INR|DIRECT|R|6rVIafDL8nyzydKEAEGmXl0srhAENnjx|NA|NA|F|vikalp|8989067984|NA|NA|NA|NA|NA|NA|"+data,
-                        "msg": "MPSTDWCV2|789654|NA|100.00|NA|NA|NA|INR|DIRECT|R|6rVIafDL8nyzydKEAEGmXl0srhAENnjx|NA|NA|F|john@doe1.com|8989067984|NA|NA|NA|NA|NA|NA|"+data,
+                        "msg": "MPSTDWCV2|789654|NA|100.00|NA|NA|NA|INR|DIRECT|R|mpstdwcv2|NA|NA|F|john@doe1.com|8989067984|NA|NA|NA|NA|NA|NA|"+data,
                         "options": {
                             "isSICCAllowed":true,
                             "isCsMsgMerc":true,
