@@ -42,9 +42,9 @@ class HotelController extends Controller
                 ->where('user_id', $user->id)
                 ->first();
 
-        if($checkBookedRooms->rooms >= 0){
-            return redirect('/')->with('error', 'You have already booked two rooms');
-        }
+        // if($checkBookedRooms->rooms >= 2){
+        //     return redirect('/')->with('error', 'You have already booked two rooms');
+        // }
 
         Session::put('cartData', '');
         Session::put('billingDetails', '');
@@ -523,7 +523,7 @@ class HotelController extends Controller
     {
 
         $url = url('billdesk-payment-response');
-        $str = 'MPSTDWCV2|789654|NA|100.00|NA|NA|NA|INR|DIRECT|R|mpstdwcv2|NA|NA|F|john@doe1.com|8989067984|NA|NA|NA|NA|NA|NA';
+        $str = 'MPSTDWCV2|789654|NA|100.00|NA|NA|NA|INR|DIRECT|R|@Mpstdc1978|NA|NA|F|john@doe1.com|8989067984|NA|NA|NA|NA|NA|NA';
 
         $checksum = hash_hmac('sha256', $str, '6rVIafDL8nyzydKEAEGmXl0srhAENnjx', false);
         $checksum = strtoupper($checksum);

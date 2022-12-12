@@ -14,6 +14,9 @@ use Yajra\Datatables\DatatablesServiceProvider;
 use App\Models\Audit;
 use Helpers;
 
+use Maatwebsite\Excel\HeadingRowImport;
+use Modules\Hotel\Imports\BookingsImport;
+
 class BookingController extends Controller
 {
 
@@ -26,6 +29,84 @@ class BookingController extends Controller
         //     return redirect('/');
         // }
 
+    }
+
+    public function import(Request $request)
+    {
+        return view('hotel::booking_import');
+    }
+
+    public function importProduct(Request $request)
+    {
+        try{
+
+            $user = \Auth::user();
+            $organization_id = $user->organization_id;
+
+            if ($request->hasFile('importFile')) {
+                $extension = request()->importFile->getClientOriginalExtension();
+                $fileName = $organization_id . '-' . time() . '-' . date('m-d-Y') . '.' . request()->importFile->getClientOriginalExtension();
+                request()->importFile->move(public_path('uploads/imports/'), $fileName);
+                $file = public_path('uploads/imports/') . $fileName;
+
+            }else{
+                $file = $request->file('importFile')->store('import');
+            }
+
+            $import = new BookingsImport($organization_id,$user->id,0);
+            if ($extension == 'xlsx') {
+                $import->import($file, null, \Maatwebsite\Excel\Excel::XLSX);
+            } elseif ($extension == 'csv') {
+                $import->import($file, null, \Maatwebsite\Excel\Excel::CSV);
+            } elseif ($extension == 'xls') {
+                $import->import($file, null, \Maatwebsite\Excel\Excel::XLS);
+            } else {
+                return redirect('ecommerce/products/import')->with('error', trans('messages.UNKNOWN_FILE_TYPE'));
+            }
+            $importResult = $import->data;
+            if (!empty($importResult) && file_exists($file)) {
+                unlink($file);
+            }
+
+            if (!empty($importResult['errors'])) {
+                $tempArr = array_unique(array_column($importResult['errors'], 'row'));
+                $errorsCount = count(array_values(array_intersect_key($importResult['errors'], $tempArr)));
+            } else {
+                $errorsCount = 0;
+            }
+            echo "<pre>";
+            print_r($importResult);
+            die;
+            
+            if (!empty($importResult['success'])) {
+                if (!empty($importResult['errors'])) {
+                    $message        = count($importResult['success']) . ' rows imported successfully. ' . $errorsCount . ' rows skipped due to errors';
+
+                    return (new ProductErrorExport($importResult['errors']))->download('product_errors' . '.csv', \Maatwebsite\Excel\Excel::XLSX);
+                    return redirect('ecommerce/products/import')->with('message', $message);
+
+                } else {
+                    $message        = count($importResult['success']) . ' rows imported successfully';
+                    return redirect('ecommerce/products/import')->with('message', $message);
+                }
+                $data['errors']             = $importResult['errors'];
+                return $this->sendSuccessResponse($data);
+            } else {
+                $message        = count($importResult['success']) . ' rows imported successfully. ' . $errorsCount . ' rows skipped due to errors';
+
+                return (new ProductErrorExport($importResult['errors']))->download('product_errors' . '.csv', \Maatwebsite\Excel\Excel::XLSX);
+                return redirect('ecommerce/products/import')->with('message', $message);
+            }
+                // ImportProduct::save_result($result->id)
+            /*$import->queue($file)->chain([
+                SendImportEmail::dispatch($result->id)->delay(Carbon::now()->addMinutes(2))
+            ]);*/
+
+            return back()->withStatus('Import in queue, we will send notification after import finished.');
+        } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
+            $failures = $e->failures();
+            return $this->sendFailureResponse($failures);
+        }
     }
 
     /**
