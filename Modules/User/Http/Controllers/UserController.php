@@ -39,6 +39,10 @@ class UserController extends Controller
 
     public function import()
     {
+
+        \Helpers::sendRefundApprovedMail(32);
+        die;
+
         $file = fopen('guest.csv', 'r');
         $hotelsData = [];
         $firstLine = true;

@@ -655,7 +655,7 @@
                             <div class="col-lg-7 text-right offset-lg-5">
                                 <div class="form-group">
                                     <a href="javascript:history.back()" class="btn btn-outline-light">Cancel</a>
-                                    <x-button type="submit" class="btn btn-primary">Submit</x-button>
+                                    <x-button style="display: none;" type="submit" class="btn btn-primary submitBtn">Submit</x-button>
                                 </div>
                             </div>
                         </div>
@@ -672,6 +672,12 @@
         
     <script type="text/javascript">
         $(document).ready(function() {
+
+            $('.submitBtn').click(function() {
+                $(this).hide();
+            });
+
+
             $('#status').change(function() {
                 if($(this).val() == 'Confirmation Recevied'){
                     $('#confirmation_number').attr('required',true);
@@ -984,7 +990,7 @@
                 }, 2000);
             @endif
 
-
+            $('.submitBtn').show();
         });
     </script>
 @endsection

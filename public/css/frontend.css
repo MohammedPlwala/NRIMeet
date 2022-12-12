@@ -2371,3 +2371,10 @@ label.filter_label {
   margin: 0 0 10px 0;
   display: block;
 }
+.fe-alert-msg{
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  max-width: 400px;
+  z-index: 999;
+}

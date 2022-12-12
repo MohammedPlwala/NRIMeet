@@ -36,6 +36,16 @@ class HotelController extends Controller
     public function search(Request $request)
     {
 
+        $user = \Auth::user();
+        $checkBookedRooms = Booking::from('bookings as b')
+                ->select(\DB::Raw('COALESCE(SUM((select count(booking_rooms.id) from booking_rooms where booking_rooms.booking_id = b.id )),0) as rooms'))
+                ->where('user_id', $user->id)
+                ->first();
+
+        if($checkBookedRooms->rooms >= 0){
+            return redirect('/')->with('error', 'You have already booked two rooms');
+        }
+
         Session::put('cartData', '');
         Session::put('billingDetails', '');
         Session::put('bookingData', '');
@@ -126,26 +136,6 @@ class HotelController extends Controller
             $hotels = array();
         }
 
-        //  // }'SELECT * FROM `bookings` WHERE `user_id` = '.$user->id
-        //  $user = \Auth::user();
-        // //  $bookings = \DB::Raw('SELECT * FROM bookings WHERE user_id = 2')->get();
-        // $data = Booking::from('bookings as b')
-        //                     ->select(\DB::Raw('COALESCE((select count(booking_rooms.id) from booking_rooms where booking_rooms.booking_id = b.id ),0) as rooms'),
-        //                     )
-        //                     ->where('user_id', $user->id)
-        //                     ->get()->toArray();
-        // foreach ($data as $key => $value) {
-        //     echo "<pre>";
-        //     print_r($value);
-        // }
-        // echo "<pre>";
-        // //  print_r($data->toArray());
-        //  die;
-        // if(isset($request->date_from)){
-        // echo "<pre>";
-        // print_r($request->date_from);
-        // die;
-        // }
     	return view('frontend::booking',['hotels' => $hotels, 'request' => $request]);
     }
 

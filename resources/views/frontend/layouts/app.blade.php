@@ -46,6 +46,23 @@
 
 <body>
     <div id="app" class="site-wrapper">
+        @if (session()->has('message'))
+        <div class="fe-alert-msg">
+            <div class="alert alert-success alert-icon alert-dismissible">
+                <em class="icon ni ni-check-circle"></em>
+                {{ session('message') }}<button class="close" data-dismiss="alert"></button>
+            </div>
+        </div>
+        @endif
+        @if (session()->has('error'))
+        <div class="fe-alert-msg">
+            <div class="alert alert-danger alert-icon alert-dismissible">
+                <em class="icon ni ni-cross-circle"></em>
+                {{ session('error') }}<button class="close" data-dismiss="alert"></button>
+            </div>
+        </div>
+        @endif
+
         <header class="header">
             <div class="top-header">
                 <div class="row">
