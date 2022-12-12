@@ -523,9 +523,9 @@ class HotelController extends Controller
     {
 
         $url = url('billdesk-payment-response');
-        $str = 'MPSTDWCV2|789654|NA|100.00|NA|NA|NA|INR|DIRECT|R|6rVIafDL8nyzydKEAEGmXl0srhAENnjx|NA|NA|F|john@doe1.com|8989067984|NA|NA|NA|NA|NA|NA';
+        $str = 'MPSTDWCV2|789654|NA|100.00|NA|NA|NA|INR|DIRECT|R|mpstdwcv2|NA|NA|F|john@doe1.com|8989067984|NA|NA|NA|NA|NA|NA';
 
-        $checksum = hash_hmac('sha256', $str, 'checksum_key', false);
+        $checksum = hash_hmac('sha256', $str, '6rVIafDL8nyzydKEAEGmXl0srhAENnjx', false);
         $checksum = strtoupper($checksum);
         return $checksum;
     }

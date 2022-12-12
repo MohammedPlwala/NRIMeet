@@ -36,10 +36,12 @@
                             @endphp
                             @forelse ($rooms as $key => $room)
                             @php
-                            	
+                            	$guests = 0; 
 	                            if($key == 0){
 	                            	$adults = $room->room_one_adult;
 	                            	$childs = $room->room_one_child;
+                                    $guests += $adults;
+                                    $guests += $childs;
 	                            }
 	                            else{
 	                            	$adults = $room->room_two_adult;
@@ -49,6 +51,7 @@
                                 if($room->extra_bed_required){
                                     $total += ($room->extra_bed_rate*Session::get('nights'));
                                 }
+
 	                            
                             @endphp
 
@@ -87,6 +90,9 @@
                                 <div class="sidebar_right">
                                     <a href="{{ $removeRoom }}">Remove</a>
                                 </div>
+
+                                <input type="text" data-extraBedAvailable="{{ $room->extra_bed_available }}" class="room" data-roomKey="{{ $key }}" data-guests="{{ $guests }}" name="">
+
                                 @if($room->extra_bed_available)
                                 
                                 
@@ -108,7 +114,8 @@
                                                     @if($room->extra_bed_required)
                                                     <a href="{{ $extraBedRemove }}" class="primary-button sm">Remove</a>
                                                     @else
-                                                    <a href="{{ $extraBedAdd }}" class="primary-button sm">Select</a>
+
+                                                    <a href="{{ $extraBedAdd }}" class="primary-button sm  room_{{ $key }}">Select</a>
                                                     @endif
                                                 </div>
                                             </div>
@@ -237,3 +244,27 @@
         </div>
     </div>
 @endsection
+
+
+@push('footerScripts')
+    <script type="text/javascript">
+
+        $(document).ready(function(){
+            $('.room').each(function(i, obj) {
+                var guests = $(obj).attr('data-guests');
+                var extrabedavailable = $(obj).attr('data-extrabedavailable');
+                var roomkey = $(obj).attr('data-roomkey');
+                if(extrabedavailable && guests > 2){
+
+                    if($('.room_'+roomkey).length) {
+                        var href = $('.room_'+roomkey).attr('href');
+                        alert(roomkey);
+                        window.location = href;
+                    }
+
+                }
+            });
+        });
+
+    </script>
+@endpush
