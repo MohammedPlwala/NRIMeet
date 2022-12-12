@@ -11,8 +11,11 @@
 |
 */
 
-Route::prefix('dashboard')->group(function() {
-    Route::get('/', 'DashboardController@index');
-    Route::post('/', 'DashboardController@index');
-    Route::get('/old', 'DashboardController@old');
+
+Route::group(['middleware' => 'admin'], function(){
+    Route::prefix('admin/dashboard')->group(function() {
+        Route::get('/', 'DashboardController@index');
+        Route::post('/', 'DashboardController@index');
+    });
 });
+

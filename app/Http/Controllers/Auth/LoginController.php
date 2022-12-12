@@ -8,6 +8,8 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Auth;
 use App\Models\User;
+use Modules\User\Entities\Role;
+use Modules\User\Entities\UserRole;
 
 class LoginController extends Controller
 {
@@ -39,6 +41,35 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
+    }
+
+    public function adminLogin(Request $request)
+    {
+        
+        request()->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
+     
+        $credentials = ['email'=>$request->get('email'),'password'=>$request->get('password'),'status' => 'active'];
+        if (Auth::attempt($credentials)) {
+            $user = Auth::user();
+
+            $userRole = UserRole::select('r.name as role')->leftJoin('roles as r','user_role.role_id','=','r.id')->where('user_id',$user->id)->first();
+
+
+            if($userRole->role == 'Guest'){
+                Auth::logout();
+                return redirect('admin/login')->with('error', 'You are not allowed to access this portal.');
+            }
+            return redirect('admin/dashboard');
+        }else{
+            $user = User::where('email',$request->get('email'))->first();
+            if($user && $user->status != "active"){
+                return redirect('admin/login')->with('error', 'Opps! Your account is not active');
+            }
+        }
+        return redirect('admin/login')->with('error', 'Opps! You have entered invalid credentials');
     }
 
     public function postLogin(Request $request)

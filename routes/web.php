@@ -18,9 +18,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
+Route::prefix('admin')->group(function() {
+    Auth::routes();
+    Route::post('post-admin-login', 'App\Http\Controllers\Auth\LoginController@adminLogin'); 
+});
 
-// Route::get('/frontend', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/', '\Modules\Frontend\Http\Controllers\HotelController@index');
 Route::get('/admin', '\Modules\Dashboard\Http\Controllers\DashboardController@index');
 Route::post('post-login', 'App\Http\Controllers\Auth\LoginController@postLogin'); 
