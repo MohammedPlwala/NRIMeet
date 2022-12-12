@@ -2372,9 +2372,33 @@ label.filter_label {
   display: block;
 }
 .fe-alert-msg{
-  position: absolute;
-  top: 10px;
-  right: 10px;
+  position: fixed;
+  top: 35px;
+  right: -400px;
+  min-width: 300px;
   max-width: 400px;
   z-index: 999;
+  -webkit-transition: right 0.5s ease;
+  transition: right 0.5s ease;
+}
+.fe-alert-msg.show{
+  right: 20px;
+}
+.fe-alert-msg.hide{
+  display: none;
+}
+.fe-alert-msg .alert{
+  min-height: 52px;
+  padding-top: 16px;
+  padding-bottom: 16px;
+  border-top: none;
+  border-bottom: none;
+  border-left: 5px solid;
+  border-radius: 0;
+}
+.fe-alert-msg .alert .alert-heading{
+  margin-bottom: 8px;
+}
+.fe-alert-msg .alert .close{
+  font-size: 20px;
 }
