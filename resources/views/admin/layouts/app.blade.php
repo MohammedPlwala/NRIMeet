@@ -148,8 +148,7 @@
                                                     <em class="icon ni ni-user-alt"></em>
                                                 </div>
                                                 <div class="user-info d-none d-xl-block">
-                                                    {{-- <div class="user-status user-status-unverified">Unverified</div> --}}
-                                                    <div class="user-name dropdown-indicator">{{ ucfirst(\Session::get('name')) }}</div>
+                                                    <div class="user-name dropdown-indicator">{{ ucfirst(\Auth::user()->full_name) }} ({{\Session::get('role')}})</div>
                                                 </div>
                                             </div>
                                         </a>
@@ -157,11 +156,11 @@
                                             <div class="dropdown-inner user-card-wrap bg-lighter d-none d-md-block">
                                                 <div class="user-card">
                                                     <div class="user-avatar">
-                                                        <span>{{ \Helpers::getAcronym(\Session::get('name')) }}</span>
+                                                        <span>{{ \Helpers::getAcronym(\Auth::user()->full_name) }}</span>
                                                     </div>
                                                     <div class="user-info">
-                                                        <span class="lead-text">{{ ucfirst(\Session::get('name')) }}</span>
-                                                        <span class="sub-text">{{ \Session::get('email') }}</span>
+                                                        <span class="lead-text">{{ ucfirst(\Auth::user()->full_name) }}</span>
+                                                        <span class="sub-text">{{ \Auth::user()->email }}</span>
                                                     </div>
                                                 </div>
                                             </div>
