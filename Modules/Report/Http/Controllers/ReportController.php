@@ -17,6 +17,7 @@ use Modules\Hotel\Entities\BookingRoom;
 use Modules\Hotel\Entities\BulkBookingRoom;
 use Modules\Hotel\Entities\BillingDetail;
 use Modules\Hotel\Entities\Transaction;
+use Modules\User\Entities\CustomerCare;
 
 use Modules\Report\Exports\GuestExport;
 use Modules\Report\Exports\BookingExport;
@@ -33,7 +34,7 @@ use Modules\Report\Exports\CombinedExport;
 use Modules\Report\Exports\BookingCheckInStatusExport;
 use Modules\Report\Exports\BookingCheckOutStatusExport;
 use Modules\Report\Exports\BulkBookingRoomExport;
-
+use Modules\Report\Exports\CallCenterExport;
 
 
 use DataTables;
@@ -1461,7 +1462,91 @@ class ReportController extends Controller
     }
     public function callCenter(Request $request)
     {
+       
+
+        $data = CustomerCare::from('customer_care as cc')
+        ->select( 'cc.case_id', 'cc.date', 'cc.guest_name', 'cc.country', 'cc.contact','cc.email', 'cc.whatsapp'
+           , 'cc.method', 'cc.issue', 'cc.sub_issue', 'cc.status', 'cc.remark')
+                ->where(function ($query) use ($request) {
+                    if (!empty($request->toArray())) {
+                        if ($request->get('date') != '') {
+                            $query->where('cc.date',  $request->date);
+                        }
+
+                        if ($request->get('method') != '') {
+                            $query->where('cc.method',  $request->method );
+                        }
+
+                        if ($request->get('status') != '') {
+                            $query->where('cc.status',  $request->status );
+                        }
+
+                        if ($request->get('issue') != '') {
+                            $query->where('cc.issue',  $request->issue );
+                        }
+
+                        if ($request->get('sub_issue') != '') {
+                            $query->where('cc.sub_issue',  $request->sub_issue );
+                        }
+                    }
+                })
+                ->get();
+
+                // echo "<pre>";
+                // print_r($data->toArray());
+                // die;
+
+                if ($request->ajax()) {
+                    return Datatables::of($data)
+                    ->addIndexColumn()
+                    // ->rawColumns(['order_id'])
+                    ->make(true);
+        }
         return view('report::call_center');
+    }
+
+    public function callCenterExport(Request $request)
+    {
+       
+
+        $data = CustomerCare::from('customer_care as cc')
+        ->select( 'cc.case_id', 'cc.date', 'cc.guest_name', 'cc.contact','cc.email' 
+           , 'cc.method', 'cc.issue', 'cc.sub_issue', 'cc.status', 'cc.remark')
+                ->where(function ($query) use ($request) {
+                    if (!empty($request->toArray())) {
+                        if ($request->get('date') != '') {
+                            $query->where('cc.date',  $request->date);
+                        }
+
+                        if ($request->get('method') != '') {
+                            $query->where('cc.method',  $request->method );
+                        }
+
+                        if ($request->get('status') != '') {
+                            $query->where('cc.status',  $request->status );
+                        }
+
+                        if ($request->get('issue') != '') {
+                            $query->where('cc.issue',  $request->issue );
+                        }
+
+                        if ($request->get('sub_issue') != '') {
+                            $query->where('cc.sub_issue',  $request->sub_issue );
+                        }
+                    }
+                })
+                ->get();
+
+                // echo "<pre>";
+                // print_r($data->toArray());
+                // die;
+
+                
+        if(!empty($data->toArray())){
+            return (new CallCenterExport($data->toArray()))->download('call-center' . '.xlsx', \Maatwebsite\Excel\Excel::XLSX);
+        }else{
+            return redirect('admin/report/call-center')->with('error', 'No order');
+        }
     }
     
     public function bulkBookingRooms(Request $request)
