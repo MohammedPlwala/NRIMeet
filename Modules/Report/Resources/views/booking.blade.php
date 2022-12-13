@@ -32,6 +32,7 @@
             <table class="broadcast-init nowrap nk-tb-list is-separate" data-auto-responsive="false">
                 <thead>
                     <tr class="nk-tb-item nk-tb-head">
+                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Booked On</span></th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Order Id</span></th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Guest Name</span></th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Guest Email</span></th>
@@ -284,6 +285,11 @@
                         url: "{{ url('admin/report/booking') }}",
                     },
                     columns: [
+                        {
+                            "class": "nk-tb-col tb-col-lg",
+                            data: 'booked_on',
+                            name: 'booked_on'
+                        },
                         {
                             "class": "nk-tb-col tb-col-lg",
                             data: 'order_id',

@@ -251,7 +251,7 @@ class ReportController extends Controller
     {
 
         $data = BookingRoom::from('booking_rooms as br')
-                ->select('br.id','u.full_name as guest_name','u.email','u.mobile','b.order_id','b.confirmation_number','h.classification','h.name as hotel','rt.name as room_type_name','br.guests','b.check_in_date','b.check_out_date','br.adults','br.childs','br.extra_bed','br.amount','b.booking_status',)
+                ->select('b.created_at as booked_on','br.id','u.full_name as guest_name','u.email','u.mobile','b.order_id','b.confirmation_number','h.classification','h.name as hotel','rt.name as room_type_name','br.guests','b.check_in_date','b.check_out_date','br.adults','br.childs','br.extra_bed','br.amount','b.booking_status')
                 ->Join('bookings as b','b.id','=','br.booking_id')
                 ->leftJoin('hotel_rooms as hr','br.room_id','=','hr.id')
                 ->join('room_types as rt','rt.id','=','hr.type_id')
@@ -305,6 +305,10 @@ class ReportController extends Controller
                     ->addColumn('order_id', function ($row) {
                         return $row->order_id;
                     })
+                    ->addColumn('booked_on', function ($row) {
+                        $booked_on = date(\Config::get('constants.DATE.DATE_FORMAT_FULL') , strtotime($row->booked_on));
+                        return $booked_on;
+                    })
                     ->rawColumns(['order_id'])
                     ->make(true);
         }
@@ -317,7 +321,9 @@ class ReportController extends Controller
 
 
         $bookings = BookingRoom::from('booking_rooms as br')
-                ->select('b.order_id','u.full_name as guest_name','u.email','u.mobile','b.confirmation_number','h.classification','h.name as hotel','rt.name as room_type_name','br.guests','b.check_in_date','b.check_out_date','b.booking_status','br.adults','br.childs','br.extra_bed','br.amount')
+                ->select(
+                    \DB::raw('DATE_FORMAT(b.created_at, "%d-%b-%Y") as booked_on'),
+                    'b.order_id','u.full_name as guest_name','u.email','u.mobile','b.confirmation_number','h.classification','h.name as hotel','rt.name as room_type_name','br.guests','b.check_in_date','b.check_out_date','b.booking_status','br.adults','br.childs','br.extra_bed','br.amount')
                 ->Join('bookings as b','b.id','=','br.booking_id')
                 ->leftJoin('hotel_rooms as hr','br.room_id','=','hr.id')
                 ->join('room_types as rt','rt.id','=','hr.type_id')

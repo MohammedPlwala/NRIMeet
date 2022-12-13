@@ -110,7 +110,7 @@ class UserController extends Controller
                 ->where(function ($query) use ($request) {
                     if (!empty($request->toArray())) {
                         if ($request->get('name') != '') {
-                            $query->where('u.name', $request->get('name'));
+                            $query->where('u.full_name', 'like', '%' . $request->name . '%');
                         }
                         if ($request->get('contact_number') != '') {
                             $query->where('u.mobile', $request->get('contact_number'));
@@ -374,9 +374,9 @@ class UserController extends Controller
         $user =User::find($request->password_user_id);
         $user->password = \Hash::make($request->newPassword);
         if($user->save()){
-            return redirect()->back()->with('message', trans('messages.PASSWORD_UPDATED'));
+            return redirect()->back()->with('message', 'Password updated successfully.');
         }else{
-            return redirect()->back()->with('error', trans('messages.SOMETHING_WENT_WRONG'));
+            return redirect()->back()->with('error', 'Something went wrong.');
         }
     }
     public function updatePassword(Request $request)
@@ -613,6 +613,7 @@ class UserController extends Controller
             $user = new User();
             $msg = "User added successfully";
 
+            $user->password = \Hash::make('NriMeet@123');
             $checkEmail = User::where('email',$request->email)->first();
             if($checkEmail){
                 return redirect('/admin/user/staff')->with('error', 'Email already exists');
@@ -623,7 +624,6 @@ class UserController extends Controller
         $user->email  = $request->email;
         $user->mobile = $request->mobileNumber;
         // $user->date_of_birth = date('Y-m-d', strtotime($request->date_of_birth));
-        $user->password = \Hash::make('NriMeet@123');
         // $user->address = $request->address;
         // $user->nationality = $request->nationality;
         // $user->country = $request->country;

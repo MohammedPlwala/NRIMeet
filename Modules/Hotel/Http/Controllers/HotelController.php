@@ -498,6 +498,10 @@ class HotelController extends Controller
                         $checkout_date = date(\Config::get('constants.DATE.DATE_FORMAT') , strtotime($row->check_out_date));
                         return $checkout_date;
                     })
+                    ->addColumn('booked_on', function ($row) {
+                        $booked_on = date(\Config::get('constants.DATE.DATE_FORMAT_FULL') , strtotime($row->created_at));
+                        return $booked_on;
+                    })
                     ->addColumn('action', function($row) {
                            $edit = url('/').'/admin/bookings/edit/'.$row->id;
                            $confirm = '"Are you sure, you want to delete it?"';
@@ -720,9 +724,9 @@ class HotelController extends Controller
     public function createBooking()
     {
         $users = User::select('id')->get();
-        $hotels = Hotel::where('status','active')->get();
+        $hotels = Hotel::all();
         
-        $roomTypes = RoomType::where('status','active')->get();
+        $roomTypes = RoomType::all();
 
         $guests =   User::from('users as u')
                     ->select('u.id','u.full_name')
@@ -740,9 +744,9 @@ class HotelController extends Controller
         $booking = Booking::findorfail($booking_id);
 
         $users = User::select('id')->get();
-        $hotels = Hotel::where('status','active')->get();
+        $hotels = Hotel::all();
         
-        $roomTypes = RoomType::where('status','active')->get();
+        $roomTypes = RoomType::all();
 
         $bookingRooms = BookingRoom::from('booking_rooms as br')
                 ->select('br.*','hr.rate')
@@ -1081,8 +1085,8 @@ class HotelController extends Controller
                 ->select('hr.id', 'hr.hotel_id', 'hr.name', 'hr.type_id', 'hr.description', 'hr.allocated_rooms', 'hr.mpt_reserve', 'hr.count', 'hr.rate', 'hr.extra_bed_available', 'hr.extra_bed_rate', 'hr.status','rt.name as room_type_name')
                 ->join('room_types as rt','rt.id','=','hr.type_id')
                 ->where('hr.hotel_id',$hotel_id)
-                ->where('hr.status', 'active')
-                ->where('hr.count', ">" ,'0')
+                // ->where('hr.status', 'active')
+                // ->where('hr.count', ">" ,'0')
                 ->orderby('rt.name','asc')
                 ->get();
         if(!empty($hotelRooms->toArray())){

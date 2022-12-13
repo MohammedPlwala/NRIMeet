@@ -34,6 +34,8 @@ Route::group(['middleware' => 'admin'], function(){
             Route::get('/import', 'UserController@import');
             Route::post('/add', 'UserController@storeGuest');
 
+            Route::post('/update-user-password', 'UserController@updateUserPassword');
+
             Route::prefix('/staff')->group(function() {
                 Route::get('/', 'UserController@staffList');
                 Route::post('/', 'UserController@staffList');

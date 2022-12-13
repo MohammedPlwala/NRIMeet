@@ -72,7 +72,7 @@
                                             <li><a href="{{ url('/').'/admin/user/staff/edit-staff/'.$user->id }}"><em class="icon ni ni-edit"></em><span>Edit</span></a></li>
                                             <li><a href="{{ url('/').'/admin/user/staff/delete-staff/'.$user->id }}" onclick='return confirm("Are you sure, you want to delete this user?")'  class='delete'><em class="icon ni ni-trash"></em><span>Delete</span></a></li>
                                             {{-- <li><a href="#" data-resourceId="{{ $user->id }}" class="audit_logs"><em class="icon ni ni-list"></em><span>Audit Logs</span></a></li> --}}
-                                            <!-- <li><a href="#" data-resourceId="{{ $user->id }}" class="changePassword"><em class="icon ni ni-lock-alt"></em><span>Update Password</span></a></li> -->
+                                            <li><a href="#" data-resourceId="{{ $user->id }}" class="changePassword"><em class="icon ni ni-lock-alt"></em><span>Update Password</span></a></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -250,7 +250,7 @@
                     <em class="icon ni ni-cross"></em>
                 </a>
             </div>
-            <form role="form" class="mb-0" method="post" action="{{ url('user/update-user-password') }}">
+            <form role="form" class="mb-0" method="post" action="{{ url('admin/user/update-user-password') }}">
             @csrf
             <div class="modal-body modal-body-lg">
                 <div class="gy-3">

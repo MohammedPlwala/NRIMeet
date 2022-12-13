@@ -41,7 +41,7 @@
                         <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Closing Inventory</span></th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Contact Person</span></th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Contact Number</span></th>
-                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Hotel Description</span></th>
+                        {{-- <th class="nk-tb-col tb-col-mb"><span class="sub-text">Hotel Description</span></th> --}}
                         <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Distance From Airport</span></th>
                         <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Distance From Venue</span></th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Hotel Location</span></th>
@@ -293,18 +293,18 @@ console.log(myUrl);
                         data: 'contact_number',
                         name: 'contact_number'
                     },
-                    {
-                        "class": "nk-tb-col tb-col-lg",
-                        // data: 'description',
-                        data: function(item){
-                            if(item.description == null){
-                                return '<span class="fixcol-200">&nbsp;</span>'
-                            }else{
-                                return '<span class="fixcol-200">'+item.description+'</span>'
-                            }
-                        },
-                        name: 'description'
-                    },
+                    // {
+                    //     "class": "nk-tb-col tb-col-lg",
+                    //     // data: 'description',
+                    //     data: function(item){
+                    //         if(item.description == null){
+                    //             return '<span class="fixcol-200">&nbsp;</span>'
+                    //         }else{
+                    //             return '<span class="fixcol-200">'+item.description+'</span>'
+                    //         }
+                    //     },
+                    //     name: 'description'
+                    // },
                     {
                         "class": "nk-tb-col tb-col-lg text-center",
                         data: 'airport_distance',

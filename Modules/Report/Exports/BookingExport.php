@@ -35,6 +35,7 @@ class BookingExport implements FromArray, WithHeadings, ShouldAutoSize, WithEven
     public function headings(): array
     {
         return [
+            'Booked On',
             'Order ID',
             'Guest Name',
             'Guest Email',
