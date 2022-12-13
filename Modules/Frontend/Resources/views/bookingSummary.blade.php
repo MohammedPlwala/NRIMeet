@@ -174,7 +174,7 @@
 
 
 	                        @for ($i = 0; $i < $adults ; $i++)
-	                        	<p>Adults {{ $i+1 }}</p>
+	                        	<p>Adults {{ $i+1 }} <span class="required_asterisk">*</span></p>
 	                        	<div class="Guests_info_front_box">
 		                            <select required name="rooms[{{ $key }}][title][{{ $i }}]">
 		                                <option value="Mr">Mr.</option>
@@ -196,7 +196,7 @@
 	                        	<h5>Children</h5>
 	                        @endif
 	                        @for ($i = 0; $i < $childs ; $i++)
-	                        <p>Children {{ $i+1 }}</p>
+	                        <p>Children {{ $i+1 }} <span class="required_asterisk">*</span></p>
 	                        <div class="Guests_info_front_box">
 	                            <select required name="rooms[{{ $key }}][child_title][{{ $i }}]">
 	                                <!--<option value="">Select Title</option> -->
@@ -228,7 +228,7 @@
                         <p>
                             <input type="checkbox"
                                 data-mess=" Please accept the terms and conditions to proceed further with the booking process."
-                                name="agree_on" required /> I Agree on <a target="_blank" href="about-us/">About Us</a> |
+                                name="agree_on" required /> I Agree on <span class="required_asterisk">*</span> <a target="_blank" href="about-us/">About Us</a> |
                             <a target="_blank" href="privacy-policy/">Privacy Policy</a> | <a target="_blank"
                                 href="booking-policy/">Booking Policy</a> | <a target="_blank"
                                 href="terms-and-conditions/">Terms and conditions</a> | <a target="_blank"
