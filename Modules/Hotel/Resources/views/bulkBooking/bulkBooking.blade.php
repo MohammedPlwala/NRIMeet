@@ -5,7 +5,7 @@
         <div class="nk-block-between">
             <div class="nk-block-head-content">
                 <h3 class="nk-block-title page-title"><a href="javascript:history.back()" class="pt-3"><em
-                            class="icon ni ni-chevron-left back-icon"></em> </a>Add Bulk Booking</h3>
+                            class="icon ni ni-chevron-left back-icon"></em> </a>@if (isset($bulkBooking)) Edit @else Add @endif Bulk Booking</h3>
             </div><!-- .nk-block-head-content -->
         </div><!-- .nk-block-between -->
     </div><!-- .nk-block-head -->

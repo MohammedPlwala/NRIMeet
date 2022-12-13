@@ -161,11 +161,11 @@
                                 <div class="col-lg-7">
                                     <x-inputs.select value="" for="method" icon="send" placeholder="Method"
                                         name="method" required="true" value="{{ isset($customerCare) ? $customerCare->method : old('method') }}">
-                                        <option class="Email">Email</option>
-                                        <option class="Call">Call</option>
-                                        <option class="Whatsapp">Whatsapp</option>
-                                        <option class="MEA">MEA</option>
-                                        <option class="MPT">MPT</option>
+                                        <option value="Email">Email</option>
+                                        <option value="Call">Call</option>
+                                        <option value="Whatsapp">Whatsapp</option>
+                                        <option value="MEA">MEA</option>
+                                        <option value="MPT">MPT</option>
                                     </x-inputs.select>
                                 </div>
                             </div>
@@ -178,9 +178,9 @@
                                 <div class="col-lg-7">
                                     <x-inputs.select value="" for="issue" icon="send" placeholder="Issue"
                                         name="issue" required="true" value="{{ isset($customerCare) ? $customerCare->issue : old('issue') }}">
-                                        <option class="Registration">Registration</option>
-                                        <option class="Accommodation">Accommodation</option>
-                                        <option class="Transportation">Transportation</option>
+                                        <option value="Registration">Registration</option>
+                                        <option value="Accommodation">Accommodation</option>
+                                        <option value="Transportation">Transportation</option>
                                     </x-inputs.select>
                                 </div>
                             </div>
@@ -193,10 +193,10 @@
                                 <div class="col-lg-7">
                                     <x-inputs.select value="" for="subIssue" id="subIssue" icon="send"
                                         placeholder="Sub Issue" name="sub_issue" required="true" value="{{ isset($customerCare) ? $customerCare->sub_issue : old('sub_issue') }}">
-                                        <option class="Login Issue">Login Issue</option>
-                                        <option class="Payment Issue">Payment Issue</option>
-                                        <option class="Profile Issue">Profile Issue</option>
-                                        <option class="Password Issue">Password Issue</option>
+                                        <option value="Login Issue">Login Issue</option>
+                                        <option value="Payment Issue">Payment Issue</option>
+                                        <option value="Profile Issue">Profile Issue</option>
+                                        <option value="Password Issue">Password Issue</option>
                                     </x-inputs.select>
                                 </div>
                             </div>
@@ -221,11 +221,11 @@
                                 <div class="col-lg-7">
                                     <x-inputs.select value="" for="status" icon="send" placeholder="Status"
                                         name="status" required="true" value="{{ isset($customerCare) ? $customerCare->status : old('status') }}">
-                                        <option class="Open">Open</option>
-                                        <option class="On Hold">On Hold</option>
-                                        <option class="In Progress">In Progress</option>
-                                        <option class="Resolved">Resolved</option>
-                                        <option class="Pending">Pending</option>
+                                        <option value="Open">Open</option>
+                                        <option value="On Hold">On Hold</option>
+                                        <option value="In Progress">In Progress</option>
+                                        <option value="Resolved">Resolved</option>
+                                        <option value="Pending">Pending</option>
                                     </x-inputs.select>
                                 </div>
                             </div>
@@ -345,7 +345,7 @@
                 var option = ''
                 for (let index = 0; index < subIssues.length; index++) {
                     const val = subIssues[index];
-                    option += '<option class="'+val+'">'+val+'</option>'
+                    option += '<option value="'+val+'">'+val+'</option>'
                 }
                 $('#subIssue').html(option)
             })
