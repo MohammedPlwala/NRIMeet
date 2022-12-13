@@ -73,7 +73,7 @@ class FrontendController extends Controller
                 'email' => $input['email_id'],
                 'country_code' => $input['country_code'],
                 'mobile' => $input['phone_or_mobile_no'],
-                'registration_number' => $input['registration_number'],
+                // 'registration_number' => $input['registration_number'],
                 'country'  => $input['country'],
                 'members'  => $input['members'],
                 'departure_indore'  => $input['departure_from_indore'],
