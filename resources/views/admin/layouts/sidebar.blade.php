@@ -24,10 +24,6 @@ $planApprovalRequired = \Session::get('planApprovalRequired');
         <div class="nk-sidebar-content">
             <div class="nk-sidebar-menu" data-simplebar>
                 <ul class="nk-menu">
-                    <!-- <li class="nk-menu-heading">
-                                    <h6 class="overline-title text-primary-alt">Dashboard</h6>
-                                </li> -->
-                    <!-- .nk-menu-item -->
                     <li class="nk-menu-item">
                         <a href="{{url('/admin/dashboard')}}" class="nk-menu-link">
                             <span class="nk-menu-icon"><em class="icon ni ni-growth-fill"></em></span>
@@ -127,6 +123,7 @@ $planApprovalRequired = \Session::get('planApprovalRequired');
                             <li class="nk-menu-item">
                                 <a href="{{url('admin/report/bulk-booking-rooms')}}" class="nk-menu-link"><span class="nk-menu-text">Bulk Booking Rooms</span></a>
                             </li>
+                            <li class="nk-menu-item">
                                 <a href="{{url('admin/report/pending-confirmation')}}" class="nk-menu-link"><span class="nk-menu-text">Pending Confirmation</span></a>
                             </li>
                             <li class="nk-menu-item">

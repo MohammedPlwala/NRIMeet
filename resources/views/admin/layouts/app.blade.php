@@ -101,45 +101,6 @@
                                         </select>
                                     </li>
                                     @endif
-                                    <li class="dropdown notification-dropdown">
-                                        {{-- <a href="#" class="dropdown-toggle nk-quick-nav-icon" data-toggle="dropdown">
-                                            <div class="icon-status icon-status-info" id="ni-bell"><em class="icon ni ni-bell"></em></div>
-                                        </a> --}}
-                                        <div class="dropdown-menu dropdown-menu-xl dropdown-menu-right">
-                                            <div class="dropdown-head">
-                                                <span class="sub-title nk-dropdown-title">Notifications</span>
-                                                <a href="#" id="mark_all_as_read">Mark All as Read</a>
-                                            </div>
-                                            <div class="dropdown-body">
-                                                <div class="nk-notification" id="nk-notification">
-
-                                                </div><!-- .nk-notification -->
-                                            </div><!-- .nk-dropdown-body -->
-                                            <div class="dropdown-foot center">
-                                                {{-- <a href="{{ url('/user/notification') }}">View All</a> --}}
-                                                <a href="#">View All</a>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="dropdown user-dropdown">
-                                        <a href="#" class="dropdown-toggle nk-quick-nav-icon" data-toggle="dropdown">
-                                            <div id="ni-help"><em class="icon ni ni-help"></em></div>
-                                        </a>
-                                            
-                                       
-                                        <div class="dropdown-menu dropdown-menu-md dropdown-menu-right">
-                                            <div class="dropdown-inner">
-                                                <ul class="link-list">
-                                                    <li><a href="https://profitley.freshdesk.com" target="_blank" rel="noopener"><em class="icon ni ni-user-alt"></em><span>Help Desk</span></a></li>
-                                                    <li><a href="https://profitley.freshdesk.com" target="_blank" rel="noopener"><em class="icon ni ni-setting-alt"></em><span>Guide</span></a></li>
-
-                                                </ul>
-                                            </div>
-
-                                        </div>
-                                    </li>
-
-
 
                                     <li class="dropdown user-dropdown">
                                         <a href="#" class="dropdown-toggle mr-n1" data-toggle="dropdown">
@@ -220,13 +181,6 @@
                     <div class="container-fluid">
                         <div class="nk-footer-wrap">
                             <div class="nk-footer-copyright"> &copy; {{ date('Y') }} NRIMeet.
-                            </div>
-                            <div class="nk-footer-links">
-                                <ul class="nav nav-sm">
-                                    <li class="nav-item"><a class="nav-link" href="{{ url('terms') }}">Terms</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="{{ url('privacy') }}">Privacy</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="{{ url('help') }}">Help</a></li>
-                                </ul>
                             </div>
                         </div>
                     </div>
