@@ -2442,3 +2442,6 @@ label.filter_label {
   font-size: 16px;
   color: #cf2256;
 }
+.required_asterisk{
+  color: #F00;
+}
