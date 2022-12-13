@@ -341,7 +341,7 @@
                             name: 'check_out_date'
                         },
                         {
-                            "class": "nk-tb-col tb-col-lg",
+                            "class": "nk-tb-col tb-col-lg text-center",
                             data: 'booking_status',
                             name: 'booking_status'
                         },

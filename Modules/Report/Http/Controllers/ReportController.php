@@ -192,6 +192,12 @@ class ReportController extends Controller
         if ($request->ajax()) {
             return Datatables::of($data)
                     ->addIndexColumn()
+                    ->addColumn('rate', function ($row) { 
+                        return '₹'.number_format($row->rate, 2);
+                    })
+                    ->addColumn('extra_bed_rate', function ($row) { 
+                        return '₹'.number_format($row->extra_bed_rate, 2);
+                    })
                     ->rawColumns(['status',])
                     ->make(true);
         }
@@ -306,7 +312,42 @@ class ReportController extends Controller
                     ->addColumn('order_id', function ($row) {
                         return $row->order_id;
                     })
-                    ->rawColumns(['order_id'])
+                    ->addColumn('booking_status', function ($row) {
+                        $booking_status_class = 'success';
+                        if($row->booking_status == 'Booking Received'){
+                            $booking_status_class = 'info';
+                        }
+                        if($row->booking_status == 'Payment Completed'){
+                            $booking_status_class = 'success';
+                        }
+                        if($row->booking_status == 'Booking Shared'){
+                            $booking_status_class = 'info';
+                        }
+                        if($row->booking_status == 'Confirmation Recevied'){
+                            $booking_status_class = 'info';
+                        }
+                        if($row->booking_status == 'Cancellation Requested'){
+                            $booking_status_class = 'warning';
+                        }
+                        if($row->booking_status == 'Cancellation Approved'){
+                            $booking_status_class = 'success';
+                        }
+                        if($row->booking_status == 'Refund Requested'){
+                            $booking_status_class = 'warning';
+                        }
+                        if($row->booking_status == 'Refund Approved'){
+                            $booking_status_class = 'success';
+                        }
+                        if($row->booking_status == 'Refund Issued'){
+                            $booking_status_class = 'danger';
+                        }
+                        $booking_status = '<span class="badge badge-'.$booking_status_class.'" >'. $row->booking_status .'</span>';
+                        return $booking_status;
+                    })
+                    ->addColumn('amount', function ($row) { 
+                        return '₹'.number_format($row->amount, 2);
+                    })
+                    ->rawColumns(['order_id', 'booking_status'])
                     ->make(true);
         }
 
@@ -428,6 +469,15 @@ class ReportController extends Controller
                     ->addColumn('opening_room', function ($row) {
                         return $opening_room = $row->allocated_rooms-$row->mpt_reserve;
                     })
+                    ->addColumn('rate', function ($row) { 
+                        return '₹'.number_format($row->rate, 2);
+                    })
+                    ->addColumn('extra_bed_rate', function ($row) { 
+                        return '₹'.number_format($row->extra_bed_rate, 2);
+                    })
+                    ->addColumn('total_booking', function ($row) { 
+                        return '₹'.number_format($row->total_booking, 2);
+                    })
                     ->rawColumns(['opening_room'])
                     ->make(true);
         }
@@ -524,7 +574,56 @@ class ReportController extends Controller
         if ($request->ajax()) {
             return Datatables::of($data)
                     ->addIndexColumn()
-                    ->rawColumns(['status'])
+                    ->addColumn('tax', function ($row) { 
+                        return '₹'.number_format($row->tax, 2);
+                    })
+                    ->addColumn('amount', function ($row) { 
+                        return '₹'.number_format($row->amount, 2);
+                    })
+                    ->addColumn('booking_status', function ($row) {
+                        $booking_status_class = 'success';
+                        if($row->booking_status == 'Booking Received'){
+                            $booking_status_class = 'info';
+                        }
+                        if($row->booking_status == 'Payment Completed'){
+                            $booking_status_class = 'success';
+                        }
+                        if($row->booking_status == 'Booking Shared'){
+                            $booking_status_class = 'info';
+                        }
+                        if($row->booking_status == 'Confirmation Recevied'){
+                            $booking_status_class = 'info';
+                        }
+                        if($row->booking_status == 'Cancellation Requested'){
+                            $booking_status_class = 'warning';
+                        }
+                        if($row->booking_status == 'Cancellation Approved'){
+                            $booking_status_class = 'success';
+                        }
+                        if($row->booking_status == 'Refund Requested'){
+                            $booking_status_class = 'warning';
+                        }
+                        if($row->booking_status == 'Refund Approved'){
+                            $booking_status_class = 'success';
+                        }
+                        if($row->booking_status == 'Refund Issued'){
+                            $booking_status_class = 'danger';
+                        }
+                        $booking_status = '<span class="badge badge-'.$booking_status_class.'" >'. $row->booking_status .'</span>';
+                        return $booking_status;
+                    })
+                    ->addColumn('payment_mode', function ($row) {
+                        $payment_mode_class = 'success';
+                        if($row->payment_mode == 'Online'){
+                            $payment_mode_class = 'success';
+                        }
+                        if($row->payment_mode == 'Offline'){
+                            $payment_mode_class = 'danger';
+                        }
+                        $payment_mode = '<span class="badge badge-'.$payment_mode_class.'" >'. $row->payment_mode .'</span>';
+                        return $payment_mode;
+                    })
+                    ->rawColumns(['status', 'booking_status', 'payment_mode'])
                     ->make(true);
         }
         return view('report::payment');
