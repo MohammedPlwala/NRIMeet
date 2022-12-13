@@ -313,9 +313,8 @@ class HotelController extends Controller
                         ';
                         return $status;
                     })
-                    ->addColumn('rate', function ($row) {
-                        
-                        return '₹'.$row->rate;
+                    ->addColumn('rate', function ($row) { 
+                        return '₹'.number_format($row->rate, 2);
                     })
                     ->addColumn('action', function($row) {
                            $edit = url('/').'/admin/hotel/rooms/edit/'.$row->id;
@@ -353,7 +352,7 @@ class HotelController extends Controller
                                     </ul>";
                         return $btn;
                     })
-                    ->rawColumns(['action','status',])
+                    ->rawColumns(['action','status'])
                     ->make(true);
         }
 
@@ -489,8 +488,7 @@ class HotelController extends Controller
                         return $confirmation_number;
                     })
                     ->addColumn('amount', function ($row) {
-                        
-                        return '₹'.$row->amount;
+                        return '₹'.number_format($row->amount, 2);
                     })
                     ->addColumn('checkin_date', function ($row) {
                         $checkin_date = date(\Config::get('constants.DATE.DATE_FORMAT') , strtotime($row->check_in_date));
