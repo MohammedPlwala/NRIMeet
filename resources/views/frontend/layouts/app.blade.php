@@ -372,7 +372,7 @@
             "brandSetting":{
                 "brandName":"17th Pravasi Bhartiya Divas 2023",
                 "brandSubTitle":"Typically replies within 2 hours",
-                "brandImg":"https://pbdaccommodation.mptourism.com/images/PBD.png",
+                "brandImg":"https://pbdaccommodation.mptourism.com/images/pbd_logo.png",
                 "welcomeText":"Hi there!\nHow can I help you?",
                 "messageText":"Hello, I have a question.",
                 "backgroundColor":"#4dc247",
