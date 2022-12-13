@@ -14,8 +14,10 @@ use Modules\User\Entities\UserRole;
 use Modules\User\Entities\Role;
 use Modules\Hotel\Entities\Booking;
 use Modules\Hotel\Entities\BookingRoom;
+use Modules\Hotel\Entities\BulkBookingRoom;
 use Modules\Hotel\Entities\BillingDetail;
 use Modules\Hotel\Entities\Transaction;
+use Modules\User\Entities\CustomerCare;
 
 use Modules\Report\Exports\GuestExport;
 use Modules\Report\Exports\BookingExport;
@@ -26,13 +28,14 @@ use Modules\Report\Exports\CancellationExport;
 use Modules\Report\Exports\RefundExport;
 use Modules\Report\Exports\TotalInventoryDataExport;
 use Modules\Report\Exports\BookingSummaryExport;
-<<<<<<< HEAD
-use Modules\Report\Exports\CombinedExport;
-=======
 use Modules\Report\Exports\BookingStatusExport;
 use Modules\Report\Exports\PendingConfirmationExport;
+use Modules\Report\Exports\CombinedExport;
+use Modules\Report\Exports\BookingCheckInStatusExport;
+use Modules\Report\Exports\BookingCheckOutStatusExport;
+use Modules\Report\Exports\BulkBookingRoomExport;
+use Modules\Report\Exports\CallCenterExport;
 
->>>>>>> 28296981f61be6a925340f49c6205d232b277b99
 
 use DataTables;
 
@@ -68,6 +71,9 @@ class ReportController extends Controller
 
                             if ($request->get('postal_code') != '') {
                                 $query->where('u.zip', $request->get('postal_code'));
+                            }
+                            if ($request->get('registration_date') != '') {
+                                $query->whereDate('u.created_at', date('Y-m-d',strtotime($request->get('registration_date'))));
                             }
                         }
                     })
@@ -131,6 +137,9 @@ class ReportController extends Controller
                             if ($request->get('postal_code') != '') {
                                 $query->where('u.zip', $request->get('postal_code'));
                             }
+                            if ($request->get('registration_date') != '') {
+                                $query->whereDate('u.created_at', date('Y-m-d',strtotime($request->get('registration_date'))));
+                            }
                         }
                     })
                     ->orderby('u.full_name','asc')
@@ -145,11 +154,23 @@ class ReportController extends Controller
 
     public function hotelMaster(Request $request)
     {
+        $classifications = \Helpers::hotelClassifications();
+
+        $hotels = \Helpers::hotels();
+
+        
+        $room_types = \Helpers::roomTypes();
+
         $data =   Hotel::from('hotels as h')
-                    ->select('h.name','h.classification','h.airport_distance','h.venue_distance','h.website','h.contact_person','h.address','h.contact_number','h.description','hr.name as hotel_type','hr.allocated_rooms','hr.count as available_rooms','hr.rate','hr.extra_bed_available','hr.extra_bed_rate')
+                    ->select('h.name','h.classification','h.airport_distance','h.venue_distance','h.website','h.contact_person','h.address','h.contact_number','h.description','rt.name as room_type','hr.allocated_rooms','hr.count as available_rooms','hr.rate','hr.extra_bed_available','hr.extra_bed_rate')
                     ->Join('hotel_rooms as hr','hr.hotel_id','=','h.id')
+                    ->join('room_types as rt','rt.id','=','hr.type_id')
                     ->where(function ($query) use ($request) {
                         if (!empty($request->toArray())) {
+                            if ($request->get('hotel_name') != '') {
+                                $query->where('h.name', $request->get('hotel_name'));
+                            }
+
                             if ($request->get('star_rating') != '') {
                                 $query->where('h.classification', $request->star_rating);
                             }
@@ -185,14 +206,21 @@ class ReportController extends Controller
                     })
                     ->orderby('h.name','asc')
                     ->get();
+                   
 
         if ($request->ajax()) {
             return Datatables::of($data)
                     ->addIndexColumn()
+                    ->addColumn('rate', function ($row) { 
+                        return '₹'.number_format($row->rate, 2);
+                    })
+                    ->addColumn('extra_bed_rate', function ($row) { 
+                        return '₹'.number_format($row->extra_bed_rate, 2);
+                    })
                     ->rawColumns(['status',])
                     ->make(true);
         }
-        return view('report::hotel_master');
+        return view('report::hotel_master', ["classifications" => $classifications, "room_types" => $room_types, 'hotels' => $hotels]);
     }
 
     public function hotelMasterExport(Request $request)
@@ -202,6 +230,9 @@ class ReportController extends Controller
                     ->Join('hotel_rooms as hr','hr.hotel_id','=','h.id')
                     ->where(function ($query) use ($request) {
                         if (!empty($request->toArray())) {
+                            if ($request->get('hotel_name') != '') {
+                                $query->where('h.name', $request->get('hotel_name'));
+                            }
                             if ($request->get('star_rating') != '') {
                                 $query->where('h.classification', $request->star_rating);
                             }
@@ -249,7 +280,7 @@ class ReportController extends Controller
     {
 
         $data = BookingRoom::from('booking_rooms as br')
-                ->select('br.id','u.full_name as guest_name','u.email','u.mobile','b.order_id','b.confirmation_number','h.classification','h.name as hotel','rt.name as room_type_name','br.guests','b.check_in_date','b.check_out_date','br.adults','br.childs','br.extra_bed','br.amount','b.booking_status',)
+                ->select('b.created_at as booked_on','br.id','u.full_name as guest_name','u.email','u.mobile','b.order_id','b.confirmation_number','h.classification','h.name as hotel','rt.name as room_type_name','br.guests','b.check_in_date','b.check_out_date','br.adults','br.childs','br.extra_bed','br.amount','b.booking_status')
                 ->Join('bookings as b','b.id','=','br.booking_id')
                 ->leftJoin('hotel_rooms as hr','br.room_id','=','hr.id')
                 ->join('room_types as rt','rt.id','=','hr.type_id')
@@ -303,7 +334,50 @@ class ReportController extends Controller
                     ->addColumn('order_id', function ($row) {
                         return $row->order_id;
                     })
+<<<<<<< HEAD
+                    ->addColumn('booked_on', function ($row) {
+                        $booked_on = date(\Config::get('constants.DATE.DATE_FORMAT_FULL') , strtotime($row->booked_on));
+                        return $booked_on;
+                    })
                     ->rawColumns(['order_id'])
+=======
+                    ->addColumn('booking_status', function ($row) {
+                        $booking_status_class = 'success';
+                        if($row->booking_status == 'Booking Received'){
+                            $booking_status_class = 'info';
+                        }
+                        if($row->booking_status == 'Payment Completed'){
+                            $booking_status_class = 'success';
+                        }
+                        if($row->booking_status == 'Booking Shared'){
+                            $booking_status_class = 'info';
+                        }
+                        if($row->booking_status == 'Confirmation Recevied'){
+                            $booking_status_class = 'info';
+                        }
+                        if($row->booking_status == 'Cancellation Requested'){
+                            $booking_status_class = 'warning';
+                        }
+                        if($row->booking_status == 'Cancellation Approved'){
+                            $booking_status_class = 'success';
+                        }
+                        if($row->booking_status == 'Refund Requested'){
+                            $booking_status_class = 'warning';
+                        }
+                        if($row->booking_status == 'Refund Approved'){
+                            $booking_status_class = 'success';
+                        }
+                        if($row->booking_status == 'Refund Issued'){
+                            $booking_status_class = 'danger';
+                        }
+                        $booking_status = '<span class="badge badge-'.$booking_status_class.'" >'. $row->booking_status .'</span>';
+                        return $booking_status;
+                    })
+                    ->addColumn('amount', function ($row) { 
+                        return '₹'.number_format($row->amount, 2);
+                    })
+                    ->rawColumns(['order_id', 'booking_status'])
+>>>>>>> 1235a5ec660dc775db265d3f369fc1eb7ffae3dc
                     ->make(true);
         }
 
@@ -315,7 +389,9 @@ class ReportController extends Controller
 
 
         $bookings = BookingRoom::from('booking_rooms as br')
-                ->select('b.order_id','u.full_name as guest_name','u.email','u.mobile','b.confirmation_number','h.classification','h.name as hotel','rt.name as room_type_name','br.guests','b.check_in_date','b.check_out_date','b.booking_status','br.adults','br.childs','br.extra_bed','br.amount')
+                ->select(
+                    \DB::raw('DATE_FORMAT(b.created_at, "%d-%b-%Y") as booked_on'),
+                    'b.order_id','u.full_name as guest_name','u.email','u.mobile','b.confirmation_number','h.classification','h.name as hotel','rt.name as room_type_name','br.guests','b.check_in_date','b.check_out_date','b.booking_status','br.adults','br.childs','br.extra_bed','br.amount')
                 ->Join('bookings as b','b.id','=','br.booking_id')
                 ->leftJoin('hotel_rooms as hr','br.room_id','=','hr.id')
                 ->join('room_types as rt','rt.id','=','hr.type_id')
@@ -373,6 +449,13 @@ class ReportController extends Controller
 
     public function inventory(Request $request)
     {
+        $classifications = \Helpers::hotelClassifications();
+
+        $hotels = \Helpers::hotels();
+
+        
+        $room_types = \Helpers::roomTypes();
+
         $data =   Hotel::from('hotels as h')
                     ->select('h.name','h.classification','h.airport_distance','h.venue_distance','h.website','h.contact_person','h.contact_number','h.address','h.contact_number','h.description','hr.allocated_rooms', 'hr.mpt_reserve' ,'hr.count as available_rooms','hr.rate','hr.extra_bed_available','hr.extra_bed_rate','rt.name as room_type_name',
                         \DB::Raw('COALESCE((select sum(bulk_bookings.room_count) from bulk_bookings where bulk_bookings.room_type_id = hr.id ),0) as mea_rooms'),
@@ -383,22 +466,28 @@ class ReportController extends Controller
                     ->leftJoin('room_types as rt','rt.id','=','hr.type_id')
                     ->where(function ($query) use ($request) {
                         if (!empty($request->toArray())) {
-                            if ($request->get('rating') != '') {
-                                $query->where('h.classification', 'like', '%' . $request->rating.'%');
+                            if ($request->get('hotel_name') != '') {
+                                $query->where('h.name', $request->get('hotel_name'));
+                            }
+
+                            if ($request->get('star_rating') != '') {
+                                $query->where('h.classification', $request->star_rating);
                             }
 
                             if ($request->get('room_type') != '') {
                                 $query->where('hr.type_id', $request->get('room_type'));
                             }
+                            
+                            
 
-                            if ($request->get('charges') != '') {
-                                if($request->get('charges') == 1){
+                            if ($request->get('room_charges') != '') {
+                                if($request->get('room_charges') == 1){
                                     $query->whereBetween('hr.rate', [5000, 10000]);
-                                }elseif($request->get('charges') == 2){
+                                }elseif($request->get('room_charges') == 2){
                                     $query->whereBetween('hr.rate', [10000, 15000]);
-                                }elseif($request->get('charges') == 3){
+                                }elseif($request->get('room_charges') == 3){
                                     $query->whereBetween('hr.rate', [15000, 20000]);
-                                }elseif($request->get('charges') == 4){
+                                }elseif($request->get('room_charges') == 4){
                                     $query->where('hr.rate','>', 20000);
                                 }
                             }
@@ -414,6 +503,10 @@ class ReportController extends Controller
                             if ($request->get('closing_inventory') != '') {
                                 $query->where('hr.count', $request->get('closing_inventory'));
                             }
+
+                            if ($request->get('status') != '') {
+                                $query->where('hr.status', $request->get('status'));
+                            }
                         }
                     })
                     ->orderby('h.name','asc')
@@ -425,10 +518,19 @@ class ReportController extends Controller
                     ->addColumn('opening_room', function ($row) {
                         return $opening_room = $row->allocated_rooms-$row->mpt_reserve;
                     })
+                    ->addColumn('rate', function ($row) { 
+                        return '₹'.number_format($row->rate, 2);
+                    })
+                    ->addColumn('extra_bed_rate', function ($row) { 
+                        return '₹'.number_format($row->extra_bed_rate, 2);
+                    })
+                    ->addColumn('total_booking', function ($row) { 
+                        return '₹'.number_format($row->total_booking, 2);
+                    })
                     ->rawColumns(['opening_room'])
                     ->make(true);
         }
-        return view('report::inventory');
+        return view('report::inventory', ["classifications" => $classifications, "room_types" => $room_types, 'hotels' => $hotels]);
     }
 
     public function inventoryExport(Request $request)
@@ -447,32 +549,39 @@ class ReportController extends Controller
                     ->leftJoin('room_types as rt','rt.id','=','hr.type_id')
                     ->where(function ($query) use ($request) {
                         if (!empty($request->toArray())) {
-                            if ($request->get('rating') != '') {
-                                $query->where('h.classification', 'like', '%' . $request->rating.'%');
+                            if ($request->get('hotel_name') != '') {
+                                $query->where('h.name', $request->get('hotel_name'));
+                            }
+
+                            if ($request->get('star_rating') != '') {
+                                $query->where('h.classification', $request->star_rating);
                             }
 
                             if ($request->get('room_type') != '') {
                                 $query->where('hr.type_id', $request->get('room_type'));
                             }
 
-                            if ($request->get('charges') != '') {
-                                if($request->get('charges') == 1){
+                            if ($request->get('room_type') != '') {
+                                $query->where('hr.type_id', $request->get('room_type'));
+                            }
+
+                            if ($request->get('room_charges') != '') {
+                                if($request->get('room_charges') == 1){
                                     $query->whereBetween('hr.rate', [5000, 10000]);
-                                }elseif($request->get('charges') == 2){
+                                }elseif($request->get('room_charges') == 2){
                                     $query->whereBetween('hr.rate', [10000, 15000]);
-                                }elseif($request->get('charges') == 3){
+                                }elseif($request->get('room_charges') == 3){
                                     $query->whereBetween('hr.rate', [15000, 20000]);
-                                }elseif($request->get('charges') == 4){
+                                }elseif($request->get('room_charges') == 4){
                                     $query->where('hr.rate','>', 20000);
                                 }
                             }
 
-                            if ($request->get('room_charges') != '') {
-                                $query->where('hr.rate', $request->get('room_charges'));
-                            }                           
-
                             if ($request->get('room_count') != '') {
                                 $query->where('hr.count', $request->get('room_count'));
+                            }
+                            if ($request->get('status') != '') {
+                                $query->where('hr.status', $request->get('status'));
                             }
                         }
                     })
@@ -521,7 +630,56 @@ class ReportController extends Controller
         if ($request->ajax()) {
             return Datatables::of($data)
                     ->addIndexColumn()
-                    ->rawColumns(['status'])
+                    ->addColumn('tax', function ($row) { 
+                        return '₹'.number_format($row->tax, 2);
+                    })
+                    ->addColumn('amount', function ($row) { 
+                        return '₹'.number_format($row->amount, 2);
+                    })
+                    ->addColumn('booking_status', function ($row) {
+                        $booking_status_class = 'success';
+                        if($row->booking_status == 'Booking Received'){
+                            $booking_status_class = 'info';
+                        }
+                        if($row->booking_status == 'Payment Completed'){
+                            $booking_status_class = 'success';
+                        }
+                        if($row->booking_status == 'Booking Shared'){
+                            $booking_status_class = 'info';
+                        }
+                        if($row->booking_status == 'Confirmation Recevied'){
+                            $booking_status_class = 'info';
+                        }
+                        if($row->booking_status == 'Cancellation Requested'){
+                            $booking_status_class = 'warning';
+                        }
+                        if($row->booking_status == 'Cancellation Approved'){
+                            $booking_status_class = 'success';
+                        }
+                        if($row->booking_status == 'Refund Requested'){
+                            $booking_status_class = 'warning';
+                        }
+                        if($row->booking_status == 'Refund Approved'){
+                            $booking_status_class = 'success';
+                        }
+                        if($row->booking_status == 'Refund Issued'){
+                            $booking_status_class = 'danger';
+                        }
+                        $booking_status = '<span class="badge badge-'.$booking_status_class.'" >'. $row->booking_status .'</span>';
+                        return $booking_status;
+                    })
+                    ->addColumn('payment_mode', function ($row) {
+                        $payment_mode_class = 'success';
+                        if($row->payment_mode == 'Online'){
+                            $payment_mode_class = 'success';
+                        }
+                        if($row->payment_mode == 'Offline'){
+                            $payment_mode_class = 'danger';
+                        }
+                        $payment_mode = '<span class="badge badge-'.$payment_mode_class.'" >'. $row->payment_mode .'</span>';
+                        return $payment_mode;
+                    })
+                    ->rawColumns(['status', 'booking_status', 'payment_mode'])
                     ->make(true);
         }
         return view('report::payment');
@@ -945,7 +1103,6 @@ class ReportController extends Controller
         }
     }
 
-
     public function bookingSummary(Request $request)
     {
         $hotels = Hotel::from('hotels as h')
@@ -1024,13 +1181,15 @@ class ReportController extends Controller
         return view('report::booking_summary',['hotels' => $hotels, 'room_types' => $roomTypes, 'request' => $request]);
     }
 
-
     public function bookingSummaryExport(Request $request){
         $bookings =    HotelRoom::from('hotel_rooms as hr')
                         ->select('hr.id',
                             'h.classification','h.name','rt.name as room_type_name','hr.allocated_rooms','br.booking_id',
+                        
+
                             \DB::Raw('COALESCE((select sum(bulk_bookings.room_count) from bulk_bookings where bulk_bookings.room_type_id = hr.id ),0) as cancelled'),
                             \DB::Raw('COALESCE((select sum(bulk_bookings.room_count) from bulk_bookings where bulk_bookings.room_type_id = hr.id ),0) as refunded'),
+                            
                         )
                         ->join('hotels as h','hr.hotel_id','=','h.id')
                         ->leftJoin('room_types as rt','rt.id','=','hr.type_id')
@@ -1175,7 +1334,6 @@ class ReportController extends Controller
             return view('report::combined',['bookings' => $bookings, 'hotels' => $hotels,'room_types' => $roomTypes, 'request' => $request]);
         }
     }
-
     public function bookingStatus(Request $request)
     {
 
@@ -1211,7 +1369,7 @@ class ReportController extends Controller
     {
 
         $data = Hotel::from('hotels as h')
-                ->select('h.id', 'h.name',
+                ->select('h.name',
                 \DB::Raw('COALESCE((select sum(hotel_rooms.allocated_rooms) from hotel_rooms where hotel_rooms.hotel_id = h.id ),0) as allotedRooms', 'booking_rooms'),
                 \DB::Raw('COALESCE((select count(booking_rooms.id) from booking_rooms where booking_rooms.room_id = hr.id ),0) as bookings'),
                 \DB::Raw('COALESCE((select sum(booking_rooms.guests) from booking_rooms where booking_rooms.room_id = hr.id ),0) as guests'),
@@ -1361,23 +1519,18 @@ class ReportController extends Controller
     {
 
         $data = Booking::from('bookings as b')
-                ->select('b.id', 'b.hotel_id', 'b.check_in_date', 'h.name',\DB::Raw('GROUP_CONCAT(b.id)'),
-                    \DB::Raw('SUM(CASE WHEN br.room_id != 0 THEN 1 ELSE 0) as booking_rooms')
+                ->select(\DB::raw('DATE_FORMAT(b.check_in_date, "%d-%b-%Y") as check_in_date'), 'h.name',
+                    \DB::Raw('sum(case when (br.room_id!="") then 1 else 0 end) AS bookings'),
+                    \DB::Raw('sum(case when (br.room_id!="") then br.guests else 0 end) AS guests'),
                 )
                 ->join('hotels as h','h.id','=','b.hotel_id')
                 ->leftJoin('booking_rooms as br','br.booking_id','=','b.id')
-                // ->join('bookings as hr','hr.hotel_id','=','h.id')
                 ->groupby('b.check_in_date', 'b.hotel_id')
                 ->orderby('b.check_in_date','asc')
-
                 ->get();
-
-                echo "<pre>";
-                print_r($data->toArray());
-                die;
         
                 if ($request->ajax()) {
-            return Datatables::of($data)
+                    return Datatables::of($data)
                     ->addIndexColumn()
                     ->rawColumns(['order_id'])
                     ->skipPaging()
@@ -1390,23 +1543,71 @@ class ReportController extends Controller
     public function bookingCheckInStatusExport(Request $request)
     {
 
-        $data = Hotel::from('hotels as h')
-                ->select('h.id', 'h.name',
-                \DB::Raw('COALESCE((select sum(hotel_rooms.allocated_rooms) from hotel_rooms where hotel_rooms.hotel_id = h.id ),0) as allotedRooms', 'booking_rooms'),
-                \DB::Raw('COALESCE((select count(booking_rooms.id) from booking_rooms where booking_rooms.room_id = hr.id ),0) as bookings'),
-                \DB::Raw('COALESCE((select sum(booking_rooms.guests) from booking_rooms where booking_rooms.room_id = hr.id ),0) as guests'),
-                // \DB::Raw('COALESCE((select sum(hotel_rooms.allocated_rooms) from hotel_rooms where hotel_rooms.hotel_id = h.id ),0) as allotedRooms', 'booking_rooms'),
+       $data = Booking::from('bookings as b')
+                ->select(
+                    \DB::raw('DATE_FORMAT(b.check_in_date, "%d-%b-%Y") as check_in_date'),
+                     'h.name',
+                    \DB::Raw('sum(case when (br.room_id!="") then 1 else 0 end) AS bookings'),
+                    \DB::Raw('sum(case when (br.room_id!="") then br.guests else 0 end) AS guests'),
                 )
-                ->join('hotel_rooms as hr','hr.hotel_id','=','h.id')
-                ->groupby('h.id')
-                ->orderby('h.name','asc')
-
+                ->join('hotels as h','h.id','=','b.hotel_id')
+                ->leftJoin('booking_rooms as br','br.booking_id','=','b.id')
+                ->groupby('b.check_in_date', 'b.hotel_id')
+                ->orderby('b.check_in_date','asc')
                 ->get();
 
         if(!empty($data->toArray())){
-            return (new BookingStatusExport($data->toArray()))->download('booking-status' . '.xlsx', \Maatwebsite\Excel\Excel::XLSX);
+            return (new BookingCheckInStatusExport($data->toArray()))->download('booking-checkin-status' . '.xlsx', \Maatwebsite\Excel\Excel::XLSX);
         }else{
             return redirect('admin/report/booking-status')->with('error', 'No order');
+        }
+    }
+
+    public function bookingCheckOutStatus(Request $request)
+    {
+
+        $data = Booking::from('bookings as b')
+                ->select(\DB::raw('DATE_FORMAT(b.check_out_date, "%d-%b-%Y") as check_out_date'), 'h.name',
+                    \DB::Raw('sum(case when (br.room_id!="") then 1 else 0 end) AS bookings'),
+                    \DB::Raw('sum(case when (br.room_id!="") then br.guests else 0 end) AS guests'),
+                )
+                ->join('hotels as h','h.id','=','b.hotel_id')
+                ->leftJoin('booking_rooms as br','br.booking_id','=','b.id')
+                ->groupby('b.check_out_date', 'b.hotel_id')
+                ->orderby('b.check_out_date','asc')
+                ->get();
+        
+                if ($request->ajax()) {
+                    return Datatables::of($data)
+                    ->addIndexColumn()
+                    ->rawColumns(['order_id'])
+                    ->skipPaging()
+                    ->make(true);
+        }
+
+        return view('report::booking_checkout_status');
+    }
+
+    public function bookingCheckOutStatusExport(Request $request)
+    {
+
+       $data = Booking::from('bookings as b')
+                ->select(
+                    \DB::raw('DATE_FORMAT(b.check_out_date, "%d-%b-%Y") as check_out_date'),
+                     'h.name',
+                    \DB::Raw('sum(case when (br.room_id!="") then 1 else 0 end) AS bookings'),
+                    \DB::Raw('sum(case when (br.room_id!="") then br.guests else 0 end) AS guests'),
+                )
+                ->join('hotels as h','h.id','=','b.hotel_id')
+                ->leftJoin('booking_rooms as br','br.booking_id','=','b.id')
+                ->groupby('b.check_out_date', 'b.hotel_id')
+                ->orderby('b.check_out_date','asc')
+                ->get();
+
+        if(!empty($data->toArray())){
+            return (new BookingCheckOutStatusExport($data->toArray()))->download('booking-checkout-status' . '.xlsx', \Maatwebsite\Excel\Excel::XLSX);
+        }else{
+            return redirect('admin/report/booking-checkout-status')->with('error', 'No order');
         }
     }
 
@@ -1416,19 +1617,206 @@ class ReportController extends Controller
     }
     public function callCenter(Request $request)
     {
+       
+
+        $data = CustomerCare::from('customer_care as cc')
+        ->select( 'cc.case_id', 'cc.date', 'cc.guest_name', 'cc.country', 'cc.contact','cc.email', 'cc.whatsapp'
+           , 'cc.method', 'cc.issue', 'cc.sub_issue', 'cc.status', 'cc.remark')
+                ->where(function ($query) use ($request) {
+                    if (!empty($request->toArray())) {
+                        if ($request->get('date') != '') {
+                            $query->where('cc.date',  $request->date);
+                        }
+
+                        if ($request->get('method') != '') {
+                            $query->where('cc.method',  $request->method );
+                        }
+
+                        if ($request->get('status') != '') {
+                            $query->where('cc.status',  $request->status );
+                        }
+
+                        if ($request->get('issue') != '') {
+                            $query->where('cc.issue',  $request->issue );
+                        }
+
+                        if ($request->get('sub_issue') != '') {
+                            $query->where('cc.sub_issue',  $request->sub_issue );
+                        }
+                    }
+                })
+                ->get();
+
+                // echo "<pre>";
+                // print_r($data->toArray());
+                // die;
+
+                if ($request->ajax()) {
+                    return Datatables::of($data)
+                    ->addIndexColumn()
+                    // ->rawColumns(['order_id'])
+                    ->make(true);
+        }
         return view('report::call_center');
     }
-<<<<<<< HEAD
-=======
-    public function combined(Request $request)
+
+    public function callCenterExport(Request $request)
     {
-        return view('report::combined');
+       
+
+        $data = CustomerCare::from('customer_care as cc')
+        ->select( 'cc.case_id', 'cc.date', 'cc.guest_name', 'cc.contact','cc.email' 
+           , 'cc.method', 'cc.issue', 'cc.sub_issue', 'cc.status', 'cc.remark')
+                ->where(function ($query) use ($request) {
+                    if (!empty($request->toArray())) {
+                        if ($request->get('date') != '') {
+                            $query->where('cc.date',  $request->date);
+                        }
+
+                        if ($request->get('method') != '') {
+                            $query->where('cc.method',  $request->method );
+                        }
+
+                        if ($request->get('status') != '') {
+                            $query->where('cc.status',  $request->status );
+                        }
+
+                        if ($request->get('issue') != '') {
+                            $query->where('cc.issue',  $request->issue );
+                        }
+
+                        if ($request->get('sub_issue') != '') {
+                            $query->where('cc.sub_issue',  $request->sub_issue );
+                        }
+                    }
+                })
+                ->get();
+
+                // echo "<pre>";
+                // print_r($data->toArray());
+                // die;
+
+                
+        if(!empty($data->toArray())){
+            return (new CallCenterExport($data->toArray()))->download('call-center' . '.xlsx', \Maatwebsite\Excel\Excel::XLSX);
+        }else{
+            return redirect('admin/report/call-center')->with('error', 'No order');
+        }
     }
+    
     public function bulkBookingRooms(Request $request)
     {
-        return view('report::bulk_booking_rooms');
+        $hotels = Hotel::from('hotels as h')
+        ->select('h.name', 'h.id')->get();
+
+        $room_types = RoomType::from('room_types as rt')
+        ->select('rt.name', 'rt.id')->get();
+
+        $data = BulkBookingRoom::from('bulk_booking_rooms as bm')
+                    ->select(
+                        'bm.booking_id as confirmation_number',
+                        'bm.guest_name',
+                        'bm.guest_designation',
+                        'bm.adult_count',
+                        'bm.child_count',
+                        'bb.name',
+                        'bb.checkin_date',
+                        'bb.checkout_date',
+                        'bb.booking_person',
+                        'bb.name',
+                        'h.name as hotel_name',
+                        'rt.name as room_type'
+                )
+                ->join('bulk_bookings as bb','bb.id','=','bm.bulk_booking_id')
+                ->join('hotels as h','h.id','=','bb.hotel_id')
+                ->join('room_types as rt','rt.id','=','bb.room_type_id')
+                ->where(function ($query) use ($request) {
+                    if (!empty($request->toArray())) {
+                        if ($request->get('hotel_name') != '') {
+                            $query->where('h.id',  $request->hotel_name);
+                        }
+
+                        if ($request->get('room_type') != '') {
+                            $query->where('rt.id',  $request->room_type );
+                        }
+
+                        if ($request->get('booking_from') != '') {
+                            $query->where('bb.booking_person',  $request->booking_from );
+                        }
+
+                        if ($request->get('checkin_date') != '') {
+                            $query->where('bb.checkin_date',  $request->checkin_date );
+                        }
+
+                        if ($request->get('checkout_date') != '') {
+                            $query->where('bb.checkout_date',  $request->checkout_date );
+                        }
+                    }
+                })
+                ->get();
+
+                if ($request->ajax()) {
+                    return Datatables::of($data)
+                    ->addIndexColumn()
+                    // ->rawColumns(['order_id'])
+                    ->make(true);
+        }
+        return view('report::bulk_booking_rooms', ['hotels' => $hotels, 'room_types' => $room_types]);
     }
->>>>>>> 28296981f61be6a925340f49c6205d232b277b99
+
+    public function bulkBookingRoomsExport(Request $request)
+    {
+        $data = BulkBookingRoom::from('bulk_booking_rooms as bm')
+                    ->select(
+                        'bb.booking_person',
+                        'bb.name',
+                        'h.name as hotel_name',
+                        'rt.name as room_type',
+                        'bm.booking_id as confirmation_number',
+                        'bm.guest_name',
+                        'bm.guest_designation',
+                        'bm.adult_count',
+                        'bm.child_count',
+                        'bb.checkin_date',
+                        'bb.checkout_date',
+                )
+                ->join('bulk_bookings as bb','bb.id','=','bm.bulk_booking_id')
+                ->join('hotels as h','h.id','=','bb.hotel_id')
+                ->join('room_types as rt','rt.id','=','bb.room_type_id')
+                ->where(function ($query) use ($request) {
+                    if (!empty($request->toArray())) {
+                        if ($request->get('hotel_name') != '') {
+                            $query->where('h.id',  $request->hotel_name);
+                        }
+
+                        if ($request->get('room_type') != '') {
+                            $query->where('rt.id',  $request->room_type );
+                        }
+
+                        if ($request->get('booking_from') != '') {
+                            $query->where('bb.booking_person',  $request->booking_from );
+                        }
+
+                        if ($request->get('checkin_date') != '') {
+                            $query->where('bb.checkin_date',  $request->checkin_date );
+                        }
+
+                        if ($request->get('checkout_date') != '') {
+                            $query->where('bb.checkout_date',  $request->checkout_date );
+                        }
+                    }
+                })
+                ->get();
+
+          
+        if(!empty($data->toArray())){
+            return (new BulkBookingRoomExport($data->toArray()))->download('bulk-booking-rooms' . '.xlsx', \Maatwebsite\Excel\Excel::XLSX);
+        }else{
+            return redirect('admin/report/bulk-booking-rooms')->with('error', 'No order');
+        }
+    }
+
+
     public function financial(Request $request)
     {
         return view('report::financial');

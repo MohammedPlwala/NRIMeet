@@ -13,6 +13,9 @@ use Modules\Hotel\Entities\Booking;
 use Modules\Hotel\Entities\BookingRoom;
 use Modules\Hotel\Entities\BillingDetail;
 use Modules\Hotel\Entities\Transaction;
+use Modules\Hotel\Entities\RoomType;
+use Modules\Hotel\Entities\Hotel;
+
 
 class Helpers {
 	
@@ -187,6 +190,40 @@ class Helpers {
 			->from(\Config::get('constants.MAIL_FROM'),'NriMeet');
 		});
 	}
+
+	public static function hotelClassifications() {
+		$classifications = Hotel::from('hotels as h')
+                        ->select('h.classification')
+                        ->distinct('h.classification')
+                        ->get();
+		if(!empty($classifications->toArray())){
+			return $classifications;
+		}else{
+			return array();
+		}
+	}
+
+	public static function roomTypes() {
+		$room_types = RoomType::from('room_types as rt')
+        ->select('rt.name', 'rt.id')->get();
+		if(!empty($room_types->toArray())){
+			return $room_types;
+		}else{
+			return array();
+		}
+	}
+
+	public static function hotels() {
+		$hotels =Hotel::from('hotels as h')
+        ->select('h.name', 'h.id')->get();
+		if(!empty($hotels->toArray())){
+			return $hotels;
+		}else{
+			return array();
+		}
+	}
+
+	
 
 
 	public static function sendNotifications($receiver = array(), $bodies = array(),$channels = array(),$mailSubject = '',$details = array()) {

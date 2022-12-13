@@ -95,7 +95,7 @@
                                     <option value="">Select</option>
                                     <option value="Base">Base</option>
                                     <option value="Suite">Suite</option>
-                                    <option value="Premier">Premier</option>
+                                    <option value="Premium">Premium</option>
                                 </x-inputs.select>
                             </div>
                         </div>
@@ -347,7 +347,7 @@
                             name: 'check_out_date'
                         },
                         {
-                            "class": "nk-tb-col tb-col-lg",
+                            "class": "nk-tb-col tb-col-lg text-center",
                             data: 'booking_status',
                             name: 'booking_status'
                         },

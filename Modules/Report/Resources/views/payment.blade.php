@@ -43,8 +43,8 @@
                         <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Total Guest</span></th>
                         <th class="nk-tb-col tb-col-mb text-right"><span class="sub-text">Tax Collected</span></th>
                         <th class="nk-tb-col tb-col-mb text-right"><span class="sub-text">Total Amount</span></th>
-                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Status</span></th>
-                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Payment Method</span></th>
+                        <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Status</span></th>
+                        <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Payment Method</span></th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Payment Via</span></th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Transaction ID</span></th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Settlement ID</span></th>
@@ -259,7 +259,7 @@
                         name: 'booking_status',
                     },
                     {
-                        "class": "nk-tb-col tb-col-lg",
+                        "class": "nk-tb-col tb-col-lg text-center",
                         data: 'payment_mode',
                         name: 'payment_mode'
                     },

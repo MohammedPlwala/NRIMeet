@@ -110,7 +110,11 @@ class UserController extends Controller
                 ->where(function ($query) use ($request) {
                     if (!empty($request->toArray())) {
                         if ($request->get('name') != '') {
+<<<<<<< HEAD
                             $query->where('u.full_name', 'like', '%' . $request->name . '%');
+=======
+                            $query->where('u.full_name', "like" , "%".$request->get('name')."%");
+>>>>>>> 1235a5ec660dc775db265d3f369fc1eb7ffae3dc
                         }
                         if ($request->get('contact_number') != '') {
                             $query->where('u.mobile', $request->get('contact_number'));
@@ -624,7 +628,6 @@ class UserController extends Controller
         $user->email  = $request->email;
         $user->mobile = $request->mobileNumber;
         // $user->date_of_birth = date('Y-m-d', strtotime($request->date_of_birth));
-
         // $user->address = $request->address;
         // $user->nationality = $request->nationality;
         // $user->country = $request->country;

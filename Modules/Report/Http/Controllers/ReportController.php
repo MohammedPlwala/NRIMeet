@@ -17,6 +17,7 @@ use Modules\Hotel\Entities\BookingRoom;
 use Modules\Hotel\Entities\BulkBookingRoom;
 use Modules\Hotel\Entities\BillingDetail;
 use Modules\Hotel\Entities\Transaction;
+use Modules\User\Entities\CustomerCare;
 
 use Modules\Report\Exports\GuestExport;
 use Modules\Report\Exports\BookingExport;
@@ -33,7 +34,7 @@ use Modules\Report\Exports\CombinedExport;
 use Modules\Report\Exports\BookingCheckInStatusExport;
 use Modules\Report\Exports\BookingCheckOutStatusExport;
 use Modules\Report\Exports\BulkBookingRoomExport;
-
+use Modules\Report\Exports\CallCenterExport;
 
 
 use DataTables;
@@ -70,6 +71,9 @@ class ReportController extends Controller
 
                             if ($request->get('postal_code') != '') {
                                 $query->where('u.zip', $request->get('postal_code'));
+                            }
+                            if ($request->get('registration_date') != '') {
+                                $query->whereDate('u.created_at', date('Y-m-d',strtotime($request->get('registration_date'))));
                             }
                         }
                     })
@@ -133,6 +137,9 @@ class ReportController extends Controller
                             if ($request->get('postal_code') != '') {
                                 $query->where('u.zip', $request->get('postal_code'));
                             }
+                            if ($request->get('registration_date') != '') {
+                                $query->whereDate('u.created_at', date('Y-m-d',strtotime($request->get('registration_date'))));
+                            }
                         }
                     })
                     ->orderby('u.full_name','asc')
@@ -147,11 +154,23 @@ class ReportController extends Controller
 
     public function hotelMaster(Request $request)
     {
+        $classifications = \Helpers::hotelClassifications();
+
+        $hotels = \Helpers::hotels();
+
+        
+        $room_types = \Helpers::roomTypes();
+
         $data =   Hotel::from('hotels as h')
-                    ->select('h.name','h.classification','h.airport_distance','h.venue_distance','h.website','h.contact_person','h.address','h.contact_number','h.description','hr.name as hotel_type','hr.allocated_rooms','hr.count as available_rooms','hr.rate','hr.extra_bed_available','hr.extra_bed_rate')
+                    ->select('h.name','h.classification','h.airport_distance','h.venue_distance','h.website','h.contact_person','h.address','h.contact_number','h.description','rt.name as room_type','hr.allocated_rooms','hr.count as available_rooms','hr.rate','hr.extra_bed_available','hr.extra_bed_rate')
                     ->Join('hotel_rooms as hr','hr.hotel_id','=','h.id')
+                    ->join('room_types as rt','rt.id','=','hr.type_id')
                     ->where(function ($query) use ($request) {
                         if (!empty($request->toArray())) {
+                            if ($request->get('hotel_name') != '') {
+                                $query->where('h.name', $request->get('hotel_name'));
+                            }
+
                             if ($request->get('star_rating') != '') {
                                 $query->where('h.classification', $request->star_rating);
                             }
@@ -187,14 +206,21 @@ class ReportController extends Controller
                     })
                     ->orderby('h.name','asc')
                     ->get();
+                   
 
         if ($request->ajax()) {
             return Datatables::of($data)
                     ->addIndexColumn()
+                    ->addColumn('rate', function ($row) { 
+                        return '₹'.number_format($row->rate, 2);
+                    })
+                    ->addColumn('extra_bed_rate', function ($row) { 
+                        return '₹'.number_format($row->extra_bed_rate, 2);
+                    })
                     ->rawColumns(['status',])
                     ->make(true);
         }
-        return view('report::hotel_master');
+        return view('report::hotel_master', ["classifications" => $classifications, "room_types" => $room_types, 'hotels' => $hotels]);
     }
 
     public function hotelMasterExport(Request $request)
@@ -204,6 +230,9 @@ class ReportController extends Controller
                     ->Join('hotel_rooms as hr','hr.hotel_id','=','h.id')
                     ->where(function ($query) use ($request) {
                         if (!empty($request->toArray())) {
+                            if ($request->get('hotel_name') != '') {
+                                $query->where('h.name', $request->get('hotel_name'));
+                            }
                             if ($request->get('star_rating') != '') {
                                 $query->where('h.classification', $request->star_rating);
                             }
@@ -309,7 +338,42 @@ class ReportController extends Controller
                         $booked_on = date(\Config::get('constants.DATE.DATE_FORMAT_FULL') , strtotime($row->booked_on));
                         return $booked_on;
                     })
-                    ->rawColumns(['order_id'])
+                    ->addColumn('booking_status', function ($row) {
+                        $booking_status_class = 'success';
+                        if($row->booking_status == 'Booking Received'){
+                            $booking_status_class = 'info';
+                        }
+                        if($row->booking_status == 'Payment Completed'){
+                            $booking_status_class = 'success';
+                        }
+                        if($row->booking_status == 'Booking Shared'){
+                            $booking_status_class = 'info';
+                        }
+                        if($row->booking_status == 'Confirmation Recevied'){
+                            $booking_status_class = 'info';
+                        }
+                        if($row->booking_status == 'Cancellation Requested'){
+                            $booking_status_class = 'warning';
+                        }
+                        if($row->booking_status == 'Cancellation Approved'){
+                            $booking_status_class = 'success';
+                        }
+                        if($row->booking_status == 'Refund Requested'){
+                            $booking_status_class = 'warning';
+                        }
+                        if($row->booking_status == 'Refund Approved'){
+                            $booking_status_class = 'success';
+                        }
+                        if($row->booking_status == 'Refund Issued'){
+                            $booking_status_class = 'danger';
+                        }
+                        $booking_status = '<span class="badge badge-'.$booking_status_class.'" >'. $row->booking_status .'</span>';
+                        return $booking_status;
+                    })
+                    ->addColumn('amount', function ($row) { 
+                        return '₹'.number_format($row->amount, 2);
+                    })
+                    ->rawColumns(['order_id', 'booking_status'])
                     ->make(true);
         }
 
@@ -381,6 +445,13 @@ class ReportController extends Controller
 
     public function inventory(Request $request)
     {
+        $classifications = \Helpers::hotelClassifications();
+
+        $hotels = \Helpers::hotels();
+
+        
+        $room_types = \Helpers::roomTypes();
+
         $data =   Hotel::from('hotels as h')
                     ->select('h.name','h.classification','h.airport_distance','h.venue_distance','h.website','h.contact_person','h.contact_number','h.address','h.contact_number','h.description','hr.allocated_rooms', 'hr.mpt_reserve' ,'hr.count as available_rooms','hr.rate','hr.extra_bed_available','hr.extra_bed_rate','rt.name as room_type_name',
                         \DB::Raw('COALESCE((select sum(bulk_bookings.room_count) from bulk_bookings where bulk_bookings.room_type_id = hr.id ),0) as mea_rooms'),
@@ -391,22 +462,28 @@ class ReportController extends Controller
                     ->leftJoin('room_types as rt','rt.id','=','hr.type_id')
                     ->where(function ($query) use ($request) {
                         if (!empty($request->toArray())) {
-                            if ($request->get('rating') != '') {
-                                $query->where('h.classification', 'like', '%' . $request->rating.'%');
+                            if ($request->get('hotel_name') != '') {
+                                $query->where('h.name', $request->get('hotel_name'));
+                            }
+
+                            if ($request->get('star_rating') != '') {
+                                $query->where('h.classification', $request->star_rating);
                             }
 
                             if ($request->get('room_type') != '') {
                                 $query->where('hr.type_id', $request->get('room_type'));
                             }
+                            
+                            
 
-                            if ($request->get('charges') != '') {
-                                if($request->get('charges') == 1){
+                            if ($request->get('room_charges') != '') {
+                                if($request->get('room_charges') == 1){
                                     $query->whereBetween('hr.rate', [5000, 10000]);
-                                }elseif($request->get('charges') == 2){
+                                }elseif($request->get('room_charges') == 2){
                                     $query->whereBetween('hr.rate', [10000, 15000]);
-                                }elseif($request->get('charges') == 3){
+                                }elseif($request->get('room_charges') == 3){
                                     $query->whereBetween('hr.rate', [15000, 20000]);
-                                }elseif($request->get('charges') == 4){
+                                }elseif($request->get('room_charges') == 4){
                                     $query->where('hr.rate','>', 20000);
                                 }
                             }
@@ -422,6 +499,10 @@ class ReportController extends Controller
                             if ($request->get('closing_inventory') != '') {
                                 $query->where('hr.count', $request->get('closing_inventory'));
                             }
+
+                            if ($request->get('status') != '') {
+                                $query->where('hr.status', $request->get('status'));
+                            }
                         }
                     })
                     ->orderby('h.name','asc')
@@ -433,10 +514,19 @@ class ReportController extends Controller
                     ->addColumn('opening_room', function ($row) {
                         return $opening_room = $row->allocated_rooms-$row->mpt_reserve;
                     })
+                    ->addColumn('rate', function ($row) { 
+                        return '₹'.number_format($row->rate, 2);
+                    })
+                    ->addColumn('extra_bed_rate', function ($row) { 
+                        return '₹'.number_format($row->extra_bed_rate, 2);
+                    })
+                    ->addColumn('total_booking', function ($row) { 
+                        return '₹'.number_format($row->total_booking, 2);
+                    })
                     ->rawColumns(['opening_room'])
                     ->make(true);
         }
-        return view('report::inventory');
+        return view('report::inventory', ["classifications" => $classifications, "room_types" => $room_types, 'hotels' => $hotels]);
     }
 
     public function inventoryExport(Request $request)
@@ -455,22 +545,30 @@ class ReportController extends Controller
                     ->leftJoin('room_types as rt','rt.id','=','hr.type_id')
                     ->where(function ($query) use ($request) {
                         if (!empty($request->toArray())) {
-                            if ($request->get('rating') != '') {
-                                $query->where('h.classification', 'like', '%' . $request->rating.'%');
+                            if ($request->get('hotel_name') != '') {
+                                $query->where('h.name', $request->get('hotel_name'));
+                            }
+
+                            if ($request->get('star_rating') != '') {
+                                $query->where('h.classification', $request->star_rating);
                             }
 
                             if ($request->get('room_type') != '') {
                                 $query->where('hr.type_id', $request->get('room_type'));
                             }
 
-                            if ($request->get('charges') != '') {
-                                if($request->get('charges') == 1){
+                            if ($request->get('room_type') != '') {
+                                $query->where('hr.type_id', $request->get('room_type'));
+                            }
+
+                            if ($request->get('room_charges') != '') {
+                                if($request->get('room_charges') == 1){
                                     $query->whereBetween('hr.rate', [5000, 10000]);
-                                }elseif($request->get('charges') == 2){
+                                }elseif($request->get('room_charges') == 2){
                                     $query->whereBetween('hr.rate', [10000, 15000]);
-                                }elseif($request->get('charges') == 3){
+                                }elseif($request->get('room_charges') == 3){
                                     $query->whereBetween('hr.rate', [15000, 20000]);
-                                }elseif($request->get('charges') == 4){
+                                }elseif($request->get('room_charges') == 4){
                                     $query->where('hr.rate','>', 20000);
                                 }
                             }
@@ -481,6 +579,9 @@ class ReportController extends Controller
 
                             if ($request->get('room_count') != '') {
                                 $query->where('hr.count', $request->get('room_count'));
+                            }
+                            if ($request->get('status') != '') {
+                                $query->where('hr.status', $request->get('status'));
                             }
                         }
                     })
@@ -529,7 +630,56 @@ class ReportController extends Controller
         if ($request->ajax()) {
             return Datatables::of($data)
                     ->addIndexColumn()
-                    ->rawColumns(['status'])
+                    ->addColumn('tax', function ($row) { 
+                        return '₹'.number_format($row->tax, 2);
+                    })
+                    ->addColumn('amount', function ($row) { 
+                        return '₹'.number_format($row->amount, 2);
+                    })
+                    ->addColumn('booking_status', function ($row) {
+                        $booking_status_class = 'success';
+                        if($row->booking_status == 'Booking Received'){
+                            $booking_status_class = 'info';
+                        }
+                        if($row->booking_status == 'Payment Completed'){
+                            $booking_status_class = 'success';
+                        }
+                        if($row->booking_status == 'Booking Shared'){
+                            $booking_status_class = 'info';
+                        }
+                        if($row->booking_status == 'Confirmation Recevied'){
+                            $booking_status_class = 'info';
+                        }
+                        if($row->booking_status == 'Cancellation Requested'){
+                            $booking_status_class = 'warning';
+                        }
+                        if($row->booking_status == 'Cancellation Approved'){
+                            $booking_status_class = 'success';
+                        }
+                        if($row->booking_status == 'Refund Requested'){
+                            $booking_status_class = 'warning';
+                        }
+                        if($row->booking_status == 'Refund Approved'){
+                            $booking_status_class = 'success';
+                        }
+                        if($row->booking_status == 'Refund Issued'){
+                            $booking_status_class = 'danger';
+                        }
+                        $booking_status = '<span class="badge badge-'.$booking_status_class.'" >'. $row->booking_status .'</span>';
+                        return $booking_status;
+                    })
+                    ->addColumn('payment_mode', function ($row) {
+                        $payment_mode_class = 'success';
+                        if($row->payment_mode == 'Online'){
+                            $payment_mode_class = 'success';
+                        }
+                        if($row->payment_mode == 'Offline'){
+                            $payment_mode_class = 'danger';
+                        }
+                        $payment_mode = '<span class="badge badge-'.$payment_mode_class.'" >'. $row->payment_mode .'</span>';
+                        return $payment_mode;
+                    })
+                    ->rawColumns(['status', 'booking_status', 'payment_mode'])
                     ->make(true);
         }
         return view('report::payment');
@@ -1467,7 +1617,91 @@ class ReportController extends Controller
     }
     public function callCenter(Request $request)
     {
+       
+
+        $data = CustomerCare::from('customer_care as cc')
+        ->select( 'cc.case_id', 'cc.date', 'cc.guest_name', 'cc.country', 'cc.contact','cc.email', 'cc.whatsapp'
+           , 'cc.method', 'cc.issue', 'cc.sub_issue', 'cc.status', 'cc.remark')
+                ->where(function ($query) use ($request) {
+                    if (!empty($request->toArray())) {
+                        if ($request->get('date') != '') {
+                            $query->where('cc.date',  $request->date);
+                        }
+
+                        if ($request->get('method') != '') {
+                            $query->where('cc.method',  $request->method );
+                        }
+
+                        if ($request->get('status') != '') {
+                            $query->where('cc.status',  $request->status );
+                        }
+
+                        if ($request->get('issue') != '') {
+                            $query->where('cc.issue',  $request->issue );
+                        }
+
+                        if ($request->get('sub_issue') != '') {
+                            $query->where('cc.sub_issue',  $request->sub_issue );
+                        }
+                    }
+                })
+                ->get();
+
+                // echo "<pre>";
+                // print_r($data->toArray());
+                // die;
+
+                if ($request->ajax()) {
+                    return Datatables::of($data)
+                    ->addIndexColumn()
+                    // ->rawColumns(['order_id'])
+                    ->make(true);
+        }
         return view('report::call_center');
+    }
+
+    public function callCenterExport(Request $request)
+    {
+       
+
+        $data = CustomerCare::from('customer_care as cc')
+        ->select( 'cc.case_id', 'cc.date', 'cc.guest_name', 'cc.contact','cc.email' 
+           , 'cc.method', 'cc.issue', 'cc.sub_issue', 'cc.status', 'cc.remark')
+                ->where(function ($query) use ($request) {
+                    if (!empty($request->toArray())) {
+                        if ($request->get('date') != '') {
+                            $query->where('cc.date',  $request->date);
+                        }
+
+                        if ($request->get('method') != '') {
+                            $query->where('cc.method',  $request->method );
+                        }
+
+                        if ($request->get('status') != '') {
+                            $query->where('cc.status',  $request->status );
+                        }
+
+                        if ($request->get('issue') != '') {
+                            $query->where('cc.issue',  $request->issue );
+                        }
+
+                        if ($request->get('sub_issue') != '') {
+                            $query->where('cc.sub_issue',  $request->sub_issue );
+                        }
+                    }
+                })
+                ->get();
+
+                // echo "<pre>";
+                // print_r($data->toArray());
+                // die;
+
+                
+        if(!empty($data->toArray())){
+            return (new CallCenterExport($data->toArray()))->download('call-center' . '.xlsx', \Maatwebsite\Excel\Excel::XLSX);
+        }else{
+            return redirect('admin/report/call-center')->with('error', 'No order');
+        }
     }
     
     public function bulkBookingRooms(Request $request)

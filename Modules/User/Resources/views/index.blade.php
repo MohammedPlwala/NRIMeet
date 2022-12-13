@@ -73,10 +73,10 @@
                         <div class="gy-3">
                             <div class="row g-3 align-center">
                                 <div class="col-lg-5">
-                                    <x-inputs.verticalFormLabel label="First Name" for="firstName" suggestion="Specify the name of the user." />
+                                    <x-inputs.verticalFormLabel label="First Name" for="name" suggestion="Specify the name of the user." />
                                 </div>
                                 <div class="col-lg-7">
-                                    <x-inputs.text value="" for="firstName" icon="user" placeholder="Name" name="name"/>
+                                    <x-inputs.text value="" for="name" icon="user" placeholder="Name" name="name"/>
                                 </div>
                             </div>
                             <div class="row g-3 align-center">
@@ -148,7 +148,7 @@
         NioApp.getAuditLogs('.broadcast-init','.audit_logs','resourceid',logUrl,'#modalLogs');
 
         var items = [
-            '#firstName',
+            '#name',
             '#contact_number',
             '#fromDate',
             '#toDate'

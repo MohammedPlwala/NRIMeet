@@ -101,13 +101,45 @@ class HotelController extends Controller
      */
     public function index(Request $request)
     {
-
+        $classifications = \Helpers::hotelClassifications();
+        
+        $room_types = \Helpers::roomTypes();
         $data = Hotel::from('hotels as h')
                 ->select('h.*')
+                ->Join('hotel_rooms as hr','hr.hotel_id','=','h.id')
+                    ->join('room_types as rt','rt.id','=','hr.type_id')
                 ->where(function ($query) use ($request) {
                     if (!empty($request->toArray())) {
-                        if ($request->get('name') != '') {
-                            $query->where('h.name', $request->get('name'));
+                        if ($request->get('star_rating') != '') {
+                            $query->where('h.classification', $request->star_rating);
+                        }
+
+                        if ($request->get('room_type') != '') {
+                            $query->where('hr.type_id', $request->get('room_type'));
+                        }
+
+                        if ($request->get('charges') != '') {
+                            if($request->get('charges') == 1){
+                                $query->whereBetween('hr.rate', [5000, 10000]);
+                            }elseif($request->get('charges') == 2){
+                                $query->whereBetween('hr.rate', [10000, 15000]);
+                            }elseif($request->get('charges') == 3){
+                                $query->whereBetween('hr.rate', [15000, 20000]);
+                            }elseif($request->get('charges') == 4){
+                                $query->where('hr.rate','>', 20000);
+                            }
+                        }
+
+                        if ($request->get('distance_from_airport') != '') {
+                            $query->where('h.airport_distance','<=', $request->get('distance_from_airport'));
+                        }
+
+                        if ($request->get('distance_from_venue') != '') {
+                            $query->where('h.venue_distance','<=', $request->get('distance_from_venue'));
+                        }
+
+                        if ($request->get('closing_inventory') != '') {
+                            $query->where('hr.count', $request->get('closing_inventory'));
                         }
                     }
                 })
@@ -180,7 +212,7 @@ class HotelController extends Controller
                     ->make(true);
         }
 
-        return view('hotel::index')->with(compact('hotelsCount'));
+        return view('hotel::index', ['classifications' => $classifications, 'room_types' => $room_types])->with(compact('hotelsCount'));
     }
 
     /**
@@ -268,7 +300,10 @@ class HotelController extends Controller
      */
     public function rooms(Request $request)
     {
+        $hotels = Hotel::from('hotels as h')
+        ->select('h.name', 'h.id')->get();
 
+        $room_types = \Helpers::roomTypes();
         $data = HotelRoom::from('hotel_rooms as hr')
                 ->select('hr.id', 'hr.hotel_id', 'hr.name', 'hr.type_id', 'hr.description', 'hr.allocated_rooms', 'hr.mpt_reserve', 'hr.count', 'hr.rate', 'hr.extra_bed_available', 'hr.extra_bed_rate', 'hr.status','rt.name as room_type_name','h.name as hotel_name')
                 ->join('room_types as rt','rt.id','=','hr.type_id')
@@ -279,9 +314,23 @@ class HotelController extends Controller
                             $query->where('h.name', $request->get('hotel_name'));
                         }
 
-                        if ($request->get('room_name') != '') {
-                            $query->where('hr.name', $request->get('room_name'));
+                        if ($request->get('room_type') != '') {
+                            $query->where('hr.type_id', $request->get('room_type'));
                         }
+
+                        if ($request->get('charges') != '') {
+                            if($request->get('charges') == 1){
+                                $query->whereBetween('hr.rate', [5000, 10000]);
+                            }elseif($request->get('charges') == 2){
+                                $query->whereBetween('hr.rate', [10000, 15000]);
+                            }elseif($request->get('charges') == 3){
+                                $query->whereBetween('hr.rate', [15000, 20000]);
+                            }elseif($request->get('charges') == 4){
+                                $query->where('hr.rate','>', 20000);
+                            }
+                        }
+
+
                     }
                 })
                 ->orderby('hr.id','desc')
@@ -356,7 +405,7 @@ class HotelController extends Controller
                     ->make(true);
         }
 
-        return view('hotel::rooms')->with(compact('roomsCount'));
+        return view('hotel::rooms',['room_types' => $room_types, 'hotels' => $hotels])->with(compact('roomsCount'));
     }
      /**
      * Show the form for creating a new resource.
@@ -490,6 +539,51 @@ class HotelController extends Controller
                     ->addColumn('amount', function ($row) {
                         return '₹'.number_format($row->amount, 2);
                     })
+                    
+                    ->addColumn('booking_type', function ($row) {
+                        $booking_type_class = 'success';
+                        if($row->booking_type == 'Online'){
+                            $booking_type_class = 'success';
+                        }
+                        if($row->booking_type == 'Offline'){
+                            $booking_type_class = 'danger';
+                        }
+                        $booking_type = '<span class="badge badge-'.$booking_type_class.'" >'. $row->booking_type .'</span>';
+                        return $booking_type;
+                    })
+                    
+                    ->addColumn('booking_status', function ($row) {
+                        $booking_status_class = 'success';
+                        if($row->booking_status == 'Booking Received'){
+                            $booking_status_class = 'info';
+                        }
+                        if($row->booking_status == 'Payment Completed'){
+                            $booking_status_class = 'success';
+                        }
+                        if($row->booking_status == 'Booking Shared'){
+                            $booking_status_class = 'info';
+                        }
+                        if($row->booking_status == 'Confirmation Recevied'){
+                            $booking_status_class = 'info';
+                        }
+                        if($row->booking_status == 'Cancellation Requested'){
+                            $booking_status_class = 'warning';
+                        }
+                        if($row->booking_status == 'Cancellation Approved'){
+                            $booking_status_class = 'success';
+                        }
+                        if($row->booking_status == 'Refund Requested'){
+                            $booking_status_class = 'warning';
+                        }
+                        if($row->booking_status == 'Refund Approved'){
+                            $booking_status_class = 'success';
+                        }
+                        if($row->booking_status == 'Refund Issued'){
+                            $booking_status_class = 'danger';
+                        }
+                        $booking_status = '<span class="badge badge-'.$booking_status_class.'" >'. $row->booking_status .'</span>';
+                        return $booking_status;
+                    })
                     ->addColumn('checkin_date', function ($row) {
                         $checkin_date = date(\Config::get('constants.DATE.DATE_FORMAT') , strtotime($row->check_in_date));
                         return $checkin_date;
@@ -530,7 +624,7 @@ class HotelController extends Controller
                                     </ul>";
                         return $btn;
                     })
-                    ->rawColumns(['action','status','order_id','confirmation_number'])
+                    ->rawColumns(['action','status','order_id', 'booking_type','booking_status','confirmation_number'])
                     ->make(true);
         }
 
