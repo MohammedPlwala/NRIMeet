@@ -9,10 +9,7 @@ use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
 
-class OrganizationPermission extends Model
+class Permissions extends Model
 {
-
-    protected $table = 'organization_permissions';
-
-    protected $guarded = ['id'];
+    protected $table = 'permissions';
 }

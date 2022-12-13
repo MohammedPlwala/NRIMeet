@@ -14,7 +14,7 @@
                     <div class="razorpay-script"></div>
 
                     <script src="https://checkout.razorpay.com/v1/checkout.js" data-key="{{ config('constants.RAZORPAY_KEY') }}" {{-- data-amount="{{ $bookingData['amount']*100 }}" --}}
-                        data-amount="{{ $bookingData['amount']*100 }}" data-buttontext="" data-name="NRI MEET" data-description="17th Pravasi Bhartiya Divas 2023"
+                        data-amount="{{ $bookingData['amount']*100 }}" data-buttontext="" data-name="Pravasi Bhartiya Divas" data-description="17th Pravasi Bhartiya Divas 2023"
                         data-image="https://pbdaccommodation.mptourism.com/images/PBD.png" data-prefill.name="name"
                         data-prefill.email="email" data-theme.color="#ff7529"></script>
                         <p class="shb-booking-error-4-animation text-center">Please wait while your transaction is being processed.<br> do not close your browser or use <br>the back button at this time.</p>

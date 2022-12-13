@@ -10,6 +10,7 @@ use Auth;
 use App\Models\User;
 use Modules\User\Entities\Role;
 use Modules\User\Entities\UserRole;
+use Modules\User\Entities\Permissions;
 
 class LoginController extends Controller
 {
@@ -43,6 +44,19 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
+    public function logout(Request $request) {
+
+        Auth::logout();
+        $role = \Session::get('role');
+        if($role == 'Guest'){
+            return redirect('/');
+        }else{
+            return redirect('admin/login');
+        }
+
+        return redirect('/login');
+    }
+
     public function adminLogin(Request $request)
     {
         
@@ -55,13 +69,20 @@ class LoginController extends Controller
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
 
-            $userRole = UserRole::select('r.name as role')->leftJoin('roles as r','user_role.role_id','=','r.id')->where('user_id',$user->id)->first();
-
+            $userRole = UserRole::select('r.name as role','r.id as role_id')->leftJoin('roles as r','user_role.role_id','=','r.id')->where('user_id',$user->id)->first();
 
             if($userRole->role == 'Guest'){
                 Auth::logout();
                 return redirect('admin/login')->with('error', 'You are not allowed to access this portal.');
             }
+
+            $rolePermissions = array();
+            $permissions = Permissions::where('role_id',$userRole->role_id)->get();
+            foreach ($permissions as $key => $permission) {
+                $rolePermissions[] = $permission->module;
+            }
+
+            \Session::put('rolePermissions', $rolePermissions);
             \Session::put('role', $userRole->role);
             return redirect('admin/dashboard');
         }else{
@@ -109,6 +130,8 @@ class LoginController extends Controller
 
         if(isset($result->resultflag) && $result->resultflag == 1){
 
+            \Session::put('role', 'Guest');
+
             $userDetails = $result->details;
 
             $checkUser = User::where('email',$request->email)->first();
@@ -132,6 +155,10 @@ class LoginController extends Controller
                 $newUser->identity_number = $userDetails->identity_number;
                 $newUser->date_of_birth = date('Y-m-d',strtotime($userDetails->date_of_birth));
                 if($newUser->save()){
+
+                    $userRole = array('role_id' => 3, 'user_id' =>  $newUser->id);
+                    UserRole::insert($userRole);
+
                     $credentials = ['email'=>$request->get('email'),'password'=>'123456'];
                     if (Auth::attempt($credentials)) {
                         $user = Auth::user();
@@ -146,49 +173,5 @@ class LoginController extends Controller
         }else{
             return redirect('/')->with('error', 'Invalid username or password');
         }
-
-        echo "<pre>";
-        print_r($result);
-        die;
-
-        
-        
-     
-        $credentials = ['email'=>$request->get('email'),'password'=>$request->get('password')];
-        if (Auth::attempt($credentials)) {
-            $user = Auth::user();
-            $role = $user->getRoleNames()->toArray();
-            
-            if(!empty($role) && $role[0] == \Config::get('constants.ROLES.SUPERUSER')){
-                return redirect('dashboard');
-            }else{
-
-                if(!empty($role) && $role[0] == \Config::get('constants.ROLES.BUYER')){
-                    Auth::logout();
-                    return redirect('login')->with('error', 'You are not allowed to access this portal.');
-                }
-
-                if(!empty($role) && $role[0] == \Config::get('constants.ROLES.SP')){
-                    Auth::logout();
-                    return redirect('login')->with('error', 'You are not allowed to access this portal.');
-                }
-
-                $organization = Organization::where('id',$user->organization_id)->where('status','active')->first();
-                if(!$organization){
-                    Auth::logout();
-                    return redirect('login')->with('error', 'Opps! Your organization is not active');
-                }elseif($organization->organization_type == 'MULTIPLE'){
-                    return redirect()->intended('user/set-organization');    
-                }
-                return redirect()->intended('dashboard');
-            }
-            return redirect()->intended('dashboard');
-        }else{
-            $user = User::where('email',$request->get('email'))->first();
-            if($user && !$user->status){
-                return redirect('login')->with('error', 'Opps! Your account is not active');
-            }
-        }
-        return redirect('login')->with('error', 'Opps! You have entered invalid credentials');
     }
 }

@@ -1,10 +1,6 @@
 @php
 $userRole = \Session::get('role');
-$userPermission = \Session::get('userPermission');
-$organization_type = \Session::get('organization_type');
-$tallyIntegration = \Session::get('tallyIntegration');
-$ecommerceDiscount = \Session::get('ecommerceDiscount');
-$planApprovalRequired = \Session::get('planApprovalRequired');
+$rolePermissions = \Session::get('rolePermissions');
 @endphp
 <div class="nk-sidebar nk-sidebar-fixed is-light " data-content="sidebarMenu">
     <div class="nk-sidebar-element nk-sidebar-head">
@@ -31,6 +27,7 @@ $planApprovalRequired = \Session::get('planApprovalRequired');
                         </a>
                     </li><!-- .nk-menu-item -->
 
+                    @if(in_array('Hotels', $rolePermissions))
                     <li class="nk-menu-item has-sub">
                         <a href="#" class="nk-menu-link nk-menu-toggle">
                             <span class="nk-menu-icon"><em class="icon ni ni-building"></em></span>
@@ -45,7 +42,9 @@ $planApprovalRequired = \Session::get('planApprovalRequired');
                             </li>
                         </ul>
                     </li>
+                    @endif
 
+                    @if(in_array('Bookings', $rolePermissions))
                     <li class="nk-menu-item has-sub">
                         <a href="#" class="nk-menu-link nk-menu-toggle">
                             <span class="nk-menu-icon"><em class="icon ni ni-calender-date"></em></span>
@@ -60,7 +59,9 @@ $planApprovalRequired = \Session::get('planApprovalRequired');
                             </li>
                         </ul>
                     </li>
+                    @endif
 
+                    @if(in_array('User Management', $rolePermissions))
                     <li class="nk-menu-item has-sub">
                         <a href="#" class="nk-menu-link nk-menu-toggle">
                             <span class="nk-menu-icon"><em class="icon ni ni-users-fill"></em></span>
@@ -75,6 +76,9 @@ $planApprovalRequired = \Session::get('planApprovalRequired');
                             </li>
                         </ul>
                     </li>
+                    @endif
+
+                    @if(in_array('Reports', $rolePermissions))
                     <li class="nk-menu-item has-sub">
                         <a href="#" class="nk-menu-link nk-menu-toggle">
                             <span class="nk-menu-icon"><em class="icon ni ni-list-index-fill"></em></span>
@@ -134,27 +138,34 @@ $planApprovalRequired = \Session::get('planApprovalRequired');
                             </li>
                         </ul>
                     </li>
+                    @endif
 
+                    @if(in_array('Mahankal Lok Darshan', $rolePermissions))
                     <li class="nk-menu-item has-sub">
                         <a href="{{url('/admin/mahankal-lok-darshan')}}" class="nk-menu-link">
                             <span class="nk-menu-icon"><em class="icon ni ni-centos"></em></span>
                             <span class="nk-menu-text">Mahakal Lok Darshan</span>
                         </a>
                     </li>
+                    @endif
 
+                    @if(in_array('Contacts', $rolePermissions))
                     <li class="nk-menu-item has-sub">
                         <a href="{{url('/admin/contacts')}}" class="nk-menu-link">
                             <span class="nk-menu-icon"><em class="icon ni ni-contact"></em></span>
                             <span class="nk-menu-text">Contacts</span>
                         </a>
                     </li>
+                    @endif
 
+                    @if(in_array('Call Center', $rolePermissions))
                     <li class="nk-menu-item has-sub">
                         <a href="{{url('/admin/call-center')}}" class="nk-menu-link">
                             <span class="nk-menu-icon"><em class="icon ni ni-headphone"></em></span>
                             <span class="nk-menu-text">Call Center</span>
                         </a>
                     </li>
+                    @endif
                     
                 
                 </ul>
