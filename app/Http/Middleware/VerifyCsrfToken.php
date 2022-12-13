@@ -12,6 +12,7 @@ class VerifyCsrfToken extends Middleware
      * @var array<int, string>
      */
     protected $except = [
+        'payu-payment-cancel',
         'payu-money-payment-cancel',
         'payu-money-payment-success',
         'admin/report/combined',

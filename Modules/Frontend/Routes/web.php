@@ -33,7 +33,7 @@ Route::group(['middleware' => 'auth:web'], function(){
 	Route::get('getChecksum','HotelController@billDeskChecksum');
 	Route::get('billdesk-payment-response','HotelController@billDeskResponse');
 
-	// Route::any('payu-money-payment-cancel', 'App\Http\Controllers\PayuMoneyController@paymentCancel')->name('payumoney-cancel');
+	Route::any('payu-payment-cancel', 'HotelController@payuPaymentCancel');
 	// Route::any('payu-money-payment-success', 'App\Http\Controllers\PayuMoneyController@paymentSuccess')->name('payumoney-success');
 
 	Route::get('payment', 'HotelController@payment');

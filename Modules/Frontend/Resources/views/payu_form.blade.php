@@ -47,7 +47,7 @@
                     </div>
                     <div class="col-12">
                         <div class="form-group mb-3 position-relative">
-                            <input class="input-box form-control w-100" placeholder="Phone *" type="number" name="phone" readonly
+                            <input class="input-box form-control w-100" placeholder="Phone *" type="text" name="phone" readonly
                                    value="{{!empty($billingDetails['billing_phone']) ? $billingDetails['billing_phone'] : ''}}">
                             <div class="icon-group-append">
                                 <i class="fas fa-phone-alt"></i>
@@ -85,7 +85,7 @@
             </div>
             @endif
             <input name="surl" value="{{ url('payu-payment-success') }}" hidden/>
-            <input name="furl" value="{{route('payumoney-cancel')}}" hidden/>
+            <input name="furl" value="{{ url('payu-payment-cancel') }}" hidden/>
 
             <input type="hidden" name="bookingData" value="{{ json_encode($bookingData) }}">
             <input type="hidden" name="billingData" value="{{ json_encode($billingDetails) }}">

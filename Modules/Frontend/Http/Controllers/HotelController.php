@@ -560,6 +560,11 @@ class HotelController extends Controller
         return view('frontend::razorpay_form',['data' => $data,'bookingData' => $bookingData]);
     }
 
+    public function payuPaymentCancel(Request $request){
+        return redirect('booking-summary')->with('error', 'Payment failed');
+    }
+
+
     public function redirectToPayU(Request $request)
     {
         $data = $request->all();
