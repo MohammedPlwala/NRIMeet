@@ -94,7 +94,7 @@
                                     <option value="">Select</option>
                                     <option value="Base">Base</option>
                                     <option value="Suite">Suite</option>
-                                    <option value="Premier">Premier</option>
+                                    <option value="Premium">Premium</option>
                                 </x-inputs.select>
                             </div>
                         </div>

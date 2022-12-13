@@ -490,6 +490,51 @@ class HotelController extends Controller
                     ->addColumn('amount', function ($row) {
                         return '₹'.number_format($row->amount, 2);
                     })
+                    
+                    ->addColumn('booking_type', function ($row) {
+                        $booking_type_class = 'success';
+                        if($row->booking_type == 'Online'){
+                            $booking_type_class = 'success';
+                        }
+                        if($row->booking_type == 'Offline'){
+                            $booking_type_class = 'danger';
+                        }
+                        $booking_type = '<span class="badge badge-'.$booking_type_class.'" >'. $row->booking_type .'</span>';
+                        return $booking_type;
+                    })
+                    
+                    ->addColumn('booking_status', function ($row) {
+                        $booking_status_class = 'success';
+                        if($row->booking_status == 'Booking Received'){
+                            $booking_status_class = 'info';
+                        }
+                        if($row->booking_status == 'Payment Completed'){
+                            $booking_status_class = 'success';
+                        }
+                        if($row->booking_status == 'Booking Shared'){
+                            $booking_status_class = 'info';
+                        }
+                        if($row->booking_status == 'Confirmation Recevied'){
+                            $booking_status_class = 'info';
+                        }
+                        if($row->booking_status == 'Cancellation Requested'){
+                            $booking_status_class = 'warning';
+                        }
+                        if($row->booking_status == 'Cancellation Approved'){
+                            $booking_status_class = 'success';
+                        }
+                        if($row->booking_status == 'Refund Requested'){
+                            $booking_status_class = 'warning';
+                        }
+                        if($row->booking_status == 'Refund Approved'){
+                            $booking_status_class = 'success';
+                        }
+                        if($row->booking_status == 'Refund Issued'){
+                            $booking_status_class = 'danger';
+                        }
+                        $booking_status = '<span class="badge badge-'.$booking_status_class.'" >'. $row->booking_status .'</span>';
+                        return $booking_status;
+                    })
                     ->addColumn('checkin_date', function ($row) {
                         $checkin_date = date(\Config::get('constants.DATE.DATE_FORMAT') , strtotime($row->check_in_date));
                         return $checkin_date;
@@ -526,7 +571,7 @@ class HotelController extends Controller
                                     </ul>";
                         return $btn;
                     })
-                    ->rawColumns(['action','status','order_id','confirmation_number'])
+                    ->rawColumns(['action','status','order_id', 'booking_type','booking_status','confirmation_number'])
                     ->make(true);
         }
 
