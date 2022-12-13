@@ -110,7 +110,7 @@ class UserController extends Controller
                 ->where(function ($query) use ($request) {
                     if (!empty($request->toArray())) {
                         if ($request->get('name') != '') {
-                            $query->where('u.name', $request->get('name'));
+                            $query->where('u.full_name', "like" , "%".$request->get('name')."%");
                         }
                         if ($request->get('contact_number') != '') {
                             $query->where('u.mobile', $request->get('contact_number'));

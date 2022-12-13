@@ -148,6 +148,15 @@ class ReportController extends Controller
 
     public function hotelMaster(Request $request)
     {
+        $classifications = Hotel::from('hotels as h')
+                        ->select('h.classification')
+                        ->groupby('h.classification')
+                        ->get();
+        
+
+        $room_types = RoomType::from('room_types as rt')
+        ->select('rt.name', 'rt.id')->get();
+
         $data =   Hotel::from('hotels as h')
                     ->select('h.name','h.classification','h.airport_distance','h.venue_distance','h.website','h.contact_person','h.address','h.contact_number','h.description','hr.name as hotel_type','hr.allocated_rooms','hr.count as available_rooms','hr.rate','hr.extra_bed_available','hr.extra_bed_rate')
                     ->Join('hotel_rooms as hr','hr.hotel_id','=','h.id')
