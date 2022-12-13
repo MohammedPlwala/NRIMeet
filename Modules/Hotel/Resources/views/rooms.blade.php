@@ -76,20 +76,48 @@
                                             suggestion="" />
                                     </div>
                                     <div class="col-lg-7">
-                                        <x-inputs.text value="" for="hotel_name" icon="user" placeholder="Hotel Name" name="hotel_name" />
+
+                                        <x-inputs.select  size="sm" name="hotel_name" for="hotel_name" placeholder="Select Hotel" id="hotel_name">
+                                            <option value="">Select</option>
+                                            @forelse ($hotels as $hotel)
+                                                <option value="{{ $hotel->name }}">{{ $hotel->name }}</option>
+                                            @empty
+                                                {{-- empty expr --}}
+                                            @endforelse
+                                        </x-inputs.select>
                                     </div>
                                 </div>
 
                                 <div class="row g-3 align-center">
                                     <div class="col-lg-5">
-                                        <x-inputs.verticalFormLabel label="Room Name" for="room_name"
-                                            suggestion="" />
+                                        <x-inputs.verticalFormLabel label="Room Type" for="room_type" suggestion="Select the room type." />
                                     </div>
                                     <div class="col-lg-7">
-                                        <x-inputs.text value="" for="room_name" icon="user" placeholder="Room Name" name="room_name" />
+                                        <x-inputs.select  size="sm" name="room_type" for="room_type" placeholder="Select Room Type" id="room_type">
+                                            <option value="">Select</option>
+                                            @forelse ($room_types as $roomType)
+                                                <option value="{{ $roomType->id }}">{{ $roomType->name }}</option>
+                                            @empty
+                                                {{-- empty expr --}}
+                                            @endforelse
+                                        </x-inputs.select>
                                     </div>
                                 </div>
-                                
+                                <div class="row g-3 align-center">
+                                    <div class="col-lg-5">
+                                        <x-inputs.verticalFormLabel label="Charges" for="charges" suggestion="Enter the charges." />
+                                    </div>
+                                    <div class="col-lg-7">
+                                        <!-- <x-inputs.number  value="" for="charges" name="charges" placeholder="Enter Charges" /> -->
+                                        <x-inputs.select  size="sm" name="charges" for="charges" placeholder="Select Charges" id="charges">
+                                            <option value="">Select</option>
+                                            <option value="1">5000 to 10000</option>
+                                            <option value="2">10000 to 15000</option>
+                                            <option value="3">15000 to 20000</option>
+                                            <option value="4">Above 20000</option>
+                                        </x-inputs.select>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <input type="hidden" id="userId" name="user_id" value="0">
@@ -120,8 +148,10 @@
             NioApp.getAuditLogs('.broadcast-init', '.audit_logs', 'resourceid', logUrl, '#modalLogs');
 
             var items = [
-                '#room_name',
-                '#hotel_name'
+                // '#room_name',
+                '#hotel_name',
+                '#room_type',
+            '#charges',
             ];
             var user_table = "";
             user_table = new CustomDataTable({

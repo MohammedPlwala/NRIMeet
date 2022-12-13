@@ -72,6 +72,9 @@ class ReportController extends Controller
                             if ($request->get('postal_code') != '') {
                                 $query->where('u.zip', $request->get('postal_code'));
                             }
+                            if ($request->get('registration_date') != '') {
+                                $query->whereDate('u.created_at', date('Y-m-d',strtotime($request->get('registration_date'))));
+                            }
                         }
                     })
                     ->orderby('u.full_name','asc')
@@ -134,6 +137,9 @@ class ReportController extends Controller
                             if ($request->get('postal_code') != '') {
                                 $query->where('u.zip', $request->get('postal_code'));
                             }
+                            if ($request->get('registration_date') != '') {
+                                $query->whereDate('u.created_at', date('Y-m-d',strtotime($request->get('registration_date'))));
+                            }
                         }
                     })
                     ->orderby('u.full_name','asc')
@@ -148,20 +154,23 @@ class ReportController extends Controller
 
     public function hotelMaster(Request $request)
     {
-        $classifications = Hotel::from('hotels as h')
-                        ->select('h.classification')
-                        ->groupby('h.classification')
-                        ->get();
-        
+        $classifications = \Helpers::hotelClassifications();
 
-        $room_types = RoomType::from('room_types as rt')
-        ->select('rt.name', 'rt.id')->get();
+        $hotels = \Helpers::hotels();
+
+        
+        $room_types = \Helpers::roomTypes();
 
         $data =   Hotel::from('hotels as h')
-                    ->select('h.name','h.classification','h.airport_distance','h.venue_distance','h.website','h.contact_person','h.address','h.contact_number','h.description','hr.name as hotel_type','hr.allocated_rooms','hr.count as available_rooms','hr.rate','hr.extra_bed_available','hr.extra_bed_rate')
+                    ->select('h.name','h.classification','h.airport_distance','h.venue_distance','h.website','h.contact_person','h.address','h.contact_number','h.description','rt.name as room_type','hr.allocated_rooms','hr.count as available_rooms','hr.rate','hr.extra_bed_available','hr.extra_bed_rate')
                     ->Join('hotel_rooms as hr','hr.hotel_id','=','h.id')
+                    ->join('room_types as rt','rt.id','=','hr.type_id')
                     ->where(function ($query) use ($request) {
                         if (!empty($request->toArray())) {
+                            if ($request->get('hotel_name') != '') {
+                                $query->where('h.name', $request->get('hotel_name'));
+                            }
+
                             if ($request->get('star_rating') != '') {
                                 $query->where('h.classification', $request->star_rating);
                             }
@@ -197,6 +206,7 @@ class ReportController extends Controller
                     })
                     ->orderby('h.name','asc')
                     ->get();
+                   
 
         if ($request->ajax()) {
             return Datatables::of($data)
@@ -210,7 +220,7 @@ class ReportController extends Controller
                     ->rawColumns(['status',])
                     ->make(true);
         }
-        return view('report::hotel_master');
+        return view('report::hotel_master', ["classifications" => $classifications, "room_types" => $room_types, 'hotels' => $hotels]);
     }
 
     public function hotelMasterExport(Request $request)
@@ -220,6 +230,9 @@ class ReportController extends Controller
                     ->Join('hotel_rooms as hr','hr.hotel_id','=','h.id')
                     ->where(function ($query) use ($request) {
                         if (!empty($request->toArray())) {
+                            if ($request->get('hotel_name') != '') {
+                                $query->where('h.name', $request->get('hotel_name'));
+                            }
                             if ($request->get('star_rating') != '') {
                                 $query->where('h.classification', $request->star_rating);
                             }
@@ -426,6 +439,13 @@ class ReportController extends Controller
 
     public function inventory(Request $request)
     {
+        $classifications = \Helpers::hotelClassifications();
+
+        $hotels = \Helpers::hotels();
+
+        
+        $room_types = \Helpers::roomTypes();
+
         $data =   Hotel::from('hotels as h')
                     ->select('h.name','h.classification','h.airport_distance','h.venue_distance','h.website','h.contact_person','h.contact_number','h.address','h.contact_number','h.description','hr.allocated_rooms', 'hr.mpt_reserve' ,'hr.count as available_rooms','hr.rate','hr.extra_bed_available','hr.extra_bed_rate','rt.name as room_type_name',
                         \DB::Raw('COALESCE((select sum(bulk_bookings.room_count) from bulk_bookings where bulk_bookings.room_type_id = hr.id ),0) as mea_rooms'),
@@ -436,22 +456,28 @@ class ReportController extends Controller
                     ->leftJoin('room_types as rt','rt.id','=','hr.type_id')
                     ->where(function ($query) use ($request) {
                         if (!empty($request->toArray())) {
-                            if ($request->get('rating') != '') {
-                                $query->where('h.classification', 'like', '%' . $request->rating.'%');
+                            if ($request->get('hotel_name') != '') {
+                                $query->where('h.name', $request->get('hotel_name'));
+                            }
+
+                            if ($request->get('star_rating') != '') {
+                                $query->where('h.classification', $request->star_rating);
                             }
 
                             if ($request->get('room_type') != '') {
                                 $query->where('hr.type_id', $request->get('room_type'));
                             }
+                            
+                            
 
-                            if ($request->get('charges') != '') {
-                                if($request->get('charges') == 1){
+                            if ($request->get('room_charges') != '') {
+                                if($request->get('room_charges') == 1){
                                     $query->whereBetween('hr.rate', [5000, 10000]);
-                                }elseif($request->get('charges') == 2){
+                                }elseif($request->get('room_charges') == 2){
                                     $query->whereBetween('hr.rate', [10000, 15000]);
-                                }elseif($request->get('charges') == 3){
+                                }elseif($request->get('room_charges') == 3){
                                     $query->whereBetween('hr.rate', [15000, 20000]);
-                                }elseif($request->get('charges') == 4){
+                                }elseif($request->get('room_charges') == 4){
                                     $query->where('hr.rate','>', 20000);
                                 }
                             }
@@ -466,6 +492,10 @@ class ReportController extends Controller
 
                             if ($request->get('closing_inventory') != '') {
                                 $query->where('hr.count', $request->get('closing_inventory'));
+                            }
+
+                            if ($request->get('status') != '') {
+                                $query->where('hr.status', $request->get('status'));
                             }
                         }
                     })
@@ -490,7 +520,7 @@ class ReportController extends Controller
                     ->rawColumns(['opening_room'])
                     ->make(true);
         }
-        return view('report::inventory');
+        return view('report::inventory', ["classifications" => $classifications, "room_types" => $room_types, 'hotels' => $hotels]);
     }
 
     public function inventoryExport(Request $request)
@@ -509,32 +539,39 @@ class ReportController extends Controller
                     ->leftJoin('room_types as rt','rt.id','=','hr.type_id')
                     ->where(function ($query) use ($request) {
                         if (!empty($request->toArray())) {
-                            if ($request->get('rating') != '') {
-                                $query->where('h.classification', 'like', '%' . $request->rating.'%');
+                            if ($request->get('hotel_name') != '') {
+                                $query->where('h.name', $request->get('hotel_name'));
+                            }
+
+                            if ($request->get('star_rating') != '') {
+                                $query->where('h.classification', $request->star_rating);
                             }
 
                             if ($request->get('room_type') != '') {
                                 $query->where('hr.type_id', $request->get('room_type'));
                             }
 
-                            if ($request->get('charges') != '') {
-                                if($request->get('charges') == 1){
+                            if ($request->get('room_type') != '') {
+                                $query->where('hr.type_id', $request->get('room_type'));
+                            }
+
+                            if ($request->get('room_charges') != '') {
+                                if($request->get('room_charges') == 1){
                                     $query->whereBetween('hr.rate', [5000, 10000]);
-                                }elseif($request->get('charges') == 2){
+                                }elseif($request->get('room_charges') == 2){
                                     $query->whereBetween('hr.rate', [10000, 15000]);
-                                }elseif($request->get('charges') == 3){
+                                }elseif($request->get('room_charges') == 3){
                                     $query->whereBetween('hr.rate', [15000, 20000]);
-                                }elseif($request->get('charges') == 4){
+                                }elseif($request->get('room_charges') == 4){
                                     $query->where('hr.rate','>', 20000);
                                 }
                             }
 
-                            if ($request->get('room_charges') != '') {
-                                $query->where('hr.rate', $request->get('room_charges'));
-                            }                           
-
                             if ($request->get('room_count') != '') {
                                 $query->where('hr.count', $request->get('room_count'));
+                            }
+                            if ($request->get('status') != '') {
+                                $query->where('hr.status', $request->get('status'));
                             }
                         }
                     })

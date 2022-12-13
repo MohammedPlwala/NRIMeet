@@ -72,16 +72,33 @@
                     <div class="gy-3">
                         <div class="row g-3 align-center">
                             <div class="col-lg-5">
+                                <x-inputs.verticalFormLabel label="Hotel Name" for="hotel_name"
+                                    suggestion="" />
+                            </div>
+                            <div class="col-lg-7">
+
+                                <x-inputs.select  size="sm" name="hotel_name" for="hotel_name" placeholder="Select Hotel" id="hotel_name">
+                                    <option value="">Select</option>
+                                    @forelse ($hotels as $hotel)
+                                        <option value="{{ $hotel->name }}">{{ $hotel->name }}</option>
+                                    @empty
+                                        {{-- empty expr --}}
+                                    @endforelse
+                                </x-inputs.select>
+                            </div>
+                        </div>
+                        <div class="row g-3 align-center">
+                            <div class="col-lg-5">
                                 <x-inputs.verticalFormLabel label="Classification" for="star_rating" suggestion="Select the classification." />
                             </div>
                             <div class="col-lg-7">
                                 <x-inputs.select  size="sm" name="star_rating" for="star_rating" placeholder="Select Classification" id="star_rating">
                                     <option value="">Select</option>
-                                    <option value="7 Star Level">7 Star Level</option>
-                                    <option value="5 Star Deluxe">5 Star Deluxe</option>
-                                    <option value="5 Star Level">5 Star Level</option>
-                                    <option value="4 Star Level">4 Star Level</option>
-                                    <option value="3 Star Level">3 Star Level</option>
+                                    @forelse ($classifications as $classification)
+                                        <option value="{{ $classification->classification }}">{{ $classification->classification }}</option>
+                                    @empty
+                                        {{-- empty expr --}}
+                                    @endforelse
                                 </x-inputs.select>
                             </div>
                         </div>
@@ -92,9 +109,11 @@
                             <div class="col-lg-7">
                                 <x-inputs.select  size="sm" name="room_type" for="room_type" placeholder="Select Room Type" id="room_type">
                                     <option value="">Select</option>
-                                    <option value="1">Base</option>
-                                    <option value="2">Suite</option>
-                                    <option value="3">Premium</option>
+                                    @forelse ($room_types as $roomType)
+                                        <option value="{{ $roomType->id }}">{{ $roomType->name }}</option>
+                                    @empty
+                                        {{-- empty expr --}}
+                                    @endforelse
                                 </x-inputs.select>
                             </div>
                         </div>
@@ -121,7 +140,7 @@
                                 <x-inputs.number  value="" for="closing_inventory" name="closing_inventory" placeholder="Enter Closing Inventory" id="closing_inventory" />
                             </div>
                         </div>
-                        <div class="row g-3 align-center">
+                        {{-- <div class="row g-3 align-center">
                             <div class="col-lg-5">
                                 <x-inputs.verticalFormLabel label="Distance From Airport" for="distance_from_airport" suggestion="Select the distance from airport." />
                             </div>
@@ -150,7 +169,7 @@
                                     <option value="2000">Above 25 km</option>
                                 </x-inputs.select>
                             </div>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
                 <input type="hidden" id="userId" name="user_id" value="0">
@@ -174,7 +193,10 @@
 
     $('.export_data').on('click', function (e) {
         var myUrl = $(this).attr('data-href');
-console.log(myUrl);
+
+        if($('#hotel_name').val() != ""){
+            myUrl = addQSParm(myUrl,'hotel_name', $('#hotel_name').val());
+        }
         if($('#star_rating').val() != ""){
             myUrl = addQSParm(myUrl,'star_rating', $('#star_rating').val());
         }
@@ -226,12 +248,13 @@ console.log(myUrl);
         NioApp.getAuditLogs('.products-init', '.audit_logs', 'resourceid', logUrl, '#modalLogs');
 
         var items = [
+            '#hotel_name',
             '#star_rating',
             '#room_type',
             '#charges',
             '#closing_inventory',
-            '#distance_from_airport',
-            '#distance_from_venue'
+            // '#distance_from_airport',
+            // '#distance_from_venue'
         ];
         var user_table = "";
         user_table = new CustomDataTable({
@@ -257,8 +280,8 @@ console.log(myUrl);
                     },
                     {
                         "class": "nk-tb-col tb-col-lg",
-                        data: 'hotel_type',
-                        name: 'hotel_type'
+                        data: 'room_type',
+                        name: 'room_type'
                     },
 
                     {
