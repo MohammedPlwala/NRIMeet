@@ -1280,6 +1280,9 @@ a.fc-event-custom-completed{
     display: inline-block;
     min-width: 200px;
 }
+.table-responsive .dataTables_wrapper{
+    overflow: hidden;
+}
 @media screen and (max-width: 1600px) {
     .nk-ecwg .amount{
         font-size: 1.45rem;
