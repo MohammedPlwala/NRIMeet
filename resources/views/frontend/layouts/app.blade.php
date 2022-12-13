@@ -306,6 +306,9 @@
             $('.fe-alert-msg .close').on('click', function(){
                 $('.fe-alert-msg').removeClass('show');
             })
+            
+            // Right click disabled
+            document.addEventListener('contextmenu',  event => event.preventDefault());
         });
     </script>
     <script
