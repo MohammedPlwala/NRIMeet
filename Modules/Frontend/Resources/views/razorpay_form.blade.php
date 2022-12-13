@@ -1,16 +1,6 @@
 @extends('frontend.layouts.app')
 
 @section('content')
-    <!-- Page Header -->
-    <div class="pb-35">
-        <div class="marquee">
-            <marquee width="100%" direction="left" height="100px">
-                Dear PBD Delegates, Govt of M.P. has revised the rates of hotel accommodation. Delegates who have booked the
-                accommodation before 21/11/2022 16:00 hours IST, any excess amount charged will be refunded to their
-                respective bank account with-in 15 working days.
-            </marquee>
-        </div>
-    </div>
     <div class="container">
         <div class="shb-booking-page-wrapper shb-clearfix">
             <div class="shb-booking-page-main full-width">
