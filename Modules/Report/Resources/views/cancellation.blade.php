@@ -48,9 +48,10 @@
                         <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Adults</span></th>
                         <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Child</span></th>
                         <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Extra Bed</span></th>
-                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Amount</span></th>
-                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Status</span></th>
+                        <th class="nk-tb-col tb-col-mb text-right"><span class="sub-text">Amount</span></th>
+                        <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Status</span></th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Cancellation Request Date</span></th>
+                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Cancellation Approved Date</span></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -85,6 +86,21 @@
                                     <option value="">Select</option>
                                     @forelse ($hotels as $hotel)
                                         <option value="{{ $hotel->name }}">{{ $hotel->name }}</option>
+                                    @empty
+                                        {{-- empty expr --}}
+                                    @endforelse
+                                </x-inputs.select>
+                            </div>
+                        </div>
+                        <div class="row g-3 align-center">
+                            <div class="col-lg-5">
+                                <x-inputs.verticalFormLabel label="Classification" for="star_rating" suggestion="Select the classification." />
+                            </div>
+                            <div class="col-lg-7">
+                                <x-inputs.select  size="sm" name="star_rating" for="star_rating" placeholder="Select Classification" id="star_rating">
+                                    <option value="">Select</option>
+                                    @forelse ($classifications as $classification)
+                                        <option value="{{ $classification->classification }}">{{ $classification->classification }}</option>
                                     @empty
                                         {{-- empty expr --}}
                                     @endforelse
@@ -205,6 +221,9 @@
         if($('#hotel_name').val() != ""){
             myUrl = addQSParm(myUrl,'hotel_name', $('#hotel_name').val());
         }
+        if($('#star_rating').val() != ""){
+            myUrl = addQSParm(myUrl,'star_rating', $('#star_rating').val());
+        }
         if($('#room_type').val() != ""){
             myUrl = addQSParm(myUrl,'room_type', $('#room_type').val());
         }
@@ -263,6 +282,7 @@
 
         var items = [
             '#hotel_name',
+            '#star_rating',
             '#booking_status',
             '#room_type',
             '#guest_count',
@@ -352,14 +372,25 @@
                         name: 'amount',
                     },
                     {
-                        "class": "nk-tb-col tb-col-lg",
-                        data: 'booking_status',
+                        "class": "nk-tb-col tb-col-lg text-center",
+                        // data: 'booking_status',
+                        data: function(item){
+                            setTimeout(() => {
+                                NioApp.setStatusTag(item.booking_status)
+                            }, 500);
+                            return '<span class="status-tag badge badge-success">'+item.booking_status+'</span>'
+                        },
                         name: 'booking_status',
                     },
                     {
                         "class": "nk-tb-col tb-col-lg",
                         data: 'cancellation_request_date',
                         name: 'cancellation_request_date',
+                    },
+                    {
+                        "class": "nk-tb-col tb-col-lg",
+                        data: 'cancellation_date',
+                        name: 'cancellation_date',
                     }
                 ],
                 "fnDrawCallback": function() {

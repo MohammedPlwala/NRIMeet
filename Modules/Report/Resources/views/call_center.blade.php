@@ -86,7 +86,7 @@
                                         suggestion="Select the contact method." />
                                 </div>
                                 <div class="col-lg-7">
-                                    <x-inputs.select size="sm" name="method" for="method"
+                                    <x-inputs.select size="sm" id="method" name="method" for="method"
                                         placeholder="Select contact method"
                                         value="{{ isset($request->method) ? $request->method : '' }}">
                                         <option value="">Select</option>
@@ -105,7 +105,7 @@
                                 </div>
                                 <div class="col-lg-7">
                                     <x-inputs.select  for="issue" icon="send" placeholder="Issue"
-                                        name="issue" required="true"
+                                        name="issue" id="issue" required="true"
                                         value="{{ isset($request) ? $request->issue : '' }}">
                                         <option value="">Select</option>
                                         <option value="Registration">Registration</option>
@@ -121,7 +121,7 @@
                                         suggestion="Specify the Sub Issue." required="true" />
                                 </div>
                                 <div class="col-lg-7">
-                                    <x-inputs.select for="sub_issue" id="subIssue" icon="send"
+                                    <x-inputs.select for="sub_issue" id="sub_issue" icon="send"
                                         placeholder="Sub Issue" name="sub_issue" required="true"
                                         value="{{ isset($request) ? $request->sub_issue : '' }}">
                                         <option value="">Select</option>
@@ -139,7 +139,7 @@
                                 </div>
                                 <div class="col-lg-7">
                                     <x-inputs.select for="status" icon="send" placeholder="Status"
-                                        name="status" required="true"
+                                        name="status" id="status" required="true"
                                         value="{{ isset($request) ? $request->status : '' }}">
                                         <option value="">Select</option>
                                         <option value="Open">Open</option>

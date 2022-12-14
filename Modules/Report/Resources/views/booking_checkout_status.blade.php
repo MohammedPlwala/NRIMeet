@@ -10,12 +10,11 @@
                 <a href="#" class="btn btn-icon btn-trigger toggle-expand mr-n1" data-target="more-options"><em class="icon ni ni-more-v"></em></a>
                 <div class="toggle-expand-content" data-content="more-options">
                     <ul class="nk-block-tools g-3">
-                        {{-- <li>
-                            <a href="#" class="btn btn-trigger btn-icon dropdown-toggle" data-toggle="modal" title="filter" data-target="#modalFilterorder">
-                                <div class="dot dot-primary"></div>
-                                <em class="icon ni ni-filter-alt"></em>
+                        <li>
+                            <a href="#" class="btn btn-outline-primary dropdown-toggle" data-toggle="modal" title="filter" data-target="#modalFilterorder">
+                                <em class="icon ni ni-filter"></em><span>Filter</span>
                             </a>
-                        </li> --}}
+                        </li>
                         <li class="nk-block-tools-opt">
                             <a  href="javascript::void(0)" data-href="{{ url('admin/report/booking-checkout-status-export') }}" class="btn btn-primary export_data"><em class="icon ni ni-download"></em><span>Export</span></a>
                         </li>
@@ -67,14 +66,17 @@
                                 <x-inputs.verticalFormLabel label="Hotel Name" for="hotel_name" suggestion="Select the hotel name." />
                             </div>
                             <div class="col-lg-7">
-                                <x-inputs.select  size="sm" name="hotel_name" for="hotel_name" placeholder="Select Hotel Name">
+                                <x-inputs.select  size="sm" name="hotel_name" id="hotel_name" for="hotel_name" placeholder="Select Hotel Name">
                                     <option value="">Select</option>
-                                    <option value="Hotel 1">Hotel 1</option>
-                                    <option value="Hotel 2">Hotel 2</option>
+                                    @forelse ($hotels as $hotel)
+                                        <option value="{{ $hotel->name }}">{{ $hotel->name }}</option>
+                                    @empty
+                                        {{-- empty expr --}}
+                                    @endforelse
                                 </x-inputs.select>
                             </div>
                         </div>
-                        <div class="row g-3 align-center">
+                        <!-- <div class="row g-3 align-center">
                             <div class="col-lg-5">
                                 <x-inputs.verticalFormLabel label="Room Type" for="room_type" suggestion="Select the room type." />
                             </div>
@@ -86,8 +88,8 @@
                                     <option value="Premium">Premium</option>
                                 </x-inputs.select>
                             </div>
-                        </div>
-                        <div class="row g-3 align-center">
+                        </div> -->
+                        <!-- <div class="row g-3 align-center">
                             <div class="col-lg-5">
                                 <x-inputs.verticalFormLabel label="Guest Count" for="guest_count" suggestion="Enter the guest count." />
                             </div>
@@ -107,7 +109,7 @@
                                     <input type="text" class="form-control date-picker" id="check_in_date" placeholder="Check in Date" data-date-format="yyyy-mm-dd">
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                         <div class="row g-3 align-center">
                             <div class="col-lg-5">
                                 <x-inputs.verticalFormLabel label="Check out Date" for="check_out_date" suggestion="Select the check out date." />
@@ -117,11 +119,11 @@
                                     <div class="form-icon form-icon-left">
                                         <em class="icon ni ni-calendar"></em>
                                     </div>
-                                    <input type="text" class="form-control date-picker" id="check_out_date" placeholder="Check out Date" data-date-format="yyyy-mm-dd">
+                                    <input type="text" class="form-control date-picker" name="check_out_date" id="check_out_date" placeholder="Check out Date" data-date-format="yyyy-mm-dd">
                                 </div>
                             </div>
                         </div>
-                        <div class="row g-3 align-center">
+                        <!-- <div class="row g-3 align-center">
                             <div class="col-lg-5">
                                 <x-inputs.verticalFormLabel label="Booking Status" for="booking_status" suggestion="Select the booking status." />
                             </div>
@@ -163,7 +165,7 @@
                             <div class="col-lg-7">
                                 <x-inputs.number  value="" for="extra_bed" name="extra_bed" placeholder="Enter Extra Bed" />
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
                 <input type="hidden" id="userId" name="user_id" value="0">
@@ -190,11 +192,11 @@
         $('.export_data').on('click', function (e) {
             var myUrl = $(this).attr('data-href');
 
-            if($('#name').val() != ""){
-                myUrl = addQSParm(myUrl,'name', $('#name').val());
+            if($('#hotel_name').val() != ""){
+                myUrl = addQSParm(myUrl,'hotel_name', $('#hotel_name').val());
             }
-            if($('#city').val() != ""){
-                myUrl = addQSParm(myUrl,'city', $('#city').val());
+            if($('#check_out_date').val() != ""){
+                myUrl = addQSParm(myUrl,'check_out_date', $('#check_out_date').val());
             }
             if($('#billing_state').val() != ""){
                 myUrl = addQSParm(myUrl,'state', $('#billing_state').val());
@@ -240,14 +242,14 @@
 
             var items = [
                 '#hotel_name',
-                '#room_type',
-                '#guest_count',
-                '#check_in_date',
-                '#check_out_date',
-                '#adults',
-                '#child',
-                '#booking_status',
-                '#extra_bed'
+                // '#room_type',
+                // '#guest_count',
+                // '#check_in_date',
+                '#check_out_date'
+                // '#adults',
+                // '#child',
+                // '#booking_status',
+                // '#extra_bed'
             ];
             var user_table = "";
             user_table = new CustomDataTable({
@@ -293,11 +295,11 @@
                 },
                 filterSubmit: '.submitBtn',
                 filterSubmitCallback: function() {
-                    $('#modalFilterUser').modal('toggle');
+                    $('#modalFilterorder').modal('toggle');
                 },
                 filterClearSubmit: '.resetFilter',
-                filterModalId: '#modalFilterUser',
-                // filterItems: items,
+                filterModalId: '#modalFilterorder',
+                filterItems: items,
                 tagId: '#filter_tag_list',
             });
 

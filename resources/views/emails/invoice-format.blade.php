@@ -23,32 +23,32 @@
 				<tr>
 					<td style="padding-top: 0px; padding-bottom: 12px; padding-left: 10px;">
             <a href="https://pbdaccommodation.mptourism.com" target="_blank">
-              <img src="http://pbdaccommodation.mptourism.com/wp-content/uploads/2022/10/PBD.png" alt="PBD Accommodation" style="max-width: 100%; width: 130px;" />
+              <img src="http://pbdaccommodation.mptourism.com/images/PBD.png" alt="PBD Accommodation" style="max-width: 100%; width: 130px;" />
             </a>
           </td>
           <td style="padding-top: 0px; padding-bottom: 12px;">
             <span>
-              <img src="http://pbdaccommodation.mptourism.com/wp-content/uploads/2022/10/Group-64421.png" alt="PBD Accommodation" style="max-width: 100%; width: 100px;" />
+              <img src="http://pbdaccommodation.mptourism.com/images/Group-64421.png" alt="PBD Accommodation" style="max-width: 100%; width: 100px;" />
             </span>
           </td>
           <td style="padding-top: 0px; padding-bottom: 12px;">
             <span>
-              <img src="http://pbdaccommodation.mptourism.com/wp-content/uploads/2022/10/azadi-75.png" alt="PBD Accommodation" style="max-width: 100%; width: 80px;" />
+              <img src="http://pbdaccommodation.mptourism.com/images/azadi-75.png" alt="PBD Accommodation" style="max-width: 100%; width: 80px;" />
             </span>
           </td>
           <td style="padding-top: 0px; padding-bottom: 12px;">
             <span>
-              <img src="http://pbdaccommodation.mptourism.com/wp-content/uploads/2022/10/MP.png" alt="PBD Accommodation" style="max-width: 100%; width: 60px;" />
+              <img src="http://pbdaccommodation.mptourism.com/images/MP.png" alt="PBD Accommodation" style="max-width: 100%; width: 60px;" />
             </span>
           </td>
           <td style="padding-top: 0px; padding-bottom: 12px;">
             <span>
-              <img src="http://pbdaccommodation.mptourism.com/wp-content/uploads/2022/10/Hotels-resorts.png" alt="PBD Accommodation" style="max-width: 100%; width: 70px;" />
+              <img src="http://pbdaccommodation.mptourism.com/images/Hotels-resorts.png" alt="PBD Accommodation" style="max-width: 100%; width: 70px;" />
             </span>
           </td>
           <td style="padding-top: 0px; padding-bottom: 12px;">
             <span>
-              <img src="http://pbdaccommodation.mptourism.com/wp-content/uploads/2022/10/MP-t.png" alt="PBD Accommodation" style="max-width: 100%; width: 50px;" />
+              <img src="http://pbdaccommodation.mptourism.com/images/MP-t.png" alt="PBD Accommodation" style="max-width: 100%; width: 50px;" />
             </span>
           </td>
 				</tr>						
@@ -144,7 +144,7 @@
 				<tr>
 					<td style="background: #1e306a; padding-left: 10px; padding-top: 2px; padding-bottom: 12px" class="bg-blue">
             <a href="https://pbdaccommodation.mptourism.com" target="_blank">
-              <img src="https://pbdaccommodation.mptourism.com/wp-content/uploads/2022/10/PBD.png" alt="PBD Accommodation"  width="130" style="width: 130px;" />
+              <img src="https://pbdaccommodation.mptourism.com/images/PBD.png" alt="PBD Accommodation"  width="130" style="width: 130px;" />
             </a>
           </td>
 				</tr>

@@ -49,7 +49,7 @@
                         <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Child</span></th>
                         <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Extra Bed</span></th>
                         <th class="nk-tb-col tb-col-mb text-right"><span class="sub-text">Amount</span></th>
-                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Status</span></th>
+                        <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Status</span></th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Refund Request Date</span></th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Refund Date</span></th>
                         <th class="nk-tb-col tb-col-mb text-right"><span class="sub-text">Refundable Amount</span></th>
@@ -96,6 +96,21 @@
                         </div>
                         <div class="row g-3 align-center">
                             <div class="col-lg-5">
+                                <x-inputs.verticalFormLabel label="Classification" for="star_rating" suggestion="Select the classification." />
+                            </div>
+                            <div class="col-lg-7">
+                                <x-inputs.select  size="sm" name="star_rating" for="star_rating" placeholder="Select Classification" id="star_rating">
+                                    <option value="">Select</option>
+                                    @forelse ($classifications as $classification)
+                                        <option value="{{ $classification->classification }}">{{ $classification->classification }}</option>
+                                    @empty
+                                        {{-- empty expr --}}
+                                    @endforelse
+                                </x-inputs.select>
+                            </div>
+                        </div>
+                        <div class="row g-3 align-center">
+                            <div class="col-lg-5">
                                 <x-inputs.verticalFormLabel label="Room Type" for="room_type" suggestion="Select the room type." />
                             </div>
                             <div class="col-lg-7">
@@ -126,7 +141,7 @@
                                     <div class="form-icon form-icon-left">
                                         <em class="icon ni ni-calendar"></em>
                                     </div>
-                                    <input type="text" class="form-control date-picker" id="check_in_date" placeholder="Check in Date" data-date-format="yyyy-mm-dd">
+                                    <input type="text" class="form-control date-picker" name="check_in_date" id="check_in_date" placeholder="Check in Date" data-date-format="yyyy-mm-dd">
                                 </div>
                             </div>
                         </div>
@@ -139,7 +154,33 @@
                                     <div class="form-icon form-icon-left">
                                         <em class="icon ni ni-calendar"></em>
                                     </div>
-                                    <input type="text" class="form-control date-picker" id="check_out_date" placeholder="Check out Date" data-date-format="yyyy-mm-dd">
+                                    <input type="text" class="form-control date-picker" name="check_out_date" id="check_out_date" placeholder="Check out Date" data-date-format="yyyy-mm-dd">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row g-3 align-center">
+                            <div class="col-lg-5">
+                                <x-inputs.verticalFormLabel label="Refund Requested Date" for="refund_request_date" suggestion="Select the refund requested date." />
+                            </div>
+                            <div class="col-lg-7">
+                                <div class="form-control-wrap">
+                                    <div class="form-icon form-icon-left">
+                                        <em class="icon ni ni-calendar"></em>
+                                    </div>
+                                    <input type="text" class="form-control date-picker" name="refund_request_date" id="refund_request_date" placeholder="Refund Requested Date" data-date-format="yyyy-mm-dd">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row g-3 align-center">
+                            <div class="col-lg-5">
+                                <x-inputs.verticalFormLabel label="Refund Approved Date" for="refund_date" suggestion="Select the refund approved date." />
+                            </div>
+                            <div class="col-lg-7">
+                                <div class="form-control-wrap">
+                                    <div class="form-icon form-icon-left">
+                                        <em class="icon ni ni-calendar"></em>
+                                    </div>
+                                    <input type="text" class="form-control date-picker" name="refund_date" id="refund_date" placeholder="Refund Date" data-date-format="yyyy-mm-dd">
                                 </div>
                             </div>
                         </div>
@@ -206,6 +247,9 @@
         if($('#hotel_name').val() != ""){
             myUrl = addQSParm(myUrl,'hotel_name', $('#hotel_name').val());
         }
+        if($('#star_rating').val() != ""){
+            myUrl = addQSParm(myUrl,'star_rating', $('#star_rating').val());
+        }
         if($('#room_type').val() != ""){
             myUrl = addQSParm(myUrl,'room_type', $('#room_type').val());
         }
@@ -220,6 +264,12 @@
         }
         if($('#check_out_date').val() != ""){
             myUrl = addQSParm(myUrl,'check_out_date', $('#check_out_date').val());
+        }
+        if($('#refund_request_date').val() != ""){
+            myUrl = addQSParm(myUrl,'refund_request_date', $('#refund_request_date').val());
+        }
+        if($('#refund_date').val() != ""){
+            myUrl = addQSParm(myUrl,'refund_date', $('#refund_date').val());
         }
         if($('#adult').val() != ""){
             myUrl = addQSParm(myUrl,'adult', $('#adult').val());
@@ -264,11 +314,14 @@
 
         var items = [
             '#hotel_name',
+            '#star_rating',
             '#booking_status',
             '#room_type',
             '#guest_count',
             '#check_in_date',
             '#check_out_date',
+            '#refund_request_date',
+            '#refund_date',
             '#adult',
             '#child',
             '#extra_bed'
@@ -353,8 +406,14 @@
                         name: 'amount',
                     },
                     {
-                        "class": "nk-tb-col tb-col-lg",
-                        data: 'booking_status',
+                        "class": "nk-tb-col tb-col-lg center",
+                        // data: 'booking_status',
+                        data: function(item){
+                            setTimeout(() => {
+                                NioApp.setStatusTag(item.booking_status)
+                            }, 500);
+                            return '<span class="status-tag badge badge-success">'+item.booking_status+'</span>'
+                        },
                         name: 'booking_status',
                     },
                     {

@@ -58,7 +58,6 @@
 </div><!-- .nk-block -->
 <div id="table_pagination"></div>
 
-
 <div class="modal fade zoom" tabindex="-1" id="modalFilterorder">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
@@ -77,10 +76,28 @@
                                 <x-inputs.verticalFormLabel label="Hotel Name" for="hotel_name" suggestion="Select the hotel name." />
                             </div>
                             <div class="col-lg-7">
-                                <x-inputs.select  size="sm" name="hotel_name" for="hotel_name" placeholder="Select Hotel Name">
+                                <x-inputs.select  size="sm" name="hotel_name" for="hotel_name" id="hotel_name" placeholder="Select Hotel Name">
                                     <option value="">Select</option>
-                                    <option value="Hotel 1">Hotel 1</option>
-                                    <option value="Hotel 2">Hotel 2</option>
+                                    @forelse ($hotels as $hotel)
+                                        <option value="{{ $hotel->name }}">{{ $hotel->name }}</option>
+                                    @empty
+                                        {{-- empty expr --}}
+                                    @endforelse
+                                </x-inputs.select>
+                            </div>
+                        </div>
+                        <div class="row g-3 align-center">
+                            <div class="col-lg-5">
+                                <x-inputs.verticalFormLabel label="Classification" for="star_rating" suggestion="Select the classification." />
+                            </div>
+                            <div class="col-lg-7">
+                                <x-inputs.select  size="sm" name="star_rating" for="star_rating" placeholder="Select Classification" id="star_rating">
+                                    <option value="">Select</option>
+                                    @forelse ($classifications as $classification)
+                                        <option value="{{ $classification->classification }}">{{ $classification->classification }}</option>
+                                    @empty
+                                        {{-- empty expr --}}
+                                    @endforelse
                                 </x-inputs.select>
                             </div>
                         </div>
@@ -89,11 +106,13 @@
                                 <x-inputs.verticalFormLabel label="Room Type" for="room_type" suggestion="Select the room type." />
                             </div>
                             <div class="col-lg-7">
-                                <x-inputs.select  size="sm" name="room_type" for="room_type" placeholder="Select Room Type">
+                                <x-inputs.select  size="sm" name="room_type" for="room_type" id="room_type" placeholder="Select Room Type">
                                     <option value="">Select</option>
-                                    <option value="Base">Base</option>
-                                    <option value="Suite">Suite</option>
-                                    <option value="Premium">Premium</option>
+                                    @forelse ($room_types as $roomType)
+                                        <option value="{{ $roomType->id }}">{{ $roomType->name }}</option>
+                                    @empty
+                                        {{-- empty expr --}}
+                                    @endforelse
                                 </x-inputs.select>
                             </div>
                         </div>
@@ -102,7 +121,7 @@
                                 <x-inputs.verticalFormLabel label="Guest Count" for="guest_count" suggestion="Enter the guest count." />
                             </div>
                             <div class="col-lg-7">
-                                <x-inputs.number  value="" for="guest_count" name="guest_count" placeholder="Enter Guest Count" />
+                                <x-inputs.number  value="" for="guest_count" name="guest_count" id="guest_count" placeholder="Enter Guest Count" />
                             </div>
                         </div>
                         <div class="row g-3 align-center">
@@ -114,7 +133,7 @@
                                     <div class="form-icon form-icon-left">
                                         <em class="icon ni ni-calendar"></em>
                                     </div>
-                                    <input type="text" class="form-control date-picker" id="check_in_date" placeholder="Check in Date" data-date-format="yyyy-mm-dd">
+                                    <input type="text" class="form-control date-picker" name="check_in_date" id="check_in_date" placeholder="Check in Date" data-date-format="yyyy-mm-dd">
                                 </div>
                             </div>
                         </div>
@@ -127,7 +146,7 @@
                                     <div class="form-icon form-icon-left">
                                         <em class="icon ni ni-calendar"></em>
                                     </div>
-                                    <input type="text" class="form-control date-picker" id="check_out_date" placeholder="Check out Date" data-date-format="yyyy-mm-dd">
+                                    <input type="text" class="form-control date-picker" name="check_out_date" id="check_out_date" placeholder="Check out Date" data-date-format="yyyy-mm-dd">
                                 </div>
                             </div>
                         </div>
@@ -136,7 +155,7 @@
                                 <x-inputs.verticalFormLabel label="Booking Status" for="booking_status" suggestion="Select the booking status." />
                             </div>
                             <div class="col-lg-7">
-                                <x-inputs.select  size="sm" name="booking_status" for="booking_status" placeholder="Select Booking Status">
+                                <x-inputs.select  size="sm" name="booking_status" id="booking_status" for="booking_status" placeholder="Select Booking Status">
                                     <option value="">Select</option>
                                     <option value="Recevied">Recevied</option>
                                     <option value="Confirmed">Confirmed</option>
@@ -155,7 +174,7 @@
                                 <x-inputs.verticalFormLabel label="Adults" for="adults" suggestion="Enter the adults." />
                             </div>
                             <div class="col-lg-7">
-                                <x-inputs.number  value="" for="adults" name="adults" placeholder="Enter Adults" />
+                                <x-inputs.number  value="" for="adults" name="adults" id="adults" placeholder="Enter Adults" />
                             </div>
                         </div>
                         <div class="row g-3 align-center">
@@ -163,7 +182,7 @@
                                 <x-inputs.verticalFormLabel label="Child" for="child" suggestion="Enter the child." />
                             </div>
                             <div class="col-lg-7">
-                                <x-inputs.number  value="" for="child" name="child" placeholder="Enter Child" />
+                                <x-inputs.number  value="" for="child" name="child" id="child" placeholder="Enter Child" />
                             </div>
                         </div>
                         <div class="row g-3 align-center">
@@ -171,7 +190,7 @@
                                 <x-inputs.verticalFormLabel label="Extra Bed" for="extra_bed" suggestion="Enter the extra bed." />
                             </div>
                             <div class="col-lg-7">
-                                <x-inputs.number  value="" for="extra_bed" name="extra_bed" placeholder="Enter Extra Bed" />
+                                <x-inputs.number  value="" for="extra_bed" name="extra_bed" id="extra_bed" placeholder="Enter Extra Bed" />
                             </div>
                         </div>
                     </div>
@@ -202,6 +221,9 @@
 
             if($('#hotel_name').val() != ""){
                 myUrl = addQSParm(myUrl,'hotel_name', $('#hotel_name').val());
+            }
+            if($('#star_rating').val() != ""){
+                myUrl = addQSParm(myUrl,'star_rating', $('#star_rating').val());
             }
             if($('#room_type').val() != ""){
                 myUrl = addQSParm(myUrl,'room_type', $('#room_type').val());
@@ -262,6 +284,7 @@
 
             var items = [
                 '#hotel_name',
+                '#star_rating',
                 '#room_type',
                 '#guest_count',
                 '#check_in_date',
@@ -335,7 +358,13 @@
                         },
                         {
                             "class": "nk-tb-col tb-col-lg",
-                            data: 'booking_status',
+                            // data: 'booking_status',
+                            data: function(item){
+                                setTimeout(() => {
+                                    NioApp.setStatusTag(item.booking_status)
+                                }, 500);
+                                return '<span class="status-tag badge badge-success">'+item.booking_status+'</span>'
+                            },
                             name: 'booking_status'
                         },
                         {
@@ -370,16 +399,13 @@
                 },
                 filterSubmit: '.submitBtn',
                 filterSubmitCallback: function() {
-                    $('#modalFilterUser').modal('toggle');
+                    $('#modalFilterorder').modal('toggle');
                 },
                 filterClearSubmit: '.resetFilter',
-                filterModalId: '#modalFilterUser',
+                filterModalId: '#modalFilterorder',
                 filterItems: items,
                 tagId: '#filter_tag_list',
             });
-
-
-
         });
     </script>
 @endpush
