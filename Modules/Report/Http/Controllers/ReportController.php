@@ -1400,33 +1400,40 @@ class ReportController extends Controller
                         if ($request->get('hotel_name') != '') {
                             $query->where('h.name', 'like', '%' . $request->hotel_name . '%');
                         }
-
-                        if ($request->get('room_type') != '') {
-                            $query->where('rt.id', $request->room_type);
+                        if ($request->get('guest_name') != '') {
+                            $query->where('u.full_name', 'like', '%' . $request->guest_name . '%');
                         }
 
-                        if ($request->get('guest_count') != '') {
-                            $query->where('br.guests', $request->get('guest_count'));
+                        if ($request->get('country') != '') {
+                            $query->where('bd.country', 'like', '%' . $request->country . '%');
                         }
 
-                        if ($request->get('adults') != '') {
-                            $query->where('br.adults', $request->get('adults'));
+                        if ($request->get('state') != '') {
+                            $query->where('bd.state', 'like', '%' . $request->state . '%');
                         }
 
-                        if ($request->get('child') != '') {
-                            $query->where('br.childs', $request->get('child'));
+                        if ($request->get('registration_date') != '') {
+                            $query->whereDate('u.created_at', date('Y-m-d',strtotime($request->get('registration_date'))));
                         }
 
-                        if ($request->get('booking_status') != '') {
-                            $query->where('b.booking_status', $request->get('booking_status'));
+                        if ($request->get('payment_method') != '') {
+                            $query->where('t.payment_mode', 'like', '%' . $request->payment_method . '%');
                         }
 
-                        if ($request->get('check_in_date') != '') {
-                            $query->whereDate('b.check_in_date', date('Y-m-d',strtotime($request->get('check_in_date'))));
+                        if ($request->get('payment_via') != '') {
+                            $query->where('t.payment_method', 'like', '%' . $request->payment_via . '%');
                         }
 
-                        if ($request->get('check_out_date') != '') {
-                            $query->whereDate('b.check_out_date', date('Y-m-d',strtotime($request->get('check_out_date'))));
+                        if ($request->get('settlement_date') != '') {
+                            $query->whereDate('b.settlement_date', date('Y-m-d',strtotime($request->settlement_date)));
+                        }
+
+                        if ($request->get('cancellation_date') != '') {
+                            $query->whereDate('b.cancellation_date', date('Y-m-d',strtotime($request->get('cancellation_date'))));
+                        }
+
+                        if ($request->get('refundable_date') != '') {
+                            $query->whereDate('b.refund_date', date('Y-m-d',strtotime($request->get('refundable_date'))));
                         }
 
                     }
@@ -1651,15 +1658,28 @@ class ReportController extends Controller
 
     public function bookingCheckInStatus(Request $request)
     {
+        $hotels = Hotel::from('hotels as h')
+        ->select('h.name', 'h.id')->get();
 
         $data = Booking::from('bookings as b')
                 ->select(\DB::raw('DATE_FORMAT(b.check_in_date, "%d-%b-%Y") as check_in_date'), 'h.name',
                     \DB::Raw('sum(case when (br.room_id!="") then 1 else 0 end) AS bookings'),
                     \DB::Raw('sum(case when (br.room_id!="") then br.guests else 0 end) AS guests'),
                 )
-                ->join('hotels as h','h.id','=','b.hotel_id')
+                ->leftJoin('hotels as h','h.id','=','b.hotel_id')
                 ->leftJoin('booking_rooms as br','br.booking_id','=','b.id')
-                ->groupby('b.check_in_date', 'b.hotel_id')
+                ->where(function ($query) use ($request) {
+                    if (!empty($request->toArray())) {
+                        if ($request->get('hotel_name') != '') {
+                            $query->where('h.name', 'like', '%' . $request->hotel_name . '%');
+                        }
+
+                        if ($request->get('check_in_date') != '') {
+                            $query->whereDate('b.check_in_date', date('Y-m-d',strtotime($request->get('check_in_date'))));
+                        }
+                    }
+                })
+                ->groupby('b.check_in_date', 'h.name')
                 ->orderby('b.check_in_date','asc')
                 ->get();
         
@@ -1671,7 +1691,7 @@ class ReportController extends Controller
                     ->make(true);
         }
 
-        return view('report::booking_checkin_status');
+        return view('report::booking_checkin_status',['hotels' => $hotels]);
     }
 
     public function bookingCheckInStatusExport(Request $request)
@@ -1686,6 +1706,17 @@ class ReportController extends Controller
                 )
                 ->join('hotels as h','h.id','=','b.hotel_id')
                 ->leftJoin('booking_rooms as br','br.booking_id','=','b.id')
+                ->where(function ($query) use ($request) {
+                    if (!empty($request->toArray())) {
+                        if ($request->get('hotel_name') != '') {
+                            $query->where('h.name', 'like', '%' . $request->hotel_name . '%');
+                        }
+
+                        if ($request->get('check_in_date') != '') {
+                            $query->whereDate('b.check_in_date', date('Y-m-d',strtotime($request->get('check_in_date'))));
+                        }
+                    }
+                })
                 ->groupby('b.check_in_date', 'b.hotel_id')
                 ->orderby('b.check_in_date','asc')
                 ->get();
@@ -1699,6 +1730,8 @@ class ReportController extends Controller
 
     public function bookingCheckOutStatus(Request $request)
     {
+        $hotels = Hotel::from('hotels as h')
+        ->select('h.name', 'h.id')->get();
 
         $data = Booking::from('bookings as b')
                 ->select(\DB::raw('DATE_FORMAT(b.check_out_date, "%d-%b-%Y") as check_out_date'), 'h.name',
@@ -1707,7 +1740,18 @@ class ReportController extends Controller
                 )
                 ->join('hotels as h','h.id','=','b.hotel_id')
                 ->leftJoin('booking_rooms as br','br.booking_id','=','b.id')
-                ->groupby('b.check_out_date', 'b.hotel_id')
+                ->where(function ($query) use ($request) {
+                    if (!empty($request->toArray())) {
+                        if ($request->get('hotel_name') != '') {
+                            $query->where('h.name', 'like', '%' . $request->hotel_name . '%');
+                        }
+
+                        if ($request->get('check_out_date') != '') {
+                            $query->whereDate('b.check_out_date', date('Y-m-d',strtotime($request->get('check_out_date'))));
+                        }
+                    }
+                })
+                ->groupby('b.check_out_date', 'h.name')
                 ->orderby('b.check_out_date','asc')
                 ->get();
         
@@ -1719,7 +1763,7 @@ class ReportController extends Controller
                     ->make(true);
         }
 
-        return view('report::booking_checkout_status');
+        return view('report::booking_checkout_status',['hotels' => $hotels]);
     }
 
     public function bookingCheckOutStatusExport(Request $request)
@@ -1734,7 +1778,18 @@ class ReportController extends Controller
                 )
                 ->join('hotels as h','h.id','=','b.hotel_id')
                 ->leftJoin('booking_rooms as br','br.booking_id','=','b.id')
-                ->groupby('b.check_out_date', 'b.hotel_id')
+                ->where(function ($query) use ($request) {
+                    if (!empty($request->toArray())) {
+                        if ($request->get('hotel_name') != '') {
+                            $query->where('h.name', 'like', '%' . $request->hotel_name . '%');
+                        }
+
+                        if ($request->get('check_out_date') != '') {
+                            $query->whereDate('b.check_out_date', date('Y-m-d',strtotime($request->get('check_out_date'))));
+                        }
+                    }
+                })
+                ->groupby('b.check_out_date', 'h.name')
                 ->orderby('b.check_out_date','asc')
                 ->get();
 

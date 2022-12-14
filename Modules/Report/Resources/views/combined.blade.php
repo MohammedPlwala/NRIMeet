@@ -154,7 +154,7 @@
                                 <x-inputs.verticalFormLabel label="Hotel Name" for="hotel_name" suggestion="Select the hotel name." />
                             </div>
                             <div class="col-lg-7">
-                                <x-inputs.select  size="sm" name="hotel_name" for="hotel_name" placeholder="Select Hotel Name">
+                                <x-inputs.select  size="sm" name="hotel_name" for="hotel_name" id="hotel_name" placeholder="Select Hotel Name">
                                     <option value="">Select</option>
                                     @forelse ($hotels as $hotel)
                                         <option 
@@ -168,106 +168,98 @@
                         </div>
                         <div class="row g-3 align-center">
                             <div class="col-lg-5">
-                                <x-inputs.verticalFormLabel label="Room Type" for="room_type" suggestion="Select the room type." />
+                                <x-inputs.verticalFormLabel label="Guest Name" for="guest_name" suggestion="Enter the guest name." />
                             </div>
                             <div class="col-lg-7">
-                                <x-inputs.select  size="sm" name="room_type" for="room_type" placeholder="Select Room Type">
-                                    <option value="">Select</option>
-                                    @forelse ($room_types as $roomType)
-                                        <option 
-                                        @if(isset($request->room_type) && $request->room_type == $roomType->id) selected @endif
-                                        value="{{ $roomType->id }}">{{ $roomType->name }}</option>
-                                    @empty
-                                        {{-- empty expr --}}
-                                    @endforelse
-                                </x-inputs.select>
+                                <x-inputs.text  value="{{ isset($request->guest_name) ? $request->guest_name : '' }}" for="guest_name" name="guest_name" id="guest_name" placeholder="Enter Guest Name" />
                             </div>
                         </div>
                         <div class="row g-3 align-center">
                             <div class="col-lg-5">
-                                <x-inputs.verticalFormLabel label="Guest Count" for="guest_count" suggestion="Enter the guest count." />
+                                <x-inputs.verticalFormLabel label="Country Name" for="country" suggestion="Enter the country name." />
                             </div>
                             <div class="col-lg-7">
-                                <x-inputs.number  value="{{ isset($request->guest_count) ? $request->guest_count : '' }}" for="guest_count" name="guest_count" placeholder="Enter Guest Count" />
+                                <x-inputs.text  value="{{ isset($request->country) ? $request->country : '' }}" for="country" name="country" id="country" placeholder="Enter Country Name" />
                             </div>
                         </div>
                         <div class="row g-3 align-center">
                             <div class="col-lg-5">
-                                <x-inputs.verticalFormLabel label="Check in Date" for="check_in_date" suggestion="Select the check in date." />
+                                <x-inputs.verticalFormLabel label="State Name" for="state" suggestion="Enter the state name." />
+                            </div>
+                            <div class="col-lg-7">
+                                <x-inputs.text  value="{{ isset($request->state) ? $request->state : '' }}" for="state" name="state" id="state" placeholder="Enter State Name" />
+                            </div>
+                        </div>
+                        <div class="row g-3 align-center">
+                            <div class="col-lg-5">
+                                <x-inputs.verticalFormLabel label="Registration Date" for="registration_date" suggestion="Select the registration date." />
                             </div>
                             <div class="col-lg-7">
                                 <div class="form-control-wrap">
                                     <div class="form-icon form-icon-left">
                                         <em class="icon ni ni-calendar"></em>
                                     </div>
-                                    <input type="text" value="{{ isset($request->check_in_date) ? $request->check_in_date : '' }}" class="form-control date-picker" id="check_in_date" placeholder="Check in Date" data-date-format="yyyy-mm-dd">
+                                    <input type="text" value="{{ isset($request->registration_date) ? $request->registration_date : '' }}" class="form-control date-picker" id="registration_date" name="registration_date" placeholder="Registration Date" data-date-format="yyyy-mm-dd">
                                 </div>
                             </div>
                         </div>
                         <div class="row g-3 align-center">
                             <div class="col-lg-5">
-                                <x-inputs.verticalFormLabel label="Check out Date" for="check_out_date" suggestion="Select the check out date." />
+                                <x-inputs.verticalFormLabel label="Payment Method" for="payment_method" suggestion="Enter the payment method." />
+                            </div>
+                            <div class="col-lg-7">
+                                <x-inputs.text  value="" for="payment_method" id="payment_method" name="payment_method" placeholder="Enter Payment Method" />
+                            </div>
+                        </div>
+                        <div class="row g-3 align-center">
+                            <div class="col-lg-5">
+                                <x-inputs.verticalFormLabel label="Payment Via" for="payment_via" suggestion="Select the payment mode." />
+                            </div>
+                            <div class="col-lg-7">
+                                <x-inputs.select  size="sm" name="payment_via" id="payment_via" for="payment_via" placeholder="Select Payment Mode">
+                                    <option value="">Select</option>
+                                    <option value="Online">Online</option>
+                                    <option value="Offline">Offline</option>
+                                </x-inputs.select>
+                            </div>
+                        </div>
+                        <div class="row g-3 align-center">
+                            <div class="col-lg-5">
+                                <x-inputs.verticalFormLabel label="Settlement Date" for="settlement_date" suggestion="Select the settlement date." />
                             </div>
                             <div class="col-lg-7">
                                 <div class="form-control-wrap">
                                     <div class="form-icon form-icon-left">
                                         <em class="icon ni ni-calendar"></em>
                                     </div>
-                                    <input type="text" value="{{ isset($request->check_out_date) ? $request->check_out_date : '' }}" class="form-control date-picker" id="check_out_date" placeholder="Check out Date" data-date-format="yyyy-mm-dd">
+                                    <input type="text" value="{{ isset($request->settlement_date) ? $request->settlement_date : '' }}" class="form-control date-picker" id="settlement_date" name="settlement_date" placeholder="Settlement Date" data-date-format="yyyy-mm-dd">
                                 </div>
                             </div>
                         </div>
                         <div class="row g-3 align-center">
                             <div class="col-lg-5">
-                                <x-inputs.verticalFormLabel label="Booking Status" for="booking_status" suggestion="Select the booking status." />
+                                <x-inputs.verticalFormLabel label="Cancellation Date" for="cancellation_date" suggestion="Select the cancellation date." />
                             </div>
                             <div class="col-lg-7">
-                                <x-inputs.select  size="sm" name="booking_status" for="booking_status" placeholder="Select Booking Status">
-                                    <option value="">Select</option>
-                                    <option 
-                                    @if(isset($request->booking_status) && $request->booking_status == 'Booking Recevied') selected  @endif
-                                    value="Booking Recevied">Booking Recevied</option>
-                                    <option 
-                                    @if(isset($request->booking_status) && $request->booking_status == 'Payment Completed') selected  @endif
-                                    value="Payment Completed">Payment Completed</option>
-                                    <option 
-                                    @if(isset($request->booking_status) && $request->booking_status == 'Booking Shared') selected  @endif
-                                    value="Booking Shared">Booking Shared</option>
-                                    <option 
-                                    @if(isset($request->booking_status) && $request->booking_status == 'Confirmation Recevied') selected  @endif
-                                    value="Confirmation Recevied">Confirmation Recevied</option>
-                                    <option 
-                                    @if(isset($request->booking_status) && $request->booking_status == 'Cancellation Requested') selected  @endif
-                                    value="Cancellation Requested">Cancellation Requested</option>
-                                    <option 
-                                    @if(isset($request->booking_status) && $request->booking_status == 'Cancellation Approved') selected  @endif
-                                    value="Cancellation Approved">Cancellation Approved</option>
-                                    <option 
-                                    @if(isset($request->booking_status) && $request->booking_status == 'Refund Requested') selected  @endif
-                                    value="Refund Requested">Refund Requested</option>
-                                    <option 
-                                    @if(isset($request->booking_status) && $request->booking_status == 'Refund Approved') selected  @endif
-                                    value="Refund Approved">Refund Approved</option>
-                                    <option 
-                                    @if(isset($request->booking_status) && $request->booking_status == 'Refund Issued') selected  @endif
-                                    value="Refund Issued">Refund Issued</option>
-                                </x-inputs.select>
+                                <div class="form-control-wrap">
+                                    <div class="form-icon form-icon-left">
+                                        <em class="icon ni ni-calendar"></em>
+                                    </div>
+                                    <input type="text" value="{{ isset($request->cancellation_date) ? $request->cancellation_date : '' }}" class="form-control date-picker" id="cancellation_date" name="cancellation_date" placeholder="Check out Date" data-date-format="yyyy-mm-dd">
+                                </div>
                             </div>
                         </div>
                         <div class="row g-3 align-center">
                             <div class="col-lg-5">
-                                <x-inputs.verticalFormLabel label="Adults" for="adults" suggestion="Enter the adults." />
+                                <x-inputs.verticalFormLabel label="Refundable Date" for="refundable_date" suggestion="Select the refundable date." />
                             </div>
                             <div class="col-lg-7">
-                                <x-inputs.number  value="{{ isset($request->adults) ? $request->adults : '' }}" for="adults" name="adults" placeholder="Enter Adults" />
-                            </div>
-                        </div>
-                        <div class="row g-3 align-center">
-                            <div class="col-lg-5">
-                                <x-inputs.verticalFormLabel label="Child" for="child" suggestion="Enter the child." />
-                            </div>
-                            <div class="col-lg-7">
-                                <x-inputs.number  value="{{ isset($request->child) ? $request->child : '' }}" for="child" name="child" placeholder="Enter Child" />
+                                <div class="form-control-wrap">
+                                    <div class="form-icon form-icon-left">
+                                        <em class="icon ni ni-calendar"></em>
+                                    </div>
+                                    <input type="text" value="{{ isset($request->refundable_date) ? $request->refundable_date : '' }}" class="form-control date-picker" id="refundable_date" name="refundable_date" placeholder="Check out Date" data-date-format="yyyy-mm-dd">
+                                </div>
                             </div>
                         </div>
                         
@@ -306,29 +298,32 @@
             if($('#hotel_name').val() != ""){
                 myUrl = addQSParm(myUrl,'hotel_name', $('#hotel_name').val());
             }
-            if($('#room_type').val() != ""){
-                myUrl = addQSParm(myUrl,'room_type', $('#room_type').val());
+            if($('#guest_name').val() != ""){
+                myUrl = addQSParm(myUrl,'guest_name', $('#guest_name').val());
             }
-            if($('#guest_count').val() != ""){
-                myUrl = addQSParm(myUrl,'guest_count', $('#guest_count').val());
+            if($('#country').val() != ""){
+                myUrl = addQSParm(myUrl,'country', $('#country').val());
             }
-            if($('#check_in_date').val() != ""){
-                myUrl = addQSParm(myUrl,'check_in_date', $('#check_in_date').val());
+            if($('#state').val() != ""){
+                myUrl = addQSParm(myUrl,'state', $('#state').val());
             }
-            if($('#check_out_date').val() != ""){
-                myUrl = addQSParm(myUrl,'check_out_date', $('#check_out_date').val());
+            if($('#registration_date').val() != ""){
+                myUrl = addQSParm(myUrl,'registration_date', $('#registration_date').val());
             }
-            if($('#booking_status').val() != ""){
-                myUrl = addQSParm(myUrl,'booking_status', $('#booking_status').val());
+            if($('#payment_method').val() != ""){
+                myUrl = addQSParm(myUrl,'payment_method', $('#payment_method').val());
             }
-            if($('#adults').val() != ""){
-                myUrl = addQSParm(myUrl,'adults', $('#adults').val());
+            if($('#payment_via').val() != ""){
+                myUrl = addQSParm(myUrl,'payment_via', $('#payment_via').val());
             }
-            if($('#child').val() != ""){
-                myUrl = addQSParm(myUrl,'child', $('#child').val());
+            if($('#settlement_date').val() != ""){
+                myUrl = addQSParm(myUrl,'settlement_date', $('#settlement_date').val());
             }
-            if($('#check_in_date').val() != ""){
-                myUrl = addQSParm(myUrl,'check_in_date', $('#check_in_date').val());
+            if($('#cancellation_date').val() != ""){
+                myUrl = addQSParm(myUrl,'cancellation_date', $('#cancellation_date').val());
+            }
+            if($('#refundable_date').val() != ""){
+                myUrl = addQSParm(myUrl,'refundable_date', $('#refundable_date').val());
             }
 
             location.href = myUrl;
