@@ -50,7 +50,7 @@
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Booking Date</span></th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Check In</span></th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Check Out</span></th>
-                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Booking Status</span></th>
+                        <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Booking Status</span></th>
                         <th class="nk-tb-col tb-col-mb text-right"><span class="sub-text">Room / Night Charge</span></th>
                         <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Total Room Nights</span></th>
                         <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Adults</span></th>
@@ -64,7 +64,7 @@
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Hotel Contact Person</span></th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Hotel Contact No#</span></th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Hotel Email-Id</span></th>
-                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Payment Method</span></th>
+                        <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Payment Method</span></th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Payment Via</span></th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Transaction Id</span></th>
                         <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Transaction Status</span></th>
@@ -98,29 +98,31 @@
                         <td class="nk-tb-col tb-col-lg">{{ $booking->booking_date }} </td>
                         <td class="nk-tb-col tb-col-lg">{{ $booking->check_in_date }} </td>
                         <td class="nk-tb-col tb-col-lg">{{ $booking->check_out_date }} </td>
-                        <td class="nk-tb-col tb-col-lg">{{ $booking->booking_status }} </td>
-                        <td class="nk-tb-col tb-col-lg text-right">{{ $booking->rate }} </td>
+                        <td class="nk-tb-col tb-col-lg text-center">{{ $booking->booking_status }}</td>
+                        <td class="nk-tb-col tb-col-lg text-right">₹@convert($booking->rate) </td>
                         <td class="nk-tb-col tb-col-lg text-center">{{ $booking->nights }} </td>
                         <td class="nk-tb-col tb-col-lg text-center">{{ $booking->adults }} </td>
                         <td class="nk-tb-col tb-col-lg text-center">{{ $booking->childs }} </td>
                         <td class="nk-tb-col tb-col-lg text-center">{{ $booking->extra_bed }} </td>
-                        <td class="nk-tb-col tb-col-lg text-right">{{ $booking->room_charges }} </td>
-                        <td class="nk-tb-col tb-col-lg text-right">{{ $booking->extra_bed_rate }} </td>
-                        <td class="nk-tb-col tb-col-lg text-right">{{ $booking->tax }} </td>
-                        <td class="nk-tb-col tb-col-lg text-center">{{ $booking->tax_percentage }} </td>
-                        <td class="nk-tb-col tb-col-lg text-right">{{ $booking->amount }} </td>
+                        <td class="nk-tb-col tb-col-lg text-right">₹@convert($booking->room_charges) </td>
+                        <td class="nk-tb-col tb-col-lg text-right">₹@convert($booking->extra_bed_rate) </td>
+                        <td class="nk-tb-col tb-col-lg text-right">₹@convert($booking->tax) </td>
+                        <td class="nk-tb-col tb-col-lg text-center">{{ $booking->tax_percentage }}% </td>
+                        <td class="nk-tb-col tb-col-lg text-right">₹@convert($booking->amount) </td>
                         <td class="nk-tb-col tb-col-lg">{{ $booking->contact_person }} </td>
                         <td class="nk-tb-col tb-col-lg">{{ $booking->contact_number }} </td>
                         <td class="nk-tb-col tb-col-lg">{{ $booking->hotel_email }} </td>
-                        <td class="nk-tb-col tb-col-lg">{{ $booking->payment_method }} </td>
+                        <td class="nk-tb-col tb-col-lg text-center">
+                            <span @if(isset($booking->payment_method) && $booking->payment_method == 'Online') class="badge badge-success" else class="badge badge-danger"  @endif>{{ $booking->payment_method }}</span>
+                        </td>
                         <td class="nk-tb-col tb-col-lg">{{ $booking->payment_via }} </td>
                         <td class="nk-tb-col tb-col-lg">{{ $booking->transaction_id }} </td>
-                        <td class="nk-tb-col tb-col-lg">{{ $booking->transaction_status }} </td>
+                        <td class="nk-tb-col tb-col-lg text-center">{{ $booking->transaction_status }} </td>
                         <td class="nk-tb-col tb-col-lg">{{ $booking->utr_number }} </td>
                         <td class="nk-tb-col tb-col-lg">{{ $booking->settlement_date }} </td>
                         <td class="nk-tb-col tb-col-lg">{{ $booking->cancellation_date }} </td>
-                        <td class="nk-tb-col tb-col-lg text-right">{{ $booking->cancellation_charges }} </td>
-                        <td class="nk-tb-col tb-col-lg text-right">{{ $booking->refundable_amount }} </td>
+                        <td class="nk-tb-col tb-col-lg text-right">₹@convert($booking->cancellation_charges) </td>
+                        <td class="nk-tb-col tb-col-lg text-right">₹@convert($booking->refundable_amount) </td>
                         <td class="nk-tb-col tb-col-lg">{{ $booking->refund_date }} </td>
                         <td class="nk-tb-col tb-col-lg">{{ $booking->refund_transaction_utr }} </td>
                     </tr>

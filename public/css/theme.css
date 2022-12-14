@@ -1280,6 +1280,9 @@ a.fc-event-custom-completed{
     display: inline-block;
     min-width: 200px;
 }
+.table-responsive{
+    max-height: calc(100vh - 162px);
+}
 .table-responsive .dataTables_wrapper{
     overflow: hidden;
 }
