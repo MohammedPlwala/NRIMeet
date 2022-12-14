@@ -428,7 +428,7 @@
                                                                 </div>
                                                                 <div class="search_right">
                                                                     <!-- <p class="custom_hotel_sold_out">Sold-out</p> -->
-                                                                    <a href="javascript::void(0)"
+                                                                    <a href="javascript:void(0);"
                                                                         class="bookRoom hotel-search-button px-4 py-2 font-semibold text-sm bg-slate-900 text-white rounded-5 shadow-sm"
                                                                         data-room="{{ $room }}"> Book
                                                                         ₹@convert(Session::get('nights') * $room->rate) </a>
@@ -491,6 +491,8 @@
                                 } else {
                                     window.location.href = root_url + '/booking-summary';
                                 }
+                            }else{
+                                alert(data.msg);
                             }
                         }
                     });
