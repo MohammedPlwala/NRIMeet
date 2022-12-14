@@ -149,6 +149,15 @@
                                 <x-inputs.number  value="" for="postal_code" name="postal_code" placeholder="Postal Code" />
                             </div>
                         </div>
+
+                        <div class="row g-3 align-center">
+                            <div class="col-lg-5">
+                                <x-inputs.verticalFormLabel label="Registration Date" for="registration_date" suggestion="Enter the postal code." />
+                            </div>
+                            <div class="col-lg-7">
+                                <x-inputs.text  value="" for="registration_date" name="registration_date" placeholder="Registration Date" class="date-picker" />
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <input type="hidden" id="userId" name="user_id" value="0">
@@ -190,6 +199,9 @@
             if($('#billing_country').val() != ""){
                 myUrl = addQSParm(myUrl,'country', $('#billing_country').val());
             }
+            if($('#registration_date').val() != ""){
+                myUrl = addQSParm(myUrl,'registration_date', $('#registration_date').val());
+            }
 
 
             location.href = myUrl;
@@ -228,7 +240,8 @@
                 '#billing_state',
                 '#billing_country',
                 '#name',
-                '#postal_code'
+                '#postal_code',
+                '#registration_date'
             ];
             var user_table = "";
             user_table = new CustomDataTable({

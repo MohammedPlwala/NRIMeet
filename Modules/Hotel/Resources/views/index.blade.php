@@ -68,12 +68,85 @@
                             <div class="gy-3">
                                 <div class="row g-3 align-center">
                                     <div class="col-lg-5">
-                                        <x-inputs.verticalFormLabel label="Hotel Name" for="hotelName"
-                                            suggestion="" />
+                                        <x-inputs.verticalFormLabel label="Classification" for="star_rating" suggestion="Select the classification." />
                                     </div>
                                     <div class="col-lg-7">
-                                        <x-inputs.text value="" for="hotelName" icon="user" placeholder="Name"
-                                            name="name" />
+                                        <x-inputs.select  size="sm" name="star_rating" for="star_rating" placeholder="Select Classification" id="star_rating">
+                                            <option value="">Select</option>
+                                            @forelse ($classifications as $classification)
+                                                <option value="{{ $classification->classification }}">{{ $classification->classification }}</option>
+                                            @empty
+                                                {{-- empty expr --}}
+                                            @endforelse
+                                        </x-inputs.select>
+                                    </div>
+                                </div>
+                                <div class="row g-3 align-center">
+                                    <div class="col-lg-5">
+                                        <x-inputs.verticalFormLabel label="Room Type" for="room_type" suggestion="Select the room type." />
+                                    </div>
+                                    <div class="col-lg-7">
+                                        <x-inputs.select  size="sm" name="room_type" for="room_type" placeholder="Select Room Type" id="room_type">
+                                            <option value="">Select</option>
+                                            @forelse ($room_types as $roomType)
+                                                <option value="{{ $roomType->id }}">{{ $roomType->name }}</option>
+                                            @empty
+                                                {{-- empty expr --}}
+                                            @endforelse
+                                        </x-inputs.select>
+                                    </div>
+                                </div>
+                                <div class="row g-3 align-center">
+                                    <div class="col-lg-5">
+                                        <x-inputs.verticalFormLabel label="Charges" for="charges" suggestion="Enter the charges." />
+                                    </div>
+                                    <div class="col-lg-7">
+                                        <!-- <x-inputs.number  value="" for="charges" name="charges" placeholder="Enter Charges" /> -->
+                                        <x-inputs.select  size="sm" name="charges" for="charges" placeholder="Select Charges" id="charges">
+                                            <option value="">Select</option>
+                                            <option value="1">5000 to 10000</option>
+                                            <option value="2">10000 to 15000</option>
+                                            <option value="3">15000 to 20000</option>
+                                            <option value="4">Above 20000</option>
+                                        </x-inputs.select>
+                                    </div>
+                                </div>
+                                <div class="row g-3 align-center">
+                                    <div class="col-lg-5">
+                                        <x-inputs.verticalFormLabel label="Closing Inventory" for="closing_inventory" suggestion="Enter the closing inventory." />
+                                    </div>
+                                    <div class="col-lg-7">
+                                        <x-inputs.number  value="" for="closing_inventory" name="closing_inventory" placeholder="Enter Closing Inventory" id="closing_inventory" />
+                                    </div>
+                                </div>
+                                <div class="row g-3 align-center">
+                                    <div class="col-lg-5">
+                                        <x-inputs.verticalFormLabel label="Distance From Airport" for="distance_from_airport" suggestion="Select the distance from airport." />
+                                    </div>
+                                    <div class="col-lg-7">
+                                        <x-inputs.select  size="sm" name="distance_from_airport" for="distance_from_airport" placeholder="Select Distance From Airport" id="distance_from_airport">
+                                            <option value="">Select</option>
+                                            <option value="5">Under 5 km</option>
+                                            <option value="10">Under 10 km</option>
+                                            <option value="15">Under 15 km</option>
+                                            <option value="20">Under 25 km</option>
+                                            <option value="2000">Above 25 km</option>
+                                        </x-inputs.select>
+                                    </div>
+                                </div>
+                                <div class="row g-3 align-center">
+                                    <div class="col-lg-5">
+                                        <x-inputs.verticalFormLabel label="Distance From Venue" for="distance_from_venue" suggestion="Select the distance from venue." />
+                                    </div>
+                                    <div class="col-lg-7">
+                                        <x-inputs.select  size="sm" name="distance_from_venue" for="distance_from_venue" placeholder="Select Distance From Venue" id="distance_from_venue">
+                                            <option value="">Select</option>
+                                            <option value="5">Under 5 km</option>
+                                            <option value="10">Under 10 km</option>
+                                            <option value="15">Under 15 km</option>
+                                            <option value="20">Under 25 km</option>
+                                            <option value="2000">Above 25 km</option>
+                                        </x-inputs.select>
                                     </div>
                                 </div>
                             </div>
@@ -106,7 +179,12 @@
             NioApp.getAuditLogs('.broadcast-init', '.audit_logs', 'resourceid', logUrl, '#modalLogs');
 
             var items = [
-                '#hotelName'
+                '#star_rating',
+            '#room_type',
+            '#charges',
+            '#closing_inventory',
+            '#distance_from_airport',
+            '#distance_from_venue'
             ];
             var user_table = "";
             user_table = new CustomDataTable({

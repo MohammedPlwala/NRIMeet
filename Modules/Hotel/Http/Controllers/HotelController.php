@@ -101,13 +101,45 @@ class HotelController extends Controller
      */
     public function index(Request $request)
     {
-
+        $classifications = \Helpers::hotelClassifications();
+        
+        $room_types = \Helpers::roomTypes();
         $data = Hotel::from('hotels as h')
                 ->select('h.*')
+                ->Join('hotel_rooms as hr','hr.hotel_id','=','h.id')
+                    ->join('room_types as rt','rt.id','=','hr.type_id')
                 ->where(function ($query) use ($request) {
                     if (!empty($request->toArray())) {
-                        if ($request->get('name') != '') {
-                            $query->where('h.name', $request->get('name'));
+                        if ($request->get('star_rating') != '') {
+                            $query->where('h.classification', $request->star_rating);
+                        }
+
+                        if ($request->get('room_type') != '') {
+                            $query->where('hr.type_id', $request->get('room_type'));
+                        }
+
+                        if ($request->get('charges') != '') {
+                            if($request->get('charges') == 1){
+                                $query->whereBetween('hr.rate', [5000, 10000]);
+                            }elseif($request->get('charges') == 2){
+                                $query->whereBetween('hr.rate', [10000, 15000]);
+                            }elseif($request->get('charges') == 3){
+                                $query->whereBetween('hr.rate', [15000, 20000]);
+                            }elseif($request->get('charges') == 4){
+                                $query->where('hr.rate','>', 20000);
+                            }
+                        }
+
+                        if ($request->get('distance_from_airport') != '') {
+                            $query->where('h.airport_distance','<=', $request->get('distance_from_airport'));
+                        }
+
+                        if ($request->get('distance_from_venue') != '') {
+                            $query->where('h.venue_distance','<=', $request->get('distance_from_venue'));
+                        }
+
+                        if ($request->get('closing_inventory') != '') {
+                            $query->where('hr.count', $request->get('closing_inventory'));
                         }
                     }
                 })
@@ -180,7 +212,7 @@ class HotelController extends Controller
                     ->make(true);
         }
 
-        return view('hotel::index')->with(compact('hotelsCount'));
+        return view('hotel::index', ['classifications' => $classifications, 'room_types' => $room_types])->with(compact('hotelsCount'));
     }
 
     /**
@@ -268,7 +300,10 @@ class HotelController extends Controller
      */
     public function rooms(Request $request)
     {
+        $hotels = Hotel::from('hotels as h')
+        ->select('h.name', 'h.id')->get();
 
+        $room_types = \Helpers::roomTypes();
         $data = HotelRoom::from('hotel_rooms as hr')
                 ->select('hr.id', 'hr.hotel_id', 'hr.name', 'hr.type_id', 'hr.description', 'hr.allocated_rooms', 'hr.mpt_reserve', 'hr.count', 'hr.rate', 'hr.extra_bed_available', 'hr.extra_bed_rate', 'hr.status','rt.name as room_type_name','h.name as hotel_name')
                 ->join('room_types as rt','rt.id','=','hr.type_id')
@@ -279,9 +314,23 @@ class HotelController extends Controller
                             $query->where('h.name', $request->get('hotel_name'));
                         }
 
-                        if ($request->get('room_name') != '') {
-                            $query->where('hr.name', $request->get('room_name'));
+                        if ($request->get('room_type') != '') {
+                            $query->where('hr.type_id', $request->get('room_type'));
                         }
+
+                        if ($request->get('charges') != '') {
+                            if($request->get('charges') == 1){
+                                $query->whereBetween('hr.rate', [5000, 10000]);
+                            }elseif($request->get('charges') == 2){
+                                $query->whereBetween('hr.rate', [10000, 15000]);
+                            }elseif($request->get('charges') == 3){
+                                $query->whereBetween('hr.rate', [15000, 20000]);
+                            }elseif($request->get('charges') == 4){
+                                $query->where('hr.rate','>', 20000);
+                            }
+                        }
+
+
                     }
                 })
                 ->orderby('hr.id','desc')
@@ -356,7 +405,7 @@ class HotelController extends Controller
                     ->make(true);
         }
 
-        return view('hotel::rooms')->with(compact('roomsCount'));
+        return view('hotel::rooms',['room_types' => $room_types, 'hotels' => $hotels])->with(compact('roomsCount'));
     }
      /**
      * Show the form for creating a new resource.
@@ -542,6 +591,10 @@ class HotelController extends Controller
                     ->addColumn('checkout_date', function ($row) {
                         $checkout_date = date(\Config::get('constants.DATE.DATE_FORMAT') , strtotime($row->check_out_date));
                         return $checkout_date;
+                    })
+                    ->addColumn('booked_on', function ($row) {
+                        $booked_on = date(\Config::get('constants.DATE.DATE_FORMAT_FULL') , strtotime($row->created_at));
+                        return $booked_on;
                     })
                     ->addColumn('action', function($row) {
                            $edit = url('/').'/admin/bookings/edit/'.$row->id;
@@ -765,9 +818,9 @@ class HotelController extends Controller
     public function createBooking()
     {
         $users = User::select('id')->get();
-        $hotels = Hotel::where('status','active')->get();
+        $hotels = Hotel::all();
         
-        $roomTypes = RoomType::where('status','active')->get();
+        $roomTypes = RoomType::all();
 
         $guests =   User::from('users as u')
                     ->select('u.id','u.full_name')
@@ -785,9 +838,9 @@ class HotelController extends Controller
         $booking = Booking::findorfail($booking_id);
 
         $users = User::select('id')->get();
-        $hotels = Hotel::where('status','active')->get();
+        $hotels = Hotel::all();
         
-        $roomTypes = RoomType::where('status','active')->get();
+        $roomTypes = RoomType::all();
 
         $bookingRooms = BookingRoom::from('booking_rooms as br')
                 ->select('br.*','hr.rate')
@@ -1126,8 +1179,8 @@ class HotelController extends Controller
                 ->select('hr.id', 'hr.hotel_id', 'hr.name', 'hr.type_id', 'hr.description', 'hr.allocated_rooms', 'hr.mpt_reserve', 'hr.count', 'hr.rate', 'hr.extra_bed_available', 'hr.extra_bed_rate', 'hr.status','rt.name as room_type_name')
                 ->join('room_types as rt','rt.id','=','hr.type_id')
                 ->where('hr.hotel_id',$hotel_id)
-                ->where('hr.status', 'active')
-                ->where('hr.count', ">" ,'0')
+                // ->where('hr.status', 'active')
+                // ->where('hr.count', ">" ,'0')
                 ->orderby('rt.name','asc')
                 ->get();
         if(!empty($hotelRooms->toArray())){

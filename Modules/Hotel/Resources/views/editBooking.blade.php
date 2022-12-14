@@ -32,7 +32,7 @@
                                         required="true" />
                                 </div>
                                 <div class="col-lg-8">
-                                    <x-inputs.select for="guest" icon="mail" required="true" class="readonlyselect"
+                                    <x-inputs.select for="guest" icon="mail" required="true" class=""
                                         placeholder="Select Guest" name="guest">
                                         <option>Select Guest</option>
                                         @forelse($guests as $key => $guest)
@@ -692,7 +692,7 @@
             });
 
             $('#hotel option:not(:selected)').prop('disabled', true);
-            $('#guest option:not(:selected)').prop('disabled', true);
+            // $('#guest option:not(:selected)').prop('disabled', true);
 
             var cancellation_charges = 0;
 
@@ -895,7 +895,7 @@
                                         required="true" />
                                 </div>
                                 <div class="col-lg-8">
-                                    <x-inputs.text value="" for="rooms_${room}_${firstName}_${index}" name="rooms[${room}][${firstName}][${index}]" placeholder="Full Name" readonly />
+                                    <x-inputs.text value="" for="rooms_${room}_${firstName}_${index}" name="rooms[${room}][${firstName}][${index}]" placeholder="Full Name" />
                                 </div>
                             </div>
                         `

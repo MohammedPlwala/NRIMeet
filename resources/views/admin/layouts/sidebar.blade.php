@@ -27,7 +27,7 @@ $rolePermissions = \Session::get('rolePermissions');
                         </a>
                     </li><!-- .nk-menu-item -->
 
-                    @if(in_array('Hotels', $rolePermissions))
+                    @if(!empty($rolePermissions) && in_array('Hotels', $rolePermissions))
                     <li class="nk-menu-item has-sub">
                         <a href="#" class="nk-menu-link nk-menu-toggle">
                             <span class="nk-menu-icon"><em class="icon ni ni-building"></em></span>
@@ -44,7 +44,7 @@ $rolePermissions = \Session::get('rolePermissions');
                     </li>
                     @endif
 
-                    @if(in_array('Bookings', $rolePermissions))
+                    @if(!empty($rolePermissions) && in_array('Bookings', $rolePermissions))
                     <li class="nk-menu-item has-sub">
                         <a href="#" class="nk-menu-link nk-menu-toggle">
                             <span class="nk-menu-icon"><em class="icon ni ni-calender-date"></em></span>
@@ -61,7 +61,7 @@ $rolePermissions = \Session::get('rolePermissions');
                     </li>
                     @endif
 
-                    @if(in_array('User Management', $rolePermissions))
+                    @if(!empty($rolePermissions) && in_array('User Management', $rolePermissions))
                     <li class="nk-menu-item has-sub">
                         <a href="#" class="nk-menu-link nk-menu-toggle">
                             <span class="nk-menu-icon"><em class="icon ni ni-users-fill"></em></span>
@@ -78,7 +78,7 @@ $rolePermissions = \Session::get('rolePermissions');
                     </li>
                     @endif
 
-                    @if(in_array('Reports', $rolePermissions))
+                    @if(!empty($rolePermissions) && in_array('Reports', $rolePermissions))
                     <li class="nk-menu-item has-sub">
                         <a href="#" class="nk-menu-link nk-menu-toggle">
                             <span class="nk-menu-icon"><em class="icon ni ni-list-index-fill"></em></span>
@@ -115,9 +115,9 @@ $rolePermissions = \Session::get('rolePermissions');
                             <li class="nk-menu-item">
                                 <a href="{{url('admin/report/booking-summary')}}" class="nk-menu-link"><span class="nk-menu-text">Booking Summary</span></a>
                             </li>
-                            <li class="nk-menu-item">
+                            {{-- <li class="nk-menu-item">
                                 <a href="{{url('admin/report/group-bookings')}}" class="nk-menu-link"><span class="nk-menu-text">Group Bookings</span></a>
-                            </li>
+                            </li> --}}
                             <li class="nk-menu-item">
                                 <a href="{{url('admin/report/call-center')}}" class="nk-menu-link"><span class="nk-menu-text">Call Center</span></a>
                             </li>
@@ -140,7 +140,7 @@ $rolePermissions = \Session::get('rolePermissions');
                     </li>
                     @endif
 
-                    @if(in_array('Mahankal Lok Darshan', $rolePermissions))
+                    @if(!empty($rolePermissions) && in_array('Mahankal Lok Darshan', $rolePermissions))
                     <li class="nk-menu-item has-sub">
                         <a href="{{url('/admin/mahankal-lok-darshan')}}" class="nk-menu-link">
                             <span class="nk-menu-icon"><em class="icon ni ni-centos"></em></span>
@@ -149,7 +149,7 @@ $rolePermissions = \Session::get('rolePermissions');
                     </li>
                     @endif
 
-                    @if(in_array('Contacts', $rolePermissions))
+                    @if(!empty($rolePermissions) && in_array('Contacts', $rolePermissions))
                     <li class="nk-menu-item has-sub">
                         <a href="{{url('/admin/contacts')}}" class="nk-menu-link">
                             <span class="nk-menu-icon"><em class="icon ni ni-contact"></em></span>
@@ -158,7 +158,7 @@ $rolePermissions = \Session::get('rolePermissions');
                     </li>
                     @endif
 
-                    @if(in_array('Call Center', $rolePermissions))
+                    @if(!empty($rolePermissions) && in_array('Call Center', $rolePermissions))
                     <li class="nk-menu-item has-sub">
                         <a href="{{url('/admin/call-center')}}" class="nk-menu-link">
                             <span class="nk-menu-icon"><em class="icon ni ni-headphone"></em></span>

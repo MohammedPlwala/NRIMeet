@@ -73,15 +73,33 @@
                     <div class="gy-3">
                         <div class="row g-3 align-center">
                             <div class="col-lg-5">
-                                <x-inputs.verticalFormLabel label="Classification" for="rating" suggestion="Select the classification." />
+                                <x-inputs.verticalFormLabel label="Hotel Name" for="hotel_name"
+                                    suggestion="" />
                             </div>
                             <div class="col-lg-7">
-                                <x-inputs.select  size="sm" name="rating" for="rating" placeholder="Select Classification">
+
+                                <x-inputs.select  size="sm" name="hotel_name" for="hotel_name" placeholder="Select Hotel" id="hotel_name">
                                     <option value="">Select</option>
-                                    <option value="7 Star">7 Star</option>
-                                    <option value="5 Star">5 Star</option>
-                                    <option value="4 Star">4 Star</option>
-                                    <option value="3 Star">3 Star</option>
+                                    @forelse ($hotels as $hotel)
+                                        <option value="{{ $hotel->name }}">{{ $hotel->name }}</option>
+                                    @empty
+                                        {{-- empty expr --}}
+                                    @endforelse
+                                </x-inputs.select>
+                            </div>
+                        </div>
+                        <div class="row g-3 align-center">
+                            <div class="col-lg-5">
+                                <x-inputs.verticalFormLabel label="Classification" for="star_rating" suggestion="Select the classification." />
+                            </div>
+                            <div class="col-lg-7">
+                                <x-inputs.select  size="sm" name="star_rating" for="star_rating" placeholder="Select Classification" id="star_rating">
+                                    <option value="">Select</option>
+                                    @forelse ($classifications as $classification)
+                                        <option value="{{ $classification->classification }}">{{ $classification->classification }}</option>
+                                    @empty
+                                        {{-- empty expr --}}
+                                    @endforelse
                                 </x-inputs.select>
                             </div>
                         </div>
@@ -90,11 +108,13 @@
                                 <x-inputs.verticalFormLabel label="Room Type" for="room_type" suggestion="Select the room type." />
                             </div>
                             <div class="col-lg-7">
-                                <x-inputs.select  size="sm" name="room_type" for="room_type" placeholder="Select Room Type">
+                                <x-inputs.select  size="sm" name="room_type" for="room_type" placeholder="Select Room Type" id="room_type">
                                     <option value="">Select</option>
-                                    <option value="Base">Base</option>
-                                    <option value="Suite">Suite</option>
-                                    <option value="Premium">Premium</option>
+                                    @forelse ($room_types as $roomType)
+                                        <option value="{{ $roomType->id }}">{{ $roomType->name }}</option>
+                                    @empty
+                                        {{-- empty expr --}}
+                                    @endforelse
                                 </x-inputs.select>
                             </div>
                         </div>
@@ -111,7 +131,13 @@
                                 <x-inputs.verticalFormLabel label="Room Charges" for="room_charges" suggestion="Enter the room charges." />
                             </div>
                             <div class="col-lg-7">
-                                <x-inputs.number  value="" for="room_charges" name="room_charges" placeholder="Enter Room Charges" />
+                                <x-inputs.select  size="sm" name="room_charges" for="room_charges" placeholder="Select Charges" id="charges">
+                                    <option value="">Select</option>
+                                    <option value="1">5000 to 10000</option>
+                                    <option value="2">10000 to 15000</option>
+                                    <option value="3">15000 to 20000</option>
+                                    <option value="4">Above 20000</option>
+                                </x-inputs.select>
                             </div>
                         </div>
                         <div class="row g-3 align-center">
@@ -121,9 +147,9 @@
                             <div class="col-lg-7">
                                 <x-inputs.select  size="sm" name="status" for="status" placeholder="Select Status">
                                     <option value="">Select</option>
-                                    <option value="Active">Active</option>
-                                    <option value="Paused">Paused</option>
-                                    <option value="Out of stock">Out of stock</option>
+                                    <option value="active">Active</option>
+                                    <option value="inactive">Inactive</option>
+                                    {{-- <option value="Out of stock">Out of stock</option> --}}
                                 </x-inputs.select>
                             </div>
                         </div>
@@ -151,8 +177,13 @@
     $('.export_data').on('click', function (e) {
 
         var myUrl = $(this).attr('data-href');
-        if($('#rating').val() != ""){
-            myUrl = addQSParm(myUrl,'rating', $('#rating').val());
+
+        
+        if($('#hotel_name').val() != ""){
+            myUrl = addQSParm(myUrl,'hotel_name', $('#hotel_name').val());
+        }
+        if($('#star_rating').val() != ""){
+            myUrl = addQSParm(myUrl,'star_rating', $('#star_rating').val());
         }
         if($('#room_type').val() != ""){
             myUrl = addQSParm(myUrl,'room_type', $('#room_type').val());
@@ -199,7 +230,8 @@
         NioApp.getAuditLogs('.broadcast-init', '.audit_logs', 'resourceid', logUrl, '#modalLogs');
 
         var items = [
-            '#rating',
+            '#hotel_name',
+            '#star_rating',
             '#room_type',
             '#room_count',
             '#room_charges',

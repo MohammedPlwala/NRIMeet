@@ -15,7 +15,7 @@
                 <a href="#" class="btn btn-icon btn-trigger toggle-expand mr-n1" data-target="more-options"><em class="icon ni ni-more-v"></em></a>
                 <div class="toggle-expand-content" data-content="more-options">
                     <ul class="nk-block-tools g-3">
-                        <li class="mr-2">
+                        {{-- <li class="mr-2">
                             <div class="custom-control custom-control-sm custom-checkbox notext">
                                 <input type="checkbox" class="custom-control-input" id="check-all" name="check_all"><label class="custom-control-label" for="check-all">Check All</label>
                             </div>
@@ -32,7 +32,7 @@
                                     <span class="d-md-none"><button class="btn btn-dim btn-outline-light btn-icon disabled"><em class="icon ni ni-arrow-right"></em></button></span>
                                 </div>
                             </div>
-                        </li>
+                        </li> --}}
                         <li>
                             <a href="#" class="btn btn-outline-primary dropdown-toggle" data-toggle="modal" title="filter" data-target="#modalFilterUser">
                                 <em class="icon ni ni-filter"></em><span>Filter</span>
@@ -60,10 +60,10 @@
                 <div class="card">
                     <div class="card-inner">
                         <div class="team">
-                            <div class="team-status">
+                            {{-- <div class="team-status">
                                 <div class="custom-control custom-control-sm custom-checkbox notext"><input type="checkbox" class="custom-control-input cb-check" id="cb-{{ $user->id }}" value="{{ $user->id }}" name="checked_items[]"><label class="custom-control-label" for="cb-{{ $user->id }}"></label>
                                 </div>
-                            </div>
+                            </div> --}}
                             <div class="team-options">
                                 <div class="drodown">
                                     <a href="#" class="dropdown-toggle btn btn-sm btn-icon btn-trigger" data-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
@@ -72,7 +72,7 @@
                                             <li><a href="{{ url('/').'/admin/user/staff/edit-staff/'.$user->id }}"><em class="icon ni ni-edit"></em><span>Edit</span></a></li>
                                             <li><a href="{{ url('/').'/admin/user/staff/delete-staff/'.$user->id }}" onclick='return confirm("Are you sure, you want to delete this user?")'  class='delete'><em class="icon ni ni-trash"></em><span>Delete</span></a></li>
                                             {{-- <li><a href="#" data-resourceId="{{ $user->id }}" class="audit_logs"><em class="icon ni ni-list"></em><span>Audit Logs</span></a></li> --}}
-                                            <!-- <li><a href="#" data-resourceId="{{ $user->id }}" class="changePassword"><em class="icon ni ni-lock-alt"></em><span>Update Password</span></a></li> -->
+                                            <li><a href="#" data-resourceId="{{ $user->id }}" class="changePassword"><em class="icon ni ni-lock-alt"></em><span>Update Password</span></a></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -250,7 +250,7 @@
                     <em class="icon ni ni-cross"></em>
                 </a>
             </div>
-            <form role="form" class="mb-0" method="post" action="{{ url('user/update-user-password') }}">
+            <form role="form" class="mb-0" method="post" action="{{ url('admin/user/update-user-password') }}">
             @csrf
             <div class="modal-body modal-body-lg">
                 <div class="gy-3">

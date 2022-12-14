@@ -16,6 +16,7 @@ class VerifyCsrfToken extends Middleware
         'payu-money-payment-cancel',
         'payu-money-payment-success',
         'admin/report/combined',
-        'payu-payment-success'
+        'payu-payment-success',
+        'razorpay-payment'
     ];
 }
