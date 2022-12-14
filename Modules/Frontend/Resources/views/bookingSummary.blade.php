@@ -250,20 +250,20 @@
     <script type="text/javascript">
 
         $(document).ready(function(){
-            $('.room').each(function(i, obj) {
-                var guests = $(obj).attr('data-guests');
-                var extrabedavailable = $(obj).attr('data-extrabedavailable');
-                var roomkey = $(obj).attr('data-roomkey');
-                if(extrabedavailable && guests > 2){
+            // $('.room').each(function(i, obj) {
+            //     var guests = $(obj).attr('data-guests');
+            //     var extrabedavailable = $(obj).attr('data-extrabedavailable');
+            //     var roomkey = $(obj).attr('data-roomkey');
+            //     if(extrabedavailable && guests > 2){
 
-                    if($('.room_'+roomkey).length) {
-                        var href = $('.room_'+roomkey).attr('href');
-                        alert(roomkey);
-                        window.location = href;
-                    }
+            //         if($('.room_'+roomkey).length) {
+            //             var href = $('.room_'+roomkey).attr('href');
+            //             alert(roomkey);
+            //             window.location = href;
+            //         }
 
-                }
-            });
+            //     }
+            // });
         });
 
     </script>

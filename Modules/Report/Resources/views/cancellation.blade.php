@@ -48,8 +48,8 @@
                         <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Adults</span></th>
                         <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Child</span></th>
                         <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Extra Bed</span></th>
-                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Amount</span></th>
-                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Status</span></th>
+                        <th class="nk-tb-col tb-col-mb text-right"><span class="sub-text">Amount</span></th>
+                        <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Status</span></th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Cancellation Request Date</span></th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Cancellation Approved Date</span></th>
                     </tr>
@@ -372,8 +372,14 @@
                         name: 'amount',
                     },
                     {
-                        "class": "nk-tb-col tb-col-lg",
-                        data: 'booking_status',
+                        "class": "nk-tb-col tb-col-lg text-center",
+                        // data: 'booking_status',
+                        data: function(item){
+                            setTimeout(() => {
+                                NioApp.setStatusTag(item.booking_status)
+                            }, 500);
+                            return '<span class="status-tag badge badge-success">'+item.booking_status+'</span>'
+                        },
                         name: 'booking_status',
                     },
                     {

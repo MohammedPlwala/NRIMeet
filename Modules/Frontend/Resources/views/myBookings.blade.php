@@ -54,7 +54,7 @@
 			</div>
 			<div class="shb-booking-summary-item amount_tax">
 				<p><strong>Base Price: </strong> ₹@convert($booking->sub_total)</p>
-				<p><strong>TAX (18%): </strong> ₹@convert($booking->tax)</p>
+				<p><strong>TAX (18% / 12%): </strong> ₹@convert($booking->tax)</p>
 				<p><strong>Total: </strong> ₹@convert($booking->amount)</p>
 			</div>
 	  	</div>

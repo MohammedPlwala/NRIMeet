@@ -158,12 +158,27 @@ class HotelController extends Controller
     }
 
     public function addRoom(Request $request){
+
+        $user = \Auth::user();
+
         $room = json_decode($request->room);
         $hotelId= $room->hotel_id;
         $nights = Session::get('nights');
 
+        $roomsInCart = 0;
+        
+        $checkBookedRooms = Booking::from('bookings as b')
+                ->select(\DB::Raw('COALESCE(SUM((select count(booking_rooms.id) from booking_rooms where booking_rooms.booking_id = b.id )),0) as rooms'))
+                ->where('user_id', $user->id)
+                ->first();
+
         if(Session::has('cartData')){
             $cartData = Session::get('cartData');
+            
+            if(isset($cartData['rooms'])){
+                $roomsInCart = count($cartData['rooms']);
+            }
+
             if(isset($cartData['rooms'])){
                 array_push($cartData['rooms'],$room);
             }else{
@@ -196,6 +211,18 @@ class HotelController extends Controller
                                         )
                         );
         }
+
+        $totalRooms = $checkBookedRooms->rooms+$roomsInCart;
+
+        if($totalRooms >= 2){
+            if($checkBookedRooms->rooms > 0){
+                return array('success' => false,'msg' => 'Can not book more than two rooms. You have already booked '.$checkBookedRooms->rooms.' room(s) earlier');
+            }else{
+                return array('success' => false,'msg' => 'Can not book more than two rooms.');
+            }
+
+        }
+
         Session::put('cartData', $cartData);
 
 

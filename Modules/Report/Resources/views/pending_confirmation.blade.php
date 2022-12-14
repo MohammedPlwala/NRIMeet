@@ -58,7 +58,6 @@
 </div><!-- .nk-block -->
 <div id="table_pagination"></div>
 
-
 <div class="modal fade zoom" tabindex="-1" id="modalFilterorder">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
@@ -359,7 +358,13 @@
                         },
                         {
                             "class": "nk-tb-col tb-col-lg",
-                            data: 'booking_status',
+                            // data: 'booking_status',
+                            data: function(item){
+                                setTimeout(() => {
+                                    NioApp.setStatusTag(item.booking_status)
+                                }, 500);
+                                return '<span class="status-tag badge badge-success">'+item.booking_status+'</span>'
+                            },
                             name: 'booking_status'
                         },
                         {
@@ -401,9 +406,6 @@
                 filterItems: items,
                 tagId: '#filter_tag_list',
             });
-
-
-
         });
     </script>
 @endpush
