@@ -5,7 +5,7 @@ $rolePermissions = \Session::get('rolePermissions');
 <div class="nk-sidebar nk-sidebar-fixed is-light " data-content="sidebarMenu">
     <div class="nk-sidebar-element nk-sidebar-head">
         <div class="nk-sidebar-brand">
-            <a href="{{url('/dashboard')}}" class="logo-link nk-sidebar-logo">
+            <a href="{{url('/admin/dashboard')}}" class="logo-link nk-sidebar-logo">
                 <img class="logo-light logo-img" src="{{url('images/logo-dark.png')}}" srcset="{{url('images/logo-dark.png')}}" alt="logo">
                 <img class="logo-dark logo-img" src="{{url('images/logo-dark.png')}}" srcset="{{url('images/logo-dark.png')}}" alt="logo-dark">
                 <img class="logo-small logo-img logo-img-small" src="{{url('images/logo-small.png')}}" srcset="{{url('images/logo-small2x.png 2x')}}" alt="logo-small">

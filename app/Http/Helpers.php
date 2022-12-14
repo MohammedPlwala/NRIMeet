@@ -92,7 +92,7 @@ class Helpers {
 			// $message->to($to_email, $to_name)
 			$message->to($emails, $to_name)
 			->subject('Thank you for booking with Pravasi Bharatiya Divas 2023')
-			->from(\Config::get('constants.MAIL_FROM'),'NriMeet');
+			->from(\Config::get('constants.MAIL_FROM'),'Pravasi Bhartiya Divas');
 		});
 	}
 
@@ -113,7 +113,7 @@ class Helpers {
 			// $message->to($to_email, $to_name)
 			$message->to($emails, $to_name)
 			->subject('Payment Completed : '.$to_name)
-			->from(\Config::get('constants.MAIL_FROM'),'NriMeet');
+			->from(\Config::get('constants.MAIL_FROM'),'Pravasi Bhartiya Divas');
 		});
 	}
 
@@ -131,7 +131,7 @@ class Helpers {
 			// $message->to($to_email, $to_name)
 			$message->to($emails, $to_name)
 			->subject('Cancellaiton Request Recevied : '.$bookingDetails->hotel.' '.$to_name)
-			->from(\Config::get('constants.MAIL_FROM'),'NriMeet');
+			->from(\Config::get('constants.MAIL_FROM'),'Pravasi Bhartiya Divas');
 		});
 	}
 
@@ -151,7 +151,7 @@ class Helpers {
 			// $message->to($to_email, $to_name)
 			$message->to($emails, $to_name)
 			->subject('Cancellaiton Request Approved : '.$bookingDetails->hotel.' '.$to_name)
-			->from(\Config::get('constants.MAIL_FROM'),'NriMeet');
+			->from(\Config::get('constants.MAIL_FROM'),'Pravasi Bhartiya Divas');
 		});
 	}
 
@@ -169,7 +169,7 @@ class Helpers {
 			// $message->to($to_email, $to_name)
 			$message->to($emails, $to_name)
 			->subject('Refund Approved : '.$bookingDetails->hotel.' '.$to_name)
-			->from(\Config::get('constants.MAIL_FROM'),'NriMeet');
+			->from(\Config::get('constants.MAIL_FROM'),'Pravasi Bhartiya Divas');
 		});
 	}
 
@@ -187,7 +187,7 @@ class Helpers {
 			// $message->to($to_email, $to_name)
 			$message->to($emails, $to_name)
 			->subject('Refund Processed : '.$bookingDetails->hotel.' '.$to_name)
-			->from(\Config::get('constants.MAIL_FROM'),'NriMeet');
+			->from(\Config::get('constants.MAIL_FROM'),'Pravasi Bhartiya Divas');
 		});
 	}
 

@@ -106,29 +106,29 @@ class HotelController extends Controller
         $room_types = \Helpers::roomTypes();
         $data = Hotel::from('hotels as h')
                 ->select('h.*')
-                ->Join('hotel_rooms as hr','hr.hotel_id','=','h.id')
-                    ->join('room_types as rt','rt.id','=','hr.type_id')
+                // ->Join('hotel_rooms as hr','hr.hotel_id','=','h.id')
+                // ->join('room_types as rt','rt.id','=','hr.type_id')
                 ->where(function ($query) use ($request) {
                     if (!empty($request->toArray())) {
                         if ($request->get('star_rating') != '') {
                             $query->where('h.classification', $request->star_rating);
                         }
 
-                        if ($request->get('room_type') != '') {
-                            $query->where('hr.type_id', $request->get('room_type'));
-                        }
+                        // if ($request->get('room_type') != '') {
+                        //     $query->where('hr.type_id', $request->get('room_type'));
+                        // }
 
-                        if ($request->get('charges') != '') {
-                            if($request->get('charges') == 1){
-                                $query->whereBetween('hr.rate', [5000, 10000]);
-                            }elseif($request->get('charges') == 2){
-                                $query->whereBetween('hr.rate', [10000, 15000]);
-                            }elseif($request->get('charges') == 3){
-                                $query->whereBetween('hr.rate', [15000, 20000]);
-                            }elseif($request->get('charges') == 4){
-                                $query->where('hr.rate','>', 20000);
-                            }
-                        }
+                        // if ($request->get('charges') != '') {
+                        //     if($request->get('charges') == 1){
+                        //         $query->whereBetween('hr.rate', [5000, 10000]);
+                        //     }elseif($request->get('charges') == 2){
+                        //         $query->whereBetween('hr.rate', [10000, 15000]);
+                        //     }elseif($request->get('charges') == 3){
+                        //         $query->whereBetween('hr.rate', [15000, 20000]);
+                        //     }elseif($request->get('charges') == 4){
+                        //         $query->where('hr.rate','>', 20000);
+                        //     }
+                        // }
 
                         if ($request->get('distance_from_airport') != '') {
                             $query->where('h.airport_distance','<=', $request->get('distance_from_airport'));
@@ -138,11 +138,12 @@ class HotelController extends Controller
                             $query->where('h.venue_distance','<=', $request->get('distance_from_venue'));
                         }
 
-                        if ($request->get('closing_inventory') != '') {
-                            $query->where('hr.count', $request->get('closing_inventory'));
-                        }
+                        // if ($request->get('closing_inventory') != '') {
+                        //     $query->where('hr.count', $request->get('closing_inventory'));
+                        // }
                     }
                 })
+                ->groupBy('h.id')
                 ->orderby('h.id','desc')
                 ->get();
 
@@ -870,6 +871,9 @@ class HotelController extends Controller
     public function updateBooking(Request $request,$booking_id){
 
         try{
+
+
+
             $bookingRoomsData = array();
 
             \DB::beginTransaction();
@@ -1027,6 +1031,8 @@ class HotelController extends Controller
             }
             $booking->booking_status = $request->status;
 
+
+
             $booking->booking_type = 'Offline';
             $booking->confirmation_number = $request->confirmation_number;
             $booking->utr_number = $request->utr_number;
@@ -1104,6 +1110,8 @@ class HotelController extends Controller
                     $transaction->save();
                 }
 
+
+
                 if($request->guest != $oldGuestId){
                     BillingDetail::where('booking_id',$booking_id)->forceDelete();
 
@@ -1147,6 +1155,8 @@ class HotelController extends Controller
                 if($request->status == 'Refund Approved'){
                     \Helpers::sendRefundApprovedMail($booking->id);
                 }
+
+                
 
                 \DB::commit();
                 return redirect('/admin/bookings')->with('message', 'Booking updated successfully');

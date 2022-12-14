@@ -81,7 +81,7 @@
                                         </x-inputs.select>
                                     </div>
                                 </div>
-                                <div class="row g-3 align-center">
+                                <div class="row g-3 align-center" style="display:none;">
                                     <div class="col-lg-5">
                                         <x-inputs.verticalFormLabel label="Room Type" for="room_type" suggestion="Select the room type." />
                                     </div>
@@ -96,7 +96,7 @@
                                         </x-inputs.select>
                                     </div>
                                 </div>
-                                <div class="row g-3 align-center">
+                                <div class="row g-3 align-center" style="display:none;">
                                     <div class="col-lg-5">
                                         <x-inputs.verticalFormLabel label="Charges" for="charges" suggestion="Enter the charges." />
                                     </div>
@@ -111,7 +111,7 @@
                                         </x-inputs.select>
                                     </div>
                                 </div>
-                                <div class="row g-3 align-center">
+                                <div class="row g-3 align-center" style="display:none;">
                                     <div class="col-lg-5">
                                         <x-inputs.verticalFormLabel label="Closing Inventory" for="closing_inventory" suggestion="Enter the closing inventory." />
                                     </div>

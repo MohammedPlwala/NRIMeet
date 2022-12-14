@@ -40,6 +40,6 @@ return [
     'RAZORPAY_KEY' => env('RAZORPAY_KEY', ''),
     'RAZORPAY_SECRET' => env('RAZORPAY_SECRET', ''),
     
-
+    'APPLICATION_ENVIROMENT' => env('APPLICATION_ENVIROMENT', 'developement'),//developement,production
 ];
 

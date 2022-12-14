@@ -41,14 +41,18 @@ class HotelController extends Controller
                         ->get();
 
         $user = \Auth::user();
-        $checkBookedRooms = Booking::from('bookings as b')
-                ->select(\DB::Raw('COALESCE(SUM((select count(booking_rooms.id) from booking_rooms where booking_rooms.booking_id = b.id )),0) as rooms'))
-                ->where('user_id', $user->id)
-                ->first();
 
-        // if($checkBookedRooms->rooms >= 2){
-        //     return redirect('/')->with('error', 'You have already booked two rooms');
-        // }
+        $application_enviroment = config('constants.APPLICATION_ENVIROMENT');
+        if($application_enviroment == 'production'){
+            $checkBookedRooms = Booking::from('bookings as b')
+                    ->select(\DB::Raw('COALESCE(SUM((select count(booking_rooms.id) from booking_rooms where booking_rooms.booking_id = b.id )),0) as rooms'))
+                    ->where('user_id', $user->id)
+                    ->first();
+
+            if($checkBookedRooms->rooms >= 2){
+                return redirect('/')->with('error', 'You have already booked two rooms');
+            }
+        }
 
         Session::put('cartData', '');
         Session::put('billingDetails', '');
@@ -213,14 +217,16 @@ class HotelController extends Controller
         }
 
         $totalRooms = $checkBookedRooms->rooms+$roomsInCart;
+        $application_enviroment = config('constants.APPLICATION_ENVIROMENT');
+        if($application_enviroment == 'production'){
+            if($totalRooms >= 2){
+                if($checkBookedRooms->rooms > 0){
+                    return array('success' => false,'msg' => 'Can not book more than two rooms. You have already booked '.$checkBookedRooms->rooms.' room(s) earlier');
+                }else{
+                    return array('success' => false,'msg' => 'Can not book more than two rooms.');
+                }
 
-        if($totalRooms >= 2){
-            if($checkBookedRooms->rooms > 0){
-                return array('success' => false,'msg' => 'Can not book more than two rooms. You have already booked '.$checkBookedRooms->rooms.' room(s) earlier');
-            }else{
-                return array('success' => false,'msg' => 'Can not book more than two rooms.');
             }
-
         }
 
         Session::put('cartData', $cartData);
