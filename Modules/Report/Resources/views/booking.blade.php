@@ -81,8 +81,26 @@
                             <div class="col-lg-7">
                                 <x-inputs.select  size="sm" name="hotel_name" for="hotel_name" placeholder="Select Hotel Name">
                                     <option value="">Select</option>
-                                    <option value="Hotel 1">Hotel 1</option>
-                                    <option value="Hotel 2">Hotel 2</option>
+                                    @forelse ($hotels as $hotel)
+                                        <option value="{{ $hotel->name }}">{{ $hotel->name }}</option>
+                                    @empty
+                                        {{-- empty expr --}}
+                                    @endforelse
+                                </x-inputs.select>
+                            </div>
+                        </div>
+                        <div class="row g-3 align-center">
+                            <div class="col-lg-5">
+                                <x-inputs.verticalFormLabel label="Classification" for="star_rating" suggestion="Select the classification." />
+                            </div>
+                            <div class="col-lg-7">
+                                <x-inputs.select  size="sm" name="star_rating" for="star_rating" placeholder="Select Classification" id="star_rating">
+                                    <option value="">Select</option>
+                                    @forelse ($classifications as $classification)
+                                        <option value="{{ $classification->classification }}">{{ $classification->classification }}</option>
+                                    @empty
+                                        {{-- empty expr --}}
+                                    @endforelse
                                 </x-inputs.select>
                             </div>
                         </div>
@@ -93,9 +111,11 @@
                             <div class="col-lg-7">
                                 <x-inputs.select  size="sm" name="room_type" for="room_type" placeholder="Select Room Type">
                                     <option value="">Select</option>
-                                    <option value="Base">Base</option>
-                                    <option value="Suite">Suite</option>
-                                    <option value="Premium">Premium</option>
+                                    @forelse ($room_types as $roomType)
+                                        <option value="{{ $roomType->id }}">{{ $roomType->name }}</option>
+                                    @empty
+                                        {{-- empty expr --}}
+                                    @endforelse
                                 </x-inputs.select>
                             </div>
                         </div>
@@ -205,6 +225,9 @@
             if($('#hotel_name').val() != ""){
                 myUrl = addQSParm(myUrl,'hotel_name', $('#hotel_name').val());
             }
+            if($('#star_rating').val() != ""){
+                myUrl = addQSParm(myUrl,'star_rating', $('#star_rating').val());
+            }
             if($('#room_type').val() != ""){
                 myUrl = addQSParm(myUrl,'room_type', $('#room_type').val());
             }
@@ -264,6 +287,7 @@
 
             var items = [
                 '#hotel_name',
+                '#star_rating',
                 '#room_type',
                 '#guest_count',
                 '#check_in_date',
@@ -383,10 +407,10 @@
                 },
                 filterSubmit: '.submitBtn',
                 filterSubmitCallback: function() {
-                    $('#modalFilterUser').modal('toggle');
+                    $('#modalFilterorder').modal('toggle');
                 },
                 filterClearSubmit: '.resetFilter',
-                filterModalId: '#modalFilterUser',
+                filterModalId: '#modalFilterorder',
                 filterItems: items,
                 tagId: '#filter_tag_list',
             });

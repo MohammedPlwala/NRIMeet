@@ -79,7 +79,7 @@
                                 </div>
                                 <div class="col-lg-7">
                                     <x-inputs.select for="booking_from" icon="mail" required="true" class="readonlyinput"
-                                        placeholder="Select Guest" name="booking_from">
+                                        placeholder="Select Guest" name="booking_from" id="booking_from">
                                         <option value="">Select</option>
                                         <option @if (isset($request->booking_from) && $request->booking_from == 'MP Tourism') selected @endif>
                                             MP Tourism</option>
@@ -94,12 +94,20 @@
                             </div>
                             <div class="row g-3 align-center">
                                 <div class="col-lg-5">
+                                    <x-inputs.verticalFormLabel label="Booking Via" for="booking_via" suggestion="Enter the booking name." />
+                                </div>
+                                <div class="col-lg-7">
+                                    <x-inputs.text  value="" for="booking_via" id="booking_via" name="booking_via" placeholder="Enter Booking Name" />
+                                </div>
+                            </div>
+                            <div class="row g-3 align-center">
+                                <div class="col-lg-5">
                                     <x-inputs.verticalFormLabel label="Hotel Name" for="hotel_name"
                                         suggestion="Select the hotel name." />
                                 </div>
                                 <div class="col-lg-7">
                                     <x-inputs.select size="sm" name="hotel_name" for="hotel_name"
-                                        placeholder="Select Hotel Name">
+                                        placeholder="Select Hotel Name" id="hotel_name">
                                         <option value="">Select</option>
                                         @forelse ($hotels as $hotel)
                                             <option @if (isset($request->hotel_name) && $request->hotel_name == $hotel->id) selected @endif
@@ -117,7 +125,7 @@
                                 </div>
                                 <div class="col-lg-7">
                                     <x-inputs.select size="sm" name="room_type" for="room_type"
-                                        placeholder="Select Room Type">
+                                        placeholder="Select Room Type" id="room_type">
                                         <option value="">Select</option>
                                         @forelse ($room_types as $roomType)
                                             <option @if (isset($request->room_type) && $request->room_type == $roomType->id) selected @endif
@@ -188,6 +196,9 @@
             if ($('#booking_from').val() != "") {
                 myUrl = addQSParm(myUrl, 'booking_from', $('#booking_from').val());
             }
+            if ($('#booking_via').val() != "") {
+                myUrl = addQSParm(myUrl, 'booking_via', $('#booking_via').val());
+            }
             if ($('#hotel_name').val() != "") {
                 myUrl = addQSParm(myUrl, 'hotel_name', $('#hotel_name').val());
             }
@@ -235,6 +246,7 @@
 
             var items = [
                 '#booking_from',
+                '#booking_via',
                 '#hotel_name',
                 '#room_type',
                 '#checkin_date',

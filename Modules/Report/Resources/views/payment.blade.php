@@ -75,12 +75,50 @@
                 @csrf
                 <div class="modal-body modal-body-lg">
                     <div class="gy-3">
+
                         <div class="row g-3 align-center">
                             <div class="col-lg-5">
-                                <x-inputs.verticalFormLabel label="Guest Name" for="guest_name" suggestion="Enter the guest name." />
+                                <x-inputs.verticalFormLabel label="Booking Date" for="booking_date" suggestion="Select the booking date." />
                             </div>
                             <div class="col-lg-7">
-                                <x-inputs.text  value="" for="guest_name" name="guest_name" placeholder="Enter Guest Name" />
+                                <div class="form-control-wrap">
+                                    <div class="form-icon form-icon-left">
+                                        <em class="icon ni ni-calendar"></em>
+                                    </div>
+                                    <input type="text" class="form-control date-picker" name="booking_date" id="booking_date" placeholder="Booking Date" data-date-format="yyyy-mm-dd">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row g-3 align-center">
+                            <div class="col-lg-5">
+                                <x-inputs.verticalFormLabel label="Payment Date" for="payment_date" suggestion="Select the payment date." />
+                            </div>
+                            <div class="col-lg-7">
+                                <div class="form-control-wrap">
+                                    <div class="form-icon form-icon-left">
+                                        <em class="icon ni ni-calendar"></em>
+                                    </div>
+                                    <input type="text" class="form-control date-picker" name="payment_date" id="payment_date" placeholder="Payment Date" data-date-format="yyyy-mm-dd">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row g-3 align-center">
+                            <div class="col-lg-5">
+                                <x-inputs.verticalFormLabel label="Country Name" for="country_name" suggestion="Enter the country name." />
+                            </div>
+                            <div class="col-lg-7">
+                                <x-inputs.text  value="" for="country_name" name="country_name" id="country_name" placeholder="Enter Country Name" />
+                            </div>
+                        </div>
+
+                        <div class="row g-3 align-center">
+                            <div class="col-lg-5">
+                                <x-inputs.verticalFormLabel label="City Name" for="city_name" suggestion="Enter the city name." />
+                            </div>
+                            <div class="col-lg-7">
+                                <x-inputs.text  value="" id="city_name" for="city_name" name="city_name" placeholder="Enter City Name" />
                             </div>
                         </div>
 
@@ -90,7 +128,7 @@
                                 <x-inputs.verticalFormLabel label="Hotel Name" for="hotel_name" suggestion="Enter the hotel name." />
                             </div>
                             <div class="col-lg-7">
-                                <x-inputs.text  value="" for="hotel_name" name="hotel_name" placeholder="Enter Hotel Name" />
+                                <x-inputs.text  value="" id="hotel_name" for="hotel_name" name="hotel_name" placeholder="Enter Hotel Name" />
                             </div>
                         </div>
                         <div class="row g-3 align-center">
@@ -98,7 +136,7 @@
                                 <x-inputs.verticalFormLabel label="Status" for="status" suggestion="Select the status." />
                             </div>
                             <div class="col-lg-7">
-                                <x-inputs.select  size="sm" name="status" for="status" placeholder="Select Status">
+                                <x-inputs.select  size="sm" name="status" for="status" id="status" placeholder="Select Status">
                                     <option value="">Select</option>
                                     <option value="Payment Recevied From Guest">Payment Recevied From Guest</option>
                                     <option value="Payment Completed to Hotel">Payment Completed to Hotel</option>
@@ -108,6 +146,41 @@
                                     <option value="Refund Approved">Refund Approved</option>
                                     <option value="Refund Issued">Refund Issued</option>
                                 </x-inputs.select>
+                            </div>
+                        </div>
+                        <div class="row g-3 align-center">
+                            <div class="col-lg-5">
+                                <x-inputs.verticalFormLabel label="Payment Method" for="payment_method" suggestion="Enter the payment method." />
+                            </div>
+                            <div class="col-lg-7">
+                                <x-inputs.text  value="" for="payment_method" id="payment_method" name="payment_method" placeholder="Enter Payment Method" />
+                            </div>
+                        </div>
+
+                        <div class="row g-3 align-center">
+                            <div class="col-lg-5">
+                                <x-inputs.verticalFormLabel label="Payment Via" for="payment_via" suggestion="Select the payment mode." />
+                            </div>
+                            <div class="col-lg-7">
+                                <x-inputs.select  size="sm" name="payment_via" id="payment_via" for="payment_via" placeholder="Select Payment Mode">
+                                    <option value="">Select</option>
+                                    <option value="Online">Online</option>
+                                    <option value="Offline">Offline</option>
+                                </x-inputs.select>
+                            </div>
+                        </div>
+
+                        <div class="row g-3 align-center">
+                            <div class="col-lg-5">
+                                <x-inputs.verticalFormLabel label="Settlement Date" for="settlement_date" suggestion="Select the settlement date." />
+                            </div>
+                            <div class="col-lg-7">
+                                <div class="form-control-wrap">
+                                    <div class="form-icon form-icon-left">
+                                        <em class="icon ni ni-calendar"></em>
+                                    </div>
+                                    <input type="text" class="form-control date-picker" name="settlement_date" id="settlement_date" placeholder="Settlement Date" data-date-format="yyyy-mm-dd">
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -133,14 +206,32 @@
 
     $('.export_data').on('click', function (e) {
         var myUrl = $(this).attr('data-href');
-        if($('#guest_name').val() != ""){
-            myUrl = addQSParm(myUrl,'guest_name', $('#guest_name').val());
+        if($('#booking_date').val() != ""){
+            myUrl = addQSParm(myUrl,'booking_date', $('#booking_date').val());
+        }
+        if($('#payment_date').val() != ""){
+            myUrl = addQSParm(myUrl,'payment_date', $('#payment_date').val());
+        }
+        if($('#country_name').val() != ""){
+            myUrl = addQSParm(myUrl,'country_name', $('#country_name').val());
+        }
+        if($('#city_name').val() != ""){
+            myUrl = addQSParm(myUrl,'city_name', $('#city_name').val());
         }
         if($('#hotel_name').val() != ""){
             myUrl = addQSParm(myUrl,'hotel_name', $('#hotel_name').val());
         }
         if($('#status').val() != ""){
             myUrl = addQSParm(myUrl,'status', $('#status').val());
+        }
+        if($('#payment_method').val() != ""){
+            myUrl = addQSParm(myUrl,'payment_method', $('#payment_method').val());
+        }
+        if($('#payment_via').val() != ""){
+            myUrl = addQSParm(myUrl,'payment_via', $('#payment_via').val());
+        }
+        if($('#settlement_date').val() != ""){
+            myUrl = addQSParm(myUrl,'settlement_date', $('#settlement_date').val());
         }
 
         location.href = myUrl;
@@ -175,9 +266,15 @@
         NioApp.getAuditLogs('.products-init', '.audit_logs', 'resourceid', logUrl, '#modalLogs');
 
         var items = [
-            '#guest_name',
+            '#booking_date',
+            '#payment_date',
+            '#country_name',
+            '#city_name',
             '#hotel_name',
-            '#status'
+            '#status',
+            '#payment_method',
+            '#payment_via',
+            '#settlement_date'
         ];
         var user_table = "";
         user_table = new CustomDataTable({

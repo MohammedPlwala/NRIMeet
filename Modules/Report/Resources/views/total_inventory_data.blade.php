@@ -68,14 +68,16 @@
                     <div class="gy-3">
                         <div class="row g-3 align-center">
                             <div class="col-lg-5">
-                                <x-inputs.verticalFormLabel label="Hotel Classification" for="hotel_classification" suggestion="Select the hotel classification." />
+                                <x-inputs.verticalFormLabel label="Classification" for="star_rating" suggestion="Select the classification." />
                             </div>
                             <div class="col-lg-7">
-                                <x-inputs.select  size="sm" name="hotel_classification" for="hotel_classification" placeholder="Select Hotel Classification">
+                                <x-inputs.select  size="sm" name="star_rating" for="star_rating" placeholder="Select Classification" id="star_rating">
                                     <option value="">Select</option>
-                                    <option value="5 Star">5 Star</option>
-                                    <option value="4 Star">4 Star</option>
-                                    <option value="3 Star">3 Star</option>
+                                    @forelse ($classifications as $classification)
+                                        <option value="{{ $classification->classification }}">{{ $classification->classification }}</option>
+                                    @empty
+                                        {{-- empty expr --}}
+                                    @endforelse
                                 </x-inputs.select>
                             </div>
                         </div>
@@ -84,10 +86,25 @@
                                 <x-inputs.verticalFormLabel label="Hotel Name" for="hotel_name" suggestion="Select the hotel name." />
                             </div>
                             <div class="col-lg-7">
-                                <x-inputs.select  size="sm" name="hotel_name" for="hotel_name" placeholder="Select Hotel Name">
+                                <x-inputs.select  size="sm" name="hotel_name" for="hotel_name" id="hotel_name" placeholder="Select Hotel Name">
                                     <option value="">Select</option>
                                     @forelse ($hotels as $hotel)
                                         <option value="{{ $hotel->name }}">{{ $hotel->name }}</option>
+                                    @empty
+                                        {{-- empty expr --}}
+                                    @endforelse
+                                </x-inputs.select>
+                            </div>
+                        </div>
+                        <div class="row g-3 align-center">
+                            <div class="col-lg-5">
+                                <x-inputs.verticalFormLabel label="Room Type" for="room_type" suggestion="Select the room type." />
+                            </div>
+                            <div class="col-lg-7">
+                                <x-inputs.select  size="sm" name="room_type" for="room_type" id="room_type" placeholder="Select Room Type">
+                                    <option value="">Select</option>
+                                    @forelse ($room_types as $roomType)
+                                        <option value="{{ $roomType->id }}">{{ $roomType->name }}</option>
                                     @empty
                                         {{-- empty expr --}}
                                     @endforelse
@@ -121,8 +138,11 @@
         if($('#hotel_name').val() != ""){
             myUrl = addQSParm(myUrl,'hotel_name', $('#hotel_name').val());
         }
-        if($('#hotel_classification').val() != ""){
-            myUrl = addQSParm(myUrl,'hotel_classification', $('#hotel_classification').val());
+        if($('#star_rating').val() != ""){
+            myUrl = addQSParm(myUrl,'star_rating', $('#star_rating').val());
+        }
+        if($('#room_type').val() != ""){
+            myUrl = addQSParm(myUrl,'room_type', $('#room_type').val());
         }
 
         location.href = myUrl;
@@ -158,7 +178,8 @@
 
         var items = [
             '#hotel_name',
-            '#hotel_classification'
+            '#star_rating',
+            '#room_type'
         ];
         var user_table = "";
         user_table = new CustomDataTable({

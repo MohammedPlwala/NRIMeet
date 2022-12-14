@@ -279,6 +279,12 @@ class ReportController extends Controller
     public function booking(Request $request)
     {
 
+        $classifications = \Helpers::hotelClassifications();
+
+        $hotels = \Helpers::hotels();
+
+        $room_types = \Helpers::roomTypes();
+
         $data = BookingRoom::from('booking_rooms as br')
                 ->select('b.created_at as booked_on','br.id','u.full_name as guest_name','u.email','u.mobile','b.order_id','b.confirmation_number','h.classification','h.name as hotel','rt.name as room_type_name','br.guests','b.check_in_date','b.check_out_date','br.adults','br.childs','br.extra_bed','br.amount','b.booking_status')
                 ->Join('bookings as b','b.id','=','br.booking_id')
@@ -292,8 +298,12 @@ class ReportController extends Controller
                             $query->where('h.name', 'like', '%' . $request->hotel_name . '%');
                         }
 
+                        if ($request->get('star_rating') != '') {
+                            $query->where('h.classification', $request->star_rating);
+                        }
+
                         if ($request->get('room_type') != '') {
-                            $query->where('rt.name', 'like', '%' . $request->room_type . '%');
+                            $query->where('hr.type_id', $request->get('room_type'));
                         }
 
                         if ($request->get('guest_count') != '') {
@@ -377,7 +387,7 @@ class ReportController extends Controller
                     ->make(true);
         }
 
-        return view('report::booking');
+        return view('report::booking', ["classifications" => $classifications, "room_types" => $room_types, 'hotels' => $hotels]);
     }
 
     public function bookingExport(Request $request)
@@ -399,8 +409,12 @@ class ReportController extends Controller
                             $query->where('h.name', 'like', '%' . $request->hotel_name . '%');
                         }
 
+                        if ($request->get('star_rating') != '') {
+                            $query->where('h.classification', $request->star_rating);
+                        }
+
                         if ($request->get('room_type') != '') {
-                            $query->where('rt.name', 'like', '%' . $request->room_type . '%');
+                            $query->where('hr.type_id', $request->get('room_type'));
                         }
 
                         if ($request->get('guest_count') != '') {
@@ -613,8 +627,17 @@ class ReportController extends Controller
                     // ->where('booking_type','Online')
                     ->where(function ($query) use ($request) {
                         if (!empty($request->toArray())) {
-                            if ($request->get('guest_name') != '') {
-                                $query->where('u.full_name', 'like', '%' . $request->guest_name.'%');
+                            if ($request->get('booking_date') != '') {
+                                $query->whereDate('b.created_at', date('Y-m-d', strtotime($request->booking_date)));
+                            }
+                            if ($request->get('payment_date') != '') {
+                                $query->whereDate('t.created_at', date('Y-m-d', strtotime($request->payment_date)));
+                            }
+                            if ($request->get('country_name') != '') {
+                                $query->where('bd.country', 'like', '%' . $request->country_name.'%');
+                            }
+                            if ($request->get('city_name') != '') {
+                                $query->where('bd.city', 'like', '%' . $request->city_name.'%');
                             }
                             if ($request->get('hotel_name') != '') {
                                 $query->where('h.name', 'like', '%' . $request->hotel_name.'%');
@@ -622,6 +645,15 @@ class ReportController extends Controller
 
                             if ($request->get('status') != '') {
                                 $query->where('b.booking_status', $request->get('status'));
+                            }
+                            if ($request->get('payment_method') != '') {
+                                $query->where('t.payment_mode', $request->payment_method);
+                            }
+                            if ($request->get('payment_via') != '') {
+                                $query->where('t.payment_method', 'like', '%' . $request->payment_via.'%');
+                            }
+                            if ($request->get('settlement_date') != '') {
+                                $query->whereDate('b.settlement_date', date('Y-m-d', strtotime($request->settlement_date)));
                             }
                         }
                     })
@@ -706,8 +738,17 @@ class ReportController extends Controller
                     // ->where('booking_type','Online')
                     ->where(function ($query) use ($request) {
                         if (!empty($request->toArray())) {
-                            if ($request->get('guest_name') != '') {
-                                $query->where('u.full_name', 'like', '%' . $request->guest_name.'%');
+                            if ($request->get('booking_date') != '') {
+                                $query->whereDate('b.created_at', date('Y-m-d', strtotime($request->booking_date)));
+                            }
+                            if ($request->get('payment_date') != '') {
+                                $query->whereDate('t.created_at', date('Y-m-d', strtotime($request->payment_date)));
+                            }
+                            if ($request->get('country_name') != '') {
+                                $query->where('bd.country', 'like', '%' . $request->country_name.'%');
+                            }
+                            if ($request->get('city_name') != '') {
+                                $query->where('bd.city', 'like', '%' . $request->city_name.'%');
                             }
                             if ($request->get('hotel_name') != '') {
                                 $query->where('h.name', 'like', '%' . $request->hotel_name.'%');
@@ -715,6 +756,15 @@ class ReportController extends Controller
 
                             if ($request->get('status') != '') {
                                 $query->where('b.booking_status', $request->get('status'));
+                            }
+                            if ($request->get('payment_method') != '') {
+                                $query->where('t.payment_mode', $request->payment_method);
+                            }
+                            if ($request->get('payment_via') != '') {
+                                $query->where('t.payment_method', 'like', '%' . $request->payment_via.'%');
+                            }
+                            if ($request->get('settlement_date') != '') {
+                                $query->whereDate('b.settlement_date', date('Y-m-d', strtotime($request->settlement_date)));
                             }
                         }
                     })
@@ -731,6 +781,9 @@ class ReportController extends Controller
 
     public function cancellation(Request $request)
     {
+
+        $classifications = \Helpers::hotelClassifications();
+
         $hotels = Hotel::from('hotels as h')
         ->select('h.name', 'h.id')->get();
 
@@ -742,7 +795,7 @@ class ReportController extends Controller
         ->select(
             'u.full_name as guest', 'b.order_id', 'b.confirmation_number',  'h.classification', 'h.name as hotel',
             'rt.name as room_type_name','br.guests','b.check_in_date','b.check_out_date','br.adults','br.childs',
-            'br.childs','br.extra_bed','br.amount','b.booking_status','b.cancellation_request_date'
+            'br.childs','br.extra_bed','br.amount','b.booking_status','b.cancellation_request_date','b.cancellation_date'
         )
         ->leftJoin('bookings as b','br.booking_id','=','b.id')
         ->leftJoin('hotels as h','h.id','=','b.hotel_id')
@@ -754,6 +807,10 @@ class ReportController extends Controller
 
                 if ($request->get('hotel_name') != '') {
                     $query->where('h.name', $request->get('hotel_name'));
+                }
+
+                if ($request->get('star_rating') != '') {
+                    $query->where('h.classification', $request->star_rating);
                 }
 
                 if ($request->get('room_type') != '') {
@@ -801,7 +858,7 @@ class ReportController extends Controller
                 ->make(true);
         }
 
-        return view('report::cancellation', ['hotels' => $hotels, 'room_types' => $roomTypes, 'request' => $request]);
+        return view('report::cancellation', ['hotels' => $hotels, 'room_types' => $roomTypes, 'request' => $request, 'classifications' => $classifications]);
     }
 
     public function cancellationExport(Request $request){
@@ -811,7 +868,7 @@ class ReportController extends Controller
         ->select(
             'u.full_name as guest', 'b.order_id', 'b.confirmation_number',  'h.classification', 'h.name as hotel',
             'rt.name as room_type_name','br.guests','b.check_in_date','b.check_out_date','br.adults','br.childs',
-            'br.childs','br.extra_bed','br.amount','b.booking_status','b.cancellation_request_date'
+            'br.childs','br.extra_bed','br.amount','b.booking_status','b.cancellation_request_date','b.cancellation_date'
         )
         ->leftJoin('bookings as b','br.booking_id','=','b.id')
         ->leftJoin('hotels as h','h.id','=','b.hotel_id')
@@ -823,6 +880,10 @@ class ReportController extends Controller
 
                 if ($request->get('hotel_name') != '') {
                     $query->where('h.name', $request->get('hotel_name'));
+                }
+
+                if ($request->get('star_rating') != '') {
+                    $query->where('h.classification', $request->star_rating);
                 }
 
                 if ($request->get('room_type') != '') {
@@ -872,6 +933,9 @@ class ReportController extends Controller
 
     public function refund(Request $request)
     {
+
+        $classifications = \Helpers::hotelClassifications();
+
         $hotels = Hotel::from('hotels as h')
         ->select('h.name', 'h.id')->get();
 
@@ -897,6 +961,10 @@ class ReportController extends Controller
                     $query->where('h.name', $request->get('hotel_name'));
                 }
 
+                if ($request->get('star_rating') != '') {
+                    $query->where('h.classification', $request->star_rating);
+                }
+
                 if ($request->get('room_type') != '') {
                     $query->where('hr.type_id', $request->get('room_type'));
                 }
@@ -911,6 +979,14 @@ class ReportController extends Controller
 
                 if ($request->get('check_out_date') != '') {
                     $query->whereDate('b.check_out_date', date('Y-m-d',strtotime($request->get('check_out_date'))));
+                }
+
+                if ($request->get('refund_request_date') != '') {
+                    $query->whereDate('b.refund_request_date', date('Y-m-d',strtotime($request->get('refund_request_date'))));
+                }
+
+                if ($request->get('refund_date') != '') {
+                    $query->whereDate('b.refund_date', date('Y-m-d',strtotime($request->get('refund_date'))));
                 }
 
                 if ($request->get('adult') != '') {
@@ -942,7 +1018,7 @@ class ReportController extends Controller
                 ->make(true);
         }
 
-        return view('report::refund', ['hotels' => $hotels, 'room_types' => $roomTypes, 'request' => $request]);
+        return view('report::refund', ['hotels' => $hotels, 'room_types' => $roomTypes, 'request' => $request, 'classifications' => $classifications]);
     }
 
     public function refundExport(Request $request){
@@ -969,6 +1045,10 @@ class ReportController extends Controller
                     $query->where('h.name', $request->get('hotel_name'));
                 }
 
+                if ($request->get('star_rating') != '') {
+                    $query->where('h.classification', $request->star_rating);
+                }
+
                 if ($request->get('room_type') != '') {
                     $query->where('hr.type_id', $request->get('room_type'));
                 }
@@ -983,6 +1063,14 @@ class ReportController extends Controller
 
                 if ($request->get('check_out_date') != '') {
                     $query->whereDate('b.check_out_date', date('Y-m-d',strtotime($request->get('check_out_date'))));
+                }
+
+                if ($request->get('refund_request_date') != '') {
+                    $query->whereDate('b.refund_request_date', date('Y-m-d',strtotime($request->get('refund_request_date'))));
+                }
+
+                if ($request->get('refund_date') != '') {
+                    $query->whereDate('b.refund_date', date('Y-m-d',strtotime($request->get('refund_date'))));
                 }
 
                 if ($request->get('adult') != '') {
@@ -1016,6 +1104,7 @@ class ReportController extends Controller
     
     public function totalInventoryData(Request $request)
     {
+        $classifications = \Helpers::hotelClassifications();
 
         $hotels = Hotel::from('hotels as h')
         ->select('h.name', 'h.id')->get();
@@ -1044,8 +1133,12 @@ class ReportController extends Controller
                                     $query->where('h.name', $request->get('hotel_name'));
                                 }
 
-                                if ($request->get('hotel_classification') != '') {
-                                    $query->where('h.classification', 'like', '%' . $request->hotel_classification.'%');
+                                if ($request->get('star_rating') != '') {
+                                    $query->where('h.classification', 'like', '%' . $request->star_rating.'%');
+                                }
+
+                                if ($request->get('room_type') != '') {
+                                    $query->where('hr.type_id', $request->get('room_type'));
                                 }
                             }
                             
@@ -1060,7 +1153,7 @@ class ReportController extends Controller
                     ->make(true);
         }
 
-        return view('report::total_inventory_data',['hotels' => $hotels, 'room_types' => $roomTypes, 'request' => $request]);
+        return view('report::total_inventory_data',['hotels' => $hotels, 'room_types' => $roomTypes, 'request' => $request, 'classifications' => $classifications]);
     }
 
     public function totalInventoryDataExport(Request $request)
@@ -1086,8 +1179,12 @@ class ReportController extends Controller
                                     $query->where('h.name', $request->get('hotel_name'));
                                 }
 
-                                if ($request->get('hotel_classification') != '') {
-                                    $query->where('h.classification', 'like', '%' . $request->hotel_classification.'%');
+                                if ($request->get('star_rating') != '') {
+                                    $query->where('h.classification', 'like', '%' . $request->star_rating.'%');
+                                }
+
+                                if ($request->get('room_type') != '') {
+                                    $query->where('hr.type_id', $request->get('room_type'));
                                 }
                             }
                             
@@ -1105,6 +1202,8 @@ class ReportController extends Controller
 
     public function bookingSummary(Request $request)
     {
+        $classifications = \Helpers::hotelClassifications();
+
         $hotels = Hotel::from('hotels as h')
         ->select('h.name', 'h.id')->get();
 
@@ -1133,8 +1232,12 @@ class ReportController extends Controller
                                     $query->where('h.name', $request->get('hotel_name'));
                                 }
 
-                                if ($request->get('hotel_classification') != '') {
-                                    $query->where('h.classification', 'like', '%' . $request->hotel_classification.'%');
+                                if ($request->get('star_rating') != '') {
+                                    $query->where('h.classification', 'like', '%' . $request->star_rating.'%');
+                                }
+
+                                if ($request->get('room_type') != '') {
+                                    $query->where('hr.type_id', $request->get('room_type'));
                                 }
                             }
                             
@@ -1178,7 +1281,7 @@ class ReportController extends Controller
                     ->make(true);
         }
 
-        return view('report::booking_summary',['hotels' => $hotels, 'room_types' => $roomTypes, 'request' => $request]);
+        return view('report::booking_summary',['hotels' => $hotels, 'room_types' => $roomTypes, 'request' => $request, 'classifications' => $classifications]);
     }
 
     public function bookingSummaryExport(Request $request){
@@ -1203,8 +1306,12 @@ class ReportController extends Controller
                                     $query->where('h.name', $request->get('hotel_name'));
                                 }
 
-                                if ($request->get('hotel_classification') != '') {
-                                    $query->where('h.classification', 'like', '%' . $request->hotel_classification.'%');
+                                if ($request->get('star_rating') != '') {
+                                    $query->where('h.classification', 'like', '%' . $request->star_rating.'%');
+                                }
+
+                                if ($request->get('room_type') != '') {
+                                    $query->where('hr.type_id', $request->get('room_type'));
                                 }
                             }
                             
@@ -1391,6 +1498,13 @@ class ReportController extends Controller
     public function pendingHotelConfirmation(Request $request)
     {
 
+        $classifications = \Helpers::hotelClassifications();
+
+        $hotels = \Helpers::hotels();
+
+        $room_types = \Helpers::roomTypes();
+
+
         $data = BookingRoom::from('booking_rooms as br')
                 ->select('br.id','u.full_name as guest_name','u.email','u.mobile','b.order_id','b.confirmation_number','h.classification','h.name as hotel','rt.name as room_type_name','br.guests','b.check_in_date','b.check_out_date','br.adults','br.childs','br.extra_bed','br.amount','b.booking_status',)
                 ->Join('bookings as b','b.id','=','br.booking_id')
@@ -1405,8 +1519,12 @@ class ReportController extends Controller
                             $query->where('h.name', 'like', '%' . $request->hotel_name . '%');
                         }
 
+                        if ($request->get('star_rating') != '') {
+                            $query->where('h.classification', $request->star_rating);
+                        }
+
                         if ($request->get('room_type') != '') {
-                            $query->where('rt.name', 'like', '%' . $request->room_type . '%');
+                            $query->where('hr.type_id', $request->get('room_type'));
                         }
 
                         if ($request->get('guest_count') != '') {
@@ -1451,7 +1569,7 @@ class ReportController extends Controller
                     ->make(true);
         }
 
-        return view('report::pending_confirmation');
+        return view('report::pending_confirmation', ["classifications" => $classifications, "room_types" => $room_types, 'hotels' => $hotels]);
     }
 
     public function pendingHotelConfirmationExport(Request $request)
@@ -1472,8 +1590,12 @@ class ReportController extends Controller
                             $query->where('h.name', 'like', '%' . $request->hotel_name . '%');
                         }
 
+                        if ($request->get('star_rating') != '') {
+                            $query->where('h.classification', $request->star_rating);
+                        }
+
                         if ($request->get('room_type') != '') {
-                            $query->where('rt.name', 'like', '%' . $request->room_type . '%');
+                            $query->where('hr.type_id', $request->get('room_type'));
                         }
 
                         if ($request->get('guest_count') != '') {
@@ -1744,8 +1866,12 @@ class ReportController extends Controller
                             $query->where('bb.booking_person',  $request->booking_from );
                         }
 
+                        if ($request->get('booking_via') != '') {
+                            $query->where('bb.name',  'like', '%' .  $request->booking_via . '%');
+                        }
+
                         if ($request->get('checkin_date') != '') {
-                            $query->where('bb.checkin_date',  $request->checkin_date );
+                            $query->whereDate('bb.checkin_date',  date('Y-m-d', strtotime($request->checkin_date)));
                         }
 
                         if ($request->get('checkout_date') != '') {
@@ -1795,6 +1921,10 @@ class ReportController extends Controller
 
                         if ($request->get('booking_from') != '') {
                             $query->where('bb.booking_person',  $request->booking_from );
+                        }
+
+                        if ($request->get('booking_via') != '') {
+                            $query->where('bb.name',  'like', '%' .  $request->booking_via . '%');
                         }
 
                         if ($request->get('checkin_date') != '') {
