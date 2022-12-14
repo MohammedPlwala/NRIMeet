@@ -871,6 +871,9 @@ class HotelController extends Controller
     public function updateBooking(Request $request,$booking_id){
 
         try{
+
+
+
             $bookingRoomsData = array();
 
             \DB::beginTransaction();
@@ -1028,6 +1031,8 @@ class HotelController extends Controller
             }
             $booking->booking_status = $request->status;
 
+
+
             $booking->booking_type = 'Offline';
             $booking->confirmation_number = $request->confirmation_number;
             $booking->utr_number = $request->utr_number;
@@ -1105,6 +1110,8 @@ class HotelController extends Controller
                     $transaction->save();
                 }
 
+
+
                 if($request->guest != $oldGuestId){
                     BillingDetail::where('booking_id',$booking_id)->forceDelete();
 
@@ -1148,6 +1155,8 @@ class HotelController extends Controller
                 if($request->status == 'Refund Approved'){
                     \Helpers::sendRefundApprovedMail($booking->id);
                 }
+
+                
 
                 \DB::commit();
                 return redirect('/admin/bookings')->with('message', 'Booking updated successfully');
