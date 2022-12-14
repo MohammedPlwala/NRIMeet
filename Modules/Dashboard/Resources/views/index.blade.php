@@ -121,14 +121,7 @@
                         <ul class="nk-store-statistics">
                             <li class="item">
                                 <div class="info">
-                                    <div class="title">Cancellation Recevied</div>
-                                    <div class="count">0.00</div>
-                                </div>
-                                <em class="icon bg-purple-dim ni ni-server"></em>
-                            </li>
-                            <li class="item">
-                                <div class="info">
-                                    <div class="title">Cancellation Request</div>
+                                    <div class="title">Cancellation Requested</div>
                                     <div class="count">0.00</div>
                                 </div>
                                 <em class="icon bg-purple-dim ni ni-server"></em>
