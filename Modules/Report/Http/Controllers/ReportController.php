@@ -797,6 +797,9 @@ class ReportController extends Controller
         if ($request->ajax()) {
             return Datatables::of($data)
                 ->addIndexColumn()
+                ->addColumn('amount', function ($row) { 
+                    return '₹'.number_format($row->amount, 2);
+                })
                 ->rawColumns(['status'])
                 ->make(true);
         }
@@ -938,6 +941,12 @@ class ReportController extends Controller
         if ($request->ajax()) {
             return Datatables::of($data)
                 ->addIndexColumn()
+                ->addColumn('amount', function ($row) { 
+                    return '₹'.number_format($row->amount, 2);
+                })
+                ->addColumn('refundable_amount', function ($row) { 
+                    return '₹'.number_format($row->refundable_amount, 2);
+                })
                 ->rawColumns(['status'])
                 ->make(true);
         }
@@ -1446,6 +1455,9 @@ class ReportController extends Controller
                     ->addIndexColumn()
                     ->addColumn('order_id', function ($row) {
                         return $row->order_id;
+                    })
+                    ->addColumn('amount', function ($row) { 
+                        return '₹'.number_format($row->amount, 2);
                     })
                     ->rawColumns(['order_id'])
                     ->make(true);

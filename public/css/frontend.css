@@ -2445,3 +2445,8 @@ label.filter_label {
 .required_asterisk{
   color: #F00;
 }
+/* Whatsapp chatbot */
+.wa-chat-bubble-close-btn{
+  right: 10px !important;
+  top: 10px !important;
+}

@@ -735,6 +735,55 @@
 			NioApp.Validate.init();
 		});
 	}; // Initial by default
+
+	// Setting Status Tag Style
+	NioApp.setStatusTag = function (statusName) {
+		if(statusName == 'Booking Received'){
+			$('.status-tag').addClass('badge-info');
+		}
+		if(statusName == 'Payment Completed'){
+			$('.status-tag').addClass('badge-success');
+		}
+		if(statusName == 'Booking Shared'){
+			$('.status-tag').addClass('badge-info');
+		}
+		if(statusName == 'Confirmation Recevied'){
+			$('.status-tag').addClass('badge-info');
+		}
+		if(statusName == 'Cancellation Requested'){
+			$('.status-tag').addClass('badge-warning');
+		}
+		if(statusName == 'Cancellation Approved'){
+			$('.status-tag').addClass('badge-success');
+		}
+		if(statusName == 'Refund Requested'){
+			$('.status-tag').addClass('badge-warning');
+		}
+		if(statusName == 'Refund Approved'){
+			$('.status-tag').addClass('badge-success');
+		}
+		if(statusName == 'Refund Issued'){
+			$('.status-tag').addClass('badge-danger');
+		}
+		if(statusName == 'Online'){
+			$('.status-tag').addClass('badge-success');
+		}
+		if(statusName == 'Offline'){
+			$('.status-tag').addClass('badge-danger');
+		}
+		if(statusName == 'confirmed'){
+			$('.status-tag').addClass('badge-success');
+		}
+		if(statusName == 'pending'){
+			$('.status-tag').addClass('badge-warning');
+		}
+		if(statusName == 'failed'){
+			$('.status-tag').addClass('badge-danger');
+		}
+		if(statusName == 'rejected'){
+			$('.status-tag').addClass('badge-danger');
+		}
+	}
 	/////////////////////////////
 
 

@@ -98,7 +98,7 @@
                         <td class="nk-tb-col tb-col-lg">{{ $booking->booking_date }} </td>
                         <td class="nk-tb-col tb-col-lg">{{ $booking->check_in_date }} </td>
                         <td class="nk-tb-col tb-col-lg">{{ $booking->check_out_date }} </td>
-                        <td class="nk-tb-col tb-col-lg text-center">{{ $booking->booking_status }}</td>
+                        <td class="nk-tb-col tb-col-lg text-center"><span class="badge badge-success status-tag" data-status-name="{{ $booking->booking_status }}">{{ $booking->booking_status }}</span></td>
                         <td class="nk-tb-col tb-col-lg text-right">₹@convert($booking->rate) </td>
                         <td class="nk-tb-col tb-col-lg text-center">{{ $booking->nights }} </td>
                         <td class="nk-tb-col tb-col-lg text-center">{{ $booking->adults }} </td>
@@ -355,5 +355,17 @@
            }
            return myUrl;
         }
+        
+        $('document').ready(function(){
+            var statusTagCount = $('.status-tag').length;
+            $('.status-tag').each(function( index, element ) {
+                let statusTagData = $(this).attr('data-status-name');
+                console.log('Get Status: ', statusTagData);
+                // if(statusTagData == 'Payment Completed'){
+                //     $('.status-tag[data-status-name="statusTagData"]').addClass('badge-suraj');
+                // }
+                // NioApp.setStatusTag(statusTagData)
+            });
+        })
     </script>
 @endpush
