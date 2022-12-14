@@ -8,7 +8,7 @@
     <!-- CSRF Token For security -->
     <meta name="csrf-token" content="{{ csrf_token() }}" />
 
-    <title>NriMeet</title>
+    <title>17th Pravasi Bharatiya Divas 2023 Accommodation</title>
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{url('css/dashlite.css?t='.time())}}">
@@ -67,7 +67,7 @@
                                 <a href="#" class="nk-nav-toggle nk-quick-nav-icon" data-target="sidebarMenu"><em class="icon ni ni-menu"></em></a>
                             </div>
                             <div class="nk-header-brand d-xl-none">
-                                <a href="{{url('/dashboard')}}" class="logo-link">
+                                <a href="{{url('/admin/dashboard')}}" class="logo-link">
                                     <img class="logo-light logo-img" src="{{url('images/logo-dark.png')}}" srcset="{{url('images/logo-dark.png')}}" alt="logo">
                                     <img class="logo-dark logo-img" src="{{url('images/logo-dark.png')}}" srcset="{{url('images/logo-dark.png')}}" alt="logo-dark">
                                 </a>

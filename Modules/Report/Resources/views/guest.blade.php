@@ -82,7 +82,7 @@
                                 <x-inputs.verticalFormLabel label="Country / Region" for="Country / Region" suggestion="Specify the country name." />
                             </div>
                             <div class="col-lg-7">
-                                <x-inputs.select name="country" for="billing_country"
+                                <x-inputs.select name="billing_country" for="billing_country"
                                 value="{{ isset($user) ? $user->country : old('country') }}"
                                 class="country_to_state country_select" autocomplete="country"
                                 data-placeholder="Select a country / region…" data-label="Country / Region"

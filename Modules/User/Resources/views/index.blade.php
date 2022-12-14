@@ -73,7 +73,7 @@
                         <div class="gy-3">
                             <div class="row g-3 align-center">
                                 <div class="col-lg-5">
-                                    <x-inputs.verticalFormLabel label="First Name" for="name" suggestion="Specify the name of the user." />
+                                    <x-inputs.verticalFormLabel label="Guest Name" for="name" suggestion="Specify the guest name." />
                                 </div>
                                 <div class="col-lg-7">
                                     <x-inputs.text value="" for="name" icon="user" placeholder="Name" name="name"/>

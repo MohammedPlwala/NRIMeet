@@ -122,7 +122,7 @@
                             <li class="item">
                                 <div class="info">
                                     <div class="title">Cancellation Request</div>
-                                    <div class="count">{{ $cancellation_request->count() }}</div>
+                                    <div class="count">{{ $cancellation_request->count() }}
                                 </div>
                                 <em class="icon bg-purple-dim ni ni-server"></em>
                             </li>
