@@ -245,7 +245,7 @@
                                     <div class="form-icon form-icon-left">
                                         <em class="icon ni ni-calendar"></em>
                                     </div>
-                                    <input type="text" value="{{ isset($request->cancellation_date) ? $request->cancellation_date : '' }}" class="form-control date-picker" id="cancellation_date" name="cancellation_date" placeholder="Check out Date" data-date-format="yyyy-mm-dd">
+                                    <input type="text" value="{{ isset($request->cancellation_date) ? $request->cancellation_date : '' }}" class="form-control date-picker" id="cancellation_date" name="cancellation_date" placeholder="Cancellation Date" data-date-format="yyyy-mm-dd">
                                 </div>
                             </div>
                         </div>
@@ -258,7 +258,7 @@
                                     <div class="form-icon form-icon-left">
                                         <em class="icon ni ni-calendar"></em>
                                     </div>
-                                    <input type="text" value="{{ isset($request->refundable_date) ? $request->refundable_date : '' }}" class="form-control date-picker" id="refundable_date" name="refundable_date" placeholder="Check out Date" data-date-format="yyyy-mm-dd">
+                                    <input type="text" value="{{ isset($request->refundable_date) ? $request->refundable_date : '' }}" class="form-control date-picker" id="refundable_date" name="refundable_date" placeholder="Refundable Date" data-date-format="yyyy-mm-dd">
                                 </div>
                             </div>
                         </div>
