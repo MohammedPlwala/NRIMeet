@@ -335,7 +335,7 @@ class ReportController extends Controller
                         }
                     }
                 })
-                ->orderby('u.full_name','asc')
+                ->orderby('booked_on','desc')
                 ->get();
 
         if ($request->ajax()) {
