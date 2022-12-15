@@ -100,7 +100,7 @@
                             </div>
                             <div class="col-lg-7">
                                 <div id="field_billing_state">
-                                    <x-inputs.text  value="" for="billing_state" name="billing_state" placeholder="State" />
+                                    <x-inputs.text  value="" for="state" name="state" id="state" placeholder="State" />
                                 </div>
                             </div>
                         </div>
@@ -110,7 +110,7 @@
                                 <x-inputs.verticalFormLabel label="City" for="city" suggestion="Enter the city." />
                             </div>
                             <div class="col-lg-7">
-                                <x-inputs.text  value="" for="city" name="city" placeholder="City" />
+                                <x-inputs.text  value="" for="city" name="city" id="city" placeholder="City" />
                             </div>
                         </div>
                         {{-- <div class="row g-3 align-center">
@@ -237,7 +237,7 @@
 
             var items = [
                 '#city',
-                '#billing_state',
+                '#state',
                 '#billing_country',
                 '#name',
                 '#postal_code',

@@ -161,6 +161,7 @@
                                 <div class="col-lg-7">
                                     <x-inputs.select value="" for="method" icon="send" placeholder="Method"
                                         name="method" required="true" value="{{ isset($customerCare) ? $customerCare->method : old('method') }}">
+                                        <option value="">Select</option>
                                         <option value="Email">Email</option>
                                         <option value="Call">Call</option>
                                         <option value="Whatsapp">Whatsapp</option>
@@ -178,6 +179,7 @@
                                 <div class="col-lg-7">
                                     <x-inputs.select value="" for="issue" icon="send" placeholder="Issue"
                                         name="issue" required="true" value="{{ isset($customerCare) ? $customerCare->issue : old('issue') }}">
+                                        <option value="">Select</option>
                                         <option value="Registration">Registration</option>
                                         <option value="Accommodation">Accommodation</option>
                                         <option value="Transportation">Transportation</option>
@@ -193,6 +195,7 @@
                                 <div class="col-lg-7">
                                     <x-inputs.select value="" for="subIssue" id="subIssue" icon="send"
                                         placeholder="Sub Issue" name="sub_issue" required="true" value="{{ isset($customerCare) ? $customerCare->sub_issue : old('sub_issue') }}">
+                                        <option value="">Select</option>
                                         <option value="Login Issue">Login Issue</option>
                                         <option value="Payment Issue">Payment Issue</option>
                                         <option value="Profile Issue">Profile Issue</option>
@@ -221,6 +224,7 @@
                                 <div class="col-lg-7">
                                     <x-inputs.select value="" for="status" icon="send" placeholder="Status"
                                         name="status" required="true" value="{{ isset($customerCare) ? $customerCare->status : old('status') }}">
+                                        <option value="">Select</option>
                                         <option value="Open">Open</option>
                                         <option value="On Hold">On Hold</option>
                                         <option value="In Progress">In Progress</option>
@@ -236,8 +240,12 @@
                                         suggestion="Specify the Pending with." required="true" />
                                 </div>
                                 <div class="col-lg-7">
-                                    <x-inputs.text value="" for="pendingWidth" icon="align-left"
-                                        placeholder="Detailed pendingWidth" name="pending" required="true" value="{{ isset($customerCare) ? $customerCare->pending : old('pending') }}"/>
+                                    <x-inputs.select value="" for="pendingWidth" icon="send" placeholder="Detailed pendingWidth"
+                                        name="pending" required="true" value="{{ isset($customerCare) ? $customerCare->pending : old('pending') }}">
+                                        <option value="">Select</option>
+                                        <option value="MEA">MEA</option>
+                                        <option value="MPTDC">MPTDC</option>
+                                    </x-inputs.select>
                                 </div>
                             </div>
 
