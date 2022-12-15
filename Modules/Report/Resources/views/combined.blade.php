@@ -92,12 +92,12 @@
                         <td class="nk-tb-col tb-col-lg">{{ $booking->country }} </td>
                         <td class="nk-tb-col tb-col-lg">{{ $booking->postal_code }} </td>
                         <td class="nk-tb-col tb-col-lg">{{ $booking->user_id }} </td>
-                        <td class="nk-tb-col tb-col-lg">{{ $booking->registration_date }} </td>
+                        <td class="nk-tb-col tb-col-lg">{{ !is_null($booking->registration_date) ? date(\Config::get('constants.DATE.DATE_FORMAT') , strtotime($booking->registration_date)) : "-" }}</td>
                         <td class="nk-tb-col tb-col-lg">{{ $booking->room_type_name }} </td>
                         <td class="nk-tb-col tb-col-lg text-center">{{ $booking->guests }} </td>
-                        <td class="nk-tb-col tb-col-lg">{{ $booking->booking_date }} </td>
-                        <td class="nk-tb-col tb-col-lg">{{ $booking->check_in_date }} </td>
-                        <td class="nk-tb-col tb-col-lg">{{ $booking->check_out_date }} </td>
+                        <td class="nk-tb-col tb-col-lg">{{ !is_null($booking->booking_date) ? date(\Config::get('constants.DATE.DATE_FORMAT') , strtotime($booking->booking_date)) : "-" }}</td>
+                        <td class="nk-tb-col tb-col-lg">{{ !is_null($booking->check_in_date) ? date(\Config::get('constants.DATE.DATE_FORMAT') , strtotime($booking->check_in_date)) : "-" }}</td>
+                        <td class="nk-tb-col tb-col-lg">{{ !is_null($booking->check_out_date) ? date(\Config::get('constants.DATE.DATE_FORMAT') , strtotime($booking->check_out_date)) : "-" }}</td>
                         <td class="nk-tb-col tb-col-lg text-center"><span class="badge badge-success status-tag" data-status-name="{{ $booking->booking_status }}">{{ $booking->booking_status }}</span></td>
                         <td class="nk-tb-col tb-col-lg text-right">₹@convert($booking->rate) </td>
                         <td class="nk-tb-col tb-col-lg text-center">{{ $booking->nights }} </td>
@@ -119,11 +119,11 @@
                         <td class="nk-tb-col tb-col-lg">{{ $booking->transaction_id }} </td>
                         <td class="nk-tb-col tb-col-lg text-center">{{ $booking->transaction_status }} </td>
                         <td class="nk-tb-col tb-col-lg">{{ $booking->utr_number }} </td>
-                        <td class="nk-tb-col tb-col-lg">{{ $booking->settlement_date }} </td>
-                        <td class="nk-tb-col tb-col-lg">{{ $booking->cancellation_date }} </td>
+                        <td class="nk-tb-col tb-col-lg">{{ !is_null($booking->settlement_date) ? date(\Config::get('constants.DATE.DATE_FORMAT') , strtotime($booking->settlement_date)) : "-" }}</td>
+                        <td class="nk-tb-col tb-col-lg">{{ !is_null($booking->cancellation_date) ? date(\Config::get('constants.DATE.DATE_FORMAT') , strtotime($booking->cancellation_date)) : "-" }} </td>
                         <td class="nk-tb-col tb-col-lg text-right">₹@convert($booking->cancellation_charges) </td>
                         <td class="nk-tb-col tb-col-lg text-right">₹@convert($booking->refundable_amount) </td>
-                        <td class="nk-tb-col tb-col-lg">{{ $booking->refund_date }} </td>
+                        <td class="nk-tb-col tb-col-lg">{{ !is_null($booking->refund_date) ? date(\Config::get('constants.DATE.DATE_FORMAT') , strtotime($booking->refund_date)) : "-" }}</td>
                         <td class="nk-tb-col tb-col-lg">{{ $booking->refund_transaction_utr }} </td>
                     </tr>
                     @empty

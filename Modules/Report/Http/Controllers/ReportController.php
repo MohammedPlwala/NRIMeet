@@ -1901,6 +1901,10 @@ class ReportController extends Controller
                 if ($request->ajax()) {
                     return Datatables::of($data)
                     ->addIndexColumn()
+                    ->addColumn('date', function ($row) {
+                        $date = date(\Config::get('constants.DATE.DATE_FORMAT') , strtotime($row->date));
+                        return $date;
+                    })
                     // ->rawColumns(['order_id'])
                     ->make(true);
         }
