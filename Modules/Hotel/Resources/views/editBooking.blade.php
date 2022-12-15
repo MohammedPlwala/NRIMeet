@@ -189,7 +189,6 @@
                     <div class="col-md-3">
                         <div class="sp-plan-action card-inner">
                             <div class="icon">
-                                
                                 <h5 class="o-5">Room Two Guests</h5>
                             </div>
                         </div>
@@ -944,10 +943,12 @@
             if(statusValue == 'Refund Approved'){
                 $('#refund_date').attr('required', 'true');
                 $('.refund_date_label .form-group label').addClass("required_label");
+                $('#cancellation_charges').addClass('readonlyselect');
             }else {
                 $('#refund_date').removeAttr('required', 'true');
                 $('.refund_date_label .form-group label').removeClass("required_label");
             };
+            
             $("#status").on("change", function() {
                 var value = $(this).val();
                 if(value == 'Confirmation Recevied'){

@@ -37,7 +37,7 @@
                             </div>
                             <div class="data">
                                 <div class="data-group">
-                                    <div class="amount">1,945</div>
+                                    <div class="amount">{{ $bulk_bookings->count() }}</div>
                                     <div class="nk-ecwg6-ck">
                                         <canvas class="ecommerce-line-chart-s3" id="todayOrders"></canvas>
                                     </div>
@@ -58,7 +58,7 @@
                             </div>
                             <div class="data">
                                 <div class="data-group">
-                                    <div class="amount">1,945</div>
+                                    <div class="amount">{{ $mea_bookings->count() }}</div>
                                     <div class="nk-ecwg6-ck">
                                         <canvas class="ecommerce-line-chart-s3" id="todayRevenue"></canvas>
                                     </div>
@@ -79,7 +79,7 @@
                             </div>
                             <div class="data">
                                 <div class="data-group">
-                                    <div class="amount">1,945</div>
+                                    <div class="amount">{{ $online_bookings->count() }}</div>
                                     <div class="nk-ecwg6-ck">
                                         <canvas class="ecommerce-line-chart-s3" id="todayCustomers"></canvas>
                                     </div>
@@ -100,7 +100,7 @@
                             </div>
                             <div class="data">
                                 <div class="data-group">
-                                    <div class="amount">1,945</div>
+                                    <div class="amount">{{ $offline_bookings->count() }}</div>
                                     <div class="nk-ecwg6-ck">
                                         <canvas class="ecommerce-line-chart-s3" id="todayVisitors"></canvas>
                                     </div>
@@ -121,15 +121,15 @@
                         <ul class="nk-store-statistics">
                             <li class="item">
                                 <div class="info">
-                                    <div class="title">Cancellation Requested</div>
-                                    <div class="count">0.00</div>
+                                    <div class="title">Cancellation Request</div>
+                                    <div class="count">{{ $cancellation_request->count() }}
                                 </div>
                                 <em class="icon bg-purple-dim ni ni-server"></em>
                             </li>
                             <li class="item">
                                 <div class="info">
                                     <div class="title">Cancellation Approved</div>
-                                    <div class="count">0.00</div>
+                                    <div class="count">{{ $cancellation_approved->count() }}</div>
                                 </div>
                                 <em class="icon bg-purple-dim ni ni-server"></em>
                             </li>
@@ -149,21 +149,21 @@
                             <li class="item">
                                 <div class="info">
                                     <div class="title">Refund Requested</div>
-                                    <div class="count">0.00</div>
+                                    <div class="count">{{ $refund_requested->count() }}</div>
                                 </div>
                                 <em class="icon bg-purple-dim ni ni-server"></em>
                             </li>
                             <li class="item">
                                 <div class="info">
                                     <div class="title">Refund Approved</div>
-                                    <div class="count">0.00</div>
+                                    <div class="count">{{ $refund_approved->count() }}</div>
                                 </div>
                                 <em class="icon bg-purple-dim ni ni-server"></em>
                             </li>
                             <li class="item">
                                 <div class="info">
                                     <div class="title">Refund Issued</div>
-                                    <div class="count">0.00</div>
+                                    <div class="count">{{ $refund_issued->count() }}</div>
                                 </div>
                                 <em class="icon bg-purple-dim ni ni-server"></em>
                             </li>
@@ -183,14 +183,14 @@
                             <li class="item">
                                 <div class="info">
                                     <div class="title">Adutls</div>
-                                    <div class="count">525</div>
+                                    <div class="count">{{ $adult_guest }}</div>
                                 </div>
                                 <em class="icon bg-purple-dim ni ni-server"></em>
                             </li>
                             <li class="item">
                                 <div class="info">
                                     <div class="title">Kids</div>
-                                    <div class="count">10</div>
+                                    <div class="count">{{ $child_guest }}</div>
                                 </div>
                                 <em class="icon bg-purple-dim ni ni-server"></em>
                             </li>
@@ -207,27 +207,15 @@
                             </div>
                         </div>
                         <ul class="nk-store-statistics">
+                            @foreach($room_type_booking as $room_name => $room_count)
                             <li class="item">
                                 <div class="info">
-                                    <div class="title">Base</div>
-                                    <div class="count">0.00</div>
+                                    <div class="title">{{ $room_name }}</div>
+                                    <div class="count">{{ $room_count }}</div>
                                 </div>
                                 <em class="icon bg-purple-dim ni ni-server"></em>
                             </li>
-                            <li class="item">
-                                <div class="info">
-                                    <div class="title">Premium</div>
-                                    <div class="count">0.00</div>
-                                </div>
-                                <em class="icon bg-purple-dim ni ni-server"></em>
-                            </li>
-                            <li class="item">
-                                <div class="info">
-                                    <div class="title">Suite</div>
-                                    <div class="count">0.00</div>
-                                </div>
-                                <em class="icon bg-purple-dim ni ni-server"></em>
-                            </li>
+                            @endforeach
                         </ul>
                     </div><!-- .card-inner -->
                 </div><!-- .card -->
@@ -279,7 +267,7 @@
                                 <div class="info">
                                     <div class="title">Total Bookings</div>
                                     <div class="count">
-                                        0.00
+                                        {{ $total_bookings->count() }}
                                     </div>
                                 </div>
                                 <em class="icon bg-primary-dim ni ni-calender-date"></em>
@@ -287,35 +275,35 @@
                             <li class="item">
                                 <div class="info">
                                     <div class="title">Failed Bookings</div>
-                                    <div class="count">0.00</div>
+                                    <div class="count">0</div>
                                 </div>
                                 <em class="icon bg-danger-dim ni ni-calendar-alt"></em>
                             </li>
                             <li class="item">
                                 <div class="info">
                                     <div class="title">Bookings Recevied</div>
-                                    <div class="count">0.00</div>
+                                    <div class="count">{{ $booking_received->count() }}</div>
                                 </div>  
                                 <em class="icon bg-success-dim ni ni-calendar-check"></em>
                             </li>
                             <li class="item">
                                 <div class="info">
                                     <div class="title">Bookings Shared</div>
-                                    <div class="count">0.00</div>
+                                    <div class="count">{{ $shared_bookings->count() }}</div>
                                 </div>
                                 <em class="icon bg-purple-dim ni ni-server"></em>
                             </li>
                             <li class="item">
                                 <div class="info">
                                     <div class="title">Confirmation Recevied</div>
-                                    <div class="count">0.00</div>
+                                    <div class="count">{{ $confirmation_recevied_bookings->count() }}</div>
                                 </div>
                                 <em class="icon bg-purple-dim ni ni-server"></em>
                             </li>
                             <li class="item">
                                 <div class="info">
                                     <div class="title">Extra Bed Count</div>
-                                    <div class="count">0.00</div>
+                                    <div class="count">{{ $extra_bed_count->count() }}</div>
                                 </div>
                                 <em class="icon bg-purple-dim ni ni-inbox"></em>
                             </li>
@@ -335,14 +323,14 @@
                             <li class="item">
                                 <div class="info">
                                     <div class="title">Total Payment</div>
-                                    <div class="count">0.00</div>
+                                    <div class="count">{{ $total_payment->total_amount != '' ? $total_payment->total_amount : '0.00' }}</div>
                                 </div>
                                 <em class="icon bg-primary-dim ni ni-sign-inr"></em>
                             </li>
                             <li class="item">
                                 <div class="info">
                                     <div class="title">Payment Confirmed</div>
-                                    <div class="count">0.00</div>
+                                    <div class="count">{{ $total_payment->confirmed_amount != '' ? $total_payment->confirmed_amount : '0.00' }}</div>
                                 </div>
                                 <em class="icon bg-success-dim ni ni-check"></em>
                             </li>
@@ -356,14 +344,14 @@
                             <li class="item">
                                 <div class="info">
                                     <div class="title">Refund Approved</div>
-                                    <div class="count">0.00</div>
+                                    <div class="count">{{ $total_payment->refund_approved_amount != '' ? $total_payment->refund_approved_amount : '0.00' }}</div>
                                 </div>
                                 <em class="icon bg-purple-dim ni ni-check-round-cut"></em>
                             </li>
                             <li class="item">
                                 <div class="info">
                                     <div class="title">Refund Issued</div>
-                                    <div class="count">0.00</div>
+                                    <div class="count">{{ $total_payment->refund_issued_amount != '' ? $total_payment->refund_issued_amount : '0.00' }}</div>
                                 </div>
                                 <em class="icon bg-pink-dim ni ni-server"></em>
                             </li>

@@ -115,6 +115,7 @@
                     </div>
                     <div class="login-modal-right">
                         <div class="login-modal-header">
+                            <h3 class="login-modal-heading1"><i>Hurry…….</i> Last date to book your accommodation is 20 December 2022.</h3>
                             <h2 class="login-modal-heading">Login account</h2>
                         </div>
                         {!! NoCaptcha::renderJs() !!}
