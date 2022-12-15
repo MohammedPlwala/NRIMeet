@@ -408,11 +408,11 @@ class UserController extends Controller
                 ->whereNotIn('roles.name',['Guest','Administrator'])
                 ->where(function ($query) use ($request) {
                     if (!empty($request->toArray())) {
-                        if ($request->get('firstname') != '') {
-                            $query->where('u.full_name', $request->get('firstname'));
+                        if ($request->get('firstName') != '') {
+                            $query->where('u.full_name', '%'.$request->get('firstName').'%');
                         }
                         if ($request->get('mobileNumber') != '') {
-                            $query->where('u.mobile', $request->get('mobileNumber'));
+                            $query->where('u.mobile', '%'.$request->get('mobileNumber').'%');
                         }
                         if((isset($request->fromDate) && isset($request->toDate))) {
                             $dateFrom =  date('Y-m-d',strtotime($request->fromDate));

@@ -150,9 +150,9 @@ class DashboardController extends Controller
 
         // Customer Care
         $total_calls = CustomerCare::where('method','Call')->whereDate('created_at','<', $date)->get();
-        $todays_calls = CustomerCare::where('method','Call')->whereDate('created_at', $date)->get();
+        $todays_calls = CustomerCare::where('method','Call')->whereDate('created_at', date('Y-m-d', strtotime($date . '-1 day')))->get();
         $total_whatsapp = CustomerCare::where('method','Whatsapp')->whereDate('created_at','<', $date)->get();
-        $todays_whatsapp = CustomerCare::where('method','Whatsapp')->whereDate('created_at', $date)->get();
+        $todays_whatsapp = CustomerCare::where('method','Whatsapp')->whereDate('created_at', date('Y-m-d', strtotime($date . '-1 day')))->get();
         $total_concern = CustomerCare::whereDate('created_at','<',$date)->get();
         $open_concern = CustomerCare::where('status','Open')->whereDate('created_at','<',$date)->get();
         $closed_concern = CustomerCare::where('status','Resolved')->whereDate('created_at','<',$date)->get();

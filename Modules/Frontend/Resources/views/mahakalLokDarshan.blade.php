@@ -30,7 +30,7 @@
         @endif
         <div class="custom-form">
           {!! NoCaptcha::renderJs() !!}
-          <form action="{{url('/darshan-registration')}}" method="post" enctype="multipart/form-data" autocomplete="off">
+          <form action="{{url('/darshan-registration')}}" method="post" enctype="multipart/form-data" autocomplete="off" data-parsley-validate="">
             @csrf
             <div class="grid grid-cols-1 md:grid-cols-2 md:gap-x-4 md:gap-y-2 gap-2">
               <div class="form-item large">
@@ -69,10 +69,10 @@
             <div class="form-item-box">
               <div class="form-item large">
                 <label class="form-label2 mb-3">Upload member's deatils (Name | Email ID | Phone No. | Relationship)<br>
-                Details can be upload in (JPG | JPEG | PDF | Excel | MS Word)<br>
+                Details can be upload in (JPG | JPEG | PDF )<br>
                 Maximum Size: 5MB<br>
                 </label> 
-                <input type="file" name="file" size="40" accept=".jpg,.jpeg,.pdf,.excel,.msword" />
+                <input type="file" name="file" size="40" accept=".jpg,.jpeg,.pdf" data-parsley-max-file-size="2048" />
               </div>
             </div>
 
@@ -123,3 +123,17 @@
     </div>
   </section>
 @endsection
+@push('footerScripts')
+<script type="text/javascript">
+  window.Parsley.addValidator('maxFileSize', {
+    validateString: function(_value, maxSize, parsleyInstance) {
+      var files = parsleyInstance.$element[0].files;
+      return files.length != 1 || files[0].type == 'application/pdf' || files[0].type == 'image/jpeg';
+    },
+    requirementType: 'integer',
+    messages: {
+      en: 'This file should match file criteria'
+    }
+  });
+</script>
+@endpush

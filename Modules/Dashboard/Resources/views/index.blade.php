@@ -122,7 +122,7 @@
                             <li class="item">
                                 <div class="info">
                                     <div class="title">Cancellation Request</div>
-                                    <div class="count">{{ $cancellation_request->count() }}
+                                    <div class="count">{{ $cancellation_request->count() }}</div>
                                 </div>
                                 <em class="icon bg-purple-dim ni ni-server"></em>
                             </li>
@@ -323,14 +323,14 @@
                             <li class="item">
                                 <div class="info">
                                     <div class="title">Total Payment</div>
-                                    <div class="count">{{ $total_payment->total_amount != '' ? $total_payment->total_amount : '0.00' }}</div>
+                                    <div class="count">@convert($total_payment->total_amount)</div>
                                 </div>
                                 <em class="icon bg-primary-dim ni ni-sign-inr"></em>
                             </li>
                             <li class="item">
                                 <div class="info">
                                     <div class="title">Payment Confirmed</div>
-                                    <div class="count">{{ $total_payment->confirmed_amount != '' ? $total_payment->confirmed_amount : '0.00' }}</div>
+                                    <div class="count">@convert($total_payment->confirmed_amount)</div>
                                 </div>
                                 <em class="icon bg-success-dim ni ni-check"></em>
                             </li>
@@ -344,14 +344,14 @@
                             <li class="item">
                                 <div class="info">
                                     <div class="title">Refund Approved</div>
-                                    <div class="count">{{ $payment_refund_approved->refund_approved_amount != '' ? $total_payment->refund_approved_amount : '0.00' }}</div>
+                                    <div class="count">@convert($payment_refund_approved->refund_approved_amount)</div>
                                 </div>
                                 <em class="icon bg-purple-dim ni ni-check-round-cut"></em>
                             </li>
                             <li class="item">
                                 <div class="info">
                                     <div class="title">Refund Issued</div>
-                                    <div class="count">{{ $payment_refund_issued->refund_issued_amount != '' ? $total_payment->refund_issued_amount : '0.00' }}</div>
+                                    <div class="count">@convert($payment_refund_issued->refund_issued_amount)</div>
                                 </div>
                                 <em class="icon bg-pink-dim ni ni-server"></em>
                             </li>
@@ -359,7 +359,7 @@
                             <li class="item">
                                 <div class="info">
                                     <div class="title">{{ $room_type }}</div>
-                                    <div class="count">{{ $amount }}</div>
+                                    <div class="count">@convert($amount)</div>
                                 </div>
                                 <em class="icon bg-pink-dim ni ni-server"></em>
                             </li>

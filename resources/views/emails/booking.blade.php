@@ -205,7 +205,7 @@
 				<tr>
 					<td style="background: #1e306a; padding-left: 10px; padding-top: 2px; padding-bottom: 4px">
             <a href="https://pbdaccommodation.mptourism.com" target="_blank">
-              <img src="http://pbdaccommodation.mptourism.com/images/PBD.png" alt="profitley" style="width: 130px;" align="left" />
+              <img src="http://pbdaccommodation.mptourism.com/images/PBD.png" alt="PBD Logo" style="width: 130px;" align="left" />
             </a>
           </td>
 				</tr>

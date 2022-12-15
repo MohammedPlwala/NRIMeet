@@ -173,26 +173,28 @@
                         </div>
                         <div class="row g-3 align-center">
                             <div class="col-lg-5">
-                                <x-inputs.verticalFormLabel label="Adults" for="adult" suggestion="Enter the adults." />
+                                <x-inputs.verticalFormLabel label="Cancellation requested date" for="cancellation_request_date" suggestion="Select the cancellation request date." />
                             </div>
                             <div class="col-lg-7">
-                                <x-inputs.number  value="" for="adult" name="adult" placeholder="Enter Adults" />
+                                <div class="form-control-wrap">
+                                    <div class="form-icon form-icon-left">
+                                        <em class="icon ni ni-calendar"></em>
+                                    </div>
+                                    <input type="text" class="form-control date-picker" name="cancellation_request_date" id="cancellation_request_date" placeholder="Cancellation request date" data-date-format="yyyy-mm-dd">
+                                </div>
                             </div>
                         </div>
                         <div class="row g-3 align-center">
                             <div class="col-lg-5">
-                                <x-inputs.verticalFormLabel label="Child" for="child" suggestion="Enter the child." />
+                                <x-inputs.verticalFormLabel label="Cancellation Approved date" for="cancellation_approved_date" suggestion="Select the cancellation approved date." />
                             </div>
                             <div class="col-lg-7">
-                                <x-inputs.number  value="" for="child" name="child" placeholder="Enter Child" />
-                            </div>
-                        </div>
-                        <div class="row g-3 align-center">
-                            <div class="col-lg-5">
-                                <x-inputs.verticalFormLabel label="Extra Bed" for="extra_bed" suggestion="Enter the extra bed." />
-                            </div>
-                            <div class="col-lg-7">
-                                <x-inputs.number  value="" for="extra_bed" name="extra_bed" placeholder="Enter Extra Bed" />
+                                <div class="form-control-wrap">
+                                    <div class="form-icon form-icon-left">
+                                        <em class="icon ni ni-calendar"></em>
+                                    </div>
+                                    <input type="text" class="form-control date-picker" id="cancellation_approved_date" placeholder="Cancellation approved date" data-date-format="yyyy-mm-dd">
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -239,14 +241,11 @@
         if($('#check_out_date').val() != ""){
             myUrl = addQSParm(myUrl,'check_out_date', $('#check_out_date').val());
         }
-        if($('#adult').val() != ""){
-            myUrl = addQSParm(myUrl,'adult', $('#adult').val());
+        if($('#cancellation_request_date').val() != ""){
+            myUrl = addQSParm(myUrl,'cancellation_request_date', $('#cancellation_request_date').val());
         }
-        if($('#child').val() != ""){
-            myUrl = addQSParm(myUrl,'child', $('#child').val());
-        }
-        if($('#extra_bed').val() != ""){
-            myUrl = addQSParm(myUrl,'extra_bed', $('#extra_bed').val());
+        if($('#cancellation_approved_date').val() != ""){
+            myUrl = addQSParm(myUrl,'cancellation_approved_date', $('#cancellation_approved_date').val());
         }
 
         location.href = myUrl;
@@ -288,9 +287,8 @@
             '#guest_count',
             '#check_in_date',
             '#check_out_date',
-            '#adult',
-            '#child',
-            '#extra_bed'
+            '#cancellation_request_date',
+            '#cancellation_approved_date'
         ];
         var user_table = "";
         user_table = new CustomDataTable({

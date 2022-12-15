@@ -3142,7 +3142,7 @@ $("#billing_country").on("change", function () {
         $("#billing_state_label").html("State / County");
     }
     if(NioApp && NioApp.Select2 && NioApp.Select2.init){
-        NioApp.Select2.init();
+        NioApp.Select2("select#billing_state");
     }
     
 });

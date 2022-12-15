@@ -61,12 +61,12 @@ class ReportController extends Controller
                                 $query->where('u.city', $request->get('city'));
                             }
 
-                            if ($request->get('state') != '') {
-                                $query->where('u.state', $request->get('state'));
+                            if ($request->get('billing_state') != '') {
+                                $query->where('u.state', $request->get('billing_state'));
                             }
 
-                            if ($request->get('country') != '') {
-                                $query->where('u.country', $request->get('country'));
+                            if ($request->get('billing_country') != '') {
+                                $query->where('u.country', $request->get('billing_country'));
                             }
 
                             if ($request->get('postal_code') != '') {
@@ -83,7 +83,10 @@ class ReportController extends Controller
         if ($request->ajax()) {
             return Datatables::of($data)
                     ->addIndexColumn()
-                    
+                    ->addColumn('registration_date', function ($row) {
+                        $registration_date = date(\Config::get('constants.DATE.DATE_FORMAT'), strtotime($row->registration_date));
+                        return $registration_date;
+                    })
                     ->addColumn('status', function ($row) {
                         if($row->status == 'active'){
                             $statusValue = 'Active';
@@ -126,12 +129,12 @@ class ReportController extends Controller
                                 $query->where('u.city', $request->get('city'));
                             }
 
-                            if ($request->get('state') != '') {
-                                $query->where('u.state', $request->get('state'));
+                            if ($request->get('billing_state') != '') {
+                                $query->where('u.state', $request->get('billing_state'));
                             }
 
-                            if ($request->get('country') != '') {
-                                $query->where('u.country', $request->get('country'));
+                            if ($request->get('billing_country') != '') {
+                                $query->where('u.country', $request->get('billing_country'));
                             }
 
                             if ($request->get('postal_code') != '') {
@@ -333,6 +336,12 @@ class ReportController extends Controller
                         if ($request->get('postal_code') != '') {
                             $query->where('u.zip', $request->get('postal_code'));
                         }
+                        if ($request->get('check_in_date') != '') {
+                            $query->whereDate('b.check_in_date', date('Y-m-d', strtotime($request->get('check_in_date'))));
+                        }
+                        if ($request->get('check_out_date') != '') {
+                            $query->whereDate('b.check_out_date', date('Y-m-d', strtotime($request->get('check_out_date'))));
+                        }
                     }
                 })
                 ->orderby('booked_on','desc')
@@ -347,6 +356,14 @@ class ReportController extends Controller
                     ->addColumn('booked_on', function ($row) {
                         $booked_on = date(\Config::get('constants.DATE.DATE_FORMAT_FULL') , strtotime($row->booked_on));
                         return $booked_on;
+                    })
+                    ->addColumn('check_in_date', function ($row) {
+                        $check_in_date = date(\Config::get('constants.DATE.DATE_FORMAT') , strtotime($row->check_in_date));
+                        return $check_in_date;
+                    })
+                    ->addColumn('check_out_date', function ($row) {
+                        $check_out_date = date(\Config::get('constants.DATE.DATE_FORMAT') , strtotime($row->check_out_date));
+                        return $check_out_date;
                     })
                     ->addColumn('booking_status', function ($row) {
                         $booking_status_class = 'success';
@@ -662,6 +679,14 @@ class ReportController extends Controller
         if ($request->ajax()) {
             return Datatables::of($data)
                     ->addIndexColumn()
+                    ->addColumn('booking_date', function ($row) {
+                        $booking_date = date(\Config::get('constants.DATE.DATE_FORMAT'), strtotime($row->booking_date));
+                        return $booking_date;
+                    })
+                    ->addColumn('payment_date', function ($row) {
+                        $payment_date = date(\Config::get('constants.DATE.DATE_FORMAT'), strtotime($row->payment_date));
+                        return $payment_date;
+                    })
                     ->addColumn('tax', function ($row) { 
                         return '₹'.number_format($row->tax, 2);
                     })
@@ -710,6 +735,10 @@ class ReportController extends Controller
                         }
                         $payment_mode = '<span class="badge badge-'.$payment_mode_class.'" >'. $row->payment_mode .'</span>';
                         return $payment_mode;
+                    })
+                    ->addColumn('settlement_date', function ($row) {
+                        $settlement_date = date(\Config::get('constants.DATE.DATE_FORMAT'), strtotime($row->settlement_date));
+                        return $settlement_date;
                     })
                     ->rawColumns(['status', 'booking_status', 'payment_mode'])
                     ->make(true);
@@ -829,14 +858,11 @@ class ReportController extends Controller
                     $query->whereDate('b.check_out_date', date('Y-m-d',strtotime($request->get('check_out_date'))));
                 }
 
-                if ($request->get('adult') != '') {
-                    $query->where('br.adults', $request->get('adult'));
+                if ($request->get('cancellation_request_date') != '') {
+                    $query->whereDate('b.cancellation_request_date', date('Y-m-d',strtotime($request->get('cancellation_request_date'))));
                 }
-                if ($request->get('child') != '') {
-                    $query->where('br.childs', $request->get('child'));
-                }
-                if ($request->get('extra_bed') != '') {
-                    $query->where('br.extra_bed', $request->get('extra_bed'));
+                if ($request->get('cancellation_approved_date') != '') {
+                    $query->whereDate('b.cancellation_date', date('Y-m-d',strtotime($request->get('cancellation_approved_date'))));
                 }
 
                 if ($request->get('booking_status') != '') {
@@ -854,6 +880,22 @@ class ReportController extends Controller
         if ($request->ajax()) {
             return Datatables::of($data)
                 ->addIndexColumn()
+                ->addColumn('check_in_date', function ($row) {
+                    $check_in_date = date(\Config::get('constants.DATE.DATE_FORMAT') , strtotime($row->check_in_date));
+                    return $check_in_date;
+                })
+                ->addColumn('check_out_date', function ($row) {
+                    $check_out_date = date(\Config::get('constants.DATE.DATE_FORMAT') , strtotime($row->check_out_date));
+                    return $check_out_date;
+                })
+                ->addColumn('cancellation_request_date', function ($row) {
+                    $cancellation_request_date = date(\Config::get('constants.DATE.DATE_FORMAT') , strtotime($row->cancellation_request_date));
+                    return $cancellation_request_date;
+                })
+                ->addColumn('cancellation_date', function ($row) {
+                    $cancellation_date = date(\Config::get('constants.DATE.DATE_FORMAT') , strtotime($row->cancellation_date));
+                    return $cancellation_date;
+                })
                 ->addColumn('amount', function ($row) { 
                     return '₹'.number_format($row->amount, 2);
                 })
@@ -1017,6 +1059,22 @@ class ReportController extends Controller
         if ($request->ajax()) {
             return Datatables::of($data)
                 ->addIndexColumn()
+                ->addColumn('check_in_date', function ($row) {
+                    $check_in_date = date(\Config::get('constants.DATE.DATE_FORMAT') , strtotime($row->check_in_date));
+                    return $check_in_date;
+                })
+                ->addColumn('check_out_date', function ($row) {
+                    $check_out_date = date(\Config::get('constants.DATE.DATE_FORMAT') , strtotime($row->check_out_date));
+                    return $check_out_date;
+                })
+                ->addColumn('refund_request_date', function ($row) {
+                    $refund_request_date = date(\Config::get('constants.DATE.DATE_FORMAT') , strtotime($row->refund_request_date));
+                    return $refund_request_date;
+                })
+                ->addColumn('refund_date', function ($row) {
+                    $refund_date = date(\Config::get('constants.DATE.DATE_FORMAT') , strtotime($row->refund_date));
+                    return $refund_date;
+                })
                 ->addColumn('amount', function ($row) { 
                     return '₹'.number_format($row->amount, 2);
                 })
@@ -1417,11 +1475,11 @@ class ReportController extends Controller
                         }
 
                         if ($request->get('payment_method') != '') {
-                            $query->where('t.payment_mode', 'like', '%' . $request->payment_method . '%');
+                            $query->where('t.payment_method', 'like', '%' . $request->payment_method . '%');
                         }
 
                         if ($request->get('payment_via') != '') {
-                            $query->where('t.payment_method', 'like', '%' . $request->payment_via . '%');
+                            $query->where('t.payment_mode', 'like', '%' . $request->payment_via . '%');
                         }
 
                         if ($request->get('settlement_date') != '') {
@@ -1570,6 +1628,14 @@ class ReportController extends Controller
                         if ($request->get('postal_code') != '') {
                             $query->where('u.zip', $request->get('postal_code'));
                         }
+
+                        if ($request->get('check_in_date') != '') {
+                            $query->whereDate('b.check_in_date', date('Y-m-d',strtotime($request->get('check_in_date'))));
+                        }
+
+                        if ($request->get('check_out_date') != '') {
+                            $query->whereDate('b.check_out_date', date('Y-m-d',strtotime($request->get('check_out_date'))));
+                        }
                     }
                 })
                 ->orderby('u.full_name','asc')
@@ -1583,6 +1649,14 @@ class ReportController extends Controller
                     })
                     ->addColumn('amount', function ($row) { 
                         return '₹'.number_format($row->amount, 2);
+                    })
+                    ->addColumn('check_in_date', function ($row) {
+                        $check_in_date = date(\Config::get('constants.DATE.DATE_FORMAT'), strtotime($row->check_in_date));
+                        return $check_in_date;
+                    })
+                    ->addColumn('check_out_date', function ($row) {
+                        $check_out_date = date(\Config::get('constants.DATE.DATE_FORMAT'), strtotime($row->check_out_date));
+                        return $check_out_date;
                     })
                     ->rawColumns(['order_id'])
                     ->make(true);
@@ -1644,6 +1718,14 @@ class ReportController extends Controller
                         if ($request->get('postal_code') != '') {
                             $query->where('u.zip', $request->get('postal_code'));
                         }
+
+                        if ($request->get('check_in_date') != '') {
+                            $query->whereDate('b.check_in_date', date('Y-m-d',strtotime($request->get('check_in_date'))));
+                        }
+
+                        if ($request->get('check_out_date') != '') {
+                            $query->whereDate('b.check_out_date', date('Y-m-d',strtotime($request->get('check_out_date'))));
+                        }
                     }
                 })
                 ->orderby('u.full_name','asc')
@@ -1686,6 +1768,10 @@ class ReportController extends Controller
                 if ($request->ajax()) {
                     return Datatables::of($data)
                     ->addIndexColumn()
+                    ->addColumn('check_in_date', function ($row) {
+                        $check_in_date = date(\Config::get('constants.DATE.DATE_FORMAT'), strtotime($row->check_in_date));
+                        return $check_in_date;
+                    })
                     ->rawColumns(['order_id'])
                     ->skipPaging()
                     ->make(true);
@@ -1758,6 +1844,10 @@ class ReportController extends Controller
                 if ($request->ajax()) {
                     return Datatables::of($data)
                     ->addIndexColumn()
+                    ->addColumn('check_out_date', function ($row) {
+                        $check_out_date = date(\Config::get('constants.DATE.DATE_FORMAT'), strtotime($row->check_out_date));
+                        return $check_out_date;
+                    })
                     ->rawColumns(['order_id'])
                     ->skipPaging()
                     ->make(true);
@@ -1843,6 +1933,10 @@ class ReportController extends Controller
                 if ($request->ajax()) {
                     return Datatables::of($data)
                     ->addIndexColumn()
+                    ->addColumn('date', function ($row) {
+                        $date = date(\Config::get('constants.DATE.DATE_FORMAT') , strtotime($row->date));
+                        return $date;
+                    })
                     // ->rawColumns(['order_id'])
                     ->make(true);
         }
@@ -1951,6 +2045,14 @@ class ReportController extends Controller
                 if ($request->ajax()) {
                     return Datatables::of($data)
                     ->addIndexColumn()
+                    ->addColumn('checkin_date', function ($row) {
+                        $checkin_date = date(\Config::get('constants.DATE.DATE_FORMAT') , strtotime($row->checkin_date));
+                        return $checkin_date;
+                    })
+                    ->addColumn('checkout_date', function ($row) {
+                        $checkout_date = date(\Config::get('constants.DATE.DATE_FORMAT') , strtotime($row->checkout_date));
+                        return $checkout_date;
+                    })
                     // ->rawColumns(['order_id'])
                     ->make(true);
         }

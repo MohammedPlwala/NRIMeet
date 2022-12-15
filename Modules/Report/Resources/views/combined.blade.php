@@ -92,12 +92,12 @@
                         <td class="nk-tb-col tb-col-lg">{{ $booking->country }} </td>
                         <td class="nk-tb-col tb-col-lg">{{ $booking->postal_code }} </td>
                         <td class="nk-tb-col tb-col-lg">{{ $booking->user_id }} </td>
-                        <td class="nk-tb-col tb-col-lg">{{ $booking->registration_date }} </td>
+                        <td class="nk-tb-col tb-col-lg">{{ !is_null($booking->registration_date) ? date(\Config::get('constants.DATE.DATE_FORMAT') , strtotime($booking->registration_date)) : "-" }}</td>
                         <td class="nk-tb-col tb-col-lg">{{ $booking->room_type_name }} </td>
                         <td class="nk-tb-col tb-col-lg text-center">{{ $booking->guests }} </td>
-                        <td class="nk-tb-col tb-col-lg">{{ $booking->booking_date }} </td>
-                        <td class="nk-tb-col tb-col-lg">{{ $booking->check_in_date }} </td>
-                        <td class="nk-tb-col tb-col-lg">{{ $booking->check_out_date }} </td>
+                        <td class="nk-tb-col tb-col-lg">{{ !is_null($booking->booking_date) ? date(\Config::get('constants.DATE.DATE_FORMAT') , strtotime($booking->booking_date)) : "-" }}</td>
+                        <td class="nk-tb-col tb-col-lg">{{ !is_null($booking->check_in_date) ? date(\Config::get('constants.DATE.DATE_FORMAT') , strtotime($booking->check_in_date)) : "-" }}</td>
+                        <td class="nk-tb-col tb-col-lg">{{ !is_null($booking->check_out_date) ? date(\Config::get('constants.DATE.DATE_FORMAT') , strtotime($booking->check_out_date)) : "-" }}</td>
                         <td class="nk-tb-col tb-col-lg text-center"><span class="badge badge-success status-tag" data-status-name="{{ $booking->booking_status }}">{{ $booking->booking_status }}</span></td>
                         <td class="nk-tb-col tb-col-lg text-right">₹@convert($booking->rate) </td>
                         <td class="nk-tb-col tb-col-lg text-center">{{ $booking->nights }} </td>
@@ -119,11 +119,11 @@
                         <td class="nk-tb-col tb-col-lg">{{ $booking->transaction_id }} </td>
                         <td class="nk-tb-col tb-col-lg text-center">{{ $booking->transaction_status }} </td>
                         <td class="nk-tb-col tb-col-lg">{{ $booking->utr_number }} </td>
-                        <td class="nk-tb-col tb-col-lg">{{ $booking->settlement_date }} </td>
-                        <td class="nk-tb-col tb-col-lg">{{ $booking->cancellation_date }} </td>
+                        <td class="nk-tb-col tb-col-lg">{{ !is_null($booking->settlement_date) ? date(\Config::get('constants.DATE.DATE_FORMAT') , strtotime($booking->settlement_date)) : "-" }}</td>
+                        <td class="nk-tb-col tb-col-lg">{{ !is_null($booking->cancellation_date) ? date(\Config::get('constants.DATE.DATE_FORMAT') , strtotime($booking->cancellation_date)) : "-" }} </td>
                         <td class="nk-tb-col tb-col-lg text-right">₹@convert($booking->cancellation_charges) </td>
                         <td class="nk-tb-col tb-col-lg text-right">₹@convert($booking->refundable_amount) </td>
-                        <td class="nk-tb-col tb-col-lg">{{ $booking->refund_date }} </td>
+                        <td class="nk-tb-col tb-col-lg">{{ !is_null($booking->refund_date) ? date(\Config::get('constants.DATE.DATE_FORMAT') , strtotime($booking->refund_date)) : "-" }}</td>
                         <td class="nk-tb-col tb-col-lg">{{ $booking->refund_transaction_utr }} </td>
                     </tr>
                     @empty
@@ -205,7 +205,7 @@
                         </div>
                         <div class="row g-3 align-center">
                             <div class="col-lg-5">
-                                <x-inputs.verticalFormLabel label="Payment Method" for="payment_method" suggestion="Enter the payment method." />
+                                <x-inputs.verticalFormLabel label="Payment Via" for="payment_method" suggestion="Enter the payment method." />
                             </div>
                             <div class="col-lg-7">
                                 <x-inputs.text  value="" for="payment_method" id="payment_method" name="payment_method" placeholder="Enter Payment Method" />
@@ -213,13 +213,13 @@
                         </div>
                         <div class="row g-3 align-center">
                             <div class="col-lg-5">
-                                <x-inputs.verticalFormLabel label="Payment Via" for="payment_via" suggestion="Select the payment mode." />
+                                <x-inputs.verticalFormLabel label="Payment Mode" for="payment_via" suggestion="Select the payment mode." />
                             </div>
                             <div class="col-lg-7">
                                 <x-inputs.select  size="sm" name="payment_via" id="payment_via" for="payment_via" placeholder="Select Payment Mode">
                                     <option value="">Select</option>
-                                    <option value="Online">Online</option>
-                                    <option value="Offline">Offline</option>
+                                    <option value="Online" @if(isset($request->payment_via) && $request->payment_via == 'Online') selected @endif>Online</option>
+                                    <option value="Offline"  @if(isset($request->payment_via) && $request->payment_via == 'Offline') selected @endif>Offline</option>
                                 </x-inputs.select>
                             </div>
                         </div>
@@ -245,7 +245,7 @@
                                     <div class="form-icon form-icon-left">
                                         <em class="icon ni ni-calendar"></em>
                                     </div>
-                                    <input type="text" value="{{ isset($request->cancellation_date) ? $request->cancellation_date : '' }}" class="form-control date-picker" id="cancellation_date" name="cancellation_date" placeholder="Check out Date" data-date-format="yyyy-mm-dd">
+                                    <input type="text" value="{{ isset($request->cancellation_date) ? $request->cancellation_date : '' }}" class="form-control date-picker" id="cancellation_date" name="cancellation_date" placeholder="Cancellation Date" data-date-format="yyyy-mm-dd">
                                 </div>
                             </div>
                         </div>
@@ -258,7 +258,7 @@
                                     <div class="form-icon form-icon-left">
                                         <em class="icon ni ni-calendar"></em>
                                     </div>
-                                    <input type="text" value="{{ isset($request->refundable_date) ? $request->refundable_date : '' }}" class="form-control date-picker" id="refundable_date" name="refundable_date" placeholder="Check out Date" data-date-format="yyyy-mm-dd">
+                                    <input type="text" value="{{ isset($request->refundable_date) ? $request->refundable_date : '' }}" class="form-control date-picker" id="refundable_date" name="refundable_date" placeholder="Refundable Date" data-date-format="yyyy-mm-dd">
                                 </div>
                             </div>
                         </div>

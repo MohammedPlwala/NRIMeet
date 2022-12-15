@@ -53,7 +53,6 @@
 </div><!-- .nk-block -->
 <div id="table_pagination"></div>
 
-
 <div class="modal fade zoom" tabindex="-1" id="modalFilterorder">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
@@ -94,13 +93,13 @@
                         @endif
                             </div>
                         </div>
-                        <div class="row g-3" id="state_wrapper">
+                        <div class="row g-3" >
                             <div class="col-lg-5">
                                 <x-inputs.verticalFormLabel label="State" for="State" suggestion="Specify the nationality." />
                             </div>
                             <div class="col-lg-7">
                                 <div id="field_billing_state">
-                                    <x-inputs.text  value="" for="state" name="state" id="state" placeholder="State" />
+                                    <x-inputs.text  value="" for="billing_state" name="billing_state" id="billing_state" placeholder="State" />
                                 </div>
                             </div>
                         </div>
@@ -155,7 +154,7 @@
                                 <x-inputs.verticalFormLabel label="Registration Date" for="registration_date" suggestion="Enter the postal code." />
                             </div>
                             <div class="col-lg-7">
-                                <x-inputs.text  value="" for="registration_date" name="registration_date" placeholder="Registration Date" class="date-picker" />
+                                <x-inputs.text  value="" for="registration_date" name="registration_date" id="registration_date" placeholder="Registration Date" class="date-picker" />
                             </div>
                         </div>
                     </div>
@@ -180,6 +179,7 @@
 
     <script src="{{url('js/tableFlow.js')}}"></script>
     <script type="text/javascript">
+        $('#registration_date').datepicker({ format: 'dd/mm/yyyy' });
 
         $('.export_data').on('click', function (e) {
             var myUrl = $(this).attr('data-href');
@@ -191,13 +191,13 @@
                 myUrl = addQSParm(myUrl,'city', $('#city').val());
             }
             if($('#billing_state').val() != ""){
-                myUrl = addQSParm(myUrl,'state', $('#billing_state').val());
+                myUrl = addQSParm(myUrl,'billing_state', $('#billing_state').val());
             }
             if($('#postal_code').val() != ""){
                 myUrl = addQSParm(myUrl,'postal_code', $('#postal_code').val());
             }
             if($('#billing_country').val() != ""){
-                myUrl = addQSParm(myUrl,'country', $('#billing_country').val());
+                myUrl = addQSParm(myUrl,'billing_country', $('#billing_country').val());
             }
             if($('#registration_date').val() != ""){
                 myUrl = addQSParm(myUrl,'registration_date', $('#registration_date').val());
@@ -237,7 +237,7 @@
 
             var items = [
                 '#city',
-                '#state',
+                '#billing_state',
                 '#billing_country',
                 '#name',
                 '#postal_code',
@@ -325,10 +325,10 @@
                 },
                 filterSubmit: '.submitBtn',
                 filterSubmitCallback: function() {
-                    $('#modalFilterUser').modal('toggle');
+                    $('#modalFilterorder').modal('toggle');
                 },
                 filterClearSubmit: '.resetFilter',
-                filterModalId: '#modalFilterUser',
+                filterModalId: '#modalFilterorder',
                 filterItems: items,
                 tagId: '#filter_tag_list',
             });

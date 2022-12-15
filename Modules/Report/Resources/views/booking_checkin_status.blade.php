@@ -97,62 +97,6 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row g-3 align-center">
-                            <div class="col-lg-5">
-                                <x-inputs.verticalFormLabel label="Check out Date" for="check_out_date" suggestion="Select the check out date." />
-                            </div>
-                            <div class="col-lg-7">
-                                <div class="form-control-wrap">
-                                    <div class="form-icon form-icon-left">
-                                        <em class="icon ni ni-calendar"></em>
-                                    </div>
-                                    <input type="text" class="form-control date-picker" name="check_out_date" id="check_out_date" placeholder="Check out Date" data-date-format="yyyy-mm-dd">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row g-3 align-center">
-                            <div class="col-lg-5">
-                                <x-inputs.verticalFormLabel label="Booking Status" for="booking_status" suggestion="Select the booking status." />
-                            </div>
-                            <div class="col-lg-7">
-                                <x-inputs.select  size="sm" name="booking_status" id="booking_status" for="booking_status" placeholder="Select Booking Status">
-                                    <option value="">Select</option>
-                                    <option value="Recevied">Recevied</option>
-                                    <option value="Confirmed">Confirmed</option>
-                                    <option value="Booking Shared">Booking Shared</option>
-                                    <option value="Confirmation Recevied">Confirmation Recevied</option>
-                                    <option value="Cancellation Requested">Cancellation Requested</option>
-                                    <option value="Cancellation Approved">Cancellation Approved</option>
-                                    <option value="Refund Requested">Refund Requested</option>
-                                    <option value="Refund Approved">Refund Approved</option>
-                                    <option value="Refund Issued">Refund Issued</option>
-                                </x-inputs.select>
-                            </div>
-                        </div>
-                        <!-- <div class="row g-3 align-center">
-                            <div class="col-lg-5">
-                                <x-inputs.verticalFormLabel label="Adults" for="adults" suggestion="Enter the adults." />
-                            </div>
-                            <div class="col-lg-7">
-                                <x-inputs.number  value="" for="adults" name="adults" placeholder="Enter Adults" />
-                            </div>
-                        </div>
-                        <div class="row g-3 align-center">
-                            <div class="col-lg-5">
-                                <x-inputs.verticalFormLabel label="Child" for="child" suggestion="Enter the child." />
-                            </div>
-                            <div class="col-lg-7">
-                                <x-inputs.number  value="" for="child" name="child" placeholder="Enter Child" />
-                            </div>
-                        </div>
-                        <div class="row g-3 align-center">
-                            <div class="col-lg-5">
-                                <x-inputs.verticalFormLabel label="Extra Bed" for="extra_bed" suggestion="Enter the extra bed." />
-                            </div>
-                            <div class="col-lg-7">
-                                <x-inputs.number  value="" for="extra_bed" name="extra_bed" placeholder="Enter Extra Bed" />
-                            </div>
-                        </div> -->
                     </div>
                 </div>
                 <input type="hidden" id="userId" name="user_id" value="0">
@@ -232,7 +176,7 @@
                 // '#room_type',
                 '#guest_count',
                 '#check_in_date',
-                '#check_out_date'
+                // '#check_out_date'
                 // '#adults',
                 // '#child',
                 // '#booking_status',

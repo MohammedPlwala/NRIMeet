@@ -81,7 +81,7 @@
                                 <div class="user-avatar lg bg-primary">
 
                                     @php
-                                        $username = $user->name.' '.$user->last_name;
+                                        $username = $user->full_name;
                                         if(!is_null($user->file)){
                                             $file = public_path('uploads/users/') . $user->file;
                                         }
@@ -99,9 +99,9 @@
                                 </div>
                                 <div class="user-info">
                                     @if($user->status == 'active')
-                                    <h6>{{ ucfirst($user->name.' '.$user->last_name) }} <span class="badge badge-success mb-0">Approved</span></h6>
+                                    <h6>{{ ucfirst($user->full_name) }} <span class="badge badge-success mb-0">Approved</span></h6>
                                     @else
-                                    <h6>{{ ucfirst($user->name.' '.$user->last_name) }} <span class="badge badge-danger mb-0">Not Approved</span></h6>
+                                    <h6>{{ ucfirst($user->full_name) }} <span class="badge badge-danger mb-0">Not Approved</span></h6>
                                     @endif
                                     <span class="sub-text">{{ $user->email }}</span>
                                 </div>
@@ -136,7 +136,7 @@
                     <em class="icon ni ni-cross"></em>
                 </a>
             </div>
-            <form role="form" class="mb-0" method="post" action="{{ url('user/staff') }}">
+            <form role="form" class="mb-0" method="post" action="{{ url('admin/user/staff') }}">
                 @csrf
                 <div class="modal-body modal-body-lg">
                     <div class="gy-3">
@@ -408,7 +408,7 @@
 
             var items = [
                 '#firstName',
-                '#lastName',
+                
                 '#mobileNumber',
                 '#role',
                 '#fromDate',
@@ -431,7 +431,7 @@
             // });
 
             $('.resetFilter').on('click', function() {
-                $('#firstName, #lastName, #mobileNumber, #role, #fromDate, #toDate').val('');
+                $('#firstName, #mobileNumber, #role, #fromDate, #toDate').val('');
                 $('.submitBtn').click();
                 // NioApp.resetModalForm('#modalFilterUser', RData, '.resetFilter');
                 // $('#modalFilterUser').modal('toggle');
