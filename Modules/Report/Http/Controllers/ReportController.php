@@ -835,14 +835,11 @@ class ReportController extends Controller
                     $query->whereDate('b.check_out_date', date('Y-m-d',strtotime($request->get('check_out_date'))));
                 }
 
-                if ($request->get('adult') != '') {
-                    $query->where('br.adults', $request->get('adult'));
+                if ($request->get('cancellation_request_date') != '') {
+                    $query->whereDate('b.cancellation_request_date', date('Y-m-d',strtotime($request->get('cancellation_request_date'))));
                 }
-                if ($request->get('child') != '') {
-                    $query->where('br.childs', $request->get('child'));
-                }
-                if ($request->get('extra_bed') != '') {
-                    $query->where('br.extra_bed', $request->get('extra_bed'));
+                if ($request->get('cancellation_approved_date') != '') {
+                    $query->whereDate('b.cancellation_date', date('Y-m-d',strtotime($request->get('cancellation_approved_date'))));
                 }
 
                 if ($request->get('booking_status') != '') {
