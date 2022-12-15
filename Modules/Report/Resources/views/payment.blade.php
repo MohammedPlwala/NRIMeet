@@ -138,8 +138,10 @@
                             <div class="col-lg-7">
                                 <x-inputs.select  size="sm" name="status" for="status" id="status" placeholder="Select Status">
                                     <option value="">Select</option>
-                                    <option value="Payment Recevied From Guest">Payment Recevied From Guest</option>
-                                    <option value="Payment Completed to Hotel">Payment Completed to Hotel</option>
+                                    <option value="Booking Received">Booking Received</option>
+                                    <option value="Payment Completed">Payment Completed</option>
+                                    <option value="Booking Shared">Booking Shared</option>
+                                    <option value="Confirmation Recevied">Confirmation Recevied</option>
                                     <option value="Cancellation Requested">Cancellation Requested</option>
                                     <option value="Cancellation Approved">Cancellation Approved</option>
                                     <option value="Refund Requested">Refund Requested</option>

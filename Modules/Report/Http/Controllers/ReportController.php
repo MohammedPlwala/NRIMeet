@@ -61,12 +61,12 @@ class ReportController extends Controller
                                 $query->where('u.city', $request->get('city'));
                             }
 
-                            if ($request->get('state') != '') {
-                                $query->where('u.state', $request->get('state'));
+                            if ($request->get('billing_state') != '') {
+                                $query->where('u.state', $request->get('billing_state'));
                             }
 
-                            if ($request->get('country') != '') {
-                                $query->where('u.country', $request->get('country'));
+                            if ($request->get('billing_country') != '') {
+                                $query->where('u.country', $request->get('billing_country'));
                             }
 
                             if ($request->get('postal_code') != '') {
@@ -126,12 +126,12 @@ class ReportController extends Controller
                                 $query->where('u.city', $request->get('city'));
                             }
 
-                            if ($request->get('state') != '') {
-                                $query->where('u.state', $request->get('state'));
+                            if ($request->get('billing_state') != '') {
+                                $query->where('u.state', $request->get('billing_state'));
                             }
 
-                            if ($request->get('country') != '') {
-                                $query->where('u.country', $request->get('country'));
+                            if ($request->get('billing_country') != '') {
+                                $query->where('u.country', $request->get('billing_country'));
                             }
 
                             if ($request->get('postal_code') != '') {
