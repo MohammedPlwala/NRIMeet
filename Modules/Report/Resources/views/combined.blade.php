@@ -213,7 +213,7 @@
                         </div>
                         <div class="row g-3 align-center">
                             <div class="col-lg-5">
-                                <x-inputs.verticalFormLabel label="Payment Via" for="payment_via" suggestion="Select the payment mode." />
+                                <x-inputs.verticalFormLabel label="Payment Mode" for="payment_via" suggestion="Select the payment mode." />
                             </div>
                             <div class="col-lg-7">
                                 <x-inputs.select  size="sm" name="payment_via" id="payment_via" for="payment_via" placeholder="Select Payment Mode">
