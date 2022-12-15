@@ -3,8 +3,8 @@
 @section('content')
 <div class="sohohotel-content-wrapper">
     <div class="main-banner">
-        <img src="{{ url('images/PBD2023-slider.png') }}" alt="PBD2023-slider" class="m-hide" />
-        <img src="{{ url('images/mobile-slider-2.png') }}" alt="mobile-slider-2" class="d-hide" />
+        <img src="{{ url('images/PBD2023-slider_new.png') }}" alt="PBD2023-slider" class="m-hide" />
+        <img src="{{ url('images/mobile-slider-2_new.png') }}" alt="mobile-slider-2" class="d-hide" />
     </div>
     <div class="booking-form-wrap booking-form-wrap-home desktop">
         <form action="{{ url('/search') }}" method="post"
