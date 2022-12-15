@@ -52,7 +52,6 @@
     </div><!-- .nk-tb-list -->
 </div><!-- .nk-block -->
 <div id="table_pagination"></div>
-{{$request -> country}} --MP
 
 <div class="modal fade zoom" tabindex="-1" id="modalFilterorder">
     <div class="modal-dialog modal-lg" role="document">
