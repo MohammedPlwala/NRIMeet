@@ -205,7 +205,7 @@
                         </div>
                         <div class="row g-3 align-center">
                             <div class="col-lg-5">
-                                <x-inputs.verticalFormLabel label="Payment Method" for="payment_method" suggestion="Enter the payment method." />
+                                <x-inputs.verticalFormLabel label="Payment Via" for="payment_method" suggestion="Enter the payment method." />
                             </div>
                             <div class="col-lg-7">
                                 <x-inputs.text  value="" for="payment_method" id="payment_method" name="payment_method" placeholder="Enter Payment Method" />
