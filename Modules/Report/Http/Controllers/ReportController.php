@@ -1475,11 +1475,11 @@ class ReportController extends Controller
                         }
 
                         if ($request->get('payment_method') != '') {
-                            $query->where('t.payment_mode', 'like', '%' . $request->payment_method . '%');
+                            $query->where('t.payment_method', 'like', '%' . $request->payment_method . '%');
                         }
 
                         if ($request->get('payment_via') != '') {
-                            $query->where('t.payment_method', 'like', '%' . $request->payment_via . '%');
+                            $query->where('t.payment_mode', 'like', '%' . $request->payment_via . '%');
                         }
 
                         if ($request->get('settlement_date') != '') {

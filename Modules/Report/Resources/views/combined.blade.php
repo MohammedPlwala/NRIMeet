@@ -218,8 +218,8 @@
                             <div class="col-lg-7">
                                 <x-inputs.select  size="sm" name="payment_via" id="payment_via" for="payment_via" placeholder="Select Payment Mode">
                                     <option value="">Select</option>
-                                    <option value="Online">Online</option>
-                                    <option value="Offline">Offline</option>
+                                    <option value="Online" @if(isset($request->payment_via) && $request->payment_via == 'Online') selected @endif>Online</option>
+                                    <option value="Offline"  @if(isset($request->payment_via) && $request->payment_via == 'Offline') selected @endif>Offline</option>
                                 </x-inputs.select>
                             </div>
                         </div>
