@@ -130,8 +130,9 @@ class CustomerCareController extends Controller
         $number = 0;
 
        if ($lastOrder) {
-            $number = substr($lastOrder->order_id, 5);
+            $number = substr($lastOrder->case_id, 5);
         }
+
        return 'CASE-' . sprintf('%06d', intval($number) + 1);
     }
 
