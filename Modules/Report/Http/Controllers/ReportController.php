@@ -333,6 +333,12 @@ class ReportController extends Controller
                         if ($request->get('postal_code') != '') {
                             $query->where('u.zip', $request->get('postal_code'));
                         }
+                        if ($request->get('check_in_date') != '') {
+                            $query->whereDate('b.check_in_date', date('Y-m-d', strtotime($request->get('check_in_date'))));
+                        }
+                        if ($request->get('check_out_date') != '') {
+                            $query->whereDate('b.check_out_date', date('Y-m-d', strtotime($request->get('check_out_date'))));
+                        }
                     }
                 })
                 ->orderby('booked_on','desc')

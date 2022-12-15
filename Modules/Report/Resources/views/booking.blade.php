@@ -136,7 +136,7 @@
                                     <div class="form-icon form-icon-left">
                                         <em class="icon ni ni-calendar"></em>
                                     </div>
-                                    <input type="text" class="form-control date-picker" id="check_in_date" placeholder="Check in Date" data-date-format="yyyy-mm-dd">
+                                    <input type="text" class="form-control date-picker" id="check_in_date" name="check_in_date" placeholder="Check in Date" data-date-format="yyyy-mm-dd">
                                 </div>
                             </div>
                         </div>
@@ -149,7 +149,7 @@
                                     <div class="form-icon form-icon-left">
                                         <em class="icon ni ni-calendar"></em>
                                     </div>
-                                    <input type="text" class="form-control date-picker" id="check_out_date" placeholder="Check out Date" data-date-format="yyyy-mm-dd">
+                                    <input type="text" class="form-control date-picker" id="check_out_date" name="check_out_date" placeholder="Check out Date" data-date-format="yyyy-mm-dd">
                                 </div>
                             </div>
                         </div>
@@ -160,8 +160,8 @@
                             <div class="col-lg-7">
                                 <x-inputs.select  size="sm" name="booking_status" for="booking_status" placeholder="Select Booking Status">
                                     <option value="">Select</option>
-                                    <option value="Recevied">Recevied</option>
-                                    <option value="Confirmed">Confirmed</option>
+                                    <option value="Booking Received">Booking Received</option>
+                                    <option value="Payment Completed">Payment Completed</option>
                                     <option value="Booking Shared">Booking Shared</option>
                                     <option value="Confirmation Recevied">Confirmation Recevied</option>
                                     <option value="Cancellation Requested">Cancellation Requested</option>
