@@ -154,7 +154,7 @@
                                 <x-inputs.verticalFormLabel label="Registration Date" for="registration_date" suggestion="Enter the postal code." />
                             </div>
                             <div class="col-lg-7">
-                                <x-inputs.text  value="" for="registration_date" name="registration_date" placeholder="Registration Date" class="date-picker" />
+                                <x-inputs.text  value="" for="registration_date" name="registration_date" id="registration_date" placeholder="Registration Date" class="date-picker" />
                             </div>
                         </div>
                     </div>
@@ -179,6 +179,7 @@
 
     <script src="{{url('js/tableFlow.js')}}"></script>
     <script type="text/javascript">
+        $('#registration_date').datepicker({ format: 'dd/mm/yyyy' });
 
         $('.export_data').on('click', function (e) {
             var myUrl = $(this).attr('data-href');
@@ -324,10 +325,10 @@
                 },
                 filterSubmit: '.submitBtn',
                 filterSubmitCallback: function() {
-                    $('#modalFilterUser').modal('toggle');
+                    $('#modalFilterorder').modal('toggle');
                 },
                 filterClearSubmit: '.resetFilter',
-                filterModalId: '#modalFilterUser',
+                filterModalId: '#modalFilterorder',
                 filterItems: items,
                 tagId: '#filter_tag_list',
             });
