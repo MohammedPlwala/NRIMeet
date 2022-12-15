@@ -72,7 +72,24 @@ class Helpers {
         return $booking;
 	}
 
+	public static function sendBookingReceiveMailsOverseas($booking_id) {
 
+
+		$bookingDetails = self::bookingDetails($booking_id);
+		$to_name = $bookingDetails->guest;
+		$to_email = $bookingDetails->guest_email;
+		// $to_email = $bookingDetails->guest_email;
+
+		$emails = array(\Config::get('constants.OVERSEAS_EMAIL'));
+
+		$data = array('bookingDetails'=>$bookingDetails);
+		Mail::send('emails.booking', $data, function ($message)  use ($to_name, $to_email,$emails) {
+			// $message->to($to_email, $to_name)
+			$message->to($emails, $to_name)
+			->subject('Thank you for booking with Pravasi Bharatiya Divas 2023')
+			->from(\Config::get('constants.MAIL_FROM'),'Pravasi Bhartiya Divas');
+		});
+	}
 
 	public static function sendBookingReceiveMails($booking_id) {
 

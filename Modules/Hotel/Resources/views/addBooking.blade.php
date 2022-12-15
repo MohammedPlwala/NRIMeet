@@ -425,7 +425,7 @@
             $('#hotel').change(function() {
                 var root_url = "<?php echo Request::root(); ?>";
                 $.ajax({
-                    url: root_url + '/admin/hotel/hotel-rooms/' + $(this).val(),
+                    url: root_url + '/admin/hotel/hotel-rooms/' + $(this).val()+'?requestFor=add',
                     data: {
 
                     },
@@ -456,6 +456,13 @@
                                         .text(room.room_type_name));
                             });
 
+                        }else{
+                            $('.roomType')
+                                .find('option')
+                                .remove()
+                                .end()
+                                .append('<option value="">Select Room</option>');
+                            alert('No rooms available for bookings in the selected hotel');
                         }
                     }
                 });
