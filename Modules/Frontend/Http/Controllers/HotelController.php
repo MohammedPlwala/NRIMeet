@@ -564,6 +564,7 @@ class HotelController extends Controller
                             if($booking){
                                 $booking->booking_status = 'Payment Completed';
                                 $booking->save();
+                                \Helpers::sendBookingReceiveMails($booking_id);
                                 return redirect('thankyou?booking_id='.$booking_id);
                             }
                         }
@@ -779,15 +780,11 @@ class HotelController extends Controller
                     if($booking){
                         $booking->booking_status = 'Payment Completed';
                         $booking->save();
+                        \Helpers::sendBookingReceiveMails($booking_id);
                         return redirect('thankyou?booking_id='.$booking_id);
                     }
                 }
             }
-
-
-            echo Session::get('booking_id');
-            die;
-
 
             $bookingData = json_decode (json_encode ($bookingData), FALSE);
             $billingDetails = json_decode (json_encode ($billingDetails), FALSE);
@@ -889,6 +886,7 @@ class HotelController extends Controller
                     return redirect('booking-summary')->with('error', 'Something went wrong with booking');
                 }
             }else{
+                \Helpers::sendBookingReceiveMailsOverseas($booking->id);
                 return $booking->id;
             }
 

@@ -1033,7 +1033,7 @@ class HotelController extends Controller
 
 
 
-            $booking->booking_type = 'Offline';
+            // $booking->booking_type = 'Offline';
             $booking->confirmation_number = $request->confirmation_number;
             $booking->utr_number = $request->utr_number;
             $booking->settlement_date = date('Y-m-d',strtotime($request->settlement_date));
@@ -1189,8 +1189,14 @@ class HotelController extends Controller
                 ->select('hr.id', 'hr.hotel_id', 'hr.name', 'hr.type_id', 'hr.description', 'hr.allocated_rooms', 'hr.mpt_reserve', 'hr.count', 'hr.rate', 'hr.extra_bed_available', 'hr.extra_bed_rate', 'hr.status','rt.name as room_type_name')
                 ->join('room_types as rt','rt.id','=','hr.type_id')
                 ->where('hr.hotel_id',$hotel_id)
+                ->where(function ($query) use ($request) {
+                    if (!empty($request->toArray())) {
+                        if (isset($request->requestFor) && $request->requestFor != '') {
+                            $query->where('hr.count', ">" ,0);
+                        }
+                    }
+                })
                 // ->where('hr.status', 'active')
-                // ->where('hr.count', ">" ,'0')
                 ->orderby('rt.name','asc')
                 ->get();
         if(!empty($hotelRooms->toArray())){
