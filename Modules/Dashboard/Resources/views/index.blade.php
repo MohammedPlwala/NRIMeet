@@ -17,7 +17,7 @@
                             <div class="form-icon form-icon-left">
                                 <em class="icon ni ni-calendar"></em>
                             </div>
-                            <input type="text" class="form-control date-picker" placeholder="Date" data-date-format="d-M-yyyy" id="date" name="date">
+                            <input type="text" class="form-control date-picker" placeholder="Date" data-date-format="d-M-yyyy" id="date" name="date" value="{{ date('d-M-Y', strtotime($date.'-1 day')) }}">
                         </div>
                     </div>
                 </div>
@@ -122,7 +122,7 @@
                             <li class="item">
                                 <div class="info">
                                     <div class="title">Cancellation Request</div>
-                                    <div class="count">{{ $cancellation_request->count() }}
+                                    <div class="count">{{ $cancellation_request->count() }}</div>
                                 </div>
                                 <em class="icon bg-purple-dim ni ni-server"></em>
                             </li>
@@ -323,14 +323,14 @@
                             <li class="item">
                                 <div class="info">
                                     <div class="title">Total Payment</div>
-                                    <div class="count">{{ $total_payment->total_amount != '' ? $total_payment->total_amount : '0.00' }}</div>
+                                    <div class="count">@convert($total_payment->total_amount)</div>
                                 </div>
                                 <em class="icon bg-primary-dim ni ni-sign-inr"></em>
                             </li>
                             <li class="item">
                                 <div class="info">
                                     <div class="title">Payment Confirmed</div>
-                                    <div class="count">{{ $total_payment->confirmed_amount != '' ? $total_payment->confirmed_amount : '0.00' }}</div>
+                                    <div class="count">@convert($total_payment->confirmed_amount)</div>
                                 </div>
                                 <em class="icon bg-success-dim ni ni-check"></em>
                             </li>
@@ -344,38 +344,26 @@
                             <li class="item">
                                 <div class="info">
                                     <div class="title">Refund Approved</div>
-                                    <div class="count">{{ $total_payment->refund_approved_amount != '' ? $total_payment->refund_approved_amount : '0.00' }}</div>
+                                    <div class="count">@convert($payment_refund_approved->refund_approved_amount)</div>
                                 </div>
                                 <em class="icon bg-purple-dim ni ni-check-round-cut"></em>
                             </li>
                             <li class="item">
                                 <div class="info">
                                     <div class="title">Refund Issued</div>
-                                    <div class="count">{{ $total_payment->refund_issued_amount != '' ? $total_payment->refund_issued_amount : '0.00' }}</div>
+                                    <div class="count">@convert($payment_refund_issued->refund_issued_amount)</div>
                                 </div>
                                 <em class="icon bg-pink-dim ni ni-server"></em>
                             </li>
+                            @foreach($payment as $room_type => $amount)
                             <li class="item">
                                 <div class="info">
-                                    <div class="title">Base</div>
-                                    <div class="count">0.00</div>
+                                    <div class="title">{{ $room_type }}</div>
+                                    <div class="count">@convert($amount)</div>
                                 </div>
                                 <em class="icon bg-pink-dim ni ni-server"></em>
                             </li>
-                            <li class="item">
-                                <div class="info">
-                                    <div class="title">Premium</div>
-                                    <div class="count">0.00</div>
-                                </div>
-                                <em class="icon bg-pink-dim ni ni-server"></em>
-                            </li>
-                            <li class="item">
-                                <div class="info">
-                                    <div class="title">Suite</div>
-                                    <div class="count">0.00</div>
-                                </div>
-                                <em class="icon bg-pink-dim ni ni-server"></em>
-                            </li>
+                            @endforeach
                         </ul>
                     </div><!-- .card-inner -->
                 </div><!-- .card -->
@@ -392,98 +380,50 @@
                             <li class="item">
                                 <div class="info">
                                     <div class="title">Total Inventory</div>
-                                    <div class="count">0.00</div>
+                                    <div class="count">{{ $total_inventory->total_inventory_rooms }}</div>
                                 </div>
                                 <em class="icon bg-primary-dim ni ni-list-round"></em>
                             </li>
+                            @foreach($allocated_rooms as $room_type => $rooms)
                             <li class="item">
                                 <div class="info">
-                                    <div class="title">Base Allocated</div>
-                                    <div class="count">0.00</div>
+                                    <div class="title">{{ $room_type }} Allocated</div>
+                                    <div class="count">{{ $rooms }}</div>
                                 </div>
                                 <em class="icon bg-success-dim ni ni-list-check"></em>
                             </li>
+                            @endforeach
+                            @foreach($booked_rooms as $room_type => $rooms)
                             <li class="item">
                                 <div class="info">
-                                    <div class="title">Base Booked</div>
-                                    <div class="count">0.00</div>
-                                </div>
-                                <em class="icon bg-warning-dim ni ni-list-ol"></em>
-                            </li>
-                            <li class="item">
-                                <div class="info">
-                                    <div class="title">Base Available</div>
-                                    <div class="count">0.00</div>
-                                </div>  
-                                <em class="icon bg-pink-dim ni ni-lock-alt"></em>
-                            </li>
-                            <li class="item">
-                                <div class="info">
-                                    <div class="title">Base MPT</div>
-                                    <div class="count">0.00</div>
-                                </div>  
-                                <em class="icon bg-pink-dim ni ni-lock-alt"></em>
-                            </li>
-                            <li class="item">
-                                <div class="info">
-                                    <div class="title">Premium Allocated</div>
-                                    <div class="count">0.00</div>
+                                    <div class="title">{{ $room_type }} Booked</div>
+                                    <div class="count">{{ $rooms }}</div>
                                 </div>
                                 <em class="icon bg-success-dim ni ni-list-check"></em>
                             </li>
+                            @endforeach
+                            @foreach($available_rooms as $room_type => $rooms)
                             <li class="item">
                                 <div class="info">
-                                    <div class="title">Premium Booked</div>
-                                    <div class="count">0.00</div>
-                                </div>
-                                <em class="icon bg-warning-dim ni ni-list-ol"></em>
-                            </li>
-                            <li class="item">
-                                <div class="info">
-                                    <div class="title">Premium Available</div>
-                                    <div class="count">0.00</div>
-                                </div>  
-                                <em class="icon bg-pink-dim ni ni-lock-alt"></em>
-                            </li>
-                            <li class="item">
-                                <div class="info">
-                                    <div class="title">Premium MPT</div>
-                                    <div class="count">0.00</div>
-                                </div>  
-                                <em class="icon bg-pink-dim ni ni-lock-alt"></em>
-                            </li>
-                            <li class="item">
-                                <div class="info">
-                                    <div class="title">Suite Allocated</div>
-                                    <div class="count">0.00</div>
+                                    <div class="title">{{ $room_type }} Available</div>
+                                    <div class="count">{{ $rooms }}</div>
                                 </div>
                                 <em class="icon bg-success-dim ni ni-list-check"></em>
                             </li>
+                            @endforeach
+                            @foreach($mpt_reserve_rooms as $room_type => $rooms)
                             <li class="item">
                                 <div class="info">
-                                    <div class="title">Suite Booked</div>
-                                    <div class="count">0.00</div>
+                                    <div class="title">{{ $room_type }} MPT</div>
+                                    <div class="count">{{ $rooms }}</div>
                                 </div>
-                                <em class="icon bg-warning-dim ni ni-list-ol"></em>
+                                <em class="icon bg-success-dim ni ni-list-check"></em>
                             </li>
-                            <li class="item">
-                                <div class="info">
-                                    <div class="title">Suite Available</div>
-                                    <div class="count">0.00</div>
-                                </div>  
-                                <em class="icon bg-pink-dim ni ni-lock-alt"></em>
-                            </li>
-                            <li class="item">
-                                <div class="info">
-                                    <div class="title">Suite MPT</div>
-                                    <div class="count">0.00</div>
-                                </div>  
-                                <em class="icon bg-pink-dim ni ni-lock-alt"></em>
-                            </li>
+                            @endforeach
                             <li class="item">
                                 <div class="info">
                                     <div class="title">Under Cancellation</div>
-                                    <div class="count">0.00</div>
+                                    <div class="count">{{ $under_cancellation->count() }}</div>
                                 </div>
                                 <em class="icon bg-warning-dim ni ni-cross-circle"></em>
                             </li>
@@ -503,49 +443,49 @@
                             <li class="item">
                                 <div class="info">
                                     <div class="title">Calls Till Date</div>
-                                    <div class="count">0.00</div>
+                                    <div class="count">{{ $total_calls->count() }}</div>
                                 </div>
                                 <em class="icon bg-primary-dim ni ni-call"></em>
                             </li>
                             <li class="item">
                                 <div class="info">
                                     <div class="title">Todays Call</div>
-                                    <div class="count">0.00</div>
+                                    <div class="count">{{ $todays_calls->count() }}</div>
                                 </div>
                                 <em class="icon bg-info-dim ni ni-call-alt"></em>
                             </li>
                             <li class="item">
                                 <div class="info">
                                     <div class="title">Whstapp Till Date</div>
-                                    <div class="count">0.00</div>
+                                    <div class="count">{{ $total_whatsapp->count() }}</div>
                                 </div>
                                 <em class="icon bg-pink-dim ni ni-whatsapp"></em>
                             </li>
                             <li class="item">
                                 <div class="info">
                                     <div class="title">Whstapp Today</div>
-                                    <div class="count">0.00</div>
+                                    <div class="count">{{ $todays_whatsapp->count() }}</div>
                                 </div>  
                                 <em class="icon bg-purple-dim ni ni-whatsapp"></em>
                             </li>
                             <li class="item">
                                 <div class="info">
                                     <div class="title">Total Concenrs</div>
-                                    <div class="count">0.00</div>
+                                    <div class="count">{{ $total_concern->count() }}</div>
                                 </div>
                                 <em class="icon bg-purple-dim ni ni-question"></em>
                             </li>
                             <li class="item">
                                 <div class="info">
                                     <div class="title">Closed Concern</div>
-                                    <div class="count">0.00</div>
+                                    <div class="count">{{ $closed_concern->count() }}</div>
                                 </div>
                                 <em class="icon bg-danger-dim ni ni-question-alt"></em>
                             </li>
                             <li class="item">
                                 <div class="info">
                                     <div class="title">Open Concern</div>
-                                    <div class="count">0.00</div>
+                                    <div class="count">{{ $open_concern->count() }}</div>
                                 </div>
                                 <em class="icon bg-info-dim ni ni-chat"></em>
                             </li>
@@ -559,14 +499,14 @@
                             <li class="item">
                                 <div class="info">
                                     <div class="title">Pending with MEA</div>
-                                    <div class="count">0.00</div>
+                                    <div class="count">{{ $mea_pending->count() }}</div>
                                 </div>
                                 <em class="icon bg-warning-dim ni ni-clock"></em>
                             </li>
                             <li class="item">
                                 <div class="info">
                                     <div class="title">Pending with MPTDC</div>
-                                    <div class="count">0.00</div>
+                                    <div class="count">{{ $mptdc_pending->count() }}</div>
                                 </div>
                                 <em class="icon bg-warning-dim ni ni-clock"></em>
                             </li>
@@ -580,4 +520,10 @@
 @endsection
 @push('footerScripts')
 <script src="{{url('js/chart-ecommerce.js')}}"></script>
+<script type="text/javascript">
+    $('.date-picker').change(function() {
+        var date = $(this).val();
+        window.location.replace("/admin/dashboard?date="+date);
+    });
+</script>
 @endpush

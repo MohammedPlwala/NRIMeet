@@ -24,6 +24,13 @@ class HotelController extends Controller
     const TEST_URL = 'https://sandboxsecure.payu.in';
     const PRODUCTION_URL = 'https://secure.payu.in';
 
+    public function __construct()
+    {
+        $this->success      = '200';
+        $this->ok           = '200';
+        $this->accessDenied = '400';
+    }
+
 	/**
      * Display a listing of the resource.
      * @return Renderable
@@ -54,9 +61,11 @@ class HotelController extends Controller
             }
         }
 
+        Session::forget('booking_id');
         Session::put('cartData', '');
         Session::put('billingDetails', '');
         Session::put('bookingData', '');
+
         if(isset($request->date_from)){
             \Session::put('date_from', $request->date_from);
         }
@@ -505,61 +514,7 @@ class HotelController extends Controller
         }
     }
 
-    public function saveRazorPayPayment(Request $request)
-    {
-        $input = $request->all();
-  
-        $api = new Api(config('constants.RAZORPAY_KEY'),config('constants.RAZORPAY_SECRET'));
-        $payment = $api->payment->fetch($input['razorpay_payment_id']);
-  
-        if(count($input)  && !empty($input['razorpay_payment_id'])) {
-            try {
-                $response = $api->payment->fetch($input['razorpay_payment_id'])->capture(array('amount'=>$payment['amount'])); 
-
-                if($response->status == 'captured' && $response->captured == 1){
-                    \DB::beginTransaction();
-                    $bookingData = json_decode($request->bookingData);
-                    $billingDetails = json_decode($request->billingData);
-                    $booking = $this->bookingSave($bookingData,$billingDetails,$response,'Razorpay',$response->id);
-                    return redirect('thankyou?booking_id='.$booking);
-                    // $booking_rooms = BookingRoom::where('booking_id',$booking)->get();
-                    // if(!empty($booking_rooms->toArray())){
-                    //     foreach ($booking_rooms as $key => $booking_room) {
-                    //         $hotelRoom = HotelRoom::findorfail($booking_room->room_id);
-                    //         if($hotelRoom){
-                    //             $hotelRoom->count = $hotelRoom->count-1;
-                    //             $hotelRoom->save();
-                    //         }
-                    //     }
-                    // }
-
-                    // \Session::put('date_to', $request->date_to);
-
-                    // Session::forget('billingDetails');
-                    // Session::forget('bookingData');
-                    // Session::forget('cartData');
-                    // Session::forget('date_from');
-                    // Session::forget('date_to');
-                    // Session::forget('room_one_adult');
-                    // Session::forget('room_one_child');
-                    // Session::forget('room_two_adult');
-                    // Session::forget('room_two_child'); 
-
-                    return view('frontend::thankyou');
-                }
-  
-            } catch (Exception $e) {
-                return  $e->getMessage();
-                Session::put('error',$e->getMessage());
-                return redirect()->back();
-            }
-        }
-          
-        Session::put('success', 'Payment successful');
-        return redirect()->back();
-    }
-
-     public function billDeskForm(Request $request){
+    public function billDeskForm(Request $request){
         $data = $request->all();
         return view('frontend::bill_desk');
     }
@@ -581,6 +536,58 @@ class HotelController extends Controller
         return $checksum;
     }
 
+    public function saveRazorPayPayment(Request $request)
+    {
+        $input = $request->all();
+  
+        $api = new Api(config('constants.RAZORPAY_KEY'),config('constants.RAZORPAY_SECRET'));
+        $payment = $api->payment->fetch($input['razorpay_payment_id']);
+  
+        if(count($input)  && !empty($input['razorpay_payment_id'])) {
+            try {
+                $response = $api->payment->fetch($input['razorpay_payment_id'])->capture(array('amount'=>$payment['amount'])); 
+
+                if($response->status == 'captured' && $response->captured == 1){
+
+                    if(Session::has('booking_id')){
+                        $booking_id = Session::get('booking_id');
+
+                        $transaction = new Transaction();
+                        $transaction->booking_id = $booking_id;
+                        $transaction->transaction_id = $response->id;
+                        $transaction->payment_method = 'Razorpay';
+                        $transaction->payment_mode = 'Online';
+                        $transaction->payment_meta = json_encode($response);
+                        $transaction->status = 'confirmed';
+                        if($transaction->save()){
+                            $booking = Booking::findorfail($booking_id);
+                            if($booking){
+                                $booking->booking_status = 'Payment Completed';
+                                $booking->save();
+                                \Helpers::sendBookingReceiveMails($booking_id);
+                                return redirect('thankyou?booking_id='.$booking_id);
+                            }
+                        }
+                    }
+
+                    \DB::beginTransaction();
+                    $bookingData = json_decode($request->bookingData);
+                    $billingDetails = json_decode($request->billingData);
+                    $booking = $this->bookingSave($bookingData,$billingDetails,$response,'Razorpay',$response->id);
+                    return redirect('thankyou?booking_id='.$booking);
+                }
+  
+            } catch (Exception $e) {
+                return  $e->getMessage();
+                Session::put('error',$e->getMessage());
+                return redirect()->back();
+            }
+        }
+          
+        Session::put('success', 'Payment successful');
+        return redirect()->back();
+    }
+
     public function razorPayForm(Request $request){
         $data = $request->all();
         if(isset($request->bookingData)){
@@ -590,6 +597,16 @@ class HotelController extends Controller
             $bookingData = Session::get('bookingData');
         }
         unset($data['bookingData']);
+
+        $billingDetails = json_encode($data);
+        $billingDetails = json_decode($billingDetails);
+
+        $bookingDetails = json_encode($bookingData);
+        $bookingDetails = json_decode($bookingDetails);
+
+        $booking = $this->bookingSave($bookingDetails,$billingDetails,'','Razorpay','');
+        Session::put('booking_id',$booking);
+
         return view('frontend::razorpay_form',['data' => $data,'bookingData' => $bookingData]);
     }
 
@@ -641,13 +658,6 @@ class HotelController extends Controller
         }
 
         $bookingData = json_decode($request->bookingData,true);
-
-
-        // echo "<pre>";
-        // print_r($billingDetails);
-        // print_r($bookingData);
-        // print_r($data);
-        // die;
 
         unset($data['bookingData']);
         unset($data['billing_first_name']);
@@ -731,6 +741,15 @@ class HotelController extends Controller
         Session::put('billingDetails', $billingDetails);
         Session::put('bookingData', $bookingData);
 
+
+        $pbookingData = json_decode (json_encode ($bookingData), FALSE);
+        $pbillingDetails = json_decode (json_encode ($billingDetails), FALSE);
+
+        if(!Session::has('booking_id')){
+            $booking = $this->bookingSave($pbookingData,$pbillingDetails,'','Payu','');
+            Session::put('booking_id',$booking);
+        }
+
         return view('frontend::payu_form',
             compact('hash', 'action', 'MERCHANT_KEY', 'formError', 'txnid', 'posted', 'SALT','billingDetails','bookingData'));
     }
@@ -744,6 +763,29 @@ class HotelController extends Controller
         $data = $request->all();
         
         if(isset($data['status']) && $data['status'] == 'success'){
+
+
+            if(Session::has('booking_id')){
+                $booking_id = Session::get('booking_id');
+
+                $transaction = new Transaction();
+                $transaction->booking_id = $booking_id;
+                $transaction->transaction_id = $data['txnid'];
+                $transaction->payment_method = 'Payu';
+                $transaction->payment_mode = 'Online';
+                $transaction->payment_meta = json_encode($data);
+                $transaction->status = 'confirmed';
+                if($transaction->save()){
+                    $booking = Booking::findorfail($booking_id);
+                    if($booking){
+                        $booking->booking_status = 'Payment Completed';
+                        $booking->save();
+                        \Helpers::sendBookingReceiveMails($booking_id);
+                        return redirect('thankyou?booking_id='.$booking_id);
+                    }
+                }
+            }
+
             $bookingData = json_decode (json_encode ($bookingData), FALSE);
             $billingDetails = json_decode (json_encode ($billingDetails), FALSE);
             $booking = $this->bookingSave($bookingData,$billingDetails,$data,'Payu',$data['txnid']);
@@ -771,7 +813,7 @@ class HotelController extends Controller
         $booking->amount = $bookingData->amount;
         $booking->special_request = $bookingData->special_request;
         $booking->customer_booking_status = 'Received';
-        $booking->booking_status = 'Payment Completed';
+        $booking->booking_status = 'Booking Received';
         if($booking->save()){
             $bookingRooms = $bookingData->rooms;
             foreach ($bookingRooms as $key => $bookingRoom) {
@@ -827,24 +869,27 @@ class HotelController extends Controller
                 return redirect('booking-summary')->with('error', 'Something went wrong with booking');
             }
 
-            $transaction = new Transaction();
-            $transaction->booking_id = $booking->id;
-            $transaction->transaction_id = $transaction_id;
-            $transaction->payment_method = $gateWay;
-            $transaction->payment_mode = 'Online';
-            $transaction->payment_meta = json_encode($response);
-            $transaction->status = 'confirmed';
-            if($transaction->save()){
-                \DB::commit();
-                \Helpers::sendBookingReceiveMails($booking->id);
-
-                return $booking->id;
-                return redirect('thankyou?booking_id='.$booking->id)->with('message', 'Booking Successful.');
+            if($transaction_id != ""){
+                $transaction = new Transaction();
+                $transaction->booking_id = $booking->id;
+                $transaction->transaction_id = $transaction_id;
+                $transaction->payment_method = $gateWay;
+                $transaction->payment_mode = 'Online';
+                $transaction->payment_meta = json_encode($response);
+                $transaction->status = 'confirmed';
+                if($transaction->save()){
+                    \DB::commit();
+                    \Helpers::sendBookingReceiveMails($booking->id);
+                    return $booking->id;
+                }else{
+                    \DB::rollback();
+                    return redirect('booking-summary')->with('error', 'Something went wrong with booking');
+                }
             }else{
-                
-                \DB::rollback();
-                return redirect('booking-summary')->with('error', 'Something went wrong with booking');
+                \Helpers::sendBookingReceiveMailsOverseas($booking->id);
+                return $booking->id;
             }
+
         }else{
             
             \DB::rollback();
@@ -854,6 +899,11 @@ class HotelController extends Controller
 
     public function bookingConfirmed(Request $request)
     {
+
+        Session::put('cartData', '');
+        Session::forget('booking_id');
+        Session::forget('billingDetails');
+        Session::forget('bookingData');
 
         $order_id = "";
         if(isset($request->booking_id)){

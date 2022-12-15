@@ -20,28 +20,10 @@ class CustomDataTable {
     // Get Data from APIs
     init() {
         var vm = this;
-        var FilterDetails = localStorage.getItem(vm.pageName);
-        // Fetch Filter Data From Local Storage And Fill In The Form'S Fields
-        function fetchFilterDetails() {
-            if(FilterDetails != '' && FilterDetails != null){
-                var FilteredList = JSON.parse(FilterDetails);
-                jQuery.each(FilteredList, function(key, item) {
-                    $(vm.filterModalId).find('[name="'+key+'"]').val(item).trigger("change");
-                });
-            }
-        };
-        fetchFilterDetails();
-        vm.option.ajax.data = function(d) {
-            if(FilterDetails != '' && FilterDetails != null){
-                var getFilter = JSON.parse(FilterDetails);
-                d = Object.assign(d, getFilter);
-            }
-        }
         vm.option.ajax.dataSrc = function(res) {
             $('.record_count').text(res.recordsTotal);
             return res.data;
         }
-        vm.filterTag();
         return NioApp.DataTable(vm.tableElem, vm.option)
     }
     // Draw Table
@@ -149,7 +131,6 @@ class CustomDataTable {
             listElement.append(crossElement);
             ulElement.appendChild(listElement);
             $list.append(ulElement);
-            
         }
         
         jQuery.each(vm.filterItems, function(i, elementName) {
