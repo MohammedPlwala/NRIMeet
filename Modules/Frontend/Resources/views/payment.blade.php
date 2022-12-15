@@ -104,7 +104,7 @@
                             </div>
                             <div class="form-item">
                                 <label class="form-label">Phone <span class="required" title="required">*</span></label>
-                                <input type="tel" class="input-text " name="billing_phone" id="billing_phone"
+                                <input type="tel" class="input-text " name="billing_phone" id="billing_phone" data-parsley-pattern="{{ \Config::get('constants.REGEX.VALIDATE_NUMBER') }}"
                                     placeholder="" value="" autocomplete="tel" required />
                             </div>
                             <div class="form-item">
@@ -118,7 +118,7 @@
                             <div class="form-item">
                                 <label class="form-label">Alternate Phone <span class="required"
                                         title="optional">(optional)</span></label>
-                                <input type="text" class="input-text " name="billing_phone2" id="billing_phone2"
+                                <input type="tel" class="input-text " name="billing_phone2" id="billing_phone2" data-parsley-pattern="{{ \Config::get('constants.REGEX.VALIDATE_NUMBER') }}"
                                     placeholder="Alternate Phone" value="" />
                             </div>
                             <div class="form-item">

@@ -858,7 +858,7 @@ header.header {
   flex-basis: 100%;
   margin-top: 5px;
 }
-.parsley-errors-list .parsley-required{
+.parsley-errors-list .parsley-required, .parsley-errors-list .parsley-pattern{
   font-size: 12px;
   color: #F00;
 }
@@ -1239,6 +1239,14 @@ a.shb-booking-continue{
   line-height: 180%;
   margin: unset !important;
   color: #656a70;
+}
+.i-agree-checkbox{
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+.i-agree-checkbox label{
+  margin: 0;
 }
 .guests_info_front_main_div textarea{
   min-height: 52px;
