@@ -1642,6 +1642,14 @@ class ReportController extends Controller
                     ->addColumn('amount', function ($row) { 
                         return '₹'.number_format($row->amount, 2);
                     })
+                    ->addColumn('check_in_date', function ($row) {
+                        $check_in_date = date(\Config::get('constants.DATE.DATE_FORMAT'), strtotime($row->check_in_date));
+                        return $check_in_date;
+                    })
+                    ->addColumn('check_out_date', function ($row) {
+                        $check_out_date = date(\Config::get('constants.DATE.DATE_FORMAT'), strtotime($row->check_out_date));
+                        return $check_out_date;
+                    })
                     ->rawColumns(['order_id'])
                     ->make(true);
         }
@@ -1744,6 +1752,10 @@ class ReportController extends Controller
                 if ($request->ajax()) {
                     return Datatables::of($data)
                     ->addIndexColumn()
+                    ->addColumn('check_in_date', function ($row) {
+                        $check_in_date = date(\Config::get('constants.DATE.DATE_FORMAT'), strtotime($row->check_in_date));
+                        return $check_in_date;
+                    })
                     ->rawColumns(['order_id'])
                     ->skipPaging()
                     ->make(true);
@@ -1816,6 +1828,10 @@ class ReportController extends Controller
                 if ($request->ajax()) {
                     return Datatables::of($data)
                     ->addIndexColumn()
+                    ->addColumn('check_out_date', function ($row) {
+                        $check_out_date = date(\Config::get('constants.DATE.DATE_FORMAT'), strtotime($row->check_out_date));
+                        return $check_out_date;
+                    })
                     ->rawColumns(['order_id'])
                     ->skipPaging()
                     ->make(true);
@@ -2013,6 +2029,14 @@ class ReportController extends Controller
                 if ($request->ajax()) {
                     return Datatables::of($data)
                     ->addIndexColumn()
+                    ->addColumn('checkin_date', function ($row) {
+                        $checkin_date = date(\Config::get('constants.DATE.DATE_FORMAT') , strtotime($row->checkin_date));
+                        return $checkin_date;
+                    })
+                    ->addColumn('checkout_date', function ($row) {
+                        $checkout_date = date(\Config::get('constants.DATE.DATE_FORMAT') , strtotime($row->checkout_date));
+                        return $checkout_date;
+                    })
                     // ->rawColumns(['order_id'])
                     ->make(true);
         }

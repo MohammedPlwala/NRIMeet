@@ -307,7 +307,7 @@
                             name: 'adult_count'
                         },
                         {
-                            "class": "nk-tb-col tb-col-lg",
+                            "class": "nk-tb-col tb-col-lg text-center",
                             data: 'child_count',
                             name: 'child_count'
                         },
