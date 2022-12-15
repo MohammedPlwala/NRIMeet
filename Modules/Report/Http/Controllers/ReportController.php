@@ -83,7 +83,10 @@ class ReportController extends Controller
         if ($request->ajax()) {
             return Datatables::of($data)
                     ->addIndexColumn()
-                    
+                    ->addColumn('registration_date', function ($row) {
+                        $registration_date = date(\Config::get('constants.DATE.DATE_FORMAT'), strtotime($row->registration_date));
+                        return $registration_date;
+                    })
                     ->addColumn('status', function ($row) {
                         if($row->status == 'active'){
                             $statusValue = 'Active';
@@ -347,6 +350,14 @@ class ReportController extends Controller
                     ->addColumn('booked_on', function ($row) {
                         $booked_on = date(\Config::get('constants.DATE.DATE_FORMAT_FULL') , strtotime($row->booked_on));
                         return $booked_on;
+                    })
+                    ->addColumn('check_in_date', function ($row) {
+                        $check_in_date = date(\Config::get('constants.DATE.DATE_FORMAT') , strtotime($row->check_in_date));
+                        return $check_in_date;
+                    })
+                    ->addColumn('check_out_date', function ($row) {
+                        $check_out_date = date(\Config::get('constants.DATE.DATE_FORMAT') , strtotime($row->check_out_date));
+                        return $check_out_date;
                     })
                     ->addColumn('booking_status', function ($row) {
                         $booking_status_class = 'success';
@@ -662,6 +673,14 @@ class ReportController extends Controller
         if ($request->ajax()) {
             return Datatables::of($data)
                     ->addIndexColumn()
+                    ->addColumn('booking_date', function ($row) {
+                        $booking_date = date(\Config::get('constants.DATE.DATE_FORMAT'), strtotime($row->booking_date));
+                        return $booking_date;
+                    })
+                    ->addColumn('payment_date', function ($row) {
+                        $payment_date = date(\Config::get('constants.DATE.DATE_FORMAT'), strtotime($row->payment_date));
+                        return $payment_date;
+                    })
                     ->addColumn('tax', function ($row) { 
                         return '₹'.number_format($row->tax, 2);
                     })
@@ -710,6 +729,10 @@ class ReportController extends Controller
                         }
                         $payment_mode = '<span class="badge badge-'.$payment_mode_class.'" >'. $row->payment_mode .'</span>';
                         return $payment_mode;
+                    })
+                    ->addColumn('settlement_date', function ($row) {
+                        $settlement_date = date(\Config::get('constants.DATE.DATE_FORMAT'), strtotime($row->settlement_date));
+                        return $settlement_date;
                     })
                     ->rawColumns(['status', 'booking_status', 'payment_mode'])
                     ->make(true);
@@ -854,6 +877,22 @@ class ReportController extends Controller
         if ($request->ajax()) {
             return Datatables::of($data)
                 ->addIndexColumn()
+                ->addColumn('check_in_date', function ($row) {
+                    $check_in_date = date(\Config::get('constants.DATE.DATE_FORMAT') , strtotime($row->check_in_date));
+                    return $check_in_date;
+                })
+                ->addColumn('check_out_date', function ($row) {
+                    $check_out_date = date(\Config::get('constants.DATE.DATE_FORMAT') , strtotime($row->check_out_date));
+                    return $check_out_date;
+                })
+                ->addColumn('cancellation_request_date', function ($row) {
+                    $cancellation_request_date = date(\Config::get('constants.DATE.DATE_FORMAT') , strtotime($row->cancellation_request_date));
+                    return $cancellation_request_date;
+                })
+                ->addColumn('cancellation_date', function ($row) {
+                    $cancellation_date = date(\Config::get('constants.DATE.DATE_FORMAT') , strtotime($row->cancellation_date));
+                    return $cancellation_date;
+                })
                 ->addColumn('amount', function ($row) { 
                     return '₹'.number_format($row->amount, 2);
                 })
@@ -1017,6 +1056,22 @@ class ReportController extends Controller
         if ($request->ajax()) {
             return Datatables::of($data)
                 ->addIndexColumn()
+                ->addColumn('check_in_date', function ($row) {
+                    $check_in_date = date(\Config::get('constants.DATE.DATE_FORMAT') , strtotime($row->check_in_date));
+                    return $check_in_date;
+                })
+                ->addColumn('check_out_date', function ($row) {
+                    $check_out_date = date(\Config::get('constants.DATE.DATE_FORMAT') , strtotime($row->check_out_date));
+                    return $check_out_date;
+                })
+                ->addColumn('refund_request_date', function ($row) {
+                    $refund_request_date = date(\Config::get('constants.DATE.DATE_FORMAT') , strtotime($row->refund_request_date));
+                    return $refund_request_date;
+                })
+                ->addColumn('refund_date', function ($row) {
+                    $refund_date = date(\Config::get('constants.DATE.DATE_FORMAT') , strtotime($row->refund_date));
+                    return $refund_date;
+                })
                 ->addColumn('amount', function ($row) { 
                     return '₹'.number_format($row->amount, 2);
                 })
