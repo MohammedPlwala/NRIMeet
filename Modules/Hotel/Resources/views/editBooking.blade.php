@@ -458,9 +458,15 @@
                                     <x-inputs.select value="{{ isset($booking) ? $booking->payment_method : '' }}" 
                                         for="payment_method"  
                                          name="payment_method" >
-                                         <option value="Payu">Payu</option>
-                                         <option value="Razorpay">Razorpay</option>
-                                         <option value="Billdesk">Billdesk</option>
+                                         <option 
+                                         @if(isset($booking->payment_method) && $booking->payment_method == 'Payu') selected  @endif
+                                         value="Payu">Payu</option>
+                                         <option 
+                                         @if(isset($booking->payment_method) && $booking->payment_method == 'Razorpay') selected  @endif
+                                         value="Razorpay">Razorpay</option>
+                                         <option 
+                                         @if(isset($booking->payment_method) && $booking->payment_method == 'Billdesk') selected  @endif
+                                         value="Billdesk">Billdesk</option>
                                     </x-inputs.select>
                                 </div>
                             </div>

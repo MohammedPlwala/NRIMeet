@@ -515,6 +515,25 @@ class HotelController extends Controller
     }
 
     public function billDeskForm(Request $request){
+
+        $request = array(
+            'mercid' => "MPSTDWCV2",
+            'orderid' => uniqid(),
+            'amount' => "1.0",
+            'order_date' => date_format(new \DateTime(), DATE_W3C),
+            'currency' => "356",
+            'ru' => "https://www.billdesk.io",
+            'itemcode' => "DIRECT",
+            'device' => array(
+                'init_channel' => 'internet',
+                'ip' => "192.168.1.1",
+                'user_agent' => 'Mozilla/5.0'
+            )
+        );
+
+        echo "sad";
+        die;
+
         $data = $request->all();
         return view('frontend::bill_desk');
     }

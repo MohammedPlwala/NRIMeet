@@ -177,7 +177,7 @@
                     {
                         "class": "nk-tb-col tb-col-lg",
                         data: 'full_name',
-                        name: 'name'
+                        name: 'full_name'
                     },
                     {
                         "class": "nk-tb-col tb-col-lg",

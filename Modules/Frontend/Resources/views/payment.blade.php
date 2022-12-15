@@ -177,9 +177,8 @@
                                 <p>Pay securely by Credit or Debit card or net banking through PayUBiz.</p>
                             </div>
                         </div>
-                        <div class="payment-radio-list-item">
-                            <input type="radio" name="gateway" class="gateway" value="razorpay"
-                                id="razorpay_radio" />
+                        {{-- <div class="payment-radio-list-item">
+                            <input type="radio" name="gateway" class="gateway" value="razorpay" id="razorpay_radio" />
                             <label for="razorpay_radio">
                                 Credit Card/Debit Card/NetBanking/UPI
                                 <img src="{{ url('/images/icici-logo.png') }}" alt="icici-logo" />
@@ -187,7 +186,7 @@
                             <div class="payment_box payment_method_razorpay">
                                 <p>Pay securely by Credit or Debit card or net banking through RazorPay.</p>
                             </div>
-                        </div>
+                        </div> --}}
                     </div>
 
                     @csrf
