@@ -44,20 +44,22 @@ class CustomDataTable {
         vm.option.ajax.data = function(d) {
             jQuery.each(vm.filterItems, function(i, item) {
                 var element = jQuery(item);
-                var filterName = '';
-                var filterLabel = element[0].name;
-                var filterValue = element.val();
-                var filterValueText = $("#"+element[0].id + " option:selected").val();
-                if(element[0].type == 'select-one'){
-                    filterName = filterValueText;
-                }else if(element[0].type == 'select-multiple'){
-                    filterName = filterValue;
+                if(element.length ){
+                    var filterName = '';
+                    var filterLabel = element[0].name;
+                    var filterValue = element.val();
+                    var filterValueText = $("#"+element[0].id + " option:selected").val();
+                    if(element[0].type == 'select-one'){
+                        filterName = filterValueText;
+                    }else if(element[0].type == 'select-multiple'){
+                        filterName = filterValue;
+                    }
+                    else{
+                        filterName = filterValue;
+                    } 
+                    d[element[0].name] = element.val();
+                    saveFilter(filterLabel, filterName) 
                 }
-                else{
-                    filterName = filterValue;
-                } 
-                d[element[0].name] = element.val();
-                saveFilter(filterLabel, filterName) 
             });
         }
 
@@ -135,35 +137,40 @@ class CustomDataTable {
         
         jQuery.each(vm.filterItems, function(i, elementName) {
             var element = $(elementName);
-            var filterName = '';
-            var filterValue = element.val();
-            var filterValueText = $("#"+element[0].id + " option:selected").text();
-            var filterLabel = element[0].id;
-            var clickElement = function(){
-                clickThisElement(element)
-            }
-            if(filterValue != '' && filterValue != null){
-                if(element[0].type == 'select-one'){
-                    filterName = filterValueText;
-                    printTag(clickElement, filterLabel, filterName);
-                }else if(element[0].type == 'select-multiple'){
-                    filterName = filterValue;
-    
-                    if(element[0].selectedOptions.length >= 1){
-                        jQuery.each(element[0].selectedOptions, function(index, option) {
-                            var filterName = option.innerHTML;
-                            var clickSubElement = function(){
-                                clickThisSubElement(element, option.value)
-                            }
-                            printTag(clickSubElement, filterLabel, filterName);
-                        });
-                    }
+            if(element.length ){
+                var filterName = '';
+                var filterValue = element.val();
+                var filterValueText = '';
+                if( $("#"+element[0].id + " option:selected").length ){
+                    filterValueText = $("#"+element[0].id + " option:selected").text();
                 }
-                else{
-                    filterName = filterValue;
-                    printTag(clickElement, filterLabel, filterName);
+                var filterLabel = element[0].id;
+                var clickElement = function(){
+                    clickThisElement(element)
+                }
+                if(filterValue != '' && filterValue != null){
+                    if(element[0].type == 'select-one'){
+                        filterName = filterValueText;
+                        printTag(clickElement, filterLabel, filterName);
+                    }else if(element[0].type == 'select-multiple'){
+                        filterName = filterValue;
+        
+                        if(element[0].selectedOptions.length >= 1){
+                            jQuery.each(element[0].selectedOptions, function(index, option) {
+                                var filterName = option.innerHTML;
+                                var clickSubElement = function(){
+                                    clickThisSubElement(element, option.value)
+                                }
+                                printTag(clickSubElement, filterLabel, filterName);
+                            });
+                        }
+                    }
+                    else{
+                        filterName = filterValue;
+                        printTag(clickElement, filterLabel, filterName);
+                    }   
                 }   
-            }     
+            }
         });   
     }
 }

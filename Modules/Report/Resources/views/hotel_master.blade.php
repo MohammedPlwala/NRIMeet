@@ -140,7 +140,7 @@
                                 <x-inputs.number  value="" for="closing_inventory" name="closing_inventory" placeholder="Enter Closing Inventory" id="closing_inventory" />
                             </div>
                         </div>
-                        {{-- <div class="row g-3 align-center">
+                        <div class="row g-3 align-center">
                             <div class="col-lg-5">
                                 <x-inputs.verticalFormLabel label="Distance From Airport" for="distance_from_airport" suggestion="Select the distance from airport." />
                             </div>
@@ -169,7 +169,7 @@
                                     <option value="2000">Above 25 km</option>
                                 </x-inputs.select>
                             </div>
-                        </div> --}}
+                        </div>
                     </div>
                 </div>
                 <input type="hidden" id="userId" name="user_id" value="0">
@@ -253,8 +253,8 @@
             '#room_type',
             '#charges',
             '#closing_inventory',
-            // '#distance_from_airport',
-            // '#distance_from_venue'
+            '#distance_from_airport',
+            '#distance_from_venue'
         ];
         var user_table = "";
         user_table = new CustomDataTable({
