@@ -319,6 +319,10 @@ class HotelController extends Controller
                             $query->where('hr.type_id', $request->get('room_type'));
                         }
 
+                        if ($request->get('status') != '') {
+                            $query->where('hr.status', $request->get('status'));
+                        }
+
                         if ($request->get('charges') != '') {
                             if($request->get('charges') == 1){
                                 $query->whereBetween('hr.rate', [5000, 10000]);

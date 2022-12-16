@@ -118,6 +118,18 @@
                                         </x-inputs.select>
                                     </div>
                                 </div>
+                                <div class="row g-3 align-center">
+                                    <div class="col-lg-5">
+                                        <x-inputs.verticalFormLabel label="Status" for="status" suggestion="Select the status." />
+                                    </div>
+                                    <div class="col-lg-7">
+                                        <x-inputs.select  size="sm" name="status" for="status" placeholder="Select Status">
+                                            <option value="">Select</option>
+                                            <option value="active">Active</option>
+                                            <option value="inactive">Inactive</option>
+                                        </x-inputs.select>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <input type="hidden" id="userId" name="user_id" value="0">
@@ -151,7 +163,8 @@
                 // '#room_name',
                 '#hotel_name',
                 '#room_type',
-            '#charges',
+                '#charges',
+                '#status'
             ];
             var user_table = "";
             user_table = new CustomDataTable({
