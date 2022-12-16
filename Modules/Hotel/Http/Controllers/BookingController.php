@@ -115,6 +115,7 @@ class BookingController extends Controller
      */
     public function index(Request $request)
     {
+        try{
 
         $hotels = Hotel::get();
         $room_types = \Helpers::roomTypes();
@@ -198,6 +199,11 @@ class BookingController extends Controller
 
 
         return view('hotel::bulkBooking/index')->with(compact('bulkBookingCount','hotels','room_types'));
+        } catch (\Exception $e) {
+
+            return redirect()->back()->with('error', $e->getMessage());
+
+        }
     }
 
 
@@ -213,39 +219,46 @@ class BookingController extends Controller
 
     public function store(Request $request)
     {
-        if(isset($request->bulkBookingId)){
-            BulkBookingRoom::where('bulk_booking_id',$request->bulkBookingId)->delete();
-            foreach ($request->bookingId as $key => $value) {
-                $bulk_booking_room = new BulkBookingRoom();
-                $bulk_booking_room->room_id = $request->roomType;
-                $bulk_booking_room->bulk_booking_id = $request->bulkBookingId;
-                $bulk_booking_room->booking_id = $request->bookingId[$key];
-                $bulk_booking_room->adult_count = $request->adultCount[$key];
-                $bulk_booking_room->child_count = $request->childCount[$key];
-                $bulk_booking_room->guest_name = $request->guest_name[$key];
-                $bulk_booking_room->guest_designation = $request->guest_designation[$key];
-                $bulk_booking_room->save();
-            }
+        try{
 
-            $msg = "Booking updated successfully";
-            return redirect('/admin/bulk-bookings')->with('message', $msg);
-        }else{
-            $bulkBooking = new BulkBooking();
-            HotelRoom::where('id', $request->roomType)->decrement('count', $request->rooms);
-            $msg = "User added successfully";
-            $bulkBooking->name = $request->name;
-            $bulkBooking->hotel_id  = $request->hotel;
-            $bulkBooking->room_type_id = $request->roomType;
-            $bulkBooking->booking_person = $request->bookingFrom;
-            $bulkBooking->checkin_date = date('Y-m-d', strtotime($request->checkin_date));
-            $bulkBooking->checkout_date = date('Y-m-d', strtotime($request->checkout_date));
-            $bulkBooking->room_count     = $request->rooms;
-            if($bulkBooking->save()){
+            if(isset($request->bulkBookingId)){
+                BulkBookingRoom::where('bulk_booking_id',$request->bulkBookingId)->delete();
+                foreach ($request->bookingId as $key => $value) {
+                    $bulk_booking_room = new BulkBookingRoom();
+                    $bulk_booking_room->room_id = $request->roomType;
+                    $bulk_booking_room->bulk_booking_id = $request->bulkBookingId;
+                    $bulk_booking_room->booking_id = $request->bookingId[$key];
+                    $bulk_booking_room->adult_count = $request->adultCount[$key];
+                    $bulk_booking_room->child_count = $request->childCount[$key];
+                    $bulk_booking_room->guest_name = $request->guest_name[$key];
+                    $bulk_booking_room->guest_designation = $request->guest_designation[$key];
+                    $bulk_booking_room->save();
+                }
+
+                $msg = "Booking updated successfully";
                 return redirect('/admin/bulk-bookings')->with('message', $msg);
             }else{
-                return redirect('/admin/bulk-bookings/create')->with('error', 'Something went wrong');
+                $bulkBooking = new BulkBooking();
+                HotelRoom::where('id', $request->roomType)->decrement('count', $request->rooms);
+                $msg = "User added successfully";
+                $bulkBooking->name = $request->name;
+                $bulkBooking->hotel_id  = $request->hotel;
+                $bulkBooking->room_type_id = $request->roomType;
+                $bulkBooking->booking_person = $request->bookingFrom;
+                $bulkBooking->checkin_date = date('Y-m-d', strtotime($request->checkin_date));
+                $bulkBooking->checkout_date = date('Y-m-d', strtotime($request->checkout_date));
+                $bulkBooking->room_count     = $request->rooms;
+                if($bulkBooking->save()){
+                    return redirect('/admin/bulk-bookings')->with('message', $msg);
+                }else{
+                    return redirect('/admin/bulk-bookings/create')->with('error', 'Something went wrong');
+                }
             }
-        }  
+        } catch (\Exception $e) {
+
+            return redirect()->back()->with('error', $e->getMessage());
+
+        } 
     }
 
     /**
@@ -285,19 +298,27 @@ class BookingController extends Controller
      */
     public function destroy($id)
     {
+        try{
 
-        $bulkBooking = BulkBooking::findorfail($id);
+            $bulkBooking = BulkBooking::findorfail($id);
 
-        $roomsCount = $bulkBooking->room_count;
+            $roomsCount = $bulkBooking->room_count;
 
-        if($bulkBooking->forceDelete()){
-            $rooms = HotelRoom::where('id', $bulkBooking->room_type_id)->first();
-            $rooms->count = $roomsCount+$rooms->count;
-            $rooms->save();
-            return redirect('admin/bulk-bookings')->with('message', 'Booking deleted successfully');
-        }else{
-            return redirect('admin/bulk-bookings')->with('error', 'Somthing went wrong');
+            if($bulkBooking->forceDelete()){
+                $rooms = HotelRoom::where('id', $bulkBooking->room_type_id)->first();
+                $rooms->count = $roomsCount+$rooms->count;
+                $rooms->save();
+                return redirect('admin/bulk-bookings')->with('message', 'Booking deleted successfully');
+            }else{
+                return redirect('admin/bulk-bookings')->with('error', 'Somthing went wrong');
+            }
+
+        } catch (\Exception $e) {
+
+            return redirect()->back()->with('error', $e->getMessage());
+
         }
+
     }
 
 
@@ -308,27 +329,34 @@ class BookingController extends Controller
      */
     public function show($id)
     {
-        $authUser = \Auth::user();
+        try{
 
-        $user =     User::from('users as u')
-                    ->select('u.*','r.name as role','r.label as roleName','ob.buyer_category','ob.credit_limit','ob.status','rc.retailer_catagory as retailer_category','s.name as state','c.name as city','d.name as district',
-                        DB::Raw('CONCAT(u.name," ", u.last_name) AS FullName')
-                    )
-                    ->leftJoin('model_has_roles as mr','mr.model_id','=','u.id')
-                    ->leftJoin('roles as r','mr.role_id','=','r.id')
-                    ->leftJoin('organization_buyer as ob','ob.buyer_id','=','u.id')
-                    ->leftJoin('retailer_catagory as rc','rc.id','=','ob.buyer_category')
-                    ->leftJoin('states as s','s.id','=','u.state')
-                    ->leftJoin('cities as c','c.id','=','u.city')
-                    ->leftJoin('districts as d','d.id','=','u.district')
-                    ->where('u.id',$id)
-                    // ->where('ob.organization_id',$authUser->organization_id)
-                    ->first();
+            $authUser = \Auth::user();
 
-        if($user){
-            return view('user::detail',['user' => $user]);
-        }else{
-            return redirect('user/staff')->with('error', trans('messages.SOMETHING_WENT_WRONG'));
+            $user =     User::from('users as u')
+                        ->select('u.*','r.name as role','r.label as roleName','ob.buyer_category','ob.credit_limit','ob.status','rc.retailer_catagory as retailer_category','s.name as state','c.name as city','d.name as district',
+                            DB::Raw('CONCAT(u.name," ", u.last_name) AS FullName')
+                        )
+                        ->leftJoin('model_has_roles as mr','mr.model_id','=','u.id')
+                        ->leftJoin('roles as r','mr.role_id','=','r.id')
+                        ->leftJoin('organization_buyer as ob','ob.buyer_id','=','u.id')
+                        ->leftJoin('retailer_catagory as rc','rc.id','=','ob.buyer_category')
+                        ->leftJoin('states as s','s.id','=','u.state')
+                        ->leftJoin('cities as c','c.id','=','u.city')
+                        ->leftJoin('districts as d','d.id','=','u.district')
+                        ->where('u.id',$id)
+                        // ->where('ob.organization_id',$authUser->organization_id)
+                        ->first();
+
+            if($user){
+                return view('user::detail',['user' => $user]);
+            }else{
+                return redirect('user/staff')->with('error', trans('messages.SOMETHING_WENT_WRONG'));
+            }
+        } catch (\Exception $e) {
+
+            return redirect()->back()->with('error', $e->getMessage());
+
         }
 
     }
