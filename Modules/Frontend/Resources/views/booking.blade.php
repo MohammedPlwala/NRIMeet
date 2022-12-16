@@ -99,7 +99,7 @@
             </div>
             <div class="lg:basis-3/4 booking-right-column">
                 <div class="shb-booking-page-main">
-                    <div class="shb-booking-step-wrapper shb-clearfix">
+                    <div class="shb-booking-step-wrapper booking-step-scroll shb-clearfix">
                       <div class="shb-booking-step shb-booking-step-current"><a href="javascript:void(0)">1</a><a href="javascript:void(0)">Rooms</a></div>
                       <div class="shb-booking-step "><a href="javascript:void(0)">2</a><a href="javascript:void(0)">Booking Summary</a></div>
                       <div class="shb-booking-step "><a href="javascript:void(0)">3</a><a href="javascript:void(0)">Payment</a></div>
