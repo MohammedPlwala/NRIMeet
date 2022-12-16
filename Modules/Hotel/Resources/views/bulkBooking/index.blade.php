@@ -89,28 +89,43 @@
                         </div>
                         <div class="row g-3 align-center">
                             <div class="col-lg-5">
+                                <x-inputs.verticalFormLabel label="Room Type" for="room_type" suggestion="Select the room type." />
+                            </div>
+                            <div class="col-lg-7">
+                                <x-inputs.select  size="sm" name="room_type" for="room_type" placeholder="Select Room Type">
+                                    <option value="">Select</option>
+                                    @forelse ($room_types as $roomType)
+                                        <option value="{{ $roomType->id }}">{{ $roomType->name }}</option>
+                                    @empty
+                                        {{-- empty expr --}}
+                                    @endforelse
+                                </x-inputs.select>
+                            </div>
+                        </div>
+                        <div class="row g-3 align-center">
+                            <div class="col-lg-5">
+                                <x-inputs.verticalFormLabel label="From" for="from" suggestion="Select booking from." />
+                            </div>
+                            <div class="col-lg-7">
+                                <x-inputs.select  size="sm" name="from" for="from" placeholder="Select Booking From">
+                                    <option value="">Select</option>
+                                    <option value="MP Tourism">MP Tourism</option>
+                                    <option value="MP GOVT">MP GOVT</option>
+                                    <option value="YPBD">YPBD</option>
+                                    <option value="MEA">MEA</option>
+                                </x-inputs.select>
+                            </div>
+                        </div>
+                        <div class="row g-3 align-center">
+                            <div class="col-lg-5">
                                 <x-inputs.verticalFormLabel label="Created at" for="createdAt" suggestion="Select the dates of created at." />
                             </div>
                             <div class="col-lg-7">
-                                <div class="row">
-                                    <div class="col-lg-6">
-                                        <div class="form-control-wrap">
-                                            <div class="form-icon form-icon-left">
-                                                <em class="icon ni ni-calendar"></em>
-                                            </div>
-                                            <input type="text" class="form-control date-picker" placeholder="Form Date" data-date-format="yyyy-mm-dd" id="fromDate" name="fromDate">
-                                        </div>
-                                        <!-- <div class="form-note mt-0">Form Date</div> -->
+                                <div class="form-control-wrap">
+                                    <div class="form-icon form-icon-left">
+                                        <em class="icon ni ni-calendar"></em>
                                     </div>
-                                    <div class="col-lg-6">
-                                        <div class="form-control-wrap">
-                                            <div class="form-icon form-icon-left">
-                                                <em class="icon ni ni-calendar"></em>
-                                            </div>
-                                            <input type="text" class="form-control date-picker" placeholder="To Date" data-date-format="yyyy-mm-dd"  id="toDate" name="toDate">
-                                        </div>
-                                        <!-- <div class="form-note mt-0">To Date</div> -->
-                                    </div>
+                                    <input type="text" class="form-control date-picker" placeholder="Created Date" data-date-format="yyyy-mm-dd" id="fromDate" name="fromDate">
                                 </div>
                             </div>
                         </div>
@@ -147,8 +162,9 @@
 
         var items = [
             '#hotel',
-            '#fromDate',
-            '#toDate'
+            '#room_type',
+            '#from',
+            '#fromDate'
         ];
         var user_table = "";
         user_table = new CustomDataTable({

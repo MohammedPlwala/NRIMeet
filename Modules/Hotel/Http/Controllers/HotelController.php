@@ -236,47 +236,54 @@ class HotelController extends Controller
     }
 
     public function store(Request $request)
-    {   
+    {
 
-        if(isset($request->hotel_id)){
-            $hotel = Hotel::findorfail($request->hotel_id);
-            $msg = "Hotel updated successfully";
-        }else{
-            $hotel = new Hotel();
-            $msg = "Hotel added successfully";
-        }
+        try{
 
-        $hotel->name = $request->hotelName;
-        $hotel->classification = $request->classification;
-        $hotel->location = $request->location;
-        $hotel->airport_distance = $request->airport_distance;
-        $hotel->website = $request->website;
-        $hotel->venue_distance = $request->venue_distance;
-        $hotel->contact_person = $request->contact_person;
-        $hotel->contact_number = $request->contact_number;
-        $hotel->email = $request->email;
-        $hotel->description = $request->description;
-        $hotel->address = $request->address;
-        $hotel->status = $request->status;
+            if(isset($request->hotel_id)){
+                $hotel = Hotel::findorfail($request->hotel_id);
+                $msg = "Hotel updated successfully";
+            }else{
+                $hotel = new Hotel();
+                $msg = "Hotel added successfully";
+            }
 
-        if ($request->hasFile('image')) {
-            $file = $request->file('image');
-            $fileNameWithExt = $file->getClientOriginalName();
-            $fileName = pathinfo($fileNameWithExt, PATHINFO_FILENAME);
-            $fileName = preg_replace("/[^A-Za-z0-9 ]/", '', $fileName);
-            $fileName = preg_replace("/\s+/", '-', $fileName);
-            $extension = $file->getClientOriginalExtension();
-            $fileName = $fileName.'_'.time().'.'.$extension;
-            $destinationPath = public_path("uploads/hotels/");
-            //Move Uploaded File
-            $file->move($destinationPath,$fileName);
-            $hotel->image = $fileName;
-       }
-        
-        if($hotel->save()){
-            return redirect('/admin/hotel')->with('message', $msg);
-        }else{
-            return redirect('/admin/hotel/add')->with('error', 'Something went wrong');
+            $hotel->name = $request->hotelName;
+            $hotel->classification = $request->classification;
+            $hotel->location = $request->location;
+            $hotel->airport_distance = $request->airport_distance;
+            $hotel->website = $request->website;
+            $hotel->venue_distance = $request->venue_distance;
+            $hotel->contact_person = $request->contact_person;
+            $hotel->contact_number = $request->contact_number;
+            $hotel->email = $request->email;
+            $hotel->description = $request->description;
+            $hotel->address = $request->address;
+            $hotel->status = $request->status;
+
+            if ($request->hasFile('image')) {
+                $file = $request->file('image');
+                $fileNameWithExt = $file->getClientOriginalName();
+                $fileName = pathinfo($fileNameWithExt, PATHINFO_FILENAME);
+                $fileName = preg_replace("/[^A-Za-z0-9 ]/", '', $fileName);
+                $fileName = preg_replace("/\s+/", '-', $fileName);
+                $extension = $file->getClientOriginalExtension();
+                $fileName = $fileName.'_'.time().'.'.$extension;
+                $destinationPath = public_path("uploads/hotels/");
+                //Move Uploaded File
+                $file->move($destinationPath,$fileName);
+                $hotel->image = $fileName;
+           }
+            
+            if($hotel->save()){
+                return redirect('/admin/hotel')->with('message', $msg);
+            }else{
+                return redirect('/admin/hotel/add')->with('error', 'Something went wrong');
+            }
+        } catch (\Exception $e) {
+
+            return redirect()->back()->with('error', $e->getMessage());
+
         }
         
     }
@@ -317,6 +324,10 @@ class HotelController extends Controller
 
                         if ($request->get('room_type') != '') {
                             $query->where('hr.type_id', $request->get('room_type'));
+                        }
+
+                        if ($request->get('status') != '') {
+                            $query->where('hr.status', $request->get('status'));
                         }
 
                         if ($request->get('charges') != '') {
@@ -437,50 +448,57 @@ class HotelController extends Controller
      * @return Renderable
      */
     public function roomStore(Request $request)
-    {   
+    {
 
-        if(isset($request->room_id)){
-            $room = HotelRoom::findorfail($request->room_id);
-            $currentCount = $room->count;
-            $currentAllocated = $room->allocated_rooms;
-            $currentMpt= $room->mpt_reserve;
-            $currentBooked = (($currentAllocated-$currentMpt)-$currentCount);
-            $newAvailable = (($request->allocated_rooms-$request->mpt_reserve)-$currentBooked);
+        try{
 
-            if($request->allocated_rooms < $currentBooked){
-                return redirect('admin/hotel/rooms/edit/'.$request->room_id)->with('error', 'Allocated rooms can not be less than booked rooms');
+            if(isset($request->room_id)){
+                $room = HotelRoom::findorfail($request->room_id);
+                $currentCount = $room->count;
+                $currentAllocated = $room->allocated_rooms;
+                $currentMpt= $room->mpt_reserve;
+                $currentBooked = (($currentAllocated-$currentMpt)-$currentCount);
+                $newAvailable = (($request->allocated_rooms-$request->mpt_reserve)-$currentBooked);
+
+                if($request->allocated_rooms < $currentBooked){
+                    return redirect('admin/hotel/rooms/edit/'.$request->room_id)->with('error', 'Allocated rooms can not be less than booked rooms');
+                }
+
+                $room->allocated_rooms = $request->allocated_rooms;
+                $room->mpt_reserve = $request->mpt_reserve;
+                $room->count = $newAvailable;
+
+                $msg = "Room updated successfully";
+
+            }else{
+                $room = new HotelRoom();
+                $room->allocated_rooms = $request->allocated_rooms;
+                $room->mpt_reserve = $request->mpt_reserve;
+                $room->count = $request->allocated_rooms-$request->mpt_reserve;
+                $msg = "Room added successfully";
             }
 
-            $room->allocated_rooms = $request->allocated_rooms;
-            $room->mpt_reserve = $request->mpt_reserve;
-            $room->count = $newAvailable;
+            $room->hotel_id = $request->hotel;
+            $room->name = $request->room_name;
+            $room->type_id = $request->room_type;
 
-            $msg = "Room updated successfully";
+            $room->rate = $request->rate;
+            $room->extra_bed_available = $request->extra_bed_available;
 
-        }else{
-            $room = new HotelRoom();
-            $room->allocated_rooms = $request->allocated_rooms;
-            $room->mpt_reserve = $request->mpt_reserve;
-            $room->count = $request->allocated_rooms-$request->mpt_reserve;
-            $msg = "Room added successfully";
-        }
+            if($request->extra_bed_available){
+                $room->extra_bed_rate = $request->extra_bed_rate;
+            }
+            $room->status = $request->status;
+            
+            if($room->save()){
+                return redirect('/admin/hotel/rooms')->with('message', $msg);
+            }else{
+                return redirect('/admin/hotel/rooms/add')->with('error', 'Something went wrong');
+            }
+        } catch (\Exception $e) {
 
-        $room->hotel_id = $request->hotel;
-        $room->name = $request->room_name;
-        $room->type_id = $request->room_type;
+            return redirect()->back()->with('error', $e->getMessage());
 
-        $room->rate = $request->rate;
-        $room->extra_bed_available = $request->extra_bed_available;
-
-        if($request->extra_bed_available){
-            $room->extra_bed_rate = $request->extra_bed_rate;
-        }
-        $room->status = $request->status;
-        
-        if($room->save()){
-            return redirect('/admin/hotel/rooms')->with('message', $msg);
-        }else{
-            return redirect('/admin/hotel/rooms/add')->with('error', 'Something went wrong');
         }
         
     }
@@ -491,6 +509,8 @@ class HotelController extends Controller
      * @return Renderable
      */
     public function bookingList(Request $request){
+
+        $hotels = \Helpers::hotels();
 
         $data = Booking::from('bookings as b')
                             ->select('h.name as hotel','b.*','u.full_name as guest',
@@ -504,12 +524,24 @@ class HotelController extends Controller
                                         $query->where('h.name', $request->get('hotel_name'));
                                     }
 
-                                    if ($request->get('room_name') != '') {
-                                        $query->where('hr.name', $request->get('room_name'));
+                                    if ($request->get('check_in_date') != '') {
+                                        $query->whereDate('b.check_in_date', date('Y-m-d', strtotime($request->get('check_in_date'))));
                                     }
+
+                                    if ($request->get('check_out_date') != '') {
+                                        $query->whereDate('b.check_out_date', date('Y-m-d', strtotime($request->get('check_out_date'))));
+                                    }
+
+                                    // if ($request->get('room_name') != '') {
+                                    //     $query->where('hr.name', $request->get('room_name'));
+                                    // }
 
                                     if ($request->get('booking_type') != '') {
                                         $query->where('b.booking_type', $request->get('booking_type'));
+                                    }
+
+                                    if ($request->get('booking_status') != '') {
+                                        $query->where('b.booking_status', $request->get('booking_status'));
                                     }
                                 }
                             })
@@ -629,7 +661,7 @@ class HotelController extends Controller
                     ->make(true);
         }
 
-        return view('hotel::bookingList')->with(compact('bookingsCount'));
+        return view('hotel::bookingList')->with(compact('bookingsCount','hotels'));
     }
 
     public function createOrderNumber()
@@ -835,36 +867,43 @@ class HotelController extends Controller
     }
 
     public function editBooking(Request $request,$booking_id)
-    {   
-        $booking = Booking::findorfail($booking_id);
+    {
+        try{
 
-        $users = User::select('id')->get();
-        $hotels = Hotel::all();
-        
-        $roomTypes = RoomType::all();
+            $booking = Booking::findorfail($booking_id);
 
-        $bookingRooms = BookingRoom::from('booking_rooms as br')
-                ->select('br.*','hr.rate')
-                ->leftJoin('hotel_rooms as hr','br.room_id','=','hr.id')
-                ->where('br.booking_id',$booking_id)
-                ->get();
+            $users = User::select('id')->get();
+            $hotels = Hotel::all();
+            
+            $roomTypes = RoomType::all();
 
-        $guests =   User::from('users as u')
-                    ->select('u.id','u.full_name')
-                    ->leftJoin('user_role as ur','u.id','=','ur.user_id')
-                    ->leftJoin('roles as r','ur.role_id','=','r.id')
-                    ->where('r.name','Guest')
-                    ->where('u.status','active')
+            $bookingRooms = BookingRoom::from('booking_rooms as br')
+                    ->select('br.*','hr.rate')
+                    ->leftJoin('hotel_rooms as hr','br.room_id','=','hr.id')
+                    ->where('br.booking_id',$booking_id)
                     ->get();
 
-        $transaction = Transaction::where('booking_id',$booking->id)->first();
-        if($transaction){
-            $booking->transaction_id = $transaction->transaction_id;
-            $booking->payment_method = $transaction->payment_method;
+            $guests =   User::from('users as u')
+                        ->select('u.id','u.full_name')
+                        ->leftJoin('user_role as ur','u.id','=','ur.user_id')
+                        ->leftJoin('roles as r','ur.role_id','=','r.id')
+                        ->where('r.name','Guest')
+                        ->where('u.status','active')
+                        ->get();
+
+            $transaction = Transaction::where('booking_id',$booking->id)->first();
+            if($transaction){
+                $booking->transaction_id = $transaction->transaction_id;
+                $booking->payment_method = $transaction->payment_method;
+            }
+
+
+            return view('hotel::editBooking',['booking' => $booking,'hotels' => $hotels,'roomTypes' => $roomTypes,'guests' => $guests,'bookingRooms' => $bookingRooms->toArray()]);
+        } catch (\Exception $e) {
+
+            return redirect()->back()->with('error', $e->getMessage());
+
         }
-
-
-        return view('hotel::editBooking',['booking' => $booking,'hotels' => $hotels,'roomTypes' => $roomTypes,'guests' => $guests,'bookingRooms' => $bookingRooms->toArray()]);
         
     }
 

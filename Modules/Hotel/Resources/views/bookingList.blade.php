@@ -78,8 +78,40 @@
                                             suggestion="" />
                                     </div>
                                     <div class="col-lg-7">
-                                        <x-inputs.text value="" for="hotelName" icon="user" placeholder="Name"
-                                            name="name" />
+                                            <x-inputs.select  size="sm" name="hotel_name" for="hotel_name" placeholder="Select Hotel Name">
+                                                <option value="">Select</option>
+                                                @forelse ($hotels as $hotel)
+                                                    <option value="{{ $hotel->name }}">{{ $hotel->name }}</option>
+                                                @empty
+                                                    {{-- empty expr --}}
+                                                @endforelse
+                                            </x-inputs.select>
+                                    </div>
+                                </div>
+                                <div class="row g-3 align-center">
+                                    <div class="col-lg-5">
+                                        <x-inputs.verticalFormLabel label="Check in Date" for="check_in_date" suggestion="Select the check in date." />
+                                    </div>
+                                    <div class="col-lg-7">
+                                        <div class="form-control-wrap">
+                                            <div class="form-icon form-icon-left">
+                                                <em class="icon ni ni-calendar"></em>
+                                            </div>
+                                            <input type="text" class="form-control date-picker" id="check_in_date" name="check_in_date" placeholder="Check in Date" data-date-format="yyyy-mm-dd">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row g-3 align-center">
+                                    <div class="col-lg-5">
+                                        <x-inputs.verticalFormLabel label="Check out Date" for="check_out_date" suggestion="Select the check out date." />
+                                    </div>
+                                    <div class="col-lg-7">
+                                        <div class="form-control-wrap">
+                                            <div class="form-icon form-icon-left">
+                                                <em class="icon ni ni-calendar"></em>
+                                            </div>
+                                            <input type="text" class="form-control date-picker" id="check_out_date" name="check_out_date" placeholder="Check out Date" data-date-format="yyyy-mm-dd">
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="row g-3 align-center">
@@ -93,6 +125,25 @@
                                             <option value="">Select Type</option>
                                             <option value="Online">Online</option>
                                             <option value="Offline">Offline</option>
+                                        </x-inputs.select>
+                                    </div>
+                                </div>
+                                <div class="row g-3 align-center">
+                                    <div class="col-lg-5">
+                                        <x-inputs.verticalFormLabel label="Booking Status" for="booking_status" suggestion="Select the booking status." />
+                                    </div>
+                                    <div class="col-lg-7">
+                                        <x-inputs.select  size="sm" name="booking_status" for="booking_status" placeholder="Select Booking Status">
+                                            <option value="">Select</option>
+                                            <option value="Booking Received">Booking Received</option>
+                                            <option value="Payment Completed">Payment Completed</option>
+                                            <option value="Booking Shared">Booking Shared</option>
+                                            <option value="Confirmation Recevied">Confirmation Recevied</option>
+                                            <option value="Cancellation Requested">Cancellation Requested</option>
+                                            <option value="Cancellation Approved">Cancellation Approved</option>
+                                            <option value="Refund Requested">Refund Requested</option>
+                                            <option value="Refund Approved">Refund Approved</option>
+                                            <option value="Refund Issued">Refund Issued</option>
                                         </x-inputs.select>
                                     </div>
                                 </div>
@@ -126,8 +177,11 @@
             NioApp.getAuditLogs('.broadcast-init', '.audit_logs', 'resourceid', logUrl, '#modalLogs');
 
             var items = [
-                '#hotelName',
-                '#booking_type'
+                '#hotel_name',
+                '#check_in_date',
+                '#check_out_date',
+                '#booking_type',
+                '#booking_status'
             ];
             var user_table = "";
             user_table = new CustomDataTable({
