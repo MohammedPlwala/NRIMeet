@@ -319,6 +319,10 @@ class HotelController extends Controller
                             $query->where('hr.type_id', $request->get('room_type'));
                         }
 
+                        if ($request->get('status') != '') {
+                            $query->where('hr.status', $request->get('status'));
+                        }
+
                         if ($request->get('charges') != '') {
                             if($request->get('charges') == 1){
                                 $query->whereBetween('hr.rate', [5000, 10000]);
@@ -492,6 +496,8 @@ class HotelController extends Controller
      */
     public function bookingList(Request $request){
 
+        $hotels = \Helpers::hotels();
+
         $data = Booking::from('bookings as b')
                             ->select('h.name as hotel','b.*','u.full_name as guest',
                                 \DB::Raw('COALESCE((select count(booking_rooms.id) from booking_rooms where booking_rooms.booking_id = b.id ),0) as rooms'),
@@ -504,12 +510,24 @@ class HotelController extends Controller
                                         $query->where('h.name', $request->get('hotel_name'));
                                     }
 
-                                    if ($request->get('room_name') != '') {
-                                        $query->where('hr.name', $request->get('room_name'));
+                                    if ($request->get('check_in_date') != '') {
+                                        $query->whereDate('b.check_in_date', date('Y-m-d', strtotime($request->get('check_in_date'))));
                                     }
+
+                                    if ($request->get('check_out_date') != '') {
+                                        $query->whereDate('b.check_out_date', date('Y-m-d', strtotime($request->get('check_out_date'))));
+                                    }
+
+                                    // if ($request->get('room_name') != '') {
+                                    //     $query->where('hr.name', $request->get('room_name'));
+                                    // }
 
                                     if ($request->get('booking_type') != '') {
                                         $query->where('b.booking_type', $request->get('booking_type'));
+                                    }
+
+                                    if ($request->get('booking_status') != '') {
+                                        $query->where('b.booking_status', $request->get('booking_status'));
                                     }
                                 }
                             })
@@ -629,7 +647,7 @@ class HotelController extends Controller
                     ->make(true);
         }
 
-        return view('hotel::bookingList')->with(compact('bookingsCount'));
+        return view('hotel::bookingList')->with(compact('bookingsCount','hotels'));
     }
 
     public function createOrderNumber()
