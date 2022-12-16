@@ -97,6 +97,11 @@ $rolePermissions = \Session::get('rolePermissions');
                             <li class="nk-menu-item">
                                 <a href="{{url('admin/report/payment')}}" class="nk-menu-link"><span class="nk-menu-text">Payment</span></a>
                             </li>
+
+                            <li class="nk-menu-item">
+                                <a href="{{url('admin/report/failed-payments')}}" class="nk-menu-link"><span class="nk-menu-text">Failed Payment</span></a>
+                            </li>
+
                             <li class="nk-menu-item">
                                 <a href="{{url('admin/report/booking')}}" class="nk-menu-link"><span class="nk-menu-text">Booking</span></a>
                             </li>

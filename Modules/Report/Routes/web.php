@@ -66,5 +66,8 @@ Route::group(['middleware' => 'admin'], function(){
 
         Route::get('bulk-booking-rooms', 'ReportController@bulkBookingRooms');
         Route::get('bulk-booking-rooms-export', 'ReportController@bulkBookingRoomsExport');
+
+        Route::get('failed-payments', 'ReportController@failedPayments');
+        Route::get('export-failed-payments', 'ReportController@failedPaymentsExport');
     });
 });

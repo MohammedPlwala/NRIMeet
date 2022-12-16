@@ -57,7 +57,7 @@
                     <div class="col-12">
                         <div class="form-group mb-3 position-relative">
                             <input class="input-box form-control w-100" placeholder="Amount *" type="text" name="amount" readonly 
-                                   value="{{!empty($bookingData['amount']) ? $bookingData['amount'] : '10000'}}">
+                                   value="{{!empty($bookingData['amount']) ? 1 : '100000'}}">
                             <div class="icon-group-append">
                                 <i class="fas fa-tag"></i>
                             </div>
