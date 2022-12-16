@@ -122,10 +122,12 @@
                             </tr>
                             <tr>
                                 <td>
-                                    <select id="room_one_type" required="true" class="form-select roomType"
-                                        name="room_one_type">
-                                        <option value="">Select Room</option>
+                                    <div class="form-control-required-wrap">
+                                        <select id="room_one_type" required="true" class="form-select roomType"
+                                            name="room_one_type">
+                                            <option value="">Select Room</option>
                                         <select>
+                                    </div>
                                 </td>
                                 <td>
                                     <x-inputs.select for="room_one_adult" icon="mail" required="true" class=""
@@ -206,10 +208,11 @@
                             </tr>
                             <tr>
                                 <td>
-                                    <select class="form-select roomType" id="room_two_type" placeholder="Select Type"
-                                        name="room_two_type">
-                                        <option value="">Select Room</option>
-                                    </select>
+                                    <div class="form-control-required-wrap">
+                                        <select class="form-select roomType" id="room_two_type" placeholder="Select Type" name="room_two_type">
+                                            <option value="">Select Room</option>
+                                        </select>
+                                    </div>
                                 </td>
                                 <td>
                                     <x-inputs.select for="room_two_adult" icon="mail" required="true" class=""

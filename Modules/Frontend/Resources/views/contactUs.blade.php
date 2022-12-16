@@ -33,7 +33,7 @@
                 <input type="email" name="contact_email" value="" size="40" placeholder="Email: *" required />
               </div>
               <div class="form-item large">
-                <input type="tel" name="contact_tel" value="" size="40" placeholder="Phone: *" required />
+                <input type="tel" name="contact_tel" data-parsley-type="number" value="" size="40" placeholder="Phone: *" required />
               </div>
             </div>
             <div class="form-item large">

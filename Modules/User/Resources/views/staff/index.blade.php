@@ -98,12 +98,15 @@
                                     {{-- <div class="status dot dot-lg dot-success"></div> --}}
                                 </div>
                                 <div class="user-info">
-                                    @if($user->status == 'active')
-                                    <h6>{{ ucfirst($user->full_name) }} <span class="badge badge-success mb-0">Approved</span></h6>
-                                    @else
-                                    <h6>{{ ucfirst($user->full_name) }} <span class="badge badge-danger mb-0">Not Approved</span></h6>
-                                    @endif
+                                    <h6>{{ ucfirst($user->full_name) }}</h6>
                                     <span class="sub-text">{{ $user->email }}</span>
+                                    <div class="mt-1">
+                                        @if($user->status == 'active')
+                                            <span class="badge badge-success mb-0">Approved</span>
+                                        @else
+                                            <span class="badge badge-danger mb-0">Not Approved</span>
+                                        @endif
+                                    </div>
                                 </div>
                             </div>
                             <ul class="team-statistics pb-0">
