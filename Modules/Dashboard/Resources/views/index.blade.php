@@ -39,7 +39,7 @@
                                 <div class="data-group">
                                     <div class="amount">{{ $bulk_bookings->count() }}</div>
                                     <div class="nk-ecwg6-ck">
-                                        <canvas class="ecommerce-line-chart-s3" id="todayOrders"></canvas>
+                                        <img src="{{url('images/purple-line-graph.png')}}" alt="purple-line-graph" />
                                     </div>
                                 </div>
                             </div>
@@ -60,7 +60,7 @@
                                 <div class="data-group">
                                     <div class="amount">{{ $mea_bookings->count() }}</div>
                                     <div class="nk-ecwg6-ck">
-                                        <canvas class="ecommerce-line-chart-s3" id="todayRevenue"></canvas>
+                                        <img src="{{url('images/green-line-graph.png')}}" alt="green-line-graph" />
                                     </div>
                                 </div>
                             </div>
@@ -81,7 +81,7 @@
                                 <div class="data-group">
                                     <div class="amount">{{ $online_bookings->count() }}</div>
                                     <div class="nk-ecwg6-ck">
-                                        <canvas class="ecommerce-line-chart-s3" id="todayCustomers"></canvas>
+                                        <img src="{{url('images/pink-line-graph.png')}}" alt="pink-line-graph" />
                                     </div>
                                 </div>
                             </div>
@@ -102,7 +102,7 @@
                                 <div class="data-group">
                                     <div class="amount">{{ $offline_bookings->count() }}</div>
                                     <div class="nk-ecwg6-ck">
-                                        <canvas class="ecommerce-line-chart-s3" id="todayVisitors"></canvas>
+                                        <img src="{{url('images/blue-line-graph.png')}}" alt="blue-line-graph" />
                                     </div>
                                 </div>
                             </div>
@@ -185,14 +185,14 @@
                                     <div class="title">Adutls</div>
                                     <div class="count">{{ $adult_guest }}</div>
                                 </div>
-                                <em class="icon bg-purple-dim ni ni-server"></em>
+                                <em class="icon bg-purple-dim ni ni-user-alt"></em>
                             </li>
                             <li class="item">
                                 <div class="info">
                                     <div class="title">Kids</div>
                                     <div class="count">{{ $child_guest }}</div>
                                 </div>
-                                <em class="icon bg-purple-dim ni ni-server"></em>
+                                <em class="icon bg-purple-dim ni ni-user"></em>
                             </li>
                         </ul>
                     </div><!-- .card-inner -->
@@ -213,7 +213,9 @@
                                     <div class="title">{{ $room_name }}</div>
                                     <div class="count">{{ $room_count }}</div>
                                 </div>
-                                <em class="icon bg-purple-dim ni ni-server"></em>
+                                @if($room_name == 'Base') <em class="icon bg-purple-dim ni ni-home-alt"></em> @endif
+                                @if($room_name == 'Premium') <em class="icon bg-purple-dim ni ni-home"></em> @endif
+                                @if($room_name == 'Suite') <em class="icon bg-purple-dim ni ni-home-fill"></em> @endif
                             </li>
                             @endforeach
                         </ul>
@@ -291,7 +293,7 @@
                                     <div class="title">Bookings Shared</div>
                                     <div class="count">{{ $shared_bookings->count() }}</div>
                                 </div>
-                                <em class="icon bg-purple-dim ni ni-server"></em>
+                                <em class="icon bg-teal-dim ni ni-share"></em>
                             </li>
                             <li class="item">
                                 <div class="info">
@@ -361,7 +363,9 @@
                                     <div class="title">{{ $room_type }}</div>
                                     <div class="count">@convert($amount)</div>
                                 </div>
-                                <em class="icon bg-pink-dim ni ni-server"></em>
+                                @if($room_type == 'Base') <em class="icon bg-purple-dim ni ni-home-alt"></em> @endif
+                                @if($room_type == 'Premium') <em class="icon bg-purple-dim ni ni-home"></em> @endif
+                                @if($room_type == 'Suite') <em class="icon bg-purple-dim ni ni-home-fill"></em> @endif
                             </li>
                             @endforeach
                         </ul>

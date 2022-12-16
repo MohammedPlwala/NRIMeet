@@ -56,8 +56,8 @@
                 <tbody>
                 </tbody>
             </table>
-
-        </div><!-- .nk-block -->
+        </div>
+    </div><!-- .nk-block -->
         <div class="modal fade zoom" tabindex="-1" id="modalFilterUser">
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
