@@ -111,8 +111,8 @@
                                 <li><span>{{ $user->mobile }}</span><span>Contact</span></li>
                             </ul>
                             <ul class="team-info">
-                                <li><span>Created At</span><span>{{ date('d-m-Y H:i:s' , strtotime($user->created_at)) }}</span></li>
-                                <li><span>Updated At</span><span>{{ date('d-m-Y H:i:s' , strtotime($user->updated_at)) }}</span></li>
+                                <li><span>Created At</span><span>{{ date('d M, Y' , strtotime($user->created_at)) }}</span></li>
+                                <li><span>Updated At</span><span>{{ date('d M, Y' , strtotime($user->updated_at)) }}</span></li>
                             </ul>
                             <div class="team-view">
                                 {{-- <a href="{{ url('user/staff/staff-detail/'.$user->id) }}" class="btn btn-round btn-outline-light w-150px"><span>View Profile</span></a> --}}
