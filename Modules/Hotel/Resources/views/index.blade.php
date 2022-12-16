@@ -41,6 +41,8 @@
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Name</span></th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Classification</span></th>
                         <th class="nk-tb-col tb-col-md"><span class="sub-text">Contact Number</span></th>
+                        <th class="nk-tb-col tb-col-md"><span class="sub-text">Distance From Airport</span></th>
+                        <th class="nk-tb-col tb-col-md"><span class="sub-text">Distance From Venue</span></th>
                         <th class="nk-tb-col tb-col-md w-1 text-center" nowrap="true"><span class="sub-text">Status</span>
                         </th>
                         <th class="nk-tb-col nk-tb-col-tools text-right w-1" nowrap="true">
@@ -68,6 +70,21 @@
                             <div class="gy-3">
                                 <div class="row g-3 align-center">
                                     <div class="col-lg-5">
+                                        <x-inputs.verticalFormLabel label="Hotel Name" for="hotel_name" suggestion="Select the hotel name." />
+                                    </div>
+                                    <div class="col-lg-7">
+                                        <x-inputs.select  size="sm" name="hotel_name" for="hotel_name" placeholder="Select Hotel Name">
+                                            <option value="">Select</option>
+                                            @forelse ($hotels as $hotel)
+                                                <option value="{{ $hotel->name }}">{{ $hotel->name }}</option>
+                                            @empty
+                                                {{-- empty expr --}}
+                                            @endforelse
+                                        </x-inputs.select>
+                                    </div>
+                                </div>
+                                <div class="row g-3 align-center">
+                                    <div class="col-lg-5">
                                         <x-inputs.verticalFormLabel label="Classification" for="star_rating" suggestion="Select the classification." />
                                     </div>
                                     <div class="col-lg-7">
@@ -79,44 +96,6 @@
                                                 {{-- empty expr --}}
                                             @endforelse
                                         </x-inputs.select>
-                                    </div>
-                                </div>
-                                <div class="row g-3 align-center" style="display:none;">
-                                    <div class="col-lg-5">
-                                        <x-inputs.verticalFormLabel label="Room Type" for="room_type" suggestion="Select the room type." />
-                                    </div>
-                                    <div class="col-lg-7">
-                                        <x-inputs.select  size="sm" name="room_type" for="room_type" placeholder="Select Room Type" id="room_type">
-                                            <option value="">Select</option>
-                                            @forelse ($room_types as $roomType)
-                                                <option value="{{ $roomType->id }}">{{ $roomType->name }}</option>
-                                            @empty
-                                                {{-- empty expr --}}
-                                            @endforelse
-                                        </x-inputs.select>
-                                    </div>
-                                </div>
-                                <div class="row g-3 align-center" style="display:none;">
-                                    <div class="col-lg-5">
-                                        <x-inputs.verticalFormLabel label="Charges" for="charges" suggestion="Enter the charges." />
-                                    </div>
-                                    <div class="col-lg-7">
-                                        <!-- <x-inputs.number  value="" for="charges" name="charges" placeholder="Enter Charges" /> -->
-                                        <x-inputs.select  size="sm" name="charges" for="charges" placeholder="Select Charges" id="charges">
-                                            <option value="">Select</option>
-                                            <option value="1">5000 to 10000</option>
-                                            <option value="2">10000 to 15000</option>
-                                            <option value="3">15000 to 20000</option>
-                                            <option value="4">Above 20000</option>
-                                        </x-inputs.select>
-                                    </div>
-                                </div>
-                                <div class="row g-3 align-center" style="display:none;">
-                                    <div class="col-lg-5">
-                                        <x-inputs.verticalFormLabel label="Closing Inventory" for="closing_inventory" suggestion="Enter the closing inventory." />
-                                    </div>
-                                    <div class="col-lg-7">
-                                        <x-inputs.number  value="" for="closing_inventory" name="closing_inventory" placeholder="Enter Closing Inventory" id="closing_inventory" />
                                     </div>
                                 </div>
                                 <div class="row g-3 align-center">
@@ -146,6 +125,19 @@
                                             <option value="15">Under 15 km</option>
                                             <option value="20">Under 25 km</option>
                                             <option value="2000">Above 25 km</option>
+                                        </x-inputs.select>
+                                    </div>
+                                </div>
+                                <div class="row g-3 align-center">
+                                    <div class="col-lg-5">
+                                        <x-inputs.verticalFormLabel label="Status" for="status" suggestion="Select the status." />
+                                    </div>
+                                    <div class="col-lg-7">
+                                        <x-inputs.select  size="sm" name="status" for="status" placeholder="Select Status">
+                                            <option value="">Select</option>
+                                            <option value="active">Active</option>
+                                            <option value="inactive">Inactive</option>
+                                            {{-- <option value="Out of stock">Out of stock</option> --}}
                                         </x-inputs.select>
                                     </div>
                                 </div>
@@ -179,12 +171,11 @@
             NioApp.getAuditLogs('.broadcast-init', '.audit_logs', 'resourceid', logUrl, '#modalLogs');
 
             var items = [
+                '#hotel_name',
                 '#star_rating',
-            '#room_type',
-            '#charges',
-            '#closing_inventory',
-            '#distance_from_airport',
-            '#distance_from_venue'
+                '#distance_from_airport',
+                '#distance_from_venue',
+                '#status'
             ];
             var user_table = "";
             user_table = new CustomDataTable({
@@ -212,6 +203,16 @@
                             "class": "nk-tb-col tb-col-lg",
                             data: 'contact_number',
                             name: 'contact_number'
+                        },
+                        {
+                            "class": "nk-tb-col tb-col-lg text-center",
+                            data: 'airport_distance',
+                            name: 'airport_distance'
+                        },
+                        {
+                            "class": "nk-tb-col tb-col-lg text-center",
+                            data: 'venue_distance',
+                            name: 'venue_distance'
                         },
                         {
                             "class": "nk-tb-col tb-col-lg text-center",

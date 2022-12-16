@@ -101,119 +101,132 @@ class HotelController extends Controller
      */
     public function index(Request $request)
     {
-        $classifications = \Helpers::hotelClassifications();
-        
-        $room_types = \Helpers::roomTypes();
-        $data = Hotel::from('hotels as h')
-                ->select('h.*')
-                // ->Join('hotel_rooms as hr','hr.hotel_id','=','h.id')
-                // ->join('room_types as rt','rt.id','=','hr.type_id')
-                ->where(function ($query) use ($request) {
-                    if (!empty($request->toArray())) {
-                        if ($request->get('star_rating') != '') {
-                            $query->where('h.classification', $request->star_rating);
+        try{
+
+            $classifications = \Helpers::hotelClassifications();
+            $hotels = \Helpers::hotels();
+            
+            $room_types = \Helpers::roomTypes();
+            $data = Hotel::from('hotels as h')
+                    ->select('h.*')
+                    // ->Join('hotel_rooms as hr','hr.hotel_id','=','h.id')
+                    // ->join('room_types as rt','rt.id','=','hr.type_id')
+                    ->where(function ($query) use ($request) {
+                        if (!empty($request->toArray())) {
+
+                            if ($request->get('hotel_name') != '') {
+                                $query->where('h.name', $request->get('hotel_name'));
+                            }
+
+                            if ($request->get('star_rating') != '') {
+                                $query->where('h.classification', $request->star_rating);
+                            }
+
+                            // if ($request->get('room_type') != '') {
+                            //     $query->where('hr.type_id', $request->get('room_type'));
+                            // }
+
+                            // if ($request->get('charges') != '') {
+                            //     if($request->get('charges') == 1){
+                            //         $query->whereBetween('hr.rate', [5000, 10000]);
+                            //     }elseif($request->get('charges') == 2){
+                            //         $query->whereBetween('hr.rate', [10000, 15000]);
+                            //     }elseif($request->get('charges') == 3){
+                            //         $query->whereBetween('hr.rate', [15000, 20000]);
+                            //     }elseif($request->get('charges') == 4){
+                            //         $query->where('hr.rate','>', 20000);
+                            //     }
+                            // }
+
+                            if ($request->get('distance_from_airport') != '') {
+                                $query->where('h.airport_distance','<=', $request->get('distance_from_airport'));
+                            }
+
+                            if ($request->get('distance_from_venue') != '') {
+                                $query->where('h.venue_distance','<=', $request->get('distance_from_venue'));
+                            }
+
+                            if ($request->get('status') != '') {
+                                $query->where('h.status', $request->get('status'));
+                            }
                         }
+                    })
+                    ->groupBy('h.id')
+                    ->orderby('h.id','desc')
+                    ->get();
 
-                        // if ($request->get('room_type') != '') {
-                        //     $query->where('hr.type_id', $request->get('room_type'));
-                        // }
+            $hotelsCount = 0;
+            if(!empty($data->toArray())){
+                $hotelsCount = count($data);
+            }
 
-                        // if ($request->get('charges') != '') {
-                        //     if($request->get('charges') == 1){
-                        //         $query->whereBetween('hr.rate', [5000, 10000]);
-                        //     }elseif($request->get('charges') == 2){
-                        //         $query->whereBetween('hr.rate', [10000, 15000]);
-                        //     }elseif($request->get('charges') == 3){
-                        //         $query->whereBetween('hr.rate', [15000, 20000]);
-                        //     }elseif($request->get('charges') == 4){
-                        //         $query->where('hr.rate','>', 20000);
-                        //     }
-                        // }
+            if ($request->ajax()) {
+                return Datatables::of($data)
+                        ->addIndexColumn()
+                        
+                        ->addColumn('status', function ($row) {
+                            if($row->status == 'active'){
+                                $statusValue = 'Active';
+                            }else{
+                                $statusValue = 'Inactive';
+                            }
 
-                        if ($request->get('distance_from_airport') != '') {
-                            $query->where('h.airport_distance','<=', $request->get('distance_from_airport'));
-                        }
-
-                        if ($request->get('distance_from_venue') != '') {
-                            $query->where('h.venue_distance','<=', $request->get('distance_from_venue'));
-                        }
-
-                        // if ($request->get('closing_inventory') != '') {
-                        //     $query->where('hr.count', $request->get('closing_inventory'));
-                        // }
-                    }
-                })
-                ->groupBy('h.id')
-                ->orderby('h.id','desc')
-                ->get();
-
-        $hotelsCount = 0;
-        if(!empty($data->toArray())){
-            $hotelsCount = count($data);
-        }
-
-        if ($request->ajax()) {
-            return Datatables::of($data)
-                    ->addIndexColumn()
-                    
-                    ->addColumn('status', function ($row) {
-                        if($row->status == 'active'){
-                            $statusValue = 'Active';
-                        }else{
-                            $statusValue = 'Inactive';
-                        }
-
-                        $value = ($row->status == 'active') ? 'badge badge-success' : 'badge badge-danger';
-                        $status = '
-                            <span class="tb-sub">
-                                <span class="'.$value.'">
-                                    '.$statusValue.'
+                            $value = ($row->status == 'active') ? 'badge badge-success' : 'badge badge-danger';
+                            $status = '
+                                <span class="tb-sub">
+                                    <span class="'.$value.'">
+                                        '.$statusValue.'
+                                    </span>
                                 </span>
-                            </span>
-                        ';
-                        return $status;
-                    })
-                    ->addColumn('action', function($row) {
-                           $edit = url('/').'/admin/hotel/edit/'.$row->id;
-                           $delete = url('/').'/admin/hotel/delete/'.$row->id;
-                           $confirm = '"Are you sure, you want to delete it?"';
+                            ';
+                            return $status;
+                        })
+                        ->addColumn('action', function($row) {
+                               $edit = url('/').'/admin/hotel/edit/'.$row->id;
+                               $delete = url('/').'/admin/hotel/delete/'.$row->id;
+                               $confirm = '"Are you sure, you want to delete it?"';
 
-                            $editBtn = "<li>
-                                        <a href='".$edit."'>
-                                            <em class='icon ni ni-edit'></em> <span>Edit</span>
-                                        </a>
-                                    </li>";
-                            
-                            $deleteBtn = "<li>
-                                        <a href='".$delete."' onclick='return confirm(".$confirm.")'  class='delete'>
-                                            <em class='icon ni ni-trash'></em> <span>Delete</span>
-                                        </a>
-                                    </li>"; 
+                                $editBtn = "<li>
+                                            <a href='".$edit."'>
+                                                <em class='icon ni ni-edit'></em> <span>Edit</span>
+                                            </a>
+                                        </li>";
+                                
+                                $deleteBtn = "<li>
+                                            <a href='".$delete."' onclick='return confirm(".$confirm.")'  class='delete'>
+                                                <em class='icon ni ni-trash'></em> <span>Delete</span>
+                                            </a>
+                                        </li>"; 
 
-                            $btn = '';
-                            $btn .= '<ul class="nk-tb-actio ns gx-1">
-                                        <li>
-                                            <div class="drodown mr-n1">
-                                                <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
-                                                <div class="dropdown-menu dropdown-menu-right">
-                                                    <ul class="link-list-opt no-bdr">
-                                        ';
+                                $btn = '';
+                                $btn .= '<ul class="nk-tb-actio ns gx-1">
+                                            <li>
+                                                <div class="drodown mr-n1">
+                                                    <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
+                                                    <div class="dropdown-menu dropdown-menu-right">
+                                                        <ul class="link-list-opt no-bdr">
+                                            ';
 
-                           $btn .=       $editBtn."
-                                        ".$deleteBtn;
+                               $btn .=       $editBtn."
+                                            ".$deleteBtn;
 
-                            $btn .= "</ul>
+                                $btn .= "</ul>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </li>
-                                    </ul>";
-                        return $btn;
-                    })
-                    ->rawColumns(['action','status',])
-                    ->make(true);
-        }
+                                        </li>
+                                        </ul>";
+                            return $btn;
+                        })
+                        ->rawColumns(['action','status',])
+                        ->make(true);
+            }
 
-        return view('hotel::index', ['classifications' => $classifications, 'room_types' => $room_types])->with(compact('hotelsCount'));
+            return view('hotel::index', ['classifications' => $classifications, 'room_types' => $room_types, 'hotels' => $hotels])->with(compact('hotelsCount'));
+        } catch (\Exception $e) {
+
+            return redirect()->back()->with('error', $e->getMessage());
+
+        }
     }
 
     /**
