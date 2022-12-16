@@ -180,7 +180,7 @@
                                     <div class="form-icon form-icon-left">
                                         <em class="icon ni ni-calendar"></em>
                                     </div>
-                                    <input type="text" class="form-control date-picker" name="cancellation_request_date" id="cancellation_request_date" placeholder="Cancellation request date" data-date-format="yyyy-mm-dd">
+                                    <input type="text" class="form-control date-picker" name="cancellation_request_date" id="cancellation_request_date" placeholder="Cancellation request date">
                                 </div>
                             </div>
                         </div>
@@ -193,7 +193,7 @@
                                     <div class="form-icon form-icon-left">
                                         <em class="icon ni ni-calendar"></em>
                                     </div>
-                                    <input type="text" class="form-control date-picker" id="cancellation_approved_date" placeholder="Cancellation approved date" data-date-format="yyyy-mm-dd">
+                                    <input type="text" class="form-control date-picker" name="cancellation_approved_date" id="cancellation_approved_date" placeholder="Cancellation approved date" >
                                 </div>
                             </div>
                         </div>
