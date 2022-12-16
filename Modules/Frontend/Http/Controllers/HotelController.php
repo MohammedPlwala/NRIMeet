@@ -13,6 +13,7 @@ use Modules\Hotel\Entities\Booking;
 use Modules\Hotel\Entities\BookingRoom;
 use Modules\Hotel\Entities\BillingDetail;
 use Modules\Hotel\Entities\Transaction;
+use Modules\Hotel\Entities\FailedTransaction;
 use Session;
 use Auth;
 use DB;
@@ -515,6 +516,25 @@ class HotelController extends Controller
     }
 
     public function billDeskForm(Request $request){
+
+        $request = array(
+            'mercid' => "MPSTDWCV2",
+            'orderid' => uniqid(),
+            'amount' => "1.0",
+            'order_date' => date_format(new \DateTime(), DATE_W3C),
+            'currency' => "356",
+            'ru' => "https://www.billdesk.io",
+            'itemcode' => "DIRECT",
+            'device' => array(
+                'init_channel' => 'internet',
+                'ip' => "192.168.1.1",
+                'user_agent' => 'Mozilla/5.0'
+            )
+        );
+
+        echo "sad";
+        die;
+
         $data = $request->all();
         return view('frontend::bill_desk');
     }
@@ -611,7 +631,36 @@ class HotelController extends Controller
     }
 
     public function payuPaymentCancel(Request $request){
-        return redirect('booking-summary')->with('error', 'Payment failed');
+        $user = Auth::user();
+
+        $billingDetails = Session::get('billingDetails');
+        $bookingData = Session::get('bookingData');
+        $booking_id = Session::get('booking_id');
+
+        $failedTransaction = new FailedTransaction();
+
+        $failedTransaction->user_id = $user->id;
+        $failedTransaction->booking_id = $booking_id;
+        $failedTransaction->hotel_id = $bookingData['hotel_id'];
+        $failedTransaction->payment_method = 'Payu';
+        $failedTransaction->transaction_id = $request->txnid;
+        $failedTransaction->status = $request->status;
+        $failedTransaction->error_message = $request->error_Message;
+        $failedTransaction->unmappedstatus = $request->unmappedstatus;
+        $failedTransaction->mode = $request->mode;
+        $failedTransaction->amount = $request->amount;
+        $failedTransaction->response_data = json_encode($request->all());
+        $failedTransaction->save();
+
+        Session::put('cartData', '');
+        Session::forget('booking_id');
+        Session::forget('billingDetails');
+        Session::forget('bookingData');
+
+        $booking = Booking::select('order_id')->where('id',$booking_id)->first();
+        $order_id = $booking->order_id;
+
+        return view('frontend::failed_transactions',['order_id'=>$order_id,'error_message' => $request->error_Message]);
     }
 
 

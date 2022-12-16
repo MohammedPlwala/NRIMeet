@@ -17,6 +17,7 @@ use Modules\Hotel\Entities\BookingRoom;
 use Modules\Hotel\Entities\BulkBookingRoom;
 use Modules\Hotel\Entities\BillingDetail;
 use Modules\Hotel\Entities\Transaction;
+use Modules\Hotel\Entities\FailedTransaction;
 use Modules\User\Entities\CustomerCare;
 
 use Modules\Report\Exports\GuestExport;
@@ -35,6 +36,7 @@ use Modules\Report\Exports\BookingCheckInStatusExport;
 use Modules\Report\Exports\BookingCheckOutStatusExport;
 use Modules\Report\Exports\BulkBookingRoomExport;
 use Modules\Report\Exports\CallCenterExport;
+use Modules\Report\Exports\FailedPaymentExport;
 
 
 use DataTables;
@@ -2333,6 +2335,113 @@ class ReportController extends Controller
 
         }
     }
+
+    public function failedPayments(Request $request)
+    {
+
+        $hotels = Hotel::from('hotels as h')
+        ->select('h.name', 'h.id')->get();
+
+        $data =   FailedTransaction::from('failed_transactions as ft')
+        ->select(
+            'u.full_name as guest', 'b.order_id', 'h.name as hotel',
+            'ft.payment_method','ft.amount','ft.transaction_id','ft.status','ft.unmappedstatus','ft.error_message','ft.created_at as transaction_date'
+        )
+        ->leftJoin('bookings as b','ft.booking_id','=','b.id')
+        ->leftJoin('hotels as h','h.id','=','ft.hotel_id')
+        ->leftjoin('users as u','u.id','=','ft.user_id')
+        ->where(function ($query) use ($request) {
+            if (!empty($request->toArray())) {
+
+                if ($request->get('hotel_name') != '') {
+                    $query->where('h.name', $request->get('hotel_name'));
+                }
+
+                if ($request->get('guest') != '') {
+                    $query->where('u.full_name', 'like', '%' . $request->guest . '%');
+                }
+
+                if ($request->get('orderid') != '') {
+                    $query->where('b.order_id', $request->orderid);
+                }
+
+                if ($request->get('transaction_date') != '') {
+                    $query->whereDate('ft.created_at', date('Y-m-d',strtotime($request->get('transaction_date'))));
+                }
+
+                if ($request->get('payment_method') != '') {
+                    $query->where('ft.payment_method', $request->get('payment_method'));
+                }
+            }
+            
+        })
+        ->orderby('ft.created_at','desc')
+        ->get();
+
+        if ($request->ajax()) {
+            return Datatables::of($data)
+                ->addIndexColumn()
+                ->addColumn('transaction_date', function ($row) {
+                    $transaction_date = date(\Config::get('constants.DATE.DATE_FORMAT_FULL') , strtotime($row->transaction_date));
+                    return $transaction_date;
+                })
+                ->addColumn('amount', function ($row) { 
+                    return '₹'.number_format($row->amount, 2);
+                })
+                ->rawColumns(['status'])
+                ->make(true);
+        }
+
+        return view('report::failed_payments', ['hotels' => $hotels, 'request' => $request]);
+    }
+
+    public function failedPaymentsExport(Request $request)
+    {
+
+        $data =   FailedTransaction::from('failed_transactions as ft')
+        ->select(
+            'u.full_name as guest', 'b.order_id', 'h.name as hotel',
+            'ft.payment_method','ft.amount','ft.transaction_id','ft.status','ft.unmappedstatus','ft.error_message',
+            \DB::raw('DATE_FORMAT(ft.created_at, "%d-%b-%Y") as transaction_date')
+        )
+        ->leftJoin('bookings as b','ft.booking_id','=','b.id')
+        ->leftJoin('hotels as h','h.id','=','ft.hotel_id')
+        ->leftjoin('users as u','u.id','=','ft.user_id')
+        ->where(function ($query) use ($request) {
+            if (!empty($request->toArray())) {
+
+                if ($request->get('hotel_name') != '') {
+                    $query->where('h.name', $request->get('hotel_name'));
+                }
+
+                if ($request->get('guest') != '') {
+                    $query->where('u.full_name', 'like', '%' . $request->guest . '%');
+                }
+
+                if ($request->get('orderid') != '') {
+                    $query->where('b.order_id', $request->orderid);
+                }
+
+                if ($request->get('transaction_date') != '') {
+                    $query->whereDate('ft.created_at', date('Y-m-d',strtotime($request->get('transaction_date'))));
+                }
+
+                if ($request->get('payment_method') != '') {
+                    $query->where('ft.payment_method', $request->get('payment_method'));
+                }
+            }
+            
+        })
+        ->orderby('ft.created_at','desc')
+        ->get();
+
+        if(!empty($data->toArray())){
+            return (new FailedPaymentExport($data->toArray()))->download('failed-payments' . '.xlsx', \Maatwebsite\Excel\Excel::XLSX);
+        }else{
+            return redirect('/admin/report/failed-payments')->with('error', 'No payments');
+        }
+    }
+
 
     public function financial(Request $request)
     {

@@ -142,36 +142,6 @@ class UserController extends Controller
         if ($request->ajax()) {
             return DataTables::of($data)
                     ->addIndexColumn()
-                    ->addColumn('name', function($row) use ($userPermission){
-                            $detailLink = '#';
-
-                            $username = $row->name.' '.$row->last_name;
-
-                            if(!is_null($row->file)){
-                                $file = public_path('uploads/users/') . $row->file;
-                            }
-
-                            if(!is_null($row->file) && file_exists($file))
-                                $avatar = "<img src=".url('uploads/users/'.$row->file).">";
-                            else
-                                $avatar = "<span>".\Helpers::getAcronym($username)."</span>";
-                            
-
-                            $name = '
-                                        <a href="'.$detailLink.'">
-                                            <div class="user-card">
-                                                <div class="user-avatar bg-primary">
-                                                    '.$avatar.'
-                                                </div>
-                                                <div class="user-info">
-                                                    <span class="tb-lead">'.$row->shop_name.' <span class="dot dot-success d-md-none ml-1"></span></span>
-                                                    <span>'.$username.' </span>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    ';
-                            return $name;
-                    })
                     ->addColumn('status', function ($row) {
                         if($row->status == 'active'){
                             $statusValue = 'Active';

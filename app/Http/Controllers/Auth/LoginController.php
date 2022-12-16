@@ -168,12 +168,12 @@ class LoginController extends Controller
                 }
             }
 
-            $userRole = UserRole::select('r.name as role','r.id as role_id')->leftJoin('roles as r','user_role.role_id','=','r.id')->where('user_id',$user->id)->first();
+            // $userRole = UserRole::select('r.name as role','r.id as role_id')->leftJoin('roles as r','user_role.role_id','=','r.id')->where('user_id',$user->id)->first();
 
-            if($userRole->role != 'Guest'){
-                Auth::logout();
-                return redirect('/')->with('error', 'Only guests are allowed to make bookings');
-            }
+            // if($userRole->role != 'Guest'){
+            //     Auth::logout();
+            //     return redirect('/')->with('error', 'Only guests are allowed to make bookings');
+            // }
 
             return redirect()->intended('/');
 
