@@ -78,14 +78,6 @@
                         </div>
                         <div class="row g-3 align-center">
                             <div class="col-lg-5">
-                                <x-inputs.verticalFormLabel label="Guest Count" for="guest_count" suggestion="Enter the guest count." />
-                            </div>
-                            <div class="col-lg-7">
-                                <x-inputs.number  value="" for="guest_count" name="guest_count" id="guest_count" placeholder="Enter Guest Count" />
-                            </div>
-                        </div>
-                        <div class="row g-3 align-center">
-                            <div class="col-lg-5">
                                 <x-inputs.verticalFormLabel label="Check in Date" for="check_in_date" suggestion="Select the check in date." />
                             </div>
                             <div class="col-lg-7">
@@ -174,7 +166,6 @@
             var items = [
                 '#hotel_name',
                 // '#room_type',
-                '#guest_count',
                 '#check_in_date',
                 // '#check_out_date'
                 // '#adults',
