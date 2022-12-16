@@ -54,10 +54,10 @@ jQuery( document ).ready(function($) {
 		
 	});
 	
-	if ($(".shb-booking-step-wrapper, .shb-booking-complete-wrapper").length > 0) {
+	if ($(".booking-step-scroll, .shb-booking-complete-wrapper").length > 0) {
 		
 		$('html,body').animate({
-		   scrollTop: $(".shb-booking-step-wrapper, .shb-booking-complete-wrapper").offset().top - 60
+		   scrollTop: $(".booking-step-scroll, .shb-booking-complete-wrapper").offset().top - 60
 		});
 	
 	}

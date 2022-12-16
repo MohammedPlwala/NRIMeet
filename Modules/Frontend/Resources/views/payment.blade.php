@@ -14,7 +14,7 @@
     <div class="container">
         <div class="shb-booking-page-wrapper shb-clearfix">
             <div class="shb-booking-page-main full-width">
-                <div class="shb-booking-step-wrapper shb-clearfix">
+                <div class="shb-booking-step-wrapper booking-step-scroll shb-clearfix">
                     <div class="shb-booking-step shb-booking-step-current"><a href="{{ url('/search') }}">1</a><a
                             href="{{ url('/search') }}">Rooms</a></div>
                     <div class="shb-booking-step shb-booking-step-current"><a href="{{ url('/booking-summary') }}">2</a><a
