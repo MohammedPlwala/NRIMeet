@@ -45,6 +45,8 @@
                         <th class="nk-tb-col tb-col-md text-center"><span class="sub-text">Allocated Rooms</span></th>
                         <th class="nk-tb-col tb-col-md text-center"><span class="sub-text">MPT Reserve</span></th>
                         <th class="nk-tb-col tb-col-md text-center"><span class="sub-text">Available Rooms</span></th>
+                        <th class="nk-tb-col tb-col-md text-center"><span class="sub-text">Extra Bed Available</span></th>
+                        <th class="nk-tb-col tb-col-md text-right"><span class="sub-text">Extra Bed Rate</span></th>
                         <th class="nk-tb-col tb-col-md w-1 text-center" nowrap="true"><span class="sub-text">Status</span>
                         </th>
                         <th class="nk-tb-col nk-tb-col-tools text-right w-1" nowrap="true">
@@ -228,6 +230,18 @@
                             "class": "nk-tb-col tb-col-lg text-center",
                             data: 'count',
                             name: 'count'
+                        },
+
+                        {
+                            "class": "nk-tb-col tb-col-lg text-center",
+                            data: 'extra_bed_available',
+                            name: 'extra_bed_available'
+                        },
+
+                        {
+                            "class": "nk-tb-col tb-col-lg text-right",
+                            data: 'extra_bed_rate',
+                            name: 'extra_bed_rate'
                         },
 
                         {

@@ -42,7 +42,7 @@ class FailedPaymentExport implements FromArray, WithHeadings, ShouldAutoSize, Wi
             'Amount',
             'Transaction ID',
             'Status',
-            'Unmapped Status',
+            // 'Unmapped Status',
             'Error Message',
             'Transaction Date'
 
@@ -56,7 +56,7 @@ class FailedPaymentExport implements FromArray, WithHeadings, ShouldAutoSize, Wi
     {
         return [
             AfterSheet::class    => function(AfterSheet $event) {
-                $cellRange = 'A1:J1'; // All headers
+                $cellRange = 'A1:I1'; // All headers
                 $event->sheet->getDelegate()->getStyle($cellRange)->getFont()->setSize(14);
             },
         ];

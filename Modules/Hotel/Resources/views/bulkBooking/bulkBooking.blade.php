@@ -110,6 +110,12 @@
                                         @elseif(old('bookingFrom') == 'MEA') 
                                         selected @endif>
                                             MEA</option>
+
+                                        <option
+                                            @if (isset($bulkBooking) && $bulkBooking->booking_person == 'AGI') selected
+                                        @elseif(old('bookingFrom') == 'AGI') 
+                                        selected @endif>
+                                            AGI</option>
                                     </x-inputs.select>
                                 </div>
                             </div>
@@ -147,7 +153,7 @@
                                     <x-inputs.number for="rooms" icon="building" required="true"
                                         class="rooms readonlyinput" placeholder="Enter Rooms Number" name="rooms"
                                         value="{{ isset($bulkBooking) ? $bulkBooking->room_count : old('rooms') }}"
-                                        max="{{ isset($availableRooms) ? $availableRooms->count : '' }}" />
+                                        max="{{ isset($availableRooms) ? $availableRooms->count : isset($bulkBooking) ? $bulkBooking->room_count : 0 }}" />
                                 </div>
                             </div>
 

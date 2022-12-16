@@ -77,6 +77,7 @@
                                         <option>mp Tourism</option>
                                         <option>MP GOVT</option>
                                         <option>YPBD</option>
+                                        <option>AGI</option>
                                     </x-inputs.select>
                                 </div>
                             </div>

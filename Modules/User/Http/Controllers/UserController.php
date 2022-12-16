@@ -468,9 +468,20 @@ class UserController extends Controller
         if(isset($request->userId)){
             $user = User::findorfail($request->userId);
             $msg = "User updated successfully";
+
+            $checkEmail = User::where('id','!=',$request->userId)->where('email',$request->email)->first();
+            if($checkEmail){
+                return redirect('/admin/user')->with('error', 'Email already exists');
+            }
+
         }else{
             $user = new User();
             $msg = "User added successfully";
+
+            $checkEmail = User::where('email',$request->email)->first();
+            if($checkEmail){
+                return redirect('/admin/user')->with('error', 'Email already exists');
+            }
         }
 
         $user->full_name = $request->fullname;

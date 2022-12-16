@@ -78,15 +78,13 @@ class BookingsImport implements
 
     public function collection(Collection $rows)
     {
+
         $errors = array();
         $success = array();
         $item = array();
         foreach ($rows as $key => $row) {
+            
             $importError = 0;
-
-            if($row['booking_type'] == 'Offline'){
-                $importError = 1;
-            }
 
             $rowNo = $key+2;
             
@@ -136,7 +134,6 @@ class BookingsImport implements
                 // }
 
             }
-
             
             if($importError == 0){
 
@@ -145,7 +142,7 @@ class BookingsImport implements
                 $booking->order_id = $row['order_id'];
                 $booking->user_id = $userId;
                 $booking->hotel_id = $row['hotel_id'];
-                $booking->booking_type = 'Online';
+                $booking->booking_type = 'Offline';
 
                 // $booking->check_in_date =  \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row['check_in_date'])->format('Y-m-d');
                 // $booking->check_out_date =  \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row['check_out_date'])->format('Y-m-d');
@@ -249,7 +246,7 @@ class BookingsImport implements
                                 ->first();
 
                     $room->room_id = $roomType->room_id;
-                    $room->tax_percentage = $row['tax_percentage'];
+                    $room->tax_percentage = str_replace('%', '', $row['tax_percentage']);
                     $room->tax = $row['tax'];
                     $room->amount = $row['amount'];
 
@@ -267,6 +264,8 @@ class BookingsImport implements
 
                     if($row['room_childs'] != "-" && $row['room_childs'] != ""){
                         $room->childs = $row['room_childs'];
+                    }else{
+                        $room->childs = 0;
                     }
 
                     if(!empty($row['room_guest_one_name'])){
@@ -321,14 +320,14 @@ class BookingsImport implements
                     $billingDetail->email = $user->email;
                     $billingDetail->save();
 
-                    $transaction = new Transaction();
-                    $transaction->booking_id = $booking->id;
-                    $transaction->transaction_id = $row['transaction_id'];
-                    $transaction->payment_method = ucfirst($row['payment_method']);
-                    $transaction->payment_mode = 'Online';
-                    $transaction->payment_channel = $row['payment_channel'];
-                    $transaction->status = 'confirmed';
-                    $transaction->save();
+                    // $transaction = new Transaction();
+                    // $transaction->booking_id = $booking->id;
+                    // $transaction->transaction_id = $row['transaction_id'];
+                    // $transaction->payment_method = ucfirst($row['payment_method']);
+                    // $transaction->payment_mode = 'Online';
+                    // $transaction->payment_channel = $row['payment_channel'];
+                    // $transaction->status = 'confirmed';
+                    // $transaction->save();
                     
 
                     $success[] = $rowNo;

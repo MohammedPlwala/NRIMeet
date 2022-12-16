@@ -2401,7 +2401,7 @@ class ReportController extends Controller
         $data =   FailedTransaction::from('failed_transactions as ft')
         ->select(
             'u.full_name as guest', 'b.order_id', 'h.name as hotel',
-            'ft.payment_method','ft.amount','ft.transaction_id','ft.status','ft.unmappedstatus','ft.error_message',
+            'ft.payment_method','ft.amount','ft.transaction_id','ft.unmappedstatus','ft.error_message',
             \DB::raw('DATE_FORMAT(ft.created_at, "%d-%b-%Y") as transaction_date')
         )
         ->leftJoin('bookings as b','ft.booking_id','=','b.id')

@@ -390,6 +390,16 @@ class HotelController extends Controller
                     ->addColumn('rate', function ($row) { 
                         return '₹'.number_format($row->rate, 2);
                     })
+                    ->addColumn('extra_bed_available', function ($row) { 
+                        $extra_bed_available = 'No';
+                        if($row->extra_bed_available){
+                            $extra_bed_available = 'Yes';
+                        }
+                        return $extra_bed_available;
+                    })
+                    ->addColumn('extra_bed_rate', function ($row) { 
+                        return '₹'.number_format($row->extra_bed_rate, 2);
+                    })
                     ->addColumn('action', function($row) {
                            $edit = url('/').'/admin/hotel/rooms/edit/'.$row->id;
                            $delete = url('/').'/admin/hotel/rooms/delete/'.$row->id;
@@ -438,16 +448,16 @@ class HotelController extends Controller
      */
     public function roomUpdate()
     {
-        $hotels = Hotel::where('status','active')->get();
-        $roomTypes = RoomType::where('status','active')->get();
+        $hotels = Hotel::all();
+        $roomTypes = RoomType::all();
 
         return view('hotel::roomUpdate',['hotels' => $hotels,'roomTypes' => $roomTypes]);
     }
 
     public function roomEdit(Request $request,$id)
     {
-        $hotels = Hotel::where('status','active')->get();
-        $roomTypes = RoomType::where('status','active')->get();
+        $hotels = Hotel::all();
+        $roomTypes = RoomType::all();
         
         $room = HotelRoom::findorfail($id);
 
@@ -500,6 +510,8 @@ class HotelController extends Controller
 
             if($request->extra_bed_available){
                 $room->extra_bed_rate = $request->extra_bed_rate;
+            }else{
+                $room->extra_bed_rate = 0;
             }
             $room->status = $request->status;
             
@@ -558,7 +570,7 @@ class HotelController extends Controller
                                     }
                                 }
                             })
-                            ->orderby('b.id','desc')
+                            ->orderby('b.created_at','desc')
                             ->get();
 
         $bookingsCount = 0;
@@ -570,7 +582,13 @@ class HotelController extends Controller
             return Datatables::of($data)
                     ->addIndexColumn()
                     ->addColumn('order_id', function ($row) {
-                        $detailUrl = \URL::to('admin/bookings/edit/'.$row->id);
+
+                        if($row->booking_status == 'Void'){
+                            $detailUrl = '#';
+                        }else{
+                            $detailUrl = \URL::to('admin/bookings/edit/'.$row->id);
+                        }
+
                         $order_id = '<a href="'.$detailUrl.'" ><span>'. $row->order_id .'</span></a>';
                         return $order_id;
                     })
@@ -627,6 +645,11 @@ class HotelController extends Controller
                         if($row->booking_status == 'Refund Issued'){
                             $booking_status_class = 'danger';
                         }
+
+                        if($row->booking_status == 'Void'){
+                            $booking_status_class = 'light';
+                        }
+
                         $booking_status = '<span class="badge badge-'.$booking_status_class.'" >'. $row->booking_status .'</span>';
                         return $booking_status;
                     })
@@ -643,6 +666,9 @@ class HotelController extends Controller
                         return $booked_on;
                     })
                     ->addColumn('action', function($row) {
+                            if($row->booking_status == 'Void'){
+                                return $btn = '';
+                            }
                            $edit = url('/').'/admin/bookings/edit/'.$row->id;
                            $confirm = '"Are you sure, you want to delete it?"';
 
@@ -661,7 +687,7 @@ class HotelController extends Controller
                                                     <ul class="link-list-opt no-bdr">
                                         ';
 
-                           $btn .=       $editBtn;
+                            $btn .=       $editBtn;
 
                             $btn .= "</ul>
                                             </div>
@@ -1197,6 +1223,10 @@ class HotelController extends Controller
                 if($request->status == 'Cancellation Approved'){
                     $this->updateCancelInventory($roomIds);
                     \Helpers::sendCancellationApprovedMail($booking->id);
+                }
+
+                if($request->status == 'Void'){
+                    $this->updateCancelInventory($roomIds);
                 }
 
 
