@@ -150,7 +150,7 @@
                                     if(isset($filterRequests['firstname']))
                                         $firstname=$filterRequests['firstname'];
                                 @endphp
-                                <x-inputs.text value="{{ $firstname }}" for="firstName" icon="user" placeholder="First name" name="firstname" />
+                                <x-inputs.text value="{{ $firstname }}" for="firstName" name="firstName" id="firstName" icon="user" placeholder="First name" name="firstname" />
                             </div>
                         </div>
                         
@@ -408,7 +408,6 @@
 
             var items = [
                 '#firstName',
-                
                 '#mobileNumber',
                 '#role',
                 '#fromDate',

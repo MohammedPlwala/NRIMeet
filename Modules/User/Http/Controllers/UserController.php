@@ -127,6 +127,9 @@ class UserController extends Controller
                             $dateTo =  date('Y-m-d',strtotime($request->toDate));
                             $query->where('u.created_at', '<=', $dateTo);
                         }
+                        if ($request->get('status') != '') {
+                            $query->where('u.status', $request->get('status'));
+                        }
                     }
                 })
                 ->orderby('u.id','desc')
@@ -439,11 +442,11 @@ class UserController extends Controller
                 ->whereNotIn('roles.name',['Guest','Administrator'])
                 ->where(function ($query) use ($request) {
                     if (!empty($request->toArray())) {
-                        if ($request->get('firstName') != '') {
-                            $query->where('u.full_name', '%'.$request->get('firstName').'%');
+                        if ($request->firstname != '') {
+                            $query->where('u.full_name', '%'.$request->firstname.'%');
                         }
-                        if ($request->get('mobileNumber') != '') {
-                            $query->where('u.mobile', '%'.$request->get('mobileNumber').'%');
+                        if ($request->mobileNumber != '') {
+                            $query->where('u.mobile', '%'.$request->mobileNumber.'%');
                         }
                         if((isset($request->fromDate) && isset($request->toDate))) {
                             $dateFrom =  date('Y-m-d',strtotime($request->fromDate));

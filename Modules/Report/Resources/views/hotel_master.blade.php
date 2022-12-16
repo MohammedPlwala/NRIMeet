@@ -44,7 +44,7 @@
                         {{-- <th class="nk-tb-col tb-col-mb"><span class="sub-text">Hotel Description</span></th> --}}
                         <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Distance From Airport</span></th>
                         <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Distance From Venue</span></th>
-                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Hotel Location</span></th>
+                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Hotel Address</span></th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Hotel Website</span></th>
                     </tr>
                 </thead>
