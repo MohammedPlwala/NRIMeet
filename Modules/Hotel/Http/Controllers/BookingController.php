@@ -280,9 +280,9 @@ class BookingController extends Controller
                 ->where('hr.hotel_id',$bulkBooking->hotel_id)
                 ->orderby('rt.name','asc')
                 ->get();
-            $availableRooms = HotelRoom::where('id',$bulkBooking->room_type_id)->first();
+            // $availableRooms = HotelRoom::where('id',$bulkBooking->room_type_id)->first();
             $bulkBookingRooms = BulkBookingRoom::where('bulk_booking_id',$id)->get();
-            return view('hotel::bulkBooking/bulkBooking',compact('bulkBooking','hotels','roomTypes','availableRooms','bulkBookingRooms'));
+            return view('hotel::bulkBooking/bulkBooking',compact('bulkBooking','hotels','roomTypes','bulkBookingRooms'));
 
         } catch (Exception $e) {
             return redirect('admin/bulk-bookings')->with('error', $exception->getMessage());           

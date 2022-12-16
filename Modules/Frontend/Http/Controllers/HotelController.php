@@ -43,6 +43,7 @@ class HotelController extends Controller
 
     public function search(Request $request)
     {
+
         $classifications = Hotel::from('hotels as h')
                         ->select('h.classification')
                         ->groupby('h.classification')
@@ -74,15 +75,35 @@ class HotelController extends Controller
             \Session::put('date_to', $request->date_to);
         }
         if(isset($request->room_one_adult)){
+
+            if($request->room_one_adult > 3){
+                $request->room_one_adult = 3;
+            }
+
             \Session::put('room_one_adult', $request->room_one_adult);
         }
         if(isset($request->room_one_child)){
+
+            if($request->room_one_child > 2){
+                $request->room_one_child = 2;
+            }
+
             \Session::put('room_one_child', $request->room_one_child);
         }
         if(isset($request->room_two_adult)){
+
+            if($request->room_two_adult > 3){
+                $request->room_two_adult = 3;
+            }
+
             \Session::put('room_two_adult', $request->room_two_adult);
         }
         if(isset($request->room_two_child)){
+
+            if($request->room_two_child > 2){
+                $request->room_two_child = 2;
+            }
+
             \Session::put('room_two_child', $request->room_two_child);
         }
 

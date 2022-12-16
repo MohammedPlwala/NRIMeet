@@ -43,7 +43,7 @@
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Amount</span></th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Transaction ID</span></th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Status</span></th>
-                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Unmapped Status</span></th>
+                        {{-- <th class="nk-tb-col tb-col-mb"><span class="sub-text">Unmapped Status</span></th> --}}
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Error Message</span></th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Transaction Date</span></th>
                     </tr>
@@ -260,17 +260,17 @@
                         data: 'transaction_id',
                         name: 'transaction_id'
                     },
-                    {
-                        "class": "nk-tb-col tb-col-lg text-center",
-                        // data: 'booking_status',
-                        data: function(item){
-                            setTimeout(() => {
-                                NioApp.setStatusTag(item.status)
-                            }, 500);
-                            return '<span class="status-tag badge badge-success" data-status-name="'+item.status+'">'+item.status+'</span>'
-                        },
-                        name: 'booking_status',
-                    },
+                    // {
+                    //     "class": "nk-tb-col tb-col-lg text-center",
+                    //     // data: 'booking_status',
+                    //     data: function(item){
+                    //         setTimeout(() => {
+                    //             NioApp.setStatusTag(item.status)
+                    //         }, 500);
+                    //         return '<span class="status-tag badge badge-success">'+item.status+'</span>'
+                    //     },
+                    //     name: 'booking_status',
+                    // },
                     {
                         "class": "nk-tb-col tb-col-lg text-center",
                         // data: 'booking_status',

@@ -383,24 +383,9 @@
                                             <option @if ($booking->booking_status == 'Refund Issued') selected @endif value="Refund Issued"> Refund Issued</option>
                                         @endif
 
-                                        <!-- <option @if ($booking->booking_status == 'Booking Received') selected @endif
-                                            value="Booking Received">Booking Received</option>
-                                        <option @if ($booking->booking_status == 'Payment Completed') selected @endif
-                                            value="Payment Completed">Payment Completed</option>
-                                        <option @if ($booking->booking_status == 'Booking Shared') selected @endif value="Booking Shared">
-                                            Booking Shared</option>
-                                        <option @if ($booking->booking_status == 'Confirmation Recevied') selected @endif
-                                            value="Confirmation Recevied">Confirmation Recevied</option>
-                                        <option @if ($booking->booking_status == 'Cancellation Requested') selected @endif
-                                            value="Cancellation Requested">Cancellation Requested</option>
-                                        <option @if ($booking->booking_status == 'Cancellation Approved') selected @endif
-                                            value="Cancellation Approved">Cancellation Approved</option>
-                                        <option @if ($booking->booking_status == 'Refund Requested') selected @endif
-                                            value="Refund Requested">Refund Requested</option>
-                                        <option @if ($booking->booking_status == 'Refund Approved') selected @endif
-                                            value="Refund Approved">Refund Approved</option>
-                                        <option @if ($booking->booking_status == 'Refund Issued') selected @endif value="Refund Issued">
-                                            Refund Issued</option> -->
+                                        <option @if ($booking->booking_status == 'Void') selected @endif value="Void"> Void</option>
+
+                                        
                                     </x-inputs.select>
                                 </div>
                             </div>

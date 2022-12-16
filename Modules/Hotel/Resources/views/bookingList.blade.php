@@ -144,6 +144,7 @@
                                             <option value="Refund Requested">Refund Requested</option>
                                             <option value="Refund Approved">Refund Approved</option>
                                             <option value="Refund Issued">Refund Issued</option>
+                                            <option value="Void">Void</option>
                                         </x-inputs.select>
                                     </div>
                                 </div>

@@ -413,10 +413,10 @@ class UserController extends Controller
                 ->where(function ($query) use ($request) {
                     if (!empty($request->toArray())) {
                         if ($request->firstname != '') {
-                            $query->where('u.full_name', '%'.$request->firstname.'%');
+                            $query->where('u.full_name', 'LIKE', '%'.$request->firstname.'%');
                         }
                         if ($request->mobileNumber != '') {
-                            $query->where('u.mobile', '%'.$request->mobileNumber.'%');
+                            $query->where('u.mobile', 'LIKE', '%'.$request->mobileNumber.'%');
                         }
                         if((isset($request->fromDate) && isset($request->toDate))) {
                             $dateFrom =  date('Y-m-d',strtotime($request->fromDate));
@@ -468,9 +468,20 @@ class UserController extends Controller
         if(isset($request->userId)){
             $user = User::findorfail($request->userId);
             $msg = "User updated successfully";
+
+            $checkEmail = User::where('id','!=',$request->userId)->where('email',$request->email)->first();
+            if($checkEmail){
+                return redirect('/admin/user')->with('error', 'Email already exists');
+            }
+
         }else{
             $user = new User();
             $msg = "User added successfully";
+
+            $checkEmail = User::where('email',$request->email)->first();
+            if($checkEmail){
+                return redirect('/admin/user')->with('error', 'Email already exists');
+            }
         }
 
         $user->full_name = $request->fullname;
