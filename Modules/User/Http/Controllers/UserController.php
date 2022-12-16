@@ -413,10 +413,10 @@ class UserController extends Controller
                 ->where(function ($query) use ($request) {
                     if (!empty($request->toArray())) {
                         if ($request->firstname != '') {
-                            $query->where('u.full_name', '%'.$request->firstname.'%');
+                            $query->where('u.full_name', 'LIKE', '%'.$request->firstname.'%');
                         }
                         if ($request->mobileNumber != '') {
-                            $query->where('u.mobile', '%'.$request->mobileNumber.'%');
+                            $query->where('u.mobile', 'LIKE', '%'.$request->mobileNumber.'%');
                         }
                         if((isset($request->fromDate) && isset($request->toDate))) {
                             $dateFrom =  date('Y-m-d',strtotime($request->fromDate));
