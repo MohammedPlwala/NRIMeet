@@ -48,7 +48,7 @@
                     <input type="tel" name="country_code" id="country_code" value="" size="40" placeholder="Country Code" required />
                   </div>
                   <div class="phone-or-mobile-no">
-                    <input type="tel" name="phone_or_mobile_no" id="phone_or_mobile_no" value="" size="40" placeholder="Phone/Mobile No." required />
+                    <input type="tel" name="phone_or_mobile_no" id="phone_or_mobile_no" data-parsley-type="number" value="" size="40" placeholder="Phone/Mobile No." required />
                   </div>
                 </div>
               </div>

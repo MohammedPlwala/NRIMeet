@@ -54,7 +54,8 @@ class VisitController extends Controller
                         return $btn;
                     })
                     ->addColumn('created_at', function ($row) {
-                        return date('d-m-Y H:i:s' , strtotime($row->created_at));
+                        $created_at = date(\Config::get('constants.DATE.DATE_FORMAT') , strtotime($row->created_at));
+                        return $created_at;
                     })
                     ->rawColumns(['action','created_at'])
                     ->make(true);

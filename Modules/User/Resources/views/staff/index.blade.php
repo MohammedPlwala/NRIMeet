@@ -98,12 +98,15 @@
                                     {{-- <div class="status dot dot-lg dot-success"></div> --}}
                                 </div>
                                 <div class="user-info">
-                                    @if($user->status == 'active')
-                                    <h6>{{ ucfirst($user->full_name) }} <span class="badge badge-success mb-0">Approved</span></h6>
-                                    @else
-                                    <h6>{{ ucfirst($user->full_name) }} <span class="badge badge-danger mb-0">Not Approved</span></h6>
-                                    @endif
+                                    <h6>{{ ucfirst($user->full_name) }}</h6>
                                     <span class="sub-text">{{ $user->email }}</span>
+                                    <div class="mt-1">
+                                        @if($user->status == 'active')
+                                            <span class="badge badge-success mb-0">Approved</span>
+                                        @else
+                                            <span class="badge badge-danger mb-0">Not Approved</span>
+                                        @endif
+                                    </div>
                                 </div>
                             </div>
                             <ul class="team-statistics pb-0">
@@ -111,8 +114,8 @@
                                 <li><span>{{ $user->mobile }}</span><span>Contact</span></li>
                             </ul>
                             <ul class="team-info">
-                                <li><span>Created At</span><span>{{ date('d-m-Y H:i:s' , strtotime($user->created_at)) }}</span></li>
-                                <li><span>Updated At</span><span>{{ date('d-m-Y H:i:s' , strtotime($user->updated_at)) }}</span></li>
+                                <li><span>Created At</span><span>{{ date('d M, Y' , strtotime($user->created_at)) }}</span></li>
+                                <li><span>Updated At</span><span>{{ date('d M, Y' , strtotime($user->updated_at)) }}</span></li>
                             </ul>
                             <div class="team-view">
                                 {{-- <a href="{{ url('user/staff/staff-detail/'.$user->id) }}" class="btn btn-round btn-outline-light w-150px"><span>View Profile</span></a> --}}
@@ -150,7 +153,7 @@
                                     if(isset($filterRequests['firstname']))
                                         $firstname=$filterRequests['firstname'];
                                 @endphp
-                                <x-inputs.text value="{{ $firstname }}" for="firstName" icon="user" placeholder="First name" name="firstname" />
+                                <x-inputs.text value="{{ $firstname }}" for="firstName" name="firstName" id="firstName" icon="user" placeholder="First name" name="firstname" />
                             </div>
                         </div>
                         
@@ -408,7 +411,6 @@
 
             var items = [
                 '#firstName',
-                
                 '#mobileNumber',
                 '#role',
                 '#fromDate',
