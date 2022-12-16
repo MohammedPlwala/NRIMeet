@@ -120,10 +120,10 @@
                         </div>
                         <div class="row g-3 align-center">
                             <div class="col-lg-5">
-                                <x-inputs.verticalFormLabel label="Room Count" for="room_count" suggestion="Enter the room count." />
+                                <x-inputs.verticalFormLabel label="Closing Inventory" for="closing_inventory" suggestion="Enter the closing inventory." />
                             </div>
                             <div class="col-lg-7">
-                                <x-inputs.number  value="" for="room_count" name="room_count" placeholder="Enter Room Count" />
+                                <x-inputs.number  value="" for="closing_inventory" name="closing_inventory" id="closing_inventory" placeholder="Enter Closing Inventory" />
                             </div>
                         </div>
                         <div class="row g-3 align-center">
@@ -188,8 +188,8 @@
         if($('#room_type').val() != ""){
             myUrl = addQSParm(myUrl,'room_type', $('#room_type').val());
         }
-        if($('#room_count').val() != ""){
-            myUrl = addQSParm(myUrl,'room_count', $('#room_count').val());
+        if($('#closing_inventory').val() != ""){
+            myUrl = addQSParm(myUrl,'closing_inventory', $('#closing_inventory').val());
         }
         if($('#room_charges').val() != ""){
             myUrl = addQSParm(myUrl,'room_charges', $('#room_charges').val());
@@ -233,7 +233,7 @@
             '#hotel_name',
             '#star_rating',
             '#room_type',
-            '#room_count',
+            '#closing_inventory',
             '#room_charges',
             '#status'
         ];

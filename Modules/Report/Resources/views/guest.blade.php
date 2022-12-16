@@ -179,7 +179,7 @@
 
     <script src="{{url('js/tableFlow.js')}}"></script>
     <script type="text/javascript">
-        $('#registration_date').datepicker({ format: 'dd/mm/yyyy' });
+        // $('#registration_date').datepicker({ format: 'dd/mm/yyyy' });
 
         $('.export_data').on('click', function (e) {
             var myUrl = $(this).attr('data-href');
