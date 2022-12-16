@@ -662,8 +662,8 @@ class ReportController extends Controller
                                     $query->where('hr.rate', $request->get('room_charges'));
                                 }                           
 
-                                if ($request->get('room_count') != '') {
-                                    $query->where('hr.count', $request->get('room_count'));
+                                if ($request->get('closing_inventory') != '') {
+                                    $query->where('hr.count', $request->get('closing_inventory'));
                                 }
                                 if ($request->get('status') != '') {
                                     $query->where('hr.status', $request->get('status'));
