@@ -1286,6 +1286,19 @@ a.fc-event-custom-completed{
 .table-responsive .dataTables_wrapper{
     overflow: hidden;
 }
+.form-control-required-wrap{
+    display: flex;
+    flex-direction: column;
+}
+.form-control-required-wrap select.form-select{
+    order: 0;
+}
+.form-control-required-wrap .select2-container{
+    order: 1;
+}
+.form-control-required-wrap .parsley-errors-list{
+    order: 2;
+}
 @media screen and (max-width: 1600px) {
     .nk-ecwg .amount{
         font-size: 1.45rem;
