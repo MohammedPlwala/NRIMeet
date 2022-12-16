@@ -117,12 +117,25 @@ class BookingController extends Controller
     {
 
         $hotels = Hotel::get();
+        $room_types = \Helpers::roomTypes();
 
         $data = BulkBooking::select('bulk_bookings.*','h.name as hotel_name','rt.name as room_type')->leftJoin('hotels as h','h.id','bulk_bookings.hotel_id')->leftJoin('hotel_rooms as hr','hr.id','bulk_bookings.room_type_id')->leftJoin('room_types as rt','rt.id','hr.type_id')
         ->where(function ($query) use ($request) {
                     if (!empty($request->toArray())) {
                         if ($request->get('hotel_id') != '') {
                             $query->where('bulk_bookings.hotel_id', $request->get('hotel_id'));
+                        }
+
+                        if ($request->get('room_type') != '') {
+                            $query->where('hr.type_id', $request->get('room_type'));
+                        }
+
+                        if ($request->get('from') != '') {
+                            $query->where('bulk_bookings.booking_person', $request->get('from'));
+                        }
+
+                        if ($request->get('fromDate') != '') {
+                            $query->whereDate('bulk_bookings.created_at', date('Y-m-d', strtotime($request->get('fromDate'))));
                         }
                     }
                 })
@@ -184,7 +197,7 @@ class BookingController extends Controller
         }
 
 
-        return view('hotel::bulkBooking/index')->with(compact('bulkBookingCount','hotels'));
+        return view('hotel::bulkBooking/index')->with(compact('bulkBookingCount','hotels','room_types'));
     }
 
 
