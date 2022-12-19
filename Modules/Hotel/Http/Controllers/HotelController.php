@@ -122,9 +122,9 @@ class HotelController extends Controller
                                 $query->where('h.classification', $request->star_rating);
                             }
 
-                            // if ($request->get('room_type') != '') {
-                            //     $query->where('hr.type_id', $request->get('room_type'));
-                            // }
+                            if ($request->get('hotel_city') != '') {
+                                $query->where('h.city', $request->get('hotel_city'));
+                            }
 
                             // if ($request->get('charges') != '') {
                             //     if($request->get('charges') == 1){

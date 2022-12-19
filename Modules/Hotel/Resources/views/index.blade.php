@@ -86,6 +86,18 @@
                                 </div>
                                 <div class="row g-3 align-center">
                                     <div class="col-lg-5">
+                                        <x-inputs.verticalFormLabel label="Hotel City" for="hotel_city" suggestion="Select the hotel city." />
+                                    </div>
+                                    <div class="col-lg-7">
+                                        <x-inputs.select  size="sm" name="hotel_city" for="hotel_city" placeholder="Select Hotel City">
+                                            <option value="">Select</option>
+                                            <option value="Indore">Indore</option>
+                                            <option value="Ujjain">Ujjain</option>
+                                        </x-inputs.select>
+                                    </div>
+                                </div>
+                                <div class="row g-3 align-center">
+                                    <div class="col-lg-5">
                                         <x-inputs.verticalFormLabel label="Classification" for="star_rating" suggestion="Select the classification." />
                                     </div>
                                     <div class="col-lg-7">
@@ -173,6 +185,7 @@
 
             var items = [
                 '#hotel_name',
+                '#hotel_city',
                 '#star_rating',
                 '#distance_from_airport',
                 '#distance_from_venue',
