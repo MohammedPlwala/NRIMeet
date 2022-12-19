@@ -485,7 +485,9 @@ class HotelController extends Controller
                 $currentCount = $room->count;
                 $currentAllocated = $room->allocated_rooms;
                 $currentMpt= $room->mpt_reserve;
+                
                 $currentBooked = (($currentAllocated-$currentMpt)-$currentCount);
+
                 $newAvailable = (($request->allocated_rooms-$request->mpt_reserve)-$currentBooked);
 
                 if($request->allocated_rooms < $currentBooked){
@@ -712,13 +714,8 @@ class HotelController extends Controller
     {
         // Get the last created order
         $lastOrder = Booking::orderBy('id', 'desc')->first();
-        $number = 0;
-
-        if ($lastOrder) {
-            $number = substr($lastOrder->order_id, 4);
-        }
-
-        return 'PBD-' . sprintf('%06d', intval($number) + 1);
+        $number = $lastOrder->id+1;
+        return 'PBD-'.$number;
     }
 
     public function storeBooking(Request $request){
@@ -818,7 +815,8 @@ class HotelController extends Controller
             }
 
             $booking = new Booking();
-            $booking->order_id = $this->createOrderNumber();
+            // $booking->order_id = $this->createOrderNumber();
+            $booking->order_id = 'PBD-';
             $booking->user_id = $request->guest;
             $booking->hotel_id = $request->hotel;
             $booking->check_in_date = date('Y-m-d',strtotime($request->checkin_date));
@@ -833,6 +831,10 @@ class HotelController extends Controller
             $booking->booking_type = 'Offline';
 
             if($booking->save()){
+
+                $booking->order_id = 'PBD-'.$booking->id;
+                $booking->save();
+
                 foreach ($bookingRoomsData as $key => $bookingRoom) {
                     $room = new BookingRoom();
                     $room->booking_id = $booking->id;
