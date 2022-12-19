@@ -329,7 +329,18 @@
                                         </span></button>
                                     <!-- END .shb-guestclass-select-dropdown -->
                                 </div>
-
+                                <!-- BEGIN .shb-booking-form-col -->
+                                <div class="shb-booking-form-col shb-clearfix">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <div class="shb-booking-form-col-field">
+                                        <label for="hotel_city">City</label>
+                                        <select class="form-select select-city" name="hotel_city" id="hotel_city">
+                                            <option value="Indore">Indore</option>
+                                            <option value="Ujjain">Ujjain</option>
+                                        </select>
+                                    </div>
+                                    <!-- END .shb-booking-form-col -->
+                                </div>
 
                                 <!-- BEGIN .shb-booking-form-col -->
                                 <div class="shb-booking-form-col shbdp-checkin-wrapper shb-clearfix">
