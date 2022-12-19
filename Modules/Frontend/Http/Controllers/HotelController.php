@@ -69,7 +69,8 @@ class HotelController extends Controller
         $user = \Auth::user();
 
         $application_enviroment = config('constants.APPLICATION_ENVIROMENT');
-        if($application_enviroment == 'production'){
+
+        if(\Session::get('city') == 'Indore' && $application_enviroment == 'production'){
             $checkBookedRooms = Booking::from('bookings as b')
                     ->select(\DB::Raw('COALESCE(SUM((select count(booking_rooms.id) from booking_rooms where booking_rooms.booking_id = b.id )),0) as rooms'))
                     ->where('user_id', $user->id)
@@ -79,6 +80,7 @@ class HotelController extends Controller
                 return redirect('/')->with('error', 'You have already booked two rooms');
             }
         }
+
 
         Session::forget('booking_id');
         Session::put('cartData', '');
@@ -139,6 +141,13 @@ class HotelController extends Controller
         if(Session::get('room_two_adult') > 0)
             $childs += Session::get('room_two_child');
 
+        $room_one_guests = Session::get('room_one_adult')+Session::get('room_one_child');
+        $room_two_guests = Session::get('room_two_adult')+Session::get('room_two_child');
+        $extra_bed_available = 0;
+        if($room_one_guests > 2 || $room_two_guests > 2){
+            $extra_bed_available = 1;
+        }
+
 
         \Session::put('guests', $guests);
         \Session::put('childs', $childs);
@@ -184,7 +193,11 @@ class HotelController extends Controller
                             ->where('hotel_id',$hotel->id)
                             ->where('hr.status','active')
                             ->where('count','>=',$roomsCount)
-                            ->where(function ($query) use ($request) {
+                            ->where(function ($query) use ($request,$extra_bed_available) {
+                                if($extra_bed_available == 1){
+                                    $query->where('extra_bed_available',1);
+                                }
+
                                 if (!empty($request->toArray())) {
                                     if ($request->get('room_price_min') != '') {
                                         $query->where('rate', '>=', $request->room_price_min);
@@ -889,7 +902,8 @@ class HotelController extends Controller
 
         $booking = new Booking();
 
-        $booking->order_id = $this->createOrderNumber();
+        // $booking->order_id = $this->createOrderNumber();
+        $booking->order_id = 'PBD-';
         $booking->user_id = $bookingData->user_id;
         $booking->hotel_id = $bookingData->hotel_id;
         $booking->booking_type = 'Online';
@@ -903,6 +917,10 @@ class HotelController extends Controller
         $booking->customer_booking_status = 'Received';
         $booking->booking_status = 'Booking Received';
         if($booking->save()){
+
+            $booking->order_id = 'PBD-'.$booking->id;
+            $booking->save();
+
             $bookingRooms = $bookingData->rooms;
             foreach ($bookingRooms as $key => $bookingRoom) {
                 $room = new BookingRoom();
@@ -920,10 +938,17 @@ class HotelController extends Controller
                 $room->child_name = $bookingRoom->child_name;
                 $room->extra_bed = $bookingRoom->extra_bed;
                 $room->extra_bed_cost = $bookingRoom->extra_bed_cost;
+
                 
                 if(!$room->save()){
                     \DB::rollback();
                     return redirect('booking-summary')->with('error', 'Something went wrong with booking');
+                }else{
+                    $hotelRoom = HotelRoom::findorfail($bookingRoom->room_id);
+                    if($hotelRoom){
+                        $hotelRoom->count = $hotelRoom->count-1;
+                        $hotelRoom->save();
+                    }
                 }
             }
 
@@ -996,19 +1021,7 @@ class HotelController extends Controller
         $order_id = "";
         if(isset($request->booking_id)){
             $booking = Booking::findorfail($request->booking_id);
-
             $order_id = $booking->order_id;
-
-            $booking_rooms = BookingRoom::where('booking_id',$request->booking_id)->get();
-            if(!empty($booking_rooms->toArray())){
-                foreach ($booking_rooms as $key => $booking_room) {
-                    $hotelRoom = HotelRoom::findorfail($booking_room->room_id);
-                    if($hotelRoom){
-                        $hotelRoom->count = $hotelRoom->count-1;
-                        $hotelRoom->save();
-                    }
-                }
-            }
         }
 
         return view('frontend::thankyou',['order_id'=>$order_id]);
@@ -1018,12 +1031,7 @@ class HotelController extends Controller
     {
         // Get the last created order
         $lastOrder = Booking::orderBy('id', 'desc')->first();
-        $number = 0;
-
-        if ($lastOrder) {
-            $number = substr($lastOrder->order_id, 4);
-        }
-
-        return 'PBD-' . sprintf('%06d', intval($number) + 1);
+        $number = $lastOrder->id+1;
+        return 'PBD-'.$number;
     }
 }

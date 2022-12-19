@@ -145,6 +145,8 @@ $rolePermissions = \Session::get('rolePermissions');
                     </li>
                     @endif
 
+                    
+
                     @if(!empty($rolePermissions) && in_array('Mahankal Lok Darshan', $rolePermissions))
                     <li class="nk-menu-item has-sub">
                         <a href="{{url('/admin/mahankal-lok-darshan')}}" class="nk-menu-link">

@@ -42,8 +42,8 @@
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">City</span></th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Classification</span></th>
                         <th class="nk-tb-col tb-col-md"><span class="sub-text">Contact Number</span></th>
-                        <th class="nk-tb-col tb-col-md"><span class="sub-text">Distance From Airport</span></th>
-                        <th class="nk-tb-col tb-col-md"><span class="sub-text">Distance From Venue</span></th>
+                        <th class="nk-tb-col tb-col-md"><span class="sub-text">Distance From Airport(Km)</span></th>
+                        <th class="nk-tb-col tb-col-md"><span class="sub-text">Distance From Venue(Km)</span></th>
                         <th class="nk-tb-col tb-col-md w-1 text-center" nowrap="true"><span class="sub-text">Status</span>
                         </th>
                         <th class="nk-tb-col nk-tb-col-tools text-right w-1" nowrap="true">
