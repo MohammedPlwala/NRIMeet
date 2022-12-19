@@ -897,7 +897,7 @@ class HotelController extends Controller
     public function createBooking()
     {
         $users = User::select('id')->get();
-        $hotels = Hotel::all();
+        $hotels = Hotel::where('status','active')->get();
         
         $roomTypes = RoomType::all();
 

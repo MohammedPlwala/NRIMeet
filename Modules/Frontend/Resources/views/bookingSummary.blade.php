@@ -38,14 +38,16 @@
             @php
             $guests = 0;
             if($key == 0){
-            $adults = $room->room_one_adult;
-            $childs = $room->room_one_child;
-            $guests += $adults;
-            $guests += $childs;
+              $adults = $room->room_one_adult;
+              $childs = $room->room_one_child;
+              $guests += $adults;
+              $guests += $childs;
             }
             else{
-            $adults = $room->room_two_adult;
-            $childs = $room->room_two_child;
+              $adults = $room->room_two_adult;
+              $childs = $room->room_two_child;
+              $guests += $adults;
+              $guests += $childs;
             }
             $total += $cartData['nights']*$room->rate;
             if($room->extra_bed_required){
@@ -90,7 +92,7 @@
               $removeRoom = url('booking-summary').'?type=removeRoom&key='.$key;
               @endphp
               <div class="sidebar_right">
-                <a href="{{ $removeRoom }}">Remove</a>
+                <a href="{{ $removeRoom }}" class="primary-button sm">Remove Room</a>
               </div>
 
               <input type="hidden" data-extraBedAvailable="{{ $room->extra_bed_available }}" class="room"
@@ -102,6 +104,7 @@
               <div class="custom_extra_bed">
                 <!-- BEGIN .shb-additionalfee-result-wrapper -->
                 <form class="shb-additionalfee-result-wrapper" action="" method="post" autocomplete="off">
+                  @if($guests > 2)
                   <div class="shb-additionalfee-info">
                     <h4>Extra Bed</h4>
                     <div class="shb-additionalfee-price">
@@ -115,14 +118,14 @@
                         url('booking-summary').'?type=remove&key='.$key.'&extra_bed_rate='.$room->extra_bed_rate;
                         @endphp
                         @if($room->extra_bed_required)
-                        <a href="{{ $extraBedRemove }}" class="primary-button sm">Remove</a>
+                        {{-- <a href="{{ $extraBedRemove }}" class="primary-button sm">Remove</a> --}}
                         @else
-
-                        <a href="{{ $extraBedAdd }}" class="primary-button sm  room_{{ $key }}">Select</a>
+                        <a href="{{ $extraBedAdd }}" class="primary-button sm  room_{{ $key }}" style="display: none;">Select</a>
                         @endif
                       </div>
                     </div>
                   </div>
+                  @endif
                   <input type="hidden" name="shb_accommodation_selected" value="1">
                   <input type="hidden" name="shb_additionalfee_selected" value="1129">
                 </form>
@@ -248,20 +251,18 @@
 @push('footerScripts')
 <script type="text/javascript">
 $(document).ready(function() {
-  // $('.room').each(function(i, obj) {
-  //     var guests = $(obj).attr('data-guests');
-  //     var extrabedavailable = $(obj).attr('data-extrabedavailable');
-  //     var roomkey = $(obj).attr('data-roomkey');
-  //     if(extrabedavailable && guests > 2){
+  $('.room').each(function(i, obj) {
+      var guests = $(obj).attr('data-guests');
+      var extrabedavailable = $(obj).attr('data-extrabedavailable');
+      var roomkey = $(obj).attr('data-roomkey');
+      if(extrabedavailable && guests > 2){
+          if($('.room_'+roomkey).length) {
+              var href = $('.room_'+roomkey).attr('href');
+              window.location = href;
+          }
 
-  //         if($('.room_'+roomkey).length) {
-  //             var href = $('.room_'+roomkey).attr('href');
-  //             alert(roomkey);
-  //             window.location = href;
-  //         }
-
-  //     }
-  // });
+      }
+  });
 });
 </script>
 @endpush

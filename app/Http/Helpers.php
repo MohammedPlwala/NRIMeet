@@ -124,12 +124,11 @@ class Helpers {
 		$emails = array($to_email);
 		$emails[] = \Config::get('constants.MPT_EMAIL');
 
-
 		$data = array('bookingDetails'=>$bookingDetails);
-		Mail::send('emails.booking-confirmation', $data, function ($message)  use ($to_name, $to_email,$emails) {
+		Mail::send('emails.booking-confirmation', $data, function ($message)  use ($to_name, $to_email,$emails,$bookingDetails) {
 			// $message->to($to_email, $to_name)
 			$message->to($emails, $to_name)
-			->subject('Payment Completed : '.$to_name)
+			->subject('Booking Confirmed : '.$bookingDetails->hotel.' '.$to_name)
 			->from(\Config::get('constants.MAIL_FROM'),'Pravasi Bhartiya Divas');
 		});
 	}

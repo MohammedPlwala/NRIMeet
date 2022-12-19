@@ -116,6 +116,12 @@
                                         @elseif(old('bookingFrom') == 'AGI') 
                                         selected @endif>
                                             AGI</option>
+
+                                            <option
+                                            @if (isset($bulkBooking) && $bulkBooking->booking_person == 'Guest') selected
+                                        @elseif(old('bookingFrom') == 'Guest') 
+                                        selected @endif>
+                                            Guest</option>
                                     </x-inputs.select>
                                 </div>
                             </div>
