@@ -40,6 +40,7 @@ class VisitersExport implements FromArray, WithHeadings, ShouldAutoSize, WithEve
             'CONTACT NUMBER',
 			'COUNTRY',
             'MEMBERS',
+            'MEMBERS DETAIL',
             'DEPARTURE FROM INDORE',
             'DEPARTURE FROM UJJAIN',
             'CREATED AT'

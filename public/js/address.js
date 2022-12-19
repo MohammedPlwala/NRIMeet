@@ -3081,7 +3081,10 @@ for (const country in countries) {
     countriesHTML +=
         '<option value="' + countries[country] + '" data-country="'+ country +'">' + countries[country] + "</option>";
 }
+var selected_registration_country = $('#selected_registration_country').val();
 $("#billing_country").append(countriesHTML);
+$("#registration_country").append(countriesHTML);
+$("#registration_country").val(selected_registration_country).trigger('change');
 
 $("#billing_country").on("change", function () {
     $("#state_wrapper").show();

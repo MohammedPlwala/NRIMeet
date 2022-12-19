@@ -502,6 +502,11 @@ class UserController extends Controller
         $user->zip = $request->zip;
         $user->identity_type = $request->identity_type;
         $user->identity_number  = $request->identity_number;
+        $user->registration_name  = $request->registration_name;
+        $user->registration_email  = $request->registration_email;
+        $user->registration_contact  = $request->registration_contact;
+        $user->registration_country  = $request->registration_country;
+        $user->registration_delegate_category  = $request->registration_delegate_category;
         
         if(isset($request->status)){
             $user->status = $request->status;

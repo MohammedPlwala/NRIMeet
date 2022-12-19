@@ -205,7 +205,114 @@ $organization_type = \Session::get('organization_type');
                 </div>
             </div>
         </div><!-- .nk-block -->
-       
+        <div class="nk-block">
+            <div class="card card-bordered sp-plan">
+                <div class="row no-gutters">
+                    <div class="col-md-3">
+                        <div class="sp-plan-action card-inner">
+                            <div class="icon">
+                                <em class="icon ni ni-box fs-36px o-5"></em>
+                                <h5 class="o-5">Registration User <br> Details</h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-9">
+                        <div class="sp-plan-info card-inner">
+                            <div class="row g-3 align-center">
+                                <div class="col-lg-5">
+                                    <x-inputs.verticalFormLabel label="Registration Name" for="registration_name" suggestion="Specify the registration name." />
+                                </div>
+                                <div class="col-lg-7">
+                                    <x-inputs.text  value="{{ isset($user) ? $user->registration_name : old('registration_name') }}" for="registration_name" icon="user" placeholder="Registration name" name="registration_name" />
+                                    @if ($errors->has('registration_name'))
+                                        <span class="text-danger">{{ $errors->first('registration_name') }}</span>
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="row g-3 align-center">
+                                <div class="col-lg-5">
+                                    <x-inputs.verticalFormLabel label="Registration Email" for="registration_email" suggestion="Specify the registration email." />
+                                </div>
+                                <div class="col-lg-7">
+                                    <x-inputs.email value="{{ isset($user) ? $user->registration_email : old('registration_email') }}" for="registration_email" icon="mail" class="" placeholder="Registration Email" name="registration_email" />
+                                    @if ($errors->has('registration_email'))
+                                        <span class="text-danger custom-error-text">{{ $errors->first('registration_email') }}</span>
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="row g-3 align-center">
+                                <div class="col-lg-5">
+                                    <x-inputs.verticalFormLabel label="Registration Contact" for="registration_contact" suggestion="Specify the registration contact."/>
+                                </div>
+                                <div class="col-lg-7">
+                                    <x-inputs.text value="{{ isset($user) ? $user->registration_contact : old('registration_contact') }}" for="registration_contact" icon="call" class="" placeholder="Registration contact" name="registration_contact" />
+                                    @if ($errors->has('registration_contact'))
+                                        <span class="text-danger custom-error-text">{{ $errors->first('registration_contact') }}</span>
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="row g-3 align-center">
+                                <div class="col-lg-5">
+                                    <x-inputs.verticalFormLabel label="Registration Country" for="registration_country" suggestion="Specify the registration country." />
+                                </div>
+                                <div class="col-lg-7">
+                                    <input type="hidden" id="selected_registration_country" value="{{ isset($user) ? $user->registration_country : old('registration_country') }}">
+                                    <x-inputs.select name="registration_country" for="registration_country"
+                                    value="{{ isset($user) ? $user->registration_country : old('registration_country') }}"
+                                    class="country_select" autocomplete="registration_country"
+                                    data-placeholder="Select a country / region…" data-label="Country / Region"
+                                    tabindex="-1" aria-hidden="true">
+                                    <option value="">Select a country / region…</option>
+                                    </x-inputs.select>
+                                    @if ($errors->has('registration_country'))
+                                    <span class="text-danger">{{ $errors->first('registration_country') }}</span>
+                                    @endif
+                                </div>
+                            </div>
+
+                            
+
+                            <div class="row g-3 align-center">
+                                <div class="col-lg-5">
+                                    <x-inputs.verticalFormLabel label="Registration Delegate Category" for="registration_delegate_category" suggestion="Specify the Registration Delegate Category." />
+                                </div>
+                                <div class="col-lg-7">
+                                   <x-inputs.select for="registration_delegate_category" icon="mail" class=""
+                                        placeholder="Select Registration Delegate Category" name="registration_delegate_category">
+                                        <option value="">Select Guest</option>
+                                        <option @if(isset($user) && $user->registration_delegate_category == 'Person of Indian Origin')
+                                        selected
+                                        @elseif(old('registration_delegate_category') == 'Person of Indian Origin') 
+                                        selected
+                                        @endif
+                                        value="Person of Indian Origin">Person of Indian Origin</option>
+                                        <option @if(isset($user) && $user->registration_delegate_category == 'Non-Resident Indian')
+                                        selected
+                                        @elseif(old('registration_delegate_category') == 'Non-Resident Indian') 
+                                        selected
+                                        @endif 
+                                        value="Non-Resident Indian">Non-Resident Indian</option>
+                                        <option @if(isset($user) && $user->registration_delegate_category == 'Indian National')
+                                        selected
+                                        @elseif(old('registration_delegate_category') == 'Indian National') 
+                                        selected
+                                        @endif
+                                        value="Indian National">Indian National</option>
+                                        <option @if(isset($user) && $user->registration_delegate_category == 'Media')
+                                        selected
+                                        @elseif(old('registration_delegate_category') == 'Media') 
+                                        selected
+                                        @endif
+                                        value="Media">Media</option>
+                                    </x-inputs.select>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- .nk-block -->
         <div class="nk-block">
             <div class="card card-bordered sp-plan">
                 <div class="row no-gutters">
