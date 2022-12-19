@@ -41,19 +41,19 @@
                                     <td data-date="2023-01-04" class="shbdp-datepicker-date shbdp-cal-disabled">4</td>
                                     <td data-date="2023-01-05" class="shbdp-datepicker-date shbdp-cal-disabled">5</td>
                                     <td data-date="2023-01-06"
-                                        class="shbdp-datepicker-date shbdp-cal-available shbdp-cal-selected-checkin shbdp-cal-selected-date">
+                                        class="shbdp-datepicker-date indoreCheckin shbdp-cal-available shbdp-cal-selected-checkin shbdp-cal-selected-date">
                                         6</td>
                                     <td data-date="2023-01-07"
-                                        class="shbdp-datepicker-date shbdp-cal-available shbdp-cal-selected-date shbdp-cal-selected-checkout">
+                                        class="shbdp-datepicker-date indoreCheckin  shbdp-cal-available shbdp-cal-selected-date shbdp-cal-selected-checkout">
                                         7</td>
-                                    <td data-date="2023-01-08" class="shbdp-datepicker-date shbdp-cal-available">8</td>
+                                    <td data-date="2023-01-08" class="shbdp-datepicker-date indoreCheckin  shbdp-cal-available">8</td>
                                 </tr>
                                 <tr>
-                                    <td data-date="2023-01-09" class="shbdp-datepicker-date shbdp-cal-available">9</td>
-                                    <td data-date="2023-01-10" class="shbdp-datepicker-date shbdp-cal-available">10</td>
-                                    <td data-date="2023-01-11" class="shbdp-datepicker-date shbdp-cal-available">11</td>
-                                    <td data-date="2023-01-12" class="shbdp-datepicker-date shbdp-cal-available">12</td>
-                                    <td data-date="2023-01-13" class="shbdp-datepicker-date shbdp-cal-available">13</td>
+                                    <td data-date="2023-01-09" class="shbdp-datepicker-date  indoreCheckin  shbdp-cal-available">9</td>
+                                    <td data-date="2023-01-10" class="shbdp-datepicker-date ujjainCheckin indoreCheckin  shbdp-cal-available">10</td>
+                                    <td data-date="2023-01-11" class="shbdp-datepicker-date ujjainCheckin  indoreCheckin  shbdp-cal-available">11</td>
+                                    <td data-date="2023-01-12" class="shbdp-datepicker-date  indoreCheckin  shbdp-cal-available">12</td>
+                                    <td data-date="2023-01-13" class="shbdp-datepicker-date  indoreCheckin  shbdp-cal-available">13</td>
                                     <td data-date="2023-01-14" class="shbdp-datepicker-date shbdp-cal-disabled">14</td>
                                     <td data-date="2023-01-15" class="shbdp-datepicker-date shbdp-cal-disabled">15</td>
                                 </tr>
@@ -255,11 +255,25 @@
 @push('footerScripts')
 <script>
     $(document).ready(function(){
+        $("#hotel_city").on('change',function() {
+            var city = $(this).val();
+            if(city == 'Ujjain'){
+                $(".indoreCheckin").addClass("shbdp-cal-disabled");
+                $('.indoreCheckin').removeClass( "shbdp-cal-available" );
+                $('.ujjainCheckin').removeClass( "shbdp-cal-disabled" );
+                $(".ujjainCheckin").addClass("shbdp-cal-available");
+            }else{
+                $('.indoreCheckin').addClass( "shbdp-cal-available" );
+                $(".indoreCheckin").removeClass("shbdp-cal-disabled");
+            }
+
+        });
+
         $(".booking-form-wrap .shb-booking-form-col").on('click',function() {
             $('html, body').animate({
                 'scrollTop' : $(".booking-form-wrap").position().top
             });
         });
-    })
+    });
 </script>
 @endpush
