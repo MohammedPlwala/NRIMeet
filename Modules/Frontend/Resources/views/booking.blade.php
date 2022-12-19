@@ -151,25 +151,25 @@
                                                         <td data-date="2023-01-05"
                                                             class="shbdp-datepicker-date shbdp-cal-disabled">5</td>
                                                         <td data-date="2023-01-06"
-                                                            class="shbdp-datepicker-date shbdp-cal-available shbdp-cal-selected-checkin shbdp-cal-selected-date">
+                                                            class="shbdp-datepicker-date shbdp-cal-available shbdp-cal-selected-checkin shbdp-cal-selected-date indoreCheckin">
                                                             6</td>
                                                         <td data-date="2023-01-07"
-                                                            class="shbdp-datepicker-date shbdp-cal-available shbdp-cal-selected-date shbdp-cal-selected-checkout">
+                                                            class="shbdp-datepicker-date shbdp-cal-available shbdp-cal-selected-date shbdp-cal-selected-checkout indoreCheckin">
                                                             7</td>
                                                         <td data-date="2023-01-08"
-                                                            class="shbdp-datepicker-date shbdp-cal-available">8</td>
+                                                            class="shbdp-datepicker-date shbdp-cal-available indoreCheckin">8</td>
                                                     </tr>
                                                     <tr>
                                                         <td data-date="2023-01-09"
-                                                            class="shbdp-datepicker-date shbdp-cal-available">9</td>
+                                                            class="shbdp-datepicker-date shbdp-cal-available indoreCheckin">9</td>
                                                         <td data-date="2023-01-10"
-                                                            class="shbdp-datepicker-date shbdp-cal-available">10</td>
+                                                            class="shbdp-datepicker-date shbdp-cal-available indoreCheckin ujjainCheckin">10</td>
                                                         <td data-date="2023-01-11"
-                                                            class="shbdp-datepicker-date shbdp-cal-available">11</td>
+                                                            class="shbdp-datepicker-date shbdp-cal-available indoreCheckin ujjainCheckin">11</td>
                                                         <td data-date="2023-01-12"
-                                                            class="shbdp-datepicker-date shbdp-cal-available">12</td>
+                                                            class="shbdp-datepicker-date shbdp-cal-available indoreCheckin">12</td>
                                                         <td data-date="2023-01-13"
-                                                            class="shbdp-datepicker-date shbdp-cal-available">13</td>
+                                                            class="shbdp-datepicker-date shbdp-cal-available indoreCheckin">13</td>
                                                         <td data-date="2023-01-14"
                                                             class="shbdp-datepicker-date shbdp-cal-disabled">14</td>
                                                         <td data-date="2023-01-15"
@@ -329,7 +329,22 @@
                                         </span></button>
                                     <!-- END .shb-guestclass-select-dropdown -->
                                 </div>
-
+                                <!-- BEGIN .shb-booking-form-col -->
+                                <div class="shb-booking-form-col shb-clearfix">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <div class="shb-booking-form-col-field">
+                                        <label for="hotel_city">City</label>
+                                        <select class="form-select select-city" name="hotel_city" id="hotel_city">
+                                            <option 
+                                            @if(\Session::get('city') == 'Indore') selected @endif
+                                            value="Indore">Indore</option>
+                                            <option 
+                                            @if(\Session::get('city') == 'Ujjain') selected @endif
+                                            value="Ujjain">Ujjain</option>
+                                        </select>
+                                    </div>
+                                    <!-- END .shb-booking-form-col -->
+                                </div>
 
                                 <!-- BEGIN .shb-booking-form-col -->
                                 <div class="shb-booking-form-col shbdp-checkin-wrapper shb-clearfix">
@@ -454,6 +469,28 @@
                 </div>
             </div>
             <script type="text/javascript">
+
+                @if(\Session::get('city') == 'Ujjain')
+                    disableDates('Ujjain');
+                @endif
+
+                function disableDates(city){
+                    if(city == 'Ujjain'){
+                        $(".indoreCheckin").addClass("shbdp-cal-disabled");
+                        $('.indoreCheckin').removeClass( "shbdp-cal-available" );
+                        $('.ujjainCheckin').removeClass( "shbdp-cal-disabled" );
+                        $(".ujjainCheckin").addClass("shbdp-cal-available");
+                    }else{
+                        $('.indoreCheckin').addClass( "shbdp-cal-available" );
+                        $(".indoreCheckin").removeClass("shbdp-cal-disabled");
+                    }
+                }
+
+                $("#hotel_city").on('change',function() {
+                    var city = $(this).val();
+                    disableDates(city);
+                });
+
                 var root_url = "<?php echo Request::root(); ?>";
                 // $('.brand-init').on('click', '.editItem', function() {
                 $('.bookRoom').click(function() {

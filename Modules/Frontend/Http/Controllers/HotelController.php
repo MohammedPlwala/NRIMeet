@@ -42,7 +42,24 @@ class HotelController extends Controller
     }
 
     public function search(Request $request)
-    {
+    {   
+
+        if(!Session::has('city')){
+            \Session::put('city', 'Indore');
+        }
+
+        if(isset($request->hotel_city)){
+            \Session::put('city', $request->hotel_city);
+            if($request->hotel_city == 'Ujjain'){
+                if(strtotime($request->date_from) < strtotime(date('Y-m-d',strtotime('2023-01-10')))){
+                    return redirect('/')->with('error', 'Hotel are only available on 10 Jan, 2023 - 11 Jan, 2023 for Ujjain location');
+                }
+
+                if(strtotime($request->date_to) > strtotime(date('Y-m-d',strtotime('2023-01-11')))){
+                    return redirect('/')->with('error', 'Hotel are only available on 10 Jan, 2023 - 11 Jan, 2023 for Ujjain location');
+                }
+            }
+        }
 
         $classifications = Hotel::from('hotels as h')
                         ->select('h.classification')
@@ -143,6 +160,7 @@ class HotelController extends Controller
         $hotels =   HotelRoom::from('hotels as h')
                     ->select('id','name','image','classification','description','location','airport_distance','venue_distance','website','contact_person','contact_number')
                     // ->where('is_verified',1)
+                    ->where('city',Session::get('city'))
                     ->where('status','active')
                     ->where(function ($query) use ($request) {
                         if (!empty($request->toArray())) {
