@@ -139,15 +139,13 @@ class HotelController extends Controller
                             // }
 
                             if ($request->get('distance_from_airport') != '' && $request->get('distance_from_airport') > 25) {
-                                $query->where('h.airport_distance','<=', $request->get('distance_from_airport'));
-                                $query->where('h.airport_distance','>=', 25);
+                                $query->where('h.airport_distance','>', 25);
                             }elseif ($request->get('distance_from_airport') != '') {
                                 $query->where('h.airport_distance','<=', $request->get('distance_from_airport'));
                             }
 
                             if ($request->get('distance_from_venue') != '' && $request->get('distance_from_venue') > 25) {
-                                $query->where('h.venue_distance','<=', $request->get('distance_from_venue'));
-                                $query->where('h.venue_distance','>=', 25);
+                                $query->where('h.venue_distance','>', 25);
                             }elseif ($request->get('distance_from_venue') != '') {
                                 $query->where('h.venue_distance','<=', $request->get('distance_from_venue'));
                             }
