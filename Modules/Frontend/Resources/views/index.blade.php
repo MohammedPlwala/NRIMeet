@@ -173,6 +173,19 @@
                 <!-- END .shb-guestclass-select-dropdown -->
             </div>
 
+            <div class="shb-booking-form-col shb-clearfix">
+
+                <i class="far fa-map"></i>
+                <div class="shb-booking-form-col-field">
+                    {{-- <label>City</label> --}}
+                    <select class="form-control" name="hotel_city" id="hotel_city">
+                        <option value="Indore">Indore</option>
+                        <option value="Ujjain">Ujjain</option>
+                    </select>
+                </div>
+
+                <!-- END .shb-booking-form-col -->
+            </div>
 
             <!-- BEGIN .shb-booking-form-col -->
             <div class="shb-booking-form-col shbdp-checkin-wrapper shb-clearfix">
