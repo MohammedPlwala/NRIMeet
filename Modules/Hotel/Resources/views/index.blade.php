@@ -39,6 +39,7 @@
                 <thead>
                     <tr class="nk-tb-item nk-tb-head">
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Name</span></th>
+                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">City</span></th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Classification</span></th>
                         <th class="nk-tb-col tb-col-md"><span class="sub-text">Contact Number</span></th>
                         <th class="nk-tb-col tb-col-md"><span class="sub-text">Distance From Airport</span></th>
@@ -196,11 +197,16 @@
                         },
                         {
                             "class": "nk-tb-col tb-col-lg",
+                            data: 'city',
+                            name: 'city'
+                        },
+                        {
+                            "class": "nk-tb-col tb-col-lg text-center",
                             data: 'classification',
                             name: 'classification'
                         },
                         {
-                            "class": "nk-tb-col tb-col-lg",
+                            "class": "nk-tb-col tb-col-lg text-center",
                             data: 'contact_number',
                             name: 'contact_number'
                         },

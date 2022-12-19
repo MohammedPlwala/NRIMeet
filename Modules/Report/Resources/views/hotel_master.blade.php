@@ -34,6 +34,7 @@
                     <tr class="nk-tb-item nk-tb-head">
                         <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Classification</span></th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Hotel Name</span></th>
+                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Hotel City</span></th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Room Type</span></th>
                         <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Room Count</span></th>
                         <th class="nk-tb-col tb-col-mb text-right"><span class="sub-text">Room Charges</span></th>
@@ -277,6 +278,11 @@
                         "class": "nk-tb-col tb-col-lg",
                         data: 'name',
                         name: 'name'
+                    },
+                    {
+                        "class": "nk-tb-col tb-col-lg",
+                        data: 'city',
+                        name: 'city'
                     },
                     {
                         "class": "nk-tb-col tb-col-lg",
