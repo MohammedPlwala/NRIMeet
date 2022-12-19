@@ -121,7 +121,7 @@
                                             <option value="5">Under 5 km</option>
                                             <option value="10">Under 10 km</option>
                                             <option value="15">Under 15 km</option>
-                                            <option value="20">Under 25 km</option>
+                                            <option value="25">Under 25 km</option>
                                             <option value="2000">Above 25 km</option>
                                         </x-inputs.select>
                                     </div>
@@ -136,7 +136,7 @@
                                             <option value="5">Under 5 km</option>
                                             <option value="10">Under 10 km</option>
                                             <option value="15">Under 15 km</option>
-                                            <option value="20">Under 25 km</option>
+                                            <option value="25">Under 25 km</option>
                                             <option value="2000">Above 25 km</option>
                                         </x-inputs.select>
                                     </div>

@@ -89,8 +89,7 @@
                                             <div class="data-col">
                                                 <span class="data-label">Upload member's deatils</span>
                                                 <span class="data-value">
-                                                    <a href="{{ URL::to('/uploads/mahakalLokDarshan/' . $visiter->file) }}"
-                                                        download>
+                                                    <a target="_blank" href="{{ URL::to('/uploads/mahakalLokDarshan/' . $visiter->file) }}">
                                                         {{ URL::to('/uploads/mahakalLokDarshan/' . $visiter->file) }}
                                                     </a>
                                                 </span>
