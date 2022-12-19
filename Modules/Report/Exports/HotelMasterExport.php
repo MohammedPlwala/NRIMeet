@@ -37,6 +37,7 @@ class HotelMasterExport implements FromArray, WithHeadings, ShouldAutoSize, With
         return [
             'Start Rating',
             'Hotel Name',
+            'Hotel City',
             'Room Type',
             'Room Count',
             'Room Charges',
@@ -61,7 +62,7 @@ class HotelMasterExport implements FromArray, WithHeadings, ShouldAutoSize, With
     {
         return [
             AfterSheet::class    => function(AfterSheet $event) {
-                $cellRange = 'A1:P1'; // All headers
+                $cellRange = 'A1:O1'; // All headers
                 $event->sheet->getDelegate()->getStyle($cellRange)->getFont()->setSize(14);
             },
         ];

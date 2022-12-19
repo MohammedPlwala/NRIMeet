@@ -37,6 +37,21 @@ $organization_type = \Session::get('organization_type');
                             </div>
                             <div class="row g-3 align-center">
                                 <div class="col-lg-5">
+                                    <x-inputs.verticalFormLabel label="City" for="" suggestion="Specify the hotel city." required="true" />
+                                </div>
+                                <div class="col-lg-7">
+                                    <x-inputs.select for="city" icon="map-pin-fill" required="true" class="" placeholder="Select City" name="city" >
+                                        <option 
+                                        @if (isset($hotel) && $hotel->city == 'Indore') selected  @endif
+                                        value="Indore">Indore</option>
+                                        <option 
+                                        @if (isset($hotel) && $hotel->city == 'Ujjain') selected  @endif
+                                        value="Ujjain">Ujjain</option>
+                                    </x-inputs.select>
+                                </div>
+                            </div>
+                            <div class="row g-3 align-center">
+                                <div class="col-lg-5">
                                     <x-inputs.verticalFormLabel label="Classification" for="classification" suggestion="Specify the hotel classification." required="true" />
                                 </div>
                                 <div class="col-lg-7">
@@ -85,7 +100,7 @@ $organization_type = \Session::get('organization_type');
                             </div>
                             <div class="row g-3 align-center">
                                 <div class="col-lg-5">
-                                    <x-inputs.verticalFormLabel label="Contact Person" for="contact_person" suggestion="Specify the venue distance." />
+                                    <x-inputs.verticalFormLabel label="Contact Person" for="contact_person" suggestion="Specify the contact person." />
                                 </div>
                                 <div class="col-lg-7">
                                     <x-inputs.text value="{{ isset($hotel) ? $hotel->contact_person : '' }}" for="contact_person" class="" icon="user-fill" placeholder="Contact Person Name" name="contact_person" />

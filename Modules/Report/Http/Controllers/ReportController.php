@@ -184,7 +184,7 @@ class ReportController extends Controller
             $room_types = \Helpers::roomTypes();
 
             $data =   Hotel::from('hotels as h')
-                        ->select('h.name','h.classification','h.airport_distance','h.venue_distance','h.website','h.contact_person','h.address','h.contact_number','h.description','rt.name as room_type','hr.allocated_rooms','hr.count as available_rooms','hr.rate','hr.extra_bed_available','hr.extra_bed_rate')
+                        ->select('h.name','h.city','h.classification','h.airport_distance','h.venue_distance','h.website','h.contact_person','h.address','h.contact_number','h.description','rt.name as room_type','hr.allocated_rooms','hr.count as available_rooms','hr.rate','hr.extra_bed_available','hr.extra_bed_rate')
                         ->Join('hotel_rooms as hr','hr.hotel_id','=','h.id')
                         ->join('room_types as rt','rt.id','=','hr.type_id')
                         ->where(function ($query) use ($request) {
@@ -257,7 +257,7 @@ class ReportController extends Controller
         try{
 
             $hotels =   Hotel::from('hotels as h')
-                        ->select('h.classification','h.name','hr.name as hotel_type','hr.allocated_rooms','hr.rate','hr.extra_bed_rate','hr.count as available_rooms','h.contact_person','h.contact_number','h.description','h.airport_distance','h.venue_distance','h.address','h.website')
+                        ->select('h.classification','h.name','h.city','hr.name as hotel_type','hr.allocated_rooms','hr.rate','hr.extra_bed_rate','hr.count as available_rooms','h.contact_person','h.contact_number','h.description','h.airport_distance','h.venue_distance','h.address','h.website')
                         ->Join('hotel_rooms as hr','hr.hotel_id','=','h.id')
                         ->where(function ($query) use ($request) {
                             if (!empty($request->toArray())) {
