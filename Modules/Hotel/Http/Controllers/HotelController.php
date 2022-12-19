@@ -262,6 +262,7 @@ class HotelController extends Controller
             }
 
             $hotel->name = $request->hotelName;
+            $hotel->city = $request->city;
             $hotel->classification = $request->classification;
             $hotel->location = $request->location;
             $hotel->airport_distance = $request->airport_distance;
