@@ -10,6 +10,7 @@ use Auth;
 use DataTables;
 use Yajra\Datatables\DatatablesServiceProvider;
 use App\Models\Audit;
+use Modules\User\Exports\VisitersExport;
 
 class VisitController extends Controller
 {
@@ -41,6 +42,11 @@ class VisitController extends Controller
         if ($request->ajax()) {
             return DataTables::of($data)
                     ->addIndexColumn()
+                    ->addColumn('file', function ($row) {
+                        $path = public_path('mahakalLokDarshan/'.$row->file);
+                        $file = '<a target="_blank" href="'.$path.'">'.$row->file.'</a>';
+                        return $file;
+                    })
                     ->addColumn('action', function($row) {
                         $view = url('/').'/admin/mahankal-lok-darshan/view/'.$row->id;
 
@@ -57,7 +63,7 @@ class VisitController extends Controller
                         $created_at = date(\Config::get('constants.DATE.DATE_FORMAT') , strtotime($row->created_at));
                         return $created_at;
                     })
-                    ->rawColumns(['action','created_at'])
+                    ->rawColumns(['file','action','created_at'])
                     ->make(true);
         }
 
@@ -69,6 +75,55 @@ class VisitController extends Controller
     {
         $visiter = Visit::where('id',$id)->first();
         return view('user::visit/detail')->with(compact('visiter'));
+    }
+
+    public function export(Request $request)
+    {
+        try{
+
+            $data =   Visit::from('darshan_registration as dr')
+                        ->select('dr.name','dr.email','dr.mobile','dr.country','dr.members','dr.departure_indore','dr.departure_ujjain',\DB::raw('DATE_FORMAT(dr.created_at, "%d-%b-%Y")'))
+                        ->where(function ($query) use ($request) {
+                            if (!empty($request->toArray())) {
+                                if ($request->get('name') != '') {
+                                    $query->where('dr.name', $request->get('name'));
+                                }
+                                if ($request->get('country') != '') {
+                                    $query->where('dr.country', $request->country);
+                                }
+
+                                if ($request->get('contact_number') != '') {
+                                    $query->where('dr.mobile', $request->get('contact_number'));
+                                }
+
+                                if ($request->get('members') != '') {
+                                    if($request->get('members') == 1){
+                                        $query->whereBetween('hr.rate', [5, 10]);
+                                    }elseif($request->get('members') == 2){
+                                        $query->whereBetween('hr.rate', [10, 15]);
+                                    }elseif($request->get('members') == 3){
+                                        $query->whereBetween('hr.rate', [15, 20]);
+                                    }elseif($request->get('members') == 4){
+                                        $query->where('hr.rate','>', 20);
+                                    }
+                                }
+
+                            }
+                        })
+                        ->orderby('dr.name','asc')
+                        ->get();
+
+            if(!empty($data->toArray())){
+                return (new VisitersExport($data->toArray()))->download('visiters' . '.xlsx', \Maatwebsite\Excel\Excel::XLSX);
+            }else{
+                return redirect('admin/mahankal-lok-darshan')->with('error', 'No visiters');
+            }
+
+        } catch (\Exception $e) {
+
+            return redirect()->back()->with('error', $e->getMessage());
+
+        }
     }
 
 }

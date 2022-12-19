@@ -7,9 +7,26 @@
 	<div class="nk-block-head nk-block-head-sm">
         <div class="nk-block-between">
             <div class="nk-block-head-content">
-                <h3 class="nk-block-title page-title">Visiters</h3>
-                <p>You have total <span class="record_count">{{ $visitersCount }}</span> Visiters.</p>
+                <h3 class="nk-block-title page-title">Visitors</h3>
+                <p>You have total <span class="record_count">{{ $visitersCount }}</span> Visitors.</p>
             </div><!-- .nk-block-head-content -->
+            <div class="nk-block-head-content">
+                <div class="toggle-wrap nk-block-tools-toggle">
+                    <a href="#" class="btn btn-icon btn-trigger toggle-expand mr-n1" data-target="more-options"><em class="icon ni ni-more-v"></em></a>
+                    <div class="toggle-expand-content" data-content="more-options">
+                        <ul class="nk-block-tools g-3">
+                            <!-- <li>
+                                <a href="#" class="btn btn-outline-primary dropdown-toggle" data-toggle="modal" title="filter" data-target="#modalFilterorder">
+                                    <em class="icon ni ni-filter"></em><span>Filter</span>
+                                </a>
+                            </li> -->
+                            <li class="nk-block-tools-opt">
+                                <a href="javascript:void(0);" data-href="{{ url('admin/mahankal-lok-darshan/export') }}" class="btn btn-primary export_data"><em class="icon ni ni-download"></em><span>Export</span></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </div><!-- .nk-block-between -->
     </div><!-- .nk-block-head -->
     
@@ -29,7 +46,11 @@
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Name</span></th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Email</span></th>
                         <th class="nk-tb-col tb-col-md"><span class="sub-text">Contact Number</span></th>
-                        <th class="nk-tb-col tb-col-md w-1 text-center" nowrap="true"><span class="sub-text">Registration Number</span></th>
+                        <th class="nk-tb-col tb-col-md w-1 text-center" nowrap="true"><span class="sub-text">Country</span></th>
+                        <th class="nk-tb-col tb-col-md w-1 text-center" nowrap="true"><span class="sub-text">Members</span></th>
+                        <th class="nk-tb-col tb-col-md w-1 text-center" nowrap="true"><span class="sub-text">Members Detail</span></th>
+                        <th class="nk-tb-col tb-col-md w-1 text-center" nowrap="true"><span class="sub-text">Departure From Indore</span></th>
+                        <th class="nk-tb-col tb-col-md w-1 text-center" nowrap="true"><span class="sub-text">Departure From Ujjain</span></th>
                         <th class="nk-tb-col tb-col-md w-1" nowrap="true"><span class="sub-text">Created At</span></th>
                         <th class="nk-tb-col nk-tb-col-tools text-right w-1" nowrap="true">
                             <span class="sub-text">Action</span>
@@ -56,10 +77,10 @@
                     <div class="gy-3">
                         <div class="row g-3 align-center">
                             <div class="col-lg-5">
-                                <x-inputs.verticalFormLabel label="First Name" for="firstName" suggestion="Specify the name of the user." />
+                                <x-inputs.verticalFormLabel label="Name" for="name" suggestion="Specify the name of the user." />
                             </div>
                             <div class="col-lg-7">
-                                <x-inputs.text value="" for="firstName" icon="user" placeholder="Name" name="name"/>
+                                <x-inputs.text value="" for="name" icon="user" placeholder="Name" name="name"/>
                             </div>
                         </div>
                         <div class="row g-3 align-center">
@@ -72,33 +93,7 @@
                                 />
                             </div>
                         </div>
-                        <div class="row g-3 align-center">
-                            <div class="col-lg-5">
-                                <x-inputs.verticalFormLabel label="Created at" for="createdAt" suggestion="Select the dates of created at." />
-                            </div>
-                            <div class="col-lg-7">
-                                <div class="row">
-                                    <div class="col-lg-6">
-                                        <div class="form-control-wrap">
-                                            <div class="form-icon form-icon-left">
-                                                <em class="icon ni ni-calendar"></em>
-                                            </div>
-                                            <input type="text" class="form-control date-picker" placeholder="Form Date" data-date-format="yyyy-mm-dd" id="fromDate" name="fromDate">
-                                        </div>
-                                        <!-- <div class="form-note mt-0">Form Date</div> -->
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div class="form-control-wrap">
-                                            <div class="form-icon form-icon-left">
-                                                <em class="icon ni ni-calendar"></em>
-                                            </div>
-                                            <input type="text" class="form-control date-picker" placeholder="To Date" data-date-format="yyyy-mm-dd"  id="toDate" name="toDate">
-                                        </div>
-                                        <!-- <div class="form-note mt-0">To Date</div> -->
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        
                     </div>
                 </div>
                 <input type="hidden" id="userId" name="user_id" value="0">
@@ -121,10 +116,44 @@
 <script src="{{url('js/tableFlow.js')}}"></script>
 <script type="text/javascript">
 
+    $('.export_data').on('click', function (e) {
+        var myUrl = $(this).attr('data-href');
+
+        if($('#name').val() != ""){
+            myUrl = addQSParm(myUrl,'name', $('#name').val());
+        }
+        if($('#contact_number').val() != ""){
+            myUrl = addQSParm(myUrl,'contact_number', $('#contact_number').val());
+        }
+
+        location.href = myUrl;
+    });
+
+    function addQSParm(myUrl,name, value) {
+       var re = new RegExp("([?&]" + name + "=)[^&]+", "");
+
+       function add(sep) {
+          myUrl += sep + name + "=" + encodeURIComponent(value);
+       }
+
+       function change() {
+          myUrl = myUrl.replace(re, "$1" + encodeURIComponent(value));
+       }
+       if (myUrl.indexOf("?") === -1) {
+          add("?");
+       } else {
+          if (re.test(myUrl)) {
+             change();
+          } else {
+             add("&");
+          }
+       }
+       return myUrl;
+    }
+
     $(function() {
 
         
-
         var root_url = "<?php echo url('/'); ?>";
 
         var logUrl = root_url + '/user/logs';
@@ -174,8 +203,28 @@
                     },
                     {
                         "class": "nk-tb-col tb-col-lg",
-                        data: 'registration_number',
-                        name: 'registration_number'
+                        data: 'country',
+                        name: 'country'
+                    },
+                    {
+                        "class": "nk-tb-col tb-col-lg",
+                        data: 'members',
+                        name: 'members'
+                    },
+                    {
+                        "class": "nk-tb-col tb-col-lg",
+                        data: 'file',
+                        name: 'file'
+                    },
+                    {
+                        "class": "nk-tb-col tb-col-lg",
+                        data: 'departure_indore',
+                        name: 'departure_indore'
+                    },
+                    {
+                        "class": "nk-tb-col tb-col-lg",
+                        data: 'departure_ujjain',
+                        name: 'departure_ujjain'
                     },
                     {
                         "class": "nk-tb-col tb-col-lg",
