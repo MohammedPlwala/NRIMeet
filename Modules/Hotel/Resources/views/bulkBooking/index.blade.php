@@ -113,6 +113,8 @@
                                     <option value="MP GOVT">MP GOVT</option>
                                     <option value="YPBD">YPBD</option>
                                     <option value="MEA">MEA</option>
+                                    <option value="AGI">AGI</option>
+                                    <option value="Guest">Guest</option>
                                 </x-inputs.select>
                             </div>
                         </div>

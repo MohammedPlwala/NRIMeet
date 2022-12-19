@@ -2221,7 +2221,8 @@ class ReportController extends Controller
                     )
                     ->leftjoin('bulk_bookings as bb','bb.id','=','bm.bulk_booking_id')
                     ->leftjoin('hotels as h','h.id','=','bb.hotel_id')
-                    ->leftjoin('room_types as rt','rt.id','=','bb.room_type_id')
+                    ->leftjoin('hotel_rooms as hr','hr.id','=','bb.room_type_id')
+                    ->leftjoin('room_types as rt','rt.id','=','hr.type_id')
                     ->where(function ($query) use ($request) {
                         if (!empty($request->toArray())) {
                             if ($request->get('hotel_name') != '') {
@@ -2291,9 +2292,10 @@ class ReportController extends Controller
                             'bb.checkin_date',
                             'bb.checkout_date',
                     )
-                    ->join('bulk_bookings as bb','bb.id','=','bm.bulk_booking_id')
-                    ->join('hotels as h','h.id','=','bb.hotel_id')
-                    ->join('room_types as rt','rt.id','=','bb.room_type_id')
+                    ->leftjoin('bulk_bookings as bb','bb.id','=','bm.bulk_booking_id')
+                    ->leftjoin('hotels as h','h.id','=','bb.hotel_id')
+                    ->leftjoin('hotel_rooms as hr','hr.id','=','bb.room_type_id')
+                    ->leftjoin('room_types as rt','rt.id','=','hr.type_id')
                     ->where(function ($query) use ($request) {
                         if (!empty($request->toArray())) {
                             if ($request->get('hotel_name') != '') {
