@@ -42,18 +42,22 @@ class HotelController extends Controller
     }
 
     public function search(Request $request)
-    {
-        \Session::put('city', 'Indore');
+    {   
 
-        if(isset($request->hotel_city) && $request->hotel_city == 'Ujjain'){
+        if(!Session::has('city')){
+            \Session::put('city', 'Indore');
+        }
+
+        if(isset($request->hotel_city)){
             \Session::put('city', $request->hotel_city);
+            if($request->hotel_city == 'Ujjain'){
+                if(strtotime($request->date_from) < strtotime(date('Y-m-d',strtotime('2023-01-10')))){
+                    return redirect('/')->with('error', 'Hotel are only available on 10 Jan, 2023 - 11 Jan, 2023 for Ujjain location');
+                }
 
-            if(strtotime($request->date_from) < strtotime(date('Y-m-d',strtotime('2023-01-10')))){
-                return redirect('/')->with('error', 'Hotel are only available on 10 Jan, 2023 - 11 Jan, 2023 for Ujjain location');
-            }
-
-            if(strtotime($request->date_to) > strtotime(date('Y-m-d',strtotime('2023-01-11')))){
-                return redirect('/')->with('error', 'Hotel are only available on 10 Jan, 2023 - 11 Jan, 2023 for Ujjain location');
+                if(strtotime($request->date_to) > strtotime(date('Y-m-d',strtotime('2023-01-11')))){
+                    return redirect('/')->with('error', 'Hotel are only available on 10 Jan, 2023 - 11 Jan, 2023 for Ujjain location');
+                }
             }
         }
 
