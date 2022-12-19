@@ -66,6 +66,8 @@ class LoginController extends Controller
         ]);
      
         $credentials = ['email'=>$request->get('email'),'password'=>$request->get('password'),'status' => 'active'];
+
+
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
 
@@ -78,12 +80,18 @@ class LoginController extends Controller
 
             $rolePermissions = array();
             $permissions = Permissions::where('role_id',$userRole->role_id)->get();
+
+
             foreach ($permissions as $key => $permission) {
-                $rolePermissions[] = $permission->module;
+                $rolePermissions[] = trim($permission->module);
             }
 
             \Session::put('rolePermissions', $rolePermissions);
             \Session::put('role', $userRole->role);
+            \Session::put('user_id', $user->id);
+
+
+
             return redirect('admin/dashboard');
         }else{
             $user = User::where('email',$request->get('email'))->first();

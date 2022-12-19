@@ -73,7 +73,7 @@
                                     Deluxe</label>
                             </div>
                             <div class="flex justify-between content-end">
-                                <a href="#" class="hotel-search-button_clear self-end">Clear All</a>
+                                <a href="{{ url('search') }}" class="hotel-search-button_clear self-end">Clear All</a>
                                 <input type="submit"
                                     class="hotel-search-button px-4 py-2 font-semibold text-sm bg-cyan-500 text-white rounded-full shadow-sm"
                                     name="" value="Search">

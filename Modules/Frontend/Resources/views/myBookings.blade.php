@@ -14,7 +14,11 @@
 	  	<div class="shb-booking-summary-wrapper">
 			<div class="shb-booking-summary-item">
 				<div class="shb-booking-summary-item-header">
-					<h4>{{ $booking->hotel_name }} </h4> <a href="{{ url('booking-invoice/'.$booking->id) }}" class="primary-button sm"><em class="fas fa-download"></em> Download Invoice</a>
+					<h4>{{ $booking->hotel_name }} </h4>
+					<div>
+						<span class="badge badge-info" style="padding: 8px;"> {{ $booking->customer_booking_status }}</span>
+						<a href="{{ url('booking-invoice/'.$booking->id) }}" class="primary-button sm"><em class="fas fa-download"></em> Download Invoice</a>
+					</div>
 				</div>
 				<ul>
 				  	<li><strong>Dates:</strong> {{ date('d M, Y',strtotime($booking->check_in_date)) }} - {{ date('d M, Y',strtotime($booking->check_out_date)) }} ({{ $booking->nights }} Night)</li>

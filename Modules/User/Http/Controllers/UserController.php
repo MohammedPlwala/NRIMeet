@@ -347,6 +347,7 @@ class UserController extends Controller
 
         $user =User::find($request->password_user_id);
         $user->password = \Hash::make($request->newPassword);
+        // $user->password = bcrypt($request->newPassword);
         if($user->save()){
             return redirect()->back()->with('message', 'Password updated successfully.');
         }else{
