@@ -43,7 +43,7 @@ class VisitController extends Controller
             return DataTables::of($data)
                     ->addIndexColumn()
                     ->addColumn('file', function ($row) {
-                        $path = public_path('mahakalLokDarshan/'.$row->file);
+                        $path = asset('uploads/mahakalLokDarshan/'.$row->file);
                         $file = '<a target="_blank" href="'.$path.'">'.$row->file.'</a>';
                         return $file;
                     })
@@ -82,7 +82,7 @@ class VisitController extends Controller
         try{
 
             $data =   Visit::from('darshan_registration as dr')
-                        ->select('dr.name','dr.email','dr.mobile','dr.country','dr.members','dr.departure_indore','dr.departure_ujjain',\DB::raw('DATE_FORMAT(dr.created_at, "%d-%b-%Y")'))
+                        ->select('dr.name','dr.email','dr.mobile','dr.country','dr.members','dr.file','dr.departure_indore','dr.departure_ujjain',\DB::raw('DATE_FORMAT(dr.created_at, "%d-%b-%Y")'))
                         ->where(function ($query) use ($request) {
                             if (!empty($request->toArray())) {
                                 if ($request->get('name') != '') {
@@ -112,6 +112,12 @@ class VisitController extends Controller
                         })
                         ->orderby('dr.name','asc')
                         ->get();
+
+            foreach ($data as $key => $value) {
+                if($value->file!=''){
+                    $value->file = asset('uploads/mahakalLokDarshan/'.$value->file);
+                }
+            }
 
             if(!empty($data->toArray())){
                 return (new VisitersExport($data->toArray()))->download('visiters' . '.xlsx', \Maatwebsite\Excel\Excel::XLSX);
