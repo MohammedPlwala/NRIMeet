@@ -355,11 +355,7 @@
             var statusTagCount = $('.status-tag').length;
             $('.status-tag').each(function( index, element ) {
                 let statusTagData = $(this).attr('data-status-name');
-                console.log('Get Status: ', statusTagData);
-                // if(statusTagData == 'Payment Completed'){
-                //     $('.status-tag[data-status-name="statusTagData"]').addClass('badge-suraj');
-                // }
-                // NioApp.setStatusTag(statusTagData)
+                NioApp.setStatusTag(statusTagData)
             });
         })
     </script>

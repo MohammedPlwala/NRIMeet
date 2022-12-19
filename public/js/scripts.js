@@ -739,49 +739,49 @@
 	// Setting Status Tag Style
 	NioApp.setStatusTag = function (statusName) {
 		if(statusName == 'Booking Received'){
-			$('.status-tag').addClass('badge-info');
+			$('.status-tag[data-status-name="Booking Received"]').addClass('badge-info');
 		}
 		if(statusName == 'Payment Completed'){
-			$('.status-tag').addClass('badge-success');
+			$('.status-tag[data-status-name="Payment Completed"]').addClass('badge-success');
 		}
 		if(statusName == 'Booking Shared'){
-			$('.status-tag').addClass('badge-info');
+			$('.status-tag[data-status-name="Booking Shared"]').addClass('badge-info');
 		}
 		if(statusName == 'Confirmation Recevied'){
-			$('.status-tag').addClass('badge-info');
+			$('.status-tag[data-status-name="Confirmation Recevied"]').addClass('badge-info');
 		}
 		if(statusName == 'Cancellation Requested'){
-			$('.status-tag').addClass('badge-warning');
+			$('.status-tag[data-status-name="Cancellation Requested"]').addClass('badge-warning');
 		}
 		if(statusName == 'Cancellation Approved'){
-			$('.status-tag').addClass('badge-success');
+			$('.status-tag[data-status-name="Cancellation Approved"]').addClass('badge-success');
 		}
 		if(statusName == 'Refund Requested'){
-			$('.status-tag').addClass('badge-warning');
+			$('.status-tag[data-status-name="Refund Requested"]').addClass('badge-warning');
 		}
 		if(statusName == 'Refund Approved'){
-			$('.status-tag').addClass('badge-success');
+			$('.status-tag[data-status-name="Refund Approved"]').addClass('badge-success');
 		}
 		if(statusName == 'Refund Issued'){
-			$('.status-tag').addClass('badge-danger');
+			$('.status-tag[data-status-name="Refund Issued"]').addClass('badge-danger');
 		}
 		if(statusName == 'Online'){
-			$('.status-tag').addClass('badge-success');
+			$('.status-tag[data-status-name="Online"]').addClass('badge-success');
 		}
 		if(statusName == 'Offline'){
-			$('.status-tag').addClass('badge-danger');
+			$('.status-tag[data-status-name="Offline"]').addClass('badge-danger');
 		}
 		if(statusName == 'confirmed'){
-			$('.status-tag').addClass('badge-success');
+			$('.status-tag[data-status-name="confirmed"]').addClass('badge-success');
 		}
 		if(statusName == 'pending'){
-			$('.status-tag').addClass('badge-warning');
+			$('.status-tag[data-status-name="pending"]').addClass('badge-warning');
 		}
 		if(statusName == 'failed'){
-			$('.status-tag').addClass('badge-danger');
+			$('.status-tag[data-status-name="failed"]').addClass('badge-danger');
 		}
 		if(statusName == 'rejected'){
-			$('.status-tag').addClass('badge-danger');
+			$('.status-tag[data-status-name="rejected"]').addClass('badge-danger');
 		}
 	}
 	/////////////////////////////

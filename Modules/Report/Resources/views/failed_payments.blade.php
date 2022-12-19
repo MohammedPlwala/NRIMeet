@@ -278,7 +278,7 @@
                             setTimeout(() => {
                                 NioApp.setStatusTag(item.unmappedstatus)
                             }, 200);
-                            return '<span class="status-tag badge badge-success">'+item.unmappedstatus+'</span>'
+                            return '<span class="status-tag badge badge-success" data-status-name="'+item.unmappedstatus+'">'+item.unmappedstatus+'</span>'
                         },
                         name: 'booking_status',
                     },
