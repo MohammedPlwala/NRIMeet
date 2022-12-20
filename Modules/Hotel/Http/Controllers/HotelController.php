@@ -1358,6 +1358,90 @@ class HotelController extends Controller
        return view('hotel::bulkBooking');
     }
 
+    public function availableInventory(Request $request)
+    {
+        $hotels = Hotel::from('hotels as h')
+        ->select('h.name', 'h.id')->get();
+
+        $room_types = \Helpers::roomTypes();
+        $data = HotelRoom::from('hotel_rooms as hr')
+                ->select('hr.id', 'hr.hotel_id', 'hr.name', 'hr.type_id', 'hr.description', 'hr.allocated_rooms', 'hr.mpt_reserve', 'hr.count', 'hr.rate', 'hr.extra_bed_available', 'hr.extra_bed_rate', 'hr.status','rt.name as room_type_name','h.name as hotel_name','h.classification',\DB::Raw('COALESCE((select count(booking_rooms.id) from booking_rooms where booking_rooms.room_id = hr.id ),0) as current_booking'))
+                ->join('room_types as rt','rt.id','=','hr.type_id')
+                ->join('hotels as h','h.id','=','hr.hotel_id')
+                ->where(function ($query) use ($request) {
+                    if (!empty($request->toArray())) {
+                        if ($request->get('hotel_name') != '') {
+                            $query->where('h.name', $request->get('hotel_name'));
+                        }
+
+                        if ($request->get('room_type') != '') {
+                            $query->where('hr.type_id', $request->get('room_type'));
+                        }
+
+                        if ($request->get('charges') != '') {
+                            if($request->get('charges') == 1){
+                                $query->whereBetween('hr.rate', [5000, 10000]);
+                            }elseif($request->get('charges') == 2){
+                                $query->whereBetween('hr.rate', [10000, 15000]);
+                            }elseif($request->get('charges') == 3){
+                                $query->whereBetween('hr.rate', [15000, 20000]);
+                            }elseif($request->get('charges') == 4){
+                                $query->where('hr.rate','>', 20000);
+                            }
+                        }
+
+
+                    }
+                })
+                ->orderby('hr.id','desc')
+                ->get();
+
+        $roomsCount = 0;
+        if(!empty($data->toArray())){
+            $roomsCount = count($data);
+        }
+
+        if ($request->ajax()) {
+            return Datatables::of($data)
+                    ->addIndexColumn()
+                    
+                    ->addColumn('count', function ($row) { 
+                        return '<input type="text" value="'.$row->count.'" name="count['.$row->id.']" style="width:50%;" required>';
+                    })
+                    ->addColumn('allocated_rooms', function ($row) {
+                        return '<input type="text" value="'.$row->allocated_rooms.'" name="allocated_rooms['.$row->id.']" style="width:50%;" required>';
+                    })
+                    ->addColumn('bookable_inventory', function ($row) {
+                        return $row->allocated_rooms - $row->mpt_reserve;
+                    })
+                    ->addColumn('mpt_reserve', function ($row) { 
+                        return '<input type="text" value="'.$row->mpt_reserve.'" name="mpt_reserve['.$row->id.']" style="width:50%;" required>';
+                    })
+                    
+                    ->rawColumns(['count','allocated_rooms','mpt_reserve','bookable_inventory'])
+                    ->make(true);
+        }
+
+        return view('hotel::updateInventory',['room_types' => $room_types, 'hotels' => $hotels])->with(compact('roomsCount'));
+        // return view('hotel::updateInventory');
+    }
+
+
+    public function updateInventory(Request $request)
+    {
+        $data = $request->all();
+        if(!empty($data)){
+            foreach ($data as $key => $value) {
+                if($key!='_token'){
+                    foreach ($value as $hr_id => $count) {
+                        HotelRoom::where('id',$hr_id)->update([$key => $count]);
+                    }
+                }
+            }
+        }
+        return redirect('/admin/available-inventory')->with('message', 'Inventory Update Successfully');
+    }
+
     
 
 }

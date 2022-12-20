@@ -43,6 +43,9 @@ Route::group(['middleware' => 'admin'], function(){
             
         });
 
+        Route::get('/available-inventory', 'HotelController@availableInventory');
+        Route::post('/update-inventory', 'HotelController@updateInventory');
+
         Route::prefix('/bulk-bookings')->group(function() {
             Route::get('/', 'BookingController@index');
             Route::get('/create', 'BookingController@create');
