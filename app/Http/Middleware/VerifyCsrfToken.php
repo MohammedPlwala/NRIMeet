@@ -19,4 +19,8 @@ class VerifyCsrfToken extends Middleware
         'payu-payment-success',
         'razorpay-payment'
     ];
+
+    // protected $except = [
+    //     '*',
+    // ];
 }
