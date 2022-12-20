@@ -23,6 +23,7 @@ Route::group(['middleware' => 'admin'], function(){
 
         Route::get('booking', 'ReportController@booking');
         Route::get('booking-export', 'ReportController@bookingExport');
+        Route::get('booking/booking_detail/{id}', 'ReportController@bookingDetail');
 
         Route::get('inventory', 'ReportController@inventory');
         Route::get('export-inventory', 'ReportController@inventoryExport');
