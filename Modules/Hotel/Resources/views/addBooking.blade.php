@@ -289,6 +289,43 @@
                 </div><!-- .col -->
             </div><!-- .row -->
         </div>
+
+        {{-- Documents --}}
+        <div class="nk-block">
+            <div class="card card-bordered sp-plan">
+                <div class="row no-gutters">
+                    <div class="col-md-3">
+                        <div class="sp-plan-action card-inner">
+                            <div class="icon">
+                                
+                                <h5 class="o-5">Documents</h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-9">
+                        <div class="sp-plan-info card-inner">
+                            <div class="row g-3 align-center">
+                                <div class="col-lg-4">
+                                    <x-inputs.verticalFormLabel label="Email Receipt" for="email_receipt" suggestion="" />
+                                </div>
+                                <div class="col-lg-8">
+                                    <input value="" type="file" for="email_receipt" class="" icon="img-fill" placeholder="email_receipt" name="email_receipt" accept=".jpg,.jpeg,.pdf,.xls,.xlsx" />
+                                </div>
+                            </div>
+                            <div class="row g-3 align-center">
+                                <div class="col-lg-4">
+                                    <x-inputs.verticalFormLabel label="Payment Receipt" for="payment_receipt"
+                                        suggestion="" />
+                                </div>
+                                <div class="col-lg-8">
+                                    <input value="" type="file" for="payment_receipt" class="" icon="img-fill" placeholder="payment_receipt" name="payment_receipt" accept=".jpg,.jpeg,.pdf,.xls,.xlsx" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- .nk-block -->
     </form>
 
     <input type="hidden" name="role_type" id="role_type" value="{{ \Config::get('constants.ROLES.BUYER') }}">

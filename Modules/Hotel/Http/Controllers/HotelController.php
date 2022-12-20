@@ -721,6 +721,11 @@ class HotelController extends Controller
     public function storeBooking(Request $request){
         try {
 
+            $request->validate([
+                'email_receipt' => 'image|mimes:jpg,png,jpeg,pdf,xls,xlxs',
+                'payment_receipt' => 'image|mimes:jpg,png,jpeg,pdf,xls,xlxs',
+            ]);
+
             $bookingRoomsData = array();
 
             \DB::beginTransaction();
@@ -829,6 +834,32 @@ class HotelController extends Controller
             $booking->customer_booking_status = 'Received';
             $booking->booking_status = 'Booking Received';
             $booking->booking_type = 'Offline';
+
+            if ($request->hasFile('email_receipt')) {
+                $image = $request->file('email_receipt');
+                $fileNameWithExt = $image->getClientOriginalName();
+                $emailReceiptFileName = pathinfo($fileNameWithExt, PATHINFO_FILENAME);
+                $emailReceiptFileName = preg_replace("/[^A-Za-z0-9 ]/", '', $emailReceiptFileName);
+                $emailReceiptFileName = preg_replace("/\s+/", '-', $emailReceiptFileName);
+                $extension = $image->getClientOriginalExtension();
+                $emailReceiptFileName = $emailReceiptFileName.'_'.time().'.'.$extension;
+                $booking->email_receipt = $emailReceiptFileName;
+                $destinationPath = public_path('/uploads/bookings');
+                $image->move($destinationPath, $emailReceiptFileName);
+            }
+
+            if ($request->hasFile('payment_receipt')) {
+                $image = $request->file('payment_receipt');
+                $fileNameWithExt = $image->getClientOriginalName();
+                $fileName = pathinfo($fileNameWithExt, PATHINFO_FILENAME);
+                $fileName = preg_replace("/[^A-Za-z0-9 ]/", '', $fileName);
+                $fileName = preg_replace("/\s+/", '-', $fileName);
+                $extension = $image->getClientOriginalExtension();
+                $fileName = $fileName.'_'.time().'.'.$extension;
+                $booking->payment_receipt = $fileName;
+                $destinationPath = public_path('/uploads/bookings');
+                $image->move($destinationPath, $fileName);
+            }
 
             if($booking->save()){
 
@@ -957,7 +988,10 @@ class HotelController extends Controller
 
         try{
 
-
+            $request->validate([
+                'email_receipt' => 'image|mimes:jpg,png,jpeg,pdf,xls,xlxs',
+                'payment_receipt' => 'image|mimes:jpg,png,jpeg,pdf,xls,xlxs',
+            ]);
 
             $bookingRoomsData = array();
 
@@ -1062,6 +1096,32 @@ class HotelController extends Controller
             $booking->sub_total = $total-$tax;
             $booking->tax = $tax;
             $booking->special_request = $request->special_request;
+
+            if ($request->hasFile('email_receipt')) {
+                $image = $request->file('email_receipt');
+                $fileNameWithExt = $image->getClientOriginalName();
+                $emailReceiptfileName = pathinfo($fileNameWithExt, PATHINFO_FILENAME);
+                $emailReceiptfileName = preg_replace("/[^A-Za-z0-9 ]/", '', $emailReceiptfileName);
+                $emailReceiptfileName = preg_replace("/\s+/", '-', $emailReceiptfileName);
+                $extension = $image->getClientOriginalExtension();
+                $emailReceiptfileName = $emailReceiptfileName.'_'.$booking_id.'_'.time().'.'.$extension;
+                $booking->email_receipt = $emailReceiptfileName;
+                $destinationPath = public_path('/uploads/bookings');
+                $image->move($destinationPath, $emailReceiptfileName);
+            }
+
+            if ($request->hasFile('payment_receipt')) {
+                $image = $request->file('payment_receipt');
+                $fileNameWithExt = $image->getClientOriginalName();
+                $fileName = pathinfo($fileNameWithExt, PATHINFO_FILENAME);
+                $fileName = preg_replace("/[^A-Za-z0-9 ]/", '', $fileName);
+                $fileName = preg_replace("/\s+/", '-', $fileName);
+                $extension = $image->getClientOriginalExtension();
+                $fileName = $fileName.'_'.$booking_id.'_'.time().'.'.$extension;
+                $booking->payment_receipt = $fileName;
+                $destinationPath = public_path('/uploads/bookings');
+                $image->move($destinationPath, $fileName);
+            }
 
             
             if(isset($request->cancellation_date)){

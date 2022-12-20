@@ -50,15 +50,17 @@ class DashboardController extends Controller
         
         // Guest Stats
         $adult_guest = 0;
+        $total_bulk_booking_guest = BulkBookingRoom::select(DB::raw("SUM(adult_count) as total_adults"),DB::raw("SUM(child_count) as total_child"))->leftjoin('bookings as b','bulk_booking_rooms.booking_id','b.id')->whereNotIn('b.booking_status', ['Cancellation Requested','Cancellation Approved','Refund Requested','Refund Approved','Refund Issued'])->whereDate('bulk_booking_rooms.created_at','<',$date)->get();
+
         $total_adult_guest = BookingRoom::select(DB::raw("SUM(adults) as total_adults"))->leftjoin('bookings as b','booking_rooms.booking_id','b.id')->whereNotIn('b.booking_status', ['Cancellation Requested','Cancellation Approved','Refund Requested','Refund Approved','Refund Issued'])->whereDate('booking_rooms.created_at','<',$date)->get();
         if($total_adult_guest){
-            $adult_guest = $total_adult_guest[0]->total_adults;
+            $adult_guest = $total_adult_guest[0]->total_adults + $total_bulk_booking_guest[0]->total_adults;
         }
 
         $child_guest = 0;
         $total_child_guest = BookingRoom::select(DB::raw("SUM(childs) as total_child"))->leftjoin('bookings as b','booking_rooms.booking_id','b.id')->whereNotIn('b.booking_status', ['Cancellation Requested','Cancellation Approved','Refund Requested','Refund Approved','Refund Issued'])->whereDate('booking_rooms.created_at','<',$date)->get();
         if($total_child_guest){
-            $child_guest = $total_child_guest[0]->total_child;
+            $child_guest = $total_child_guest[0]->total_child + $total_bulk_booking_guest[0]->total_child;
         }
 
         // Room Type Booking Stats

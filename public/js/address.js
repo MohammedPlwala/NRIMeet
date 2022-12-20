@@ -3195,3 +3195,10 @@ $("#billing_country").on("change", function () {
     }
     
 });
+
+if($('#billing_country_hidden').val()){
+    $("#billing_country").val($('#billing_country_hidden').val()).trigger('change')
+    if($('#billing_state_hidden').val()){
+        $("#billing_state").val($('#billing_state_hidden').val()).trigger('change')
+    }
+}

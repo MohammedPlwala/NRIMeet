@@ -100,8 +100,10 @@ $organization_type = \Session::get('organization_type');
                                     <x-inputs.verticalFormLabel label="Country / Region" for="Country / Region" suggestion="Specify the country name." required="true" />
                                 </div>
                                 <div class="col-lg-7">
+                                    <input type="hidden" id="billing_country_hidden" value="{{ isset($user) ? $user->country : old('country') }}"/>
+                                    <input type="hidden" id="billing_state_hidden" value="{{ isset($user) ? $user->state : old('state') }}"/>
                                     <x-inputs.select name="country" for="billing_country"
-                                    value="{{ isset($user) ? $user->country : old('country') }}"
+                                    
                                     class="country_to_state country_select" autocomplete="country"
                                     data-placeholder="Select a country / region…" data-label="Country / Region"
                                     tabindex="-1" aria-hidden="true">
