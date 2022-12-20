@@ -493,7 +493,7 @@
                                         suggestion="" />
                                 </div>
                                 <div class="col-lg-8">
-                                    <x-inputs.text value="{{ !is_null($booking->settlement_date) ? $booking->settlement_date : '' }}"
+                                    <x-inputs.text value="{{ !is_null($booking->settlement_date) ? date('m/d/Y',strtotime($booking->settlement_date)) : '' }}"
                                         for="settlement_date" class="date-picker" icon="building-fill"
                                          name="settlement_date" />
                                 </div>

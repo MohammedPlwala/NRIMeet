@@ -89,6 +89,12 @@
                                             YPBD</option>
                                         <option @if (isset($request->booking_from) && $request->booking_from == 'MEA') selected @endif>
                                             MEA</option>
+
+                                        <option @if (isset($request->booking_from) && $request->booking_from == 'AGI') selected @endif>
+                                        AGI</option>
+
+                                        <option @if (isset($request->booking_from) && $request->booking_from == 'Guest') selected @endif>
+                                        Guest</option>
                                     </x-inputs.select>
                                 </div>
                             </div>

@@ -1341,6 +1341,51 @@ var states = {
     },
     LB: [],
     LI: [],
+    GB: {
+        AVO:"Avon",
+        BED:"Bedfordshire",
+        BER:"Berkshire",
+        BUC:"Buckinghamshire",
+        CAM:"Cambridgeshire",
+        CHE:"Cheshire",
+        COR:"Cornwall",
+        CUM:"Cumbria",
+        DER:"Derbyshire",
+        DEV:"Devon",
+        DOR:"Dorset",
+        DUR:"Durham",
+        ESS:"Essex",
+        GLO:"Gloucestershire",
+        GRE:"Greater London",
+        HAM:"Hampshire",
+        HER:"Herefordshire",
+        HER:"Hertfordshire",
+        ISL:"Isle of Wight",
+        KEN:"Kent",
+        LAN:"Lancashire",
+        LEI:"Leicestershire",
+        LIN:"Lincolnshire",
+        MER:"Merseyside",
+        NOR:"Norfolk",
+        NOR:"Northamptonshire",
+        NOR:"Northumberland",
+        NOT:"Nottinghamshire",
+        OXF:"Oxfordshire",
+        RUT:"Rutland",
+        SCH:"Schools",
+        SHR:"Shropshire",
+        SOM:"Somerset",
+        STA:"Staffordshire",
+        SUF:"Suffolk",
+        SUR:"Surrey",
+        SUS:"Sussex",
+        TYN:"Tyne and Wear",
+        WAR:"Warwickshire",
+        WES:"West Midlands",
+        WIL:"Wiltshire",
+        WOR:"Worcestershire",
+        YOR:"Yorkshire"
+    },
     LR: {
         BM: "Bomi",
         BN: "Bong",
@@ -2333,6 +2378,7 @@ var countryStateSettings = {
         },
         state: {
             required: false,
+            hidden: true,
         },
     },
     AF: {
@@ -3149,3 +3195,10 @@ $("#billing_country").on("change", function () {
     }
     
 });
+
+if($('#billing_country_hidden').val()){
+    $("#billing_country").val($('#billing_country_hidden').val()).trigger('change')
+    if($('#billing_state_hidden').val()){
+        $("#billing_state").val($('#billing_state_hidden').val()).trigger('change')
+    }
+}

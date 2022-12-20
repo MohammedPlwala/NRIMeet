@@ -1181,7 +1181,11 @@ class HotelController extends Controller
             // $booking->booking_type = 'Offline';
             $booking->confirmation_number = $request->confirmation_number;
             $booking->utr_number = $request->utr_number;
-            $booking->settlement_date = date('Y-m-d',strtotime($request->settlement_date));
+
+            if($request->settlement_date != ""){
+                $booking->settlement_date = date('Y-m-d',strtotime($request->settlement_date));
+            }
+
             if($booking->save()){
 
                 $oldRooms = BookingRoom::select(\DB::Raw('GROUP_CONCAT(room_id) as room_ids'))->where('booking_id',$booking_id)->first();
