@@ -808,7 +808,7 @@
                                     </div>
                                     <div class="col-lg-6">
                                         <span class="data-value">
-                                            <a href="#" class="btn btn-sm btn-primary"><em class="icon ni ni-download"></em><span>Email Copy</span></a>
+                                            <a href="{{ url('uploads/bookings/'.$booking_detail->email_receipt) }}" class="btn btn-sm btn-primary" download @if($booking_detail->email_receipt=='') style="pointer-events: none;" @endif><em class="icon ni ni-download"></em><span>Email Copy</span></a>
                                         </span>
                                     </div>
                                 </div>
@@ -819,7 +819,7 @@
                                         <span class="data-label">Payment Receipt:</span>
                                     </div>
                                     <div class="col-lg-6">
-                                        <span class="data-value"><a href="#" class="btn btn-sm btn-primary"><em class="icon ni ni-download"></em><span>Payment Receipt</span></a></span>
+                                        <span class="data-value"><a href="{{ url('uploads/bookings/'.$booking_detail->payment_receipt) }}" class="btn btn-sm btn-primary" download @if($booking_detail->payment_receipt=='') style="pointer-events: none;" @endif><em class="icon ni ni-download"></em><span>Payment Receipt</span></a></span>
                                     </div>
                                 </div>
                             </div>
