@@ -2567,9 +2567,7 @@ class ReportController extends Controller
             }
 
         } catch (\Exception $e) {
-
-            echo $e->getMessage(); die;
-            return redirect()->back()->with('error', $e->getMessage());
+            return redirect('admin/report/booking-inventory')->back()->with('error', $e->getMessage());
 
         }
     }
