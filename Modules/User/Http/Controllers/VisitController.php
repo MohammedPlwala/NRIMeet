@@ -33,7 +33,7 @@ class VisitController extends Controller
     public function index(Request $request)
     {
 
-        $data = Visit::get();
+        $data = Visit::orderby('created_at','desc')->get();
         $visitersCount = 0;
         if(!empty($data->toArray())){
             $visitersCount = count($data);

@@ -43,6 +43,7 @@
                                 <input type="checkbox" class="custom-control-input" id="check-all" name="check_all"><label class="custom-control-label" for="check-all"></label>
                             </div>
                         </th>
+                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Order Id</span></th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Name</span></th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Hotel</span></th>
                         <th class="nk-tb-col tb-col-md"><span class="sub-text">Room Type</span></th>
@@ -188,6 +189,11 @@
                         render: function(data, type, row, meta) {
                             return '<td class="nk-tb-col nk-tb-col-check"><div class="custom-control custom-control-sm custom-checkbox notext"><input type="checkbox" class="custom-control-input cb-check" id="cb-' + row.id + '" value="' + row.id + '" name="checked_items[]"><label class="custom-control-label" for="cb-' + row.id + '"></label></div></td>'
                         }
+                    },
+                    {
+                        "class": "nk-tb-col tb-col-lg",
+                        data: 'order_id',
+                        name: 'order_id'
                     },
                     {
                         "class": "nk-tb-col tb-col-lg",

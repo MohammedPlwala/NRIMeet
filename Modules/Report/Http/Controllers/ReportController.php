@@ -2224,6 +2224,7 @@ class ReportController extends Controller
 
             $data = BulkBookingRoom::from('bulk_booking_rooms as bm')
                         ->select(
+                            'bb.id',
                             'bm.booking_id as confirmation_number',
                             'bm.guest_name',
                             'bm.guest_designation',
@@ -2273,6 +2274,10 @@ class ReportController extends Controller
                     if ($request->ajax()) {
                         return Datatables::of($data)
                         ->addIndexColumn()
+                        ->addColumn('order_id', function ($row) {
+                            $order_id = 'PBD-BULK-'.$row->id;
+                            return $order_id;
+                        })
                         ->addColumn('checkin_date', function ($row) {
                             $checkin_date = date(\Config::get('constants.DATE.DATE_FORMAT') , strtotime($row->checkin_date));
                             return $checkin_date;
@@ -2281,7 +2286,7 @@ class ReportController extends Controller
                             $checkout_date = date(\Config::get('constants.DATE.DATE_FORMAT') , strtotime($row->checkout_date));
                             return $checkout_date;
                         })
-                        // ->rawColumns(['order_id'])
+                        ->rawColumns(['order_id'])
                         ->make(true);
             }
             return view('report::bulk_booking_rooms', ['hotels' => $hotels, 'room_types' => $room_types]);

@@ -150,6 +150,10 @@ class BookingController extends Controller
         if ($request->ajax()) {
             return DataTables::of($data)
                     ->addIndexColumn()
+                    ->addColumn('order_id', function ($row) {
+                        $order_id = 'PBD-BULK-'.$row->id;
+                        return $order_id;
+                    })
                     ->addColumn('action', function($row) {
                            $edit = url('/').'/admin/bulk-bookings/edit/'.$row->id;
                            $delete = url('/').'/admin/bulk-bookings/delete/'.$row->id;

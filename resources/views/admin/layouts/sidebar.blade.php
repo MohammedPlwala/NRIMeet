@@ -144,6 +144,9 @@ $rolePermissions = \Session::get('rolePermissions');
                             <li class="nk-menu-item">
                                 <a href="{{url('admin/report/booking-checkout-status')}}" class="nk-menu-link"><span class="nk-menu-text">Booking Checkout Status</span></a>
                             </li>
+                            <li class="nk-menu-item">
+                                <a href="{{url('admin/report/current-inventory')}}" class="nk-menu-link"><span class="nk-menu-text">Current Inventory</span></a>
+                            </li>
                         </ul>
                     </li>
                     @endif

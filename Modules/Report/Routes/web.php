@@ -49,7 +49,7 @@ Route::group(['middleware' => 'admin'], function(){
         Route::get('call-center-export', 'ReportController@callCenterExport');
         Route::get('combined', 'ReportController@combined');
         
-        Route::get('booking-inventory', 'ReportController@bookingInventory');
+        Route::get('current-inventory', 'ReportController@bookingInventory');
         
         Route::get('financial', 'ReportController@financial');
         Route::get('financial-2', 'ReportController@financial2');
@@ -72,5 +72,7 @@ Route::group(['middleware' => 'admin'], function(){
 
         Route::get('failed-payments', 'ReportController@failedPayments');
         Route::get('export-failed-payments', 'ReportController@failedPaymentsExport');
+
+        Route::get('checkin-details', 'ReportController@checkInDetails');
     });
 });

@@ -36,6 +36,7 @@
                 <table class="broadcast-init nowrap nk-tb-list is-separate" data-auto-responsive="false">
                     <thead>
                         <tr class="nk-tb-item nk-tb-head">
+                            <th class="nk-tb-col tb-col-mb"><span class="sub-text">Order Id</span></th>
                             <th class="nk-tb-col tb-col-mb"><span class="sub-text">Booking From</span></th>
                             <th class="nk-tb-col tb-col-mb"><span class="sub-text">Booking Via</span></th>
                             <th class="nk-tb-col tb-col-mb"><span class="sub-text">Hotel Name</span></th>
@@ -270,6 +271,11 @@
                         url: "{{ url('admin/report/bulk-booking-rooms') }}",
                     },
                     columns: [{
+                            "class": "nk-tb-col tb-col-lg",
+                            data: 'order_id',
+                            name: 'order_id'
+                        },
+                        {
                             "class": "nk-tb-col tb-col-lg",
                             data: 'booking_person',
                             name: 'booking_person'
