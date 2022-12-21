@@ -2519,14 +2519,14 @@ class ReportController extends Controller
 
                     }
                 }
-                $room->dateData = $dateData;
-
-
-                // $room->booking_count = $bookings->count();
-                // echo "<pre>";
-                // print_r($bookings->toArray());
-                // print_r($room->toArray());
-                // die;
+                $room['06JAN'] = $dateData['06'];
+                $room['07JAN'] = $dateData['07'];
+                $room['08JAN'] = $dateData['08'];
+                $room['09JAN'] = $dateData['09'];
+                $room['10JAN'] = $dateData['10'];
+                $room['11JAN'] = $dateData['11'];
+                $room['12JAN'] = $dateData['12'];
+                $room['13JAN'] = $dateData['13'];
             }
 
             echo ($rooms->count());
