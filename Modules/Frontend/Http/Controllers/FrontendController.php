@@ -5,6 +5,7 @@ namespace Modules\Frontend\Http\Controllers;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Modules\Frontend\Entities\HomeStayRegistration;
 use DB;
 use Session;
 use Exception;
@@ -169,5 +170,40 @@ class FrontendController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function homeStay()
+    {
+        return view('frontend::homeStay');
+    }
+
+    public function homeStayRegistration(Request $request)
+    {
+        $input = $request->all();
+
+        try {
+
+              $data = array(
+                'name' => $input['full_name'],
+                'email' => $input['email_id'],
+                'country_code' => $input['country_code'],
+                'contact' => $input['phone_or_mobile_no'],
+                // 'registration_number' => $input['registration_number'],
+                'country'  => $input['country'],
+                'members'  => $input['members'],
+                'from_date'  => $input['from_date'],
+                'to_date'  => $input['to_date'],
+                'status'  => 'Request Received',
+                'created_at' => date('Y-m-d H:i:s')
+            );
+
+            HomeStayRegistration::insert($data);
+              
+            return redirect()->back()->with('success', 'Registration successful');
+
+        } catch (\Exception $e) {
+
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
 }
