@@ -336,6 +336,7 @@
                 <div class="col-md-9">
                     <table class="table table-borderd text-center">
                         <tr>
+                            <th class="pt-3 pb-3">Room</th>
                             <th class="pt-3 pb-3">Adult</th>
                             <th class="pt-3 pb-3">Child</th>
                             <th class="pt-3 pb-3">Extra Bed</th>
@@ -344,6 +345,9 @@
                             <th class="text-right pt-3 pb-3">Price</th>
                         </tr>
                         <tr>
+                            <td>
+                                {{ $bookingRooms[0]['room_type'] }}
+                            </td>
                             <td>
                                 {{ $bookingRooms[0]['adults'] }}
                             </td>
@@ -436,6 +440,7 @@
                 <div class="col-md-9">
                     <table class="table table-borderd">
                         <tr class="text-center">
+                            <th class="pt-3 pb-3">Room</th>
                             <th class="pt-3 pb-3">Adult</th>
                             <th class="pt-3 pb-3">Child</th>
                             <th class="pt-3 pb-3">Extra Bed</th>
@@ -444,6 +449,13 @@
                             <th class="text-right pt-3 pb-3">Price</th>
                         </tr>
                         <tr class="text-center">
+                            <td>
+                                @if (isset($bookingRooms[1]))
+                                {{ $bookingRooms[0]['room_type'] }}
+                                @else
+                                N/A
+                                @endif
+                            </td>
                             <td>
                                  @if (isset($bookingRooms[1])) 
                                  {{ $bookingRooms[1]['adults'] }}
@@ -609,7 +621,7 @@
                                         <span class="data-label">Response:</span>
                                     </div>
                                     <div class="col-lg-6">
-                                        <span class="data-value">{{ $booking_detail->booking_status }}</span>
+                                        <span class="data-value">N/A</span>
                                     </div>
                                 </div>
                             </div>

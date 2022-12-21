@@ -526,8 +526,9 @@ class ReportController extends Controller
         $booking_detail = Booking::from('bookings as b')->select('b.order_id','b.booking_type','b.created_at as booking_date','u.full_name as guest_name','u.email as guest_email','u.mobile as guest_contact','u.country as guest_country','u.registration_delegate_category as guest_category','h.classification as hotel_rating','h.name as hotel','rt.name as room_type','b.check_in_date','b.check_out_date','b.nights','b.amount as total_charge','b.special_request','b.confirmation_number','b.booking_status','t.payment_method','t.payment_mode','t.transaction_id','t.status','b.utr_number','b.settlement_date','b.settlement_id','t.created_at as payment_date','b.cancellation_request_date','b.cancellation_date','b.cancellation_charges','b.refund_request_date','b.refund_date','b.refundable_amount','b.refund_transaction_utr','u.registration_name','u.registration_email','u.registration_contact','u.registration_country','b.email_receipt','b.payment_receipt')->leftjoin('users as u','b.user_id','u.id')->leftjoin('hotels as h','b.hotel_id','h.id')->leftjoin('booking_rooms as br','b.id','br.booking_id')->leftjoin('hotel_rooms as hr','br.room_id','hr.id')->leftjoin('room_types as rt','rt.id','hr.type_id')->leftjoin('transactions as t','t.booking_id','b.id')->where('b.id',$id)->first();
 
         $bookingRooms = BookingRoom::from('booking_rooms as br')
-                    ->select('br.*','hr.rate')
+                    ->select('br.*','hr.rate','rt.name as room_type')
                     ->leftJoin('hotel_rooms as hr','br.room_id','=','hr.id')
+                    ->leftJoin('room_types as rt','hr.type_id','=','rt.id')
                     ->where('br.booking_id',$id)
                     ->get();
         // dd($bookingRooms);
