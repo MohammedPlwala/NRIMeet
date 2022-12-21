@@ -593,10 +593,10 @@ class HotelController extends Controller
                         if($row->booking_status == 'Void'){
                             $detailUrl = '#';
                         }else{
-                            $detailUrl = \URL::to('admin/bookings/edit/'.$row->id);
+                            $detailUrl = \URL::to('admin/report/booking/booking_detail/'.$row->id);
                         }
 
-                        $order_id = '<a href="'.$detailUrl.'" ><span>'. $row->order_id .'</span></a>';
+                        $order_id = '<a target="_blank" href="'.$detailUrl.'" ><span>'. $row->order_id .'</span></a>';
                         return $order_id;
                     })
                     ->addColumn('confirmation_number', function ($row) {
