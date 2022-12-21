@@ -49,6 +49,8 @@ Route::group(['middleware' => 'admin'], function(){
         Route::get('call-center-export', 'ReportController@callCenterExport');
         Route::get('combined', 'ReportController@combined');
         
+        Route::get('check-in-details', 'ReportController@checkInDetails');
+        
         Route::get('financial', 'ReportController@financial');
         Route::get('financial-2', 'ReportController@financial2');
 

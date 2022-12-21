@@ -1749,6 +1749,7 @@ class ReportController extends Controller
                     ->join('room_types as rt','rt.id','=','hr.type_id')
                     ->leftJoin('hotels as h','h.id','=','b.hotel_id')
                     ->leftJoin('users as u','u.id','=','b.user_id')
+                    ->where('b.booking_status','Payment Completed')
                     ->whereNull('b.confirmation_number')
                     ->where(function ($query) use ($request) {
                         if (!empty($request->toArray())) {
@@ -1845,6 +1846,7 @@ class ReportController extends Controller
                     ->join('room_types as rt','rt.id','=','hr.type_id')
                     ->leftJoin('hotels as h','h.id','=','b.hotel_id')
                     ->leftJoin('users as u','u.id','=','b.user_id')
+                    ->where('b.booking_status','Payment Completed')
                     ->whereNull('b.confirmation_number')
                     ->where(function ($query) use ($request) {
                         if (!empty($request->toArray())) {
@@ -2459,6 +2461,87 @@ class ReportController extends Controller
         }
     }
 
+    public function checkInDetails(Request $request)
+    {
+        // try{
+            
+            $rooms =   Hotel::from('hotels as h')
+                        ->select('h.name','h.classification','hr.allocated_rooms', 'hr.mpt_reserve' ,'hr.count as available_rooms','rt.name as room_type_name','hr.id as room_id'
+                        )
+                        ->join('hotel_rooms as hr','hr.hotel_id','=','h.id')
+                        ->leftJoin('room_types as rt','rt.id','=','hr.type_id')
+                        ->orderby('h.name','asc')
+                        ->get();
+
+
+
+            foreach ($rooms as $key => $room) {
+                $dateData = array(
+                    '06' => 0,
+                    '07' => 0,
+                    '08' => 0,
+                    '09' => 0,
+                    '10' => 0,
+                    '11' => 0,
+                    '12' => 0,
+                    '13' => 0
+                );
+                $bookings = BookingRoom::from('booking_rooms as br')
+                            ->select('br.room_id as booking_room_id','b.check_in_date','b.check_out_date')
+                            ->leftJoin('bookings as b','br.booking_id','=','b.id')
+                            ->where('br.room_id',$room->room_id)
+                            ->whereIn('b.booking_status',['Payment Completed','Confirmation Recevied','Booking Shared'])
+                            ->get();
+
+                if(!empty($bookings->toArray())){
+                    foreach ($bookings as $key => $booking) {
+                        $checkInDate = date('d',strtotime($booking->check_in_date));
+                        $checkOutDate = date('d',strtotime($booking->check_out_date));
+
+                        if(isset($dateData[$checkInDate])){
+                            $dateData[$checkInDate] = $dateData[$checkInDate]+1;
+                        }
+                        
+                        $daysDiff = $checkOutDate-$checkInDate;
+                        for ($i=1; $i <=$daysDiff ; $i++) { 
+
+                            $dateKey = $checkInDate+$i;
+                            $dateKey = sprintf("%02d", $dateKey);
+
+                            if(isset($dateData[$dateKey])){
+                                $dateData[$dateKey] = $dateData[$dateKey]+1;
+                            }    
+                        }
+
+                        if(isset($dateData[$checkOutDate])){
+                            $dateData[$checkOutDate] = $dateData[$checkOutDate]-1;
+                        }
+
+                    }
+                }
+                $room->dateData = $dateData;
+
+
+                // $room->booking_count = $bookings->count();
+                // echo "<pre>";
+                // print_r($bookings->toArray());
+                // print_r($room->toArray());
+                // die;
+            }
+
+            echo ($rooms->count());
+            echo "<br>-----------------------<br>";
+            echo "<pre>";
+            print_r($rooms->toArray());
+
+            die;
+
+        // } catch (\Exception $e) {
+
+        //     // return redirect()->back()->with('error', $e->getMessage());
+
+        // }
+    }
 
     public function financial(Request $request)
     {
