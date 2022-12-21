@@ -3,16 +3,10 @@
 @section('content')
   <!-- Page Header -->
   <div class="page-header">
-    <h1>Home Stay</h1>
+    <h1>Home Stay Registration</h1>
   </div>
   <section class="mahakal-lok-darshan-wrap">
     <div class="container">
-      <div class="u_heading">
-        <h4>Immerse yourself in the spirituality of</h4>
-        <h2>Mahakal Lok</h2>
-        <h6>Visit the mesmerising 900 meter long corridor comprising of<br>
-        192 statues, 53 murals, and 108 pillars of Lord Shiva.</h6>
-      </div>
       
       <div class="ujjain">
         <h3 class="heading3">Registration</h3>
@@ -52,14 +46,30 @@
                   </div>
                 </div>
               </div>
-              
+              <div class="form-item large">
+                <label class="form-label">Address <span class="required" title="required">*</span></label>
+                <textarea name="adress" required></textarea>
+              </div>
               <div class="form-item large">
                 <label class="form-label">Country of Residence <span class="required" title="required">*</span></label>
                 <input type="text" name="country" value="" size="40" placeholder="Country of Residence" required />
               </div>
               <div class="form-item large">
-                <label class="form-label">Total number of members <span class="required" title="required">*</span></label>
-                <input type="tel" name="members" value="" size="40" placeholder="Total number of members" required />
+                <label class="form-label">City <span class="required" title="required">*</span></label>
+                <input type="text" name="city" value="" size="40" placeholder="City" required />
+              </div>
+            </div>
+
+            <div>
+              <div class="form-item large">
+                <label class="form-label">Adult 1: <span class="required" title="required">*</span></label>
+                <input type="text" name="guest_1_name" id="guest_1_name" value="" placeholder="Full Name" required />
+                <input type="text" name="guest_1_age" id="guest_1_age" value="" placeholder="Age" required />
+              </div>
+              <div class="form-item large">
+                <label class="form-label">Adult 2: <span class="required" title="required">*</span></label>
+                <input type="text" name="guest_2_name" id="guest_2_name" value="" placeholder="Full Name" required />
+                <input type="text" name="guest_2_age" id="guest_2_age" value="" placeholder="Full Name" required />
               </div>
             </div>
 

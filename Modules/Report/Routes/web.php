@@ -70,5 +70,7 @@ Route::group(['middleware' => 'admin'], function(){
 
         Route::get('failed-payments', 'ReportController@failedPayments');
         Route::get('export-failed-payments', 'ReportController@failedPaymentsExport');
+
+        Route::get('checkin-details', 'ReportController@checkInDetails');
     });
 });

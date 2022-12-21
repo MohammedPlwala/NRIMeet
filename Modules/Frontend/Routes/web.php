@@ -51,7 +51,7 @@ Route::group(['middleware' => 'auth:web'], function(){
 	Route::get('booking-policy', 'FrontendController@bookingPolicy');
 	Route::get('terms-and-conditions', 'FrontendController@termsAndConditions');
 	Route::get('refund-cancellation-policy', 'FrontendController@refundCancellationPolicy');
-	Route::get('home-stay', 'FrontendController@homeStay');
+	Route::get('free-home-stay', 'FrontendController@homeStay');
 	Route::get('home-stay-registration', 'FrontendController@homeStayRegistration');
 });
 
