@@ -175,11 +175,21 @@ class FrontendController extends Controller
 
     public function homeStay()
     {
-        return view('frontend::homeStay');
+        $user = \Auth::user();
+
+        $registered = 0;
+        $checkRequest = HomeStayRegistration::where('user_id',$user->id)->first();
+        if($checkRequest){
+            $registered = 1;
+        }
+
+        return view('frontend::homeStay',['registered' => $registered]);
     }
 
     public function homeStayRegistration(Request $request)
     {
+        $user = \Auth::user();
+
         $input = $request->all();
 
         try {
@@ -196,10 +206,11 @@ class FrontendController extends Controller
             $request->guest_age_1 = $input['adult_age_1'];
             $request->guest_name_2 = $input['adult_name_2'];
             $request->guest_age_2 = $input['adult_age_2'];
-            $request->check_in_date = $input['check_in_date'];
-            $request->check_out_date = $input['check_out_date'];
+            $request->check_in_date = date('Y-m-d',strtotime($input['check_in_date']));
+            $request->check_out_date = date('Y-m-d',strtotime($input['check_out_date']));
             $request->status = 'Request Received';
             $request->created_at = date('Y-m-d H:i:s');
+            $request->user_id = $user->id;
 
             if($request->save()){
                 \Helpers::sendStayRequestMailToDelegate($request->id);
