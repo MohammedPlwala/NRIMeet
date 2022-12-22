@@ -122,6 +122,7 @@
                     <div class="login-modal-right">
                         <div class="login-modal-header">
                             <h3 class="login-modal-heading1"><i>Hurry…….</i> Last date to book your accommodation is 25 December 2022.</h3>
+                            <div class="login-modal-gif"><img src="{{ url('images/booking-closing-very-soon.gif') }}" alt="Booking Closing Very Soon" /></div>
                             <h2 class="login-modal-heading">Login account</h2>
                         </div>
                         {!! NoCaptcha::renderJs() !!}
