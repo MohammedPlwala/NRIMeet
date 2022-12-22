@@ -277,7 +277,7 @@ class Helpers {
 		// $emails[] = \Config::get('constants.OVERSEAS_EMAIL');
 
 		$data = array('requestDetails'=>$requestDetails);
-		Mail::send('emails.home-stay-request-overseas-team', $data, function ($message)  use ($to_name, $to_email,$emails) {
+		Mail::send('emails.home-stay-request-overseas-team', $data, function ($message)  use ($to_name, $to_email,$emails,$requestDetails) {
 			// $message->to($to_email, $to_name)
 			$message->to($emails, $to_name)
 			->subject('FREE Home Stay Request')

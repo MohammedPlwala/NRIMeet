@@ -53,7 +53,7 @@
 			<tbody>
 				<tr>
 					<td style="padding-left:0px; padding-top: 10px; font-size: 14px; padding-bottom: 10px; font-family: Arial, Helvetica, sans-serif; line-height: 1.5;">
-            <p style="margin-bottom: 0;"><span style="color:#FF8000; font-weight: bold;">"Name "</span> has registerd for <span style="color:#FF8000;">FREE</span> Home Stay.</p>
+            <p style="margin-bottom: 0;"><span style="color:#FF8000; font-weight: bold;">"<?php echo $requestDetails->name; ?>"</span> has registerd for <span style="color:#FF8000;">FREE</span> Home Stay.</p>
           </td>
 				</tr>
 			</tbody>
@@ -70,35 +70,53 @@
 			<tbody>
 				<tr>
 					<td width="30%" style="color:000; font-size: 14px; font-family: arial; padding:5px;font-weight: 600; border-right: 1px solid #D6D4D4; border-bottom: 1px solid #D6D4D4;">Name:</td>
-					<td width="70%" style="color:000; font-size: 14px; font-family: arial; padding:5px;font-weight: 400; border-right: 1px solid #D6D4D4; border-bottom: 1px solid #D6D4D4;">{{ $requestDetails->name }}</td>
+					<td width="70%" style="color:000; font-size: 14px; font-family: arial; padding:5px;font-weight: 400; border-right: 1px solid #D6D4D4; border-bottom: 1px solid #D6D4D4;"><?php echo $requestDetails->name; ?></td>
 				</tr>
 				<tr>
 					<td width="30%" style="color:000; font-size: 14px; font-family: arial; padding:5px;font-weight: 600; border-right: 1px solid #D6D4D4; border-bottom: 1px solid #D6D4D4;">Email:</td>
-					<td width="70%" style="color:000; font-size: 14px; font-family: arial; padding:5px;font-weight: 400; border-right: 1px solid #D6D4D4; border-bottom: 1px solid #D6D4D4;">{{ $requestDetails->email }}</td>
+					<td width="70%" style="color:000; font-size: 14px; font-family: arial; padding:5px;font-weight: 400; border-right: 1px solid #D6D4D4; border-bottom: 1px solid #D6D4D4;"><?php echo $requestDetails->email; ?></td>
 				</tr>
 				<tr>
 					<td width="30%" style="color:000; font-size: 14px; font-family: arial; padding:5px;font-weight: 600; border-right: 1px solid #D6D4D4; border-bottom: 1px solid #D6D4D4;">Mobile:</td>
-					<td width="70%" style="color:000; font-size: 14px; font-family: arial; padding:5px;font-weight: 400; border-right: 1px solid #D6D4D4; border-bottom: 1px solid #D6D4D4;">{{ $requestDetails->mobile }}</td>
+					<td width="70%" style="color:000; font-size: 14px; font-family: arial; padding:5px;font-weight: 400; border-right: 1px solid #D6D4D4; border-bottom: 1px solid #D6D4D4;"><?php echo $requestDetails->mobile; ?></td>
 				</tr>
 				<tr>
 					<td width="30%" style="color:000; font-size: 14px; font-family: arial; padding:5px;font-weight: 600; border-right: 1px solid #D6D4D4; border-bottom: 1px solid #D6D4D4;">Address:</td>
-					<td width="70%" style="color:000; font-size: 14px; font-family: arial; padding:5px;font-weight: 400; border-right: 1px solid #D6D4D4; border-bottom: 1px solid #D6D4D4;">{{ $requestDetails->address }}</td>
+					<td width="70%" style="color:000; font-size: 14px; font-family: arial; padding:5px;font-weight: 400; border-right: 1px solid #D6D4D4; border-bottom: 1px solid #D6D4D4;"><?php echo $requestDetails->address; ?></td>
 				</tr>
 				<tr>
 					<td width="30%" style="color:000; font-size: 14px; font-family: arial; padding:5px;font-weight: 600; border-right: 1px solid #D6D4D4; border-bottom: 1px solid #D6D4D4;">Country:</td>
-					<td width="70%" style="color:000; font-size: 14px; font-family: arial; padding:5px;font-weight: 400; border-right: 1px solid #D6D4D4; border-bottom: 1px solid #D6D4D4;">{{ $requestDetails->country }}</td>
+					<td width="70%" style="color:000; font-size: 14px; font-family: arial; padding:5px;font-weight: 400; border-right: 1px solid #D6D4D4; border-bottom: 1px solid #D6D4D4;"><?php echo $requestDetails->country; ?></td>
 				</tr>
 				<tr>
 					<td width="30%" style="color:000; font-size: 14px; font-family: arial; padding:5px;font-weight: 600; border-right: 1px solid #D6D4D4; border-bottom: 1px solid #D6D4D4;">City:</td>
-					<td width="70%" style="color:000; font-size: 14px; font-family: arial; padding:5px;font-weight: 400; border-right: 1px solid #D6D4D4; border-bottom: 1px solid #D6D4D4;">{{ $requestDetails->city }}</td>
+					<td width="70%" style="color:000; font-size: 14px; font-family: arial; padding:5px;font-weight: 400; border-right: 1px solid #D6D4D4; border-bottom: 1px solid #D6D4D4;"><?php echo $requestDetails->city; ?></td>
 				</tr>
 				<tr>
+					<td width="30%" style="color:000; font-size: 14px; font-family: arial; padding:5px;font-weight: 600; border-right: 1px solid #D6D4D4; border-bottom: 1px solid #D6D4D4;">Guest 1 Name:</td>
+					<td width="70%" style="color:000; font-size: 14px; font-family: arial; padding:5px;font-weight: 400; border-right: 1px solid #D6D4D4; border-bottom: 1px solid #D6D4D4;"><?php echo $requestDetails->guest_name_1; ?></td>
+				</tr>
+				<tr>
+					<td width="30%" style="color:000; font-size: 14px; font-family: arial; padding:5px;font-weight: 600; border-right: 1px solid #D6D4D4; border-bottom: 1px solid #D6D4D4;">Guest 1 Age:</td>
+					<td width="70%" style="color:000; font-size: 14px; font-family: arial; padding:5px;font-weight: 400; border-right: 1px solid #D6D4D4; border-bottom: 1px solid #D6D4D4;"><?php echo $requestDetails->guest_age_1; ?></td>
+				</tr>
+				<?php if($requestDetails->guest_name_2!=''){ ?>
+				<tr>
+					<td width="30%" style="color:000; font-size: 14px; font-family: arial; padding:5px;font-weight: 600; border-right: 1px solid #D6D4D4; border-bottom: 1px solid #D6D4D4;">Guest 2 Name:</td>
+					<td width="70%" style="color:000; font-size: 14px; font-family: arial; padding:5px;font-weight: 400; border-right: 1px solid #D6D4D4; border-bottom: 1px solid #D6D4D4;"><?php echo $requestDetails->guest_name_2; ?></td>
+				</tr>
+				<tr>
+					<td width="30%" style="color:000; font-size: 14px; font-family: arial; padding:5px;font-weight: 600; border-right: 1px solid #D6D4D4; border-bottom: 1px solid #D6D4D4;">Guest 2 Age:</td>
+					<td width="70%" style="color:000; font-size: 14px; font-family: arial; padding:5px;font-weight: 400; border-right: 1px solid #D6D4D4; border-bottom: 1px solid #D6D4D4;"><?php echo $requestDetails->guest_age_2; ?></td>
+				</tr>
+				<?php } ?>
+				<tr>
 					<td width="30%" style="color:000; font-size: 14px; font-family: arial; padding:5px;font-weight: 600; border-right: 1px solid #D6D4D4; border-bottom: 1px solid #D6D4D4;">Check In Date:</td>
-					<td width="70%" style="color:000; font-size: 14px; font-family: arial; padding:5px;font-weight: 400; border-right: 1px solid #D6D4D4; border-bottom: 1px solid #D6D4D4;">{{ $requestDetails->check_in_date }}</td>
+					<td width="70%" style="color:000; font-size: 14px; font-family: arial; padding:5px;font-weight: 400; border-right: 1px solid #D6D4D4; border-bottom: 1px solid #D6D4D4;"><?php echo date('d M, Y', strtotime($requestDetails->check_in_date)); ?></td>
 				</tr>
 				<tr>
 					<td width="30%" style="color:000; font-size: 14px; font-family: arial; padding:5px;font-weight: 600; border-right: 1px solid #D6D4D4; border-bottom: 1px solid #D6D4D4;">Check Out Date:</td>
-					<td width="70%" style="color:000; font-size: 14px; font-family: arial; padding:5px;font-weight: 400; border-right: 1px solid #D6D4D4; border-bottom: 1px solid #D6D4D4;">{{ $requestDetails->check_out_date }}</td>
+					<td width="70%" style="color:000; font-size: 14px; font-family: arial; padding:5px;font-weight: 400; border-right: 1px solid #D6D4D4; border-bottom: 1px solid #D6D4D4;"><?php echo date('d M, Y', strtotime($requestDetails->check_out_date)); ?></td>
 				</tr>
 			</tbody>
 		</table>
