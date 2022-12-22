@@ -89,9 +89,9 @@
                     <li>
                         <a href="{{ url('/mahakal-lok-darshan') }}">Mahakal Lok Darshan</a>
                     </li>
-                    {{-- <li>
+                    <li>
                         <a href="{{ url('/free-home-stay') }}">Home Stay Registration</a>
-                    </li> --}}
+                    </li>
                     <li>
                         <a href="{{ url('/my-bookings') }}">My Bookings</a>
                     </li>
