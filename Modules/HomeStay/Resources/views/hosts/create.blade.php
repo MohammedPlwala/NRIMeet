@@ -69,6 +69,33 @@ $organization_type = \Session::get('organization_type');
                                     </x-inputs.select>
                                 </div>
                             </div>
+
+                            <div class="row g-3 align-center">
+                                <div class="col-lg-5">
+                                    <x-inputs.verticalFormLabel label="Food Habit" for="food_habit" suggestion="Specify the host Food Habit." required="true" />
+                                </div>
+                                <div class="col-lg-7">
+                                    <x-inputs.text value="{{ isset($host) ? $host->food_habit : '' }}" for="food_habit" class="" icon="map-pin-fill" required="true" placeholder="Location" name="food_habit" />
+                                </div>
+                            </div>
+
+                            <div class="row g-3 align-center">
+                                <div class="col-lg-5">
+                                    <x-inputs.verticalFormLabel label="Vehicle" for="vehicle" suggestion="Specify the host vehicle." required="true" />
+                                </div>
+                                <div class="col-lg-7">
+                                    <x-inputs.text value="{{ isset($host) ? $host->vehicle : '' }}" for="vehicle" class="" icon="map-pin-fill" required="true" placeholder="vehicle" name="vehicle" />
+                                </div>
+                            </div>
+
+                            <div class="row g-3 align-center">
+                                <div class="col-lg-5">
+                                    <x-inputs.verticalFormLabel label="Vehicle number" for="vehicle_number" suggestion="Specify the host vehicle number." required="true" />
+                                </div>
+                                <div class="col-lg-7">
+                                    <x-inputs.text value="{{ isset($host) ? $host->vehicle_number : '' }}" for="vehicle_number" class="" icon="map-pin-fill" required="true" placeholder="vehicle number" name="vehicle_number" />
+                                </div>
+                            </div>
                             
                             <div class="row g-3 align-center">
                                 <div class="col-lg-5">

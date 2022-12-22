@@ -9,6 +9,7 @@ use App\Models\User;
 use Modules\User\Entities\UserRole;
 use Modules\User\Entities\Role;
 use Modules\HomeStay\Entities\Host;
+use DataTables;
 
 class HostController extends Controller
 {
@@ -78,8 +79,8 @@ class HostController extends Controller
                             return $status;
                         })
                         ->addColumn('action', function($row) {
-                               $edit = url('/').'/admin/hotel/edit/'.$row->id;
-                               $delete = url('/').'/admin/hotel/delete/'.$row->id;
+                               $edit = url('/').'/admin/homestay/hosts/edit/'.$row->id;
+                               $delete = url('/').'/admin/homestay/hosts/delete/'.$row->id;
                                $confirm = '"Are you sure, you want to delete it?"';
 
                                 $editBtn = "<li>
@@ -146,7 +147,7 @@ class HostController extends Controller
      */
     public function store(Request $request)
     {
-        // try{
+        try{
 
             if(isset($request->host_id)){
                 $host = Host::findorfail($request->host_id);
@@ -165,6 +166,9 @@ class HostController extends Controller
             $host->map_link = $request->map_link;
             $host->address = $request->address;
             $host->status = $request->status;
+            $host->food_habit = $request->food_habit;
+            $host->vehicle = $request->vehicle;
+            $host->vehicle_number = $request->vehicle_number;
 
            if ($request->hasFile('image_one')) {
                 $file = $request->file('image_one');
@@ -215,41 +219,17 @@ class HostController extends Controller
             }else{
                 return redirect('/admin/homestay/hosts/add')->with('error', 'Something went wrong');
             }
-        // } catch (\Exception $e) {
+        } catch (\Exception $e) {
 
-        //     return redirect()->back()->with('error', $e->getMessage());
+            return redirect()->back()->with('error', $e->getMessage());
 
-        // }
+        }
     }
 
-    /**
-     * Show the specified resource.
-     * @param int $id
-     * @return Renderable
-     */
-    public function show($id)
-    {
-        return view('homestay::show');
-    }
-
-    /**
-     * Update the specified resource in storage.
-     * @param Request $request
-     * @param int $id
-     * @return Renderable
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     * @param int $id
-     * @return Renderable
-     */
-    public function destroy($id)
-    {
-        //
+    public function destroy(Request $request,$id){
+        $host = Host::findorfail($id);
+        if($host->forceDelete()){
+            return redirect('admin/homestay/hosts')->with('message', 'Deleted Successfully');
+        }
     }
 }
