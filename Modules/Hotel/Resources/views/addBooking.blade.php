@@ -270,26 +270,6 @@
             </div>
         </div><!-- .nk-block -->
 
-        <div class="nk-block">
-            @isset($user)
-                <input type="hidden" name="userId" id="userId" value="{{ $user->id }}">
-            @endisset
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="sp-plan-info pt-0 pb-0 card-inner">
-                        <div class="row">
-                            <div class="col-lg-7 text-right offset-lg-5">
-                                <div class="form-group">
-                                    <a href="javascript:history.back()" class="btn btn-outline-light">Cancel</a>
-                                    <x-button type="submit" class="btn btn-primary submitBtnx">Submit</x-button>
-                                </div>
-                            </div>
-                        </div>
-                    </div><!-- .sp-plan-info -->
-                </div><!-- .col -->
-            </div><!-- .row -->
-        </div>
-
         {{-- Documents --}}
         <div class="nk-block">
             <div class="card card-bordered sp-plan">
@@ -326,6 +306,26 @@
                 </div>
             </div>
         </div><!-- .nk-block -->
+
+        <div class="nk-block">
+            @isset($user)
+                <input type="hidden" name="userId" id="userId" value="{{ $user->id }}">
+            @endisset
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="sp-plan-info pt-0 pb-0 card-inner">
+                        <div class="row">
+                            <div class="col-lg-7 text-right offset-lg-5">
+                                <div class="form-group">
+                                    <a href="javascript:history.back()" class="btn btn-outline-light">Cancel</a>
+                                    <x-button type="submit" class="btn btn-primary submitBtnx">Submit</x-button>
+                                </div>
+                            </div>
+                        </div>
+                    </div><!-- .sp-plan-info -->
+                </div><!-- .col -->
+            </div><!-- .row -->
+        </div>
     </form>
 
     <input type="hidden" name="role_type" id="role_type" value="{{ \Config::get('constants.ROLES.BUYER') }}">

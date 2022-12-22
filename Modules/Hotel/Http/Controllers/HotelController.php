@@ -227,7 +227,7 @@ class HotelController extends Controller
 
             return view('hotel::index', ['classifications' => $classifications, 'room_types' => $room_types, 'hotels' => $hotels])->with(compact('hotelsCount'));
         } catch (\Exception $e) {
-            echo $e->getMessage(); die;
+
             return redirect()->back()->with('error', $e->getMessage());
 
         }
