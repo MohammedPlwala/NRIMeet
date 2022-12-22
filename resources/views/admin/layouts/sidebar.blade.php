@@ -64,6 +64,21 @@ $rolePermissions = \Session::get('rolePermissions');
                     </li>
                     @endif
 
+                    <li class="nk-menu-item has-sub">
+                        <a href="#" class="nk-menu-link nk-menu-toggle">
+                            <span class="nk-menu-icon"><em class="icon ni ni-calender-date"></em></span>
+                            <span class="nk-menu-text">Home Stay</span>
+                        </a>
+                        <ul class="nk-menu-sub">
+                            <li class="nk-menu-item">
+                                <a href="{{url('/admin/homestay/requests')}}" class="nk-menu-link"><span class="nk-menu-text">Delegate Request</span></a>
+                            </li>
+                            <li class="nk-menu-item">
+                                <a href="{{url('/admin/homestay/hosts')}}" class="nk-menu-link"><span class="nk-menu-text">Hosts</span></a>
+                            </li>
+                        </ul>
+                    </li>
+
                     @if(!empty($rolePermissions) && in_array('User Management', $rolePermissions))
                     <li class="nk-menu-item has-sub">
                         <a href="#" class="nk-menu-link nk-menu-toggle">

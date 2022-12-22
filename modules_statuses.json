@@ -4,5 +4,6 @@
     "Frontend": true,
     "Hotel": true,
     "User": true,
-    "Report": true
+    "Report": true,
+    "HomeStay": true
 }
