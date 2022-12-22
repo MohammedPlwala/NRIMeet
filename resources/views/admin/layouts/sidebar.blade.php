@@ -58,11 +58,29 @@ $rolePermissions = \Session::get('rolePermissions');
                                 <a href="{{url('/admin/bulk-bookings')}}" class="nk-menu-link"><span class="nk-menu-text">Bulk Booking</span></a>
                             </li>
                             <li class="nk-menu-item">
+                                <a href="{{url('admin/report/bulk-booking-rooms')}}" class="nk-menu-link"><span class="nk-menu-text">Bulk Booking Rooms</span></a>
+                            </li>
+                            <li class="nk-menu-item">
                                 <a href="{{url('/admin/available-inventory')}}" class="nk-menu-link"><span class="nk-menu-text">Update Inventory</span></a>
                             </li>
                         </ul>
                     </li>
                     @endif
+
+                    <li class="nk-menu-item has-sub">
+                        <a href="#" class="nk-menu-link nk-menu-toggle">
+                            <span class="nk-menu-icon"><em class="icon ni ni-calender-date"></em></span>
+                            <span class="nk-menu-text">Home Stay</span>
+                        </a>
+                        <ul class="nk-menu-sub">
+                            <li class="nk-menu-item">
+                                <a href="{{url('/admin/homestay/requests')}}" class="nk-menu-link"><span class="nk-menu-text">Delegate Request</span></a>
+                            </li>
+                            <li class="nk-menu-item">
+                                <a href="{{url('/admin/homestay/hosts')}}" class="nk-menu-link"><span class="nk-menu-text">Hosts</span></a>
+                            </li>
+                        </ul>
+                    </li>
 
                     @if(!empty($rolePermissions) && in_array('User Management', $rolePermissions))
                     <li class="nk-menu-item has-sub">
@@ -132,9 +150,7 @@ $rolePermissions = \Session::get('rolePermissions');
                             <li class="nk-menu-item">
                                 <a href="{{url('admin/report/combined')}}" class="nk-menu-link"><span class="nk-menu-text">Combined</span></a>
                             </li>
-                            <li class="nk-menu-item">
-                                <a href="{{url('admin/report/bulk-booking-rooms')}}" class="nk-menu-link"><span class="nk-menu-text">Bulk Booking Rooms</span></a>
-                            </li>
+                            
                             <li class="nk-menu-item">
                                 <a href="{{url('admin/report/pending-confirmation')}}" class="nk-menu-link"><span class="nk-menu-text">Pending Confirmation</span></a>
                             </li>

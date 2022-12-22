@@ -1,21 +1,21 @@
 <?php
 
-namespace Modules\Blog\Providers;
+namespace Modules\HomeStay\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Factory;
 
-class BlogServiceProvider extends ServiceProvider
+class HomeStayServiceProvider extends ServiceProvider
 {
     /**
      * @var string $moduleName
      */
-    protected $moduleName = 'Blog';
+    protected $moduleName = 'HomeStay';
 
     /**
      * @var string $moduleNameLower
      */
-    protected $moduleNameLower = 'blog';
+    protected $moduleNameLower = 'homestay';
 
     /**
      * Boot the application events.

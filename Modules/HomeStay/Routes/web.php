@@ -11,6 +11,7 @@
 |
 */
 
-Route::prefix('blog')->group(function() {
-    Route::get('/', 'BlogController@index');
+Route::prefix('admin/homestay')->group(function() {
+    Route::get('/requests', 'HomeStayController@index');
+    Route::get('/hosts', 'HomeStayController@index');
 });

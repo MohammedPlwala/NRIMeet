@@ -4,8 +4,8 @@
     <div class="nk-block-head nk-block-head-sm">
         <div class="nk-block-between">
             <div class="nk-block-head-content">
-                <h3 class="nk-block-title page-title">Bookings</h3>
-                <p>You have total <span class="record_count">{{ '0' }}</span> Bookings.</p>
+                <h3 class="nk-block-title page-title">Free Home Stay</h3>
+                <p>You have total <span class="record_count">{{ '0' }}</span> Requests.</p>
             </div><!-- .nk-block-head-content -->
             <div class="nk-block-head-content">
                 <div class="toggle-wrap nk-block-tools-toggle">
@@ -18,10 +18,6 @@
                                     title="filter" data-target="#modalFilterUser">
                                     <em class="icon ni ni-filter"></em><span>Filter</span>
                                 </a>
-                            </li>
-
-                           <li class="nk-block-tools-opt">
-                                <a href="{{url('/admin/bookings/add')}}" class="btn btn-primary d-none d-md-inline-flex"><em class="icon ni ni-plus"></em><span>Add Bookings</span></a>
                             </li>
                         </ul>
                     </div>
@@ -37,18 +33,13 @@
             <table class="broadcast-init nowrap nk-tb-list is-separate" data-auto-responsive="false">
                 <thead>
                     <tr class="nk-tb-item nk-tb-head">
-                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Booked On</span></th>
-                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Order #</span></th>
-                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Confirmation #</span></th>
-                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Logged In Guest</span></th>
-                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Room Guests</span></th>
-                        <th class="nk-tb-col tb-col-md"><span class="sub-text">Hotel</span></th>
-                        <th class="nk-tb-col tb-col-md"><span class="sub-text">Room Type</span></th>
-                        <th class="nk-tb-col tb-col-md"><span class="sub-text">Rooms</span></th>
-                        <th class="nk-tb-col tb-col-md"><span class="sub-text">Checkin Date</span></th>
-                        <th class="nk-tb-col tb-col-md"><span class="sub-text">Checkout Date</span></th>
-                        <th class="nk-tb-col tb-col-md"><span class="sub-text">Amount</span></th>
-                        <th class="nk-tb-col tb-col-md"><span class="sub-text">Booking Type</span></th>
+                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Name</span></th>
+                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Email</span></th>
+                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Mobile</span></th>
+                        <th class="nk-tb-col tb-col-md"><span class="sub-text">Address</span></th>
+                        <th class="nk-tb-col tb-col-md"><span class="sub-text">Country</span></th>
+                        <th class="nk-tb-col tb-col-md"><span class="sub-text">Check In Date</span></th>
+                        <th class="nk-tb-col tb-col-md"><span class="sub-text">Check Out Date</span></th>
                         <th class="nk-tb-col tb-col-md w-1 text-center" nowrap="true"><span class="sub-text">Status</span>
                         </th>
                         <th class="nk-tb-col nk-tb-col-tools text-right w-1" nowrap="true">
@@ -76,77 +67,86 @@
                             <div class="gy-3">
                                 <div class="row g-3 align-center">
                                     <div class="col-lg-5">
-                                        <x-inputs.verticalFormLabel label="Hotel Name" for="hotelName"
-                                            suggestion="" />
+                                        <x-inputs.verticalFormLabel label="Hotel Name" for="hotel_name" suggestion="Select the hotel name." />
                                     </div>
                                     <div class="col-lg-7">
-                                            <x-inputs.select  size="sm" name="hotel_name" for="hotel_name" placeholder="Select Hotel Name">
-                                                <option value="">Select</option>
-                                                @forelse ($hotels as $hotel)
-                                                    <option value="{{ $hotel->name }}">{{ $hotel->name }}</option>
-                                                @empty
-                                                    {{-- empty expr --}}
-                                                @endforelse
-                                            </x-inputs.select>
-                                    </div>
-                                </div>
-                                <div class="row g-3 align-center">
-                                    <div class="col-lg-5">
-                                        <x-inputs.verticalFormLabel label="Check in Date" for="check_in_date" suggestion="Select the check in date." />
-                                    </div>
-                                    <div class="col-lg-7">
-                                        <div class="form-control-wrap">
-                                            <div class="form-icon form-icon-left">
-                                                <em class="icon ni ni-calendar"></em>
-                                            </div>
-                                            <input type="text" class="form-control date-picker" id="check_in_date" name="check_in_date" placeholder="Check in Date" data-date-format="yyyy-mm-dd">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row g-3 align-center">
-                                    <div class="col-lg-5">
-                                        <x-inputs.verticalFormLabel label="Check out Date" for="check_out_date" suggestion="Select the check out date." />
-                                    </div>
-                                    <div class="col-lg-7">
-                                        <div class="form-control-wrap">
-                                            <div class="form-icon form-icon-left">
-                                                <em class="icon ni ni-calendar"></em>
-                                            </div>
-                                            <input type="text" class="form-control date-picker" id="check_out_date" name="check_out_date" placeholder="Check out Date" data-date-format="yyyy-mm-dd">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row g-3 align-center">
-                                    <div class="col-lg-5">
-                                        <x-inputs.verticalFormLabel label="Booking Type" for="booking_type"
-                                            suggestion="" />
-                                    </div>
-                                    <div class="col-lg-7">
-                                        <x-inputs.select value="" for="booking_type" icon="user" placeholder="Booking Type"
-                                            name="booking_type" >
-                                            <option value="">Select Type</option>
-                                            <option value="Online">Online</option>
-                                            <option value="Offline">Offline</option>
+                                        <x-inputs.select  size="sm" name="hotel_name" for="hotel_name" placeholder="Select Hotel Name">
+                                            <option value="">Select</option>
+                                            @forelse ($hotels as $hotel)
+                                                <option value="{{ $hotel->name }}">{{ $hotel->name }}</option>
+                                            @empty
+                                                {{-- empty expr --}}
+                                            @endforelse
                                         </x-inputs.select>
                                     </div>
                                 </div>
                                 <div class="row g-3 align-center">
                                     <div class="col-lg-5">
-                                        <x-inputs.verticalFormLabel label="Booking Status" for="booking_status" suggestion="Select the booking status." />
+                                        <x-inputs.verticalFormLabel label="Hotel City" for="hotel_city" suggestion="Select the hotel city." />
                                     </div>
                                     <div class="col-lg-7">
-                                        <x-inputs.select  size="sm" name="booking_status" for="booking_status" placeholder="Select Booking Status">
+                                        <x-inputs.select  size="sm" name="hotel_city" for="hotel_city" placeholder="Select Hotel City">
                                             <option value="">Select</option>
-                                            <option value="Booking Received">Booking Received</option>
-                                            <option value="Payment Completed">Payment Completed</option>
-                                            <option value="Booking Shared">Booking Shared</option>
-                                            <option value="Confirmation Recevied">Confirmation Recevied</option>
-                                            <option value="Cancellation Requested">Cancellation Requested</option>
-                                            <option value="Cancellation Approved">Cancellation Approved</option>
-                                            <option value="Refund Requested">Refund Requested</option>
-                                            <option value="Refund Approved">Refund Approved</option>
-                                            <option value="Refund Issued">Refund Issued</option>
-                                            <option value="Void">Void</option>
+                                            <option value="Indore">Indore</option>
+                                            <option value="Ujjain">Ujjain</option>
+                                        </x-inputs.select>
+                                    </div>
+                                </div>
+                                <div class="row g-3 align-center">
+                                    <div class="col-lg-5">
+                                        <x-inputs.verticalFormLabel label="Classification" for="star_rating" suggestion="Select the classification." />
+                                    </div>
+                                    <div class="col-lg-7">
+                                        <x-inputs.select  size="sm" name="star_rating" for="star_rating" placeholder="Select Classification" id="star_rating">
+                                            <option value="">Select</option>
+                                            @forelse ($classifications as $classification)
+                                                <option value="{{ $classification->classification }}">{{ $classification->classification }}</option>
+                                            @empty
+                                                {{-- empty expr --}}
+                                            @endforelse
+                                        </x-inputs.select>
+                                    </div>
+                                </div>
+                                <div class="row g-3 align-center">
+                                    <div class="col-lg-5">
+                                        <x-inputs.verticalFormLabel label="Distance From Airport" for="distance_from_airport" suggestion="Select the distance from airport." />
+                                    </div>
+                                    <div class="col-lg-7">
+                                        <x-inputs.select  size="sm" name="distance_from_airport" for="distance_from_airport" placeholder="Select Distance From Airport" id="distance_from_airport">
+                                            <option value="">Select</option>
+                                            <option value="5">Under 5 km</option>
+                                            <option value="10">Under 10 km</option>
+                                            <option value="15">Under 15 km</option>
+                                            <option value="25">Under 25 km</option>
+                                            <option value="2000">Above 25 km</option>
+                                        </x-inputs.select>
+                                    </div>
+                                </div>
+                                <div class="row g-3 align-center">
+                                    <div class="col-lg-5">
+                                        <x-inputs.verticalFormLabel label="Distance From Venue" for="distance_from_venue" suggestion="Select the distance from venue." />
+                                    </div>
+                                    <div class="col-lg-7">
+                                        <x-inputs.select  size="sm" name="distance_from_venue" for="distance_from_venue" placeholder="Select Distance From Venue" id="distance_from_venue">
+                                            <option value="">Select</option>
+                                            <option value="5">Under 5 km</option>
+                                            <option value="10">Under 10 km</option>
+                                            <option value="15">Under 15 km</option>
+                                            <option value="25">Under 25 km</option>
+                                            <option value="2000">Above 25 km</option>
+                                        </x-inputs.select>
+                                    </div>
+                                </div>
+                                <div class="row g-3 align-center">
+                                    <div class="col-lg-5">
+                                        <x-inputs.verticalFormLabel label="Status" for="status" suggestion="Select the status." />
+                                    </div>
+                                    <div class="col-lg-7">
+                                        <x-inputs.select  size="sm" name="status" for="status" placeholder="Select Status">
+                                            <option value="">Select</option>
+                                            <option value="active">Active</option>
+                                            <option value="inactive">Inactive</option>
+                                            {{-- <option value="Out of stock">Out of stock</option> --}}
                                         </x-inputs.select>
                                     </div>
                                 </div>
@@ -181,10 +181,11 @@
 
             var items = [
                 '#hotel_name',
-                '#check_in_date',
-                '#check_out_date',
-                '#booking_type',
-                '#booking_status'
+                '#hotel_city',
+                '#star_rating',
+                '#distance_from_airport',
+                '#distance_from_venue',
+                '#status'
             ];
             var user_table = "";
             user_table = new CustomDataTable({
@@ -195,69 +196,43 @@
                     ordering: false,
                     ajax: {
                         type: "GET",
-                        url: "{{ url('admin/bookings') }}",
+                        url: "{{ url('admin/hotel') }}",
                     },
                     columns: [
                         {
                             "class": "nk-tb-col tb-col-lg",
-                            data: 'booked_on',
-                            name: 'booked_on'
+                            data: 'name',
+                            name: 'name'
                         },
                         {
                             "class": "nk-tb-col tb-col-lg",
-                            data: 'order_id',
-                            name: 'order_id'
-                        },
-                        {
-                            "class": "nk-tb-col tb-col-lg",
-                            data: 'confirmation_number',
-                            name: 'confirmation_number'
-                        },
-                        {
-                            "class": "nk-tb-col tb-col-lg",
-                            data: 'guest',
-                            name: 'guest'
-                        },
-                        {
-                            "class": "nk-tb-col tb-col-lg",
-                            data: 'room_guests',
-                            name: 'room_guests'
-                        },
-
-                        {
-                            "class": "nk-tb-col tb-col-lg",
-                            data: 'hotel',
-                            name: 'hotel'
+                            data: 'city',
+                            name: 'city'
                         },
                         {
                             "class": "nk-tb-col tb-col-lg text-center",
-                            data: 'rooms',
-                            name: 'rooms'
-                        },
-                        {
-                            "class": "nk-tb-col tb-col-lg",
-                            data: 'checkin_date',
-                            name: 'checkin_date'
-                        },
-                        {
-                            "class": "nk-tb-col tb-col-lg",
-                            data: 'checkout_date',
-                            name: 'checkout_date'
-                        },
-                        {
-                            "class": "nk-tb-col tb-col-lg text-right",
-                            data: 'amount',
-                            name: 'amount'
+                            data: 'classification',
+                            name: 'classification'
                         },
                         {
                             "class": "nk-tb-col tb-col-lg text-center",
-                            data: 'booking_type',
-                            name: 'booking_type',
+                            data: 'contact_number',
+                            name: 'contact_number'
                         },
                         {
                             "class": "nk-tb-col tb-col-lg text-center",
-                            data: 'booking_status',
-                            name: 'booking_status'
+                            data: 'airport_distance',
+                            name: 'airport_distance'
+                        },
+                        {
+                            "class": "nk-tb-col tb-col-lg text-center",
+                            data: 'venue_distance',
+                            name: 'venue_distance'
+                        },
+                        {
+                            "class": "nk-tb-col tb-col-lg text-center",
+                            data: 'status',
+                            name: 'status'
                         },
                         {
                             "class": "nk-tb-col tb-col-lg text-right",

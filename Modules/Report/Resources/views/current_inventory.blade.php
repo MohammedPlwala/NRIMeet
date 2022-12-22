@@ -3,7 +3,7 @@
 <div class="nk-block-head nk-block-head-sm">
     <div class="nk-block-between">
         <div class="nk-block-head-content">
-            <h3 class="nk-block-title page-title">Booking Inventory</h3>
+            <h3 class="nk-block-title page-title">Current Inventory</h3>
         </div><!-- .nk-block-head-content -->
         <div class="nk-block-head-content">
             <div class="toggle-wrap nk-block-tools-toggle">
@@ -16,7 +16,7 @@
                             </a>
                         </li>
                         <li class="nk-block-tools-opt">
-                            <a  href="javascript::void(0)" data-href="{{ url('admin/report/booking-inventory?type=export') }}" class="btn btn-primary export_data"><em class="icon ni ni-download"></em><span>Export</span></a>
+                            <a  href="javascript::void(0)" data-href="{{ url('admin/report/current-inventory?type=export') }}" class="btn btn-primary export_data"><em class="icon ni ni-download"></em><span>Export</span></a>
                         </li>
                     </ul>
                 </div>
@@ -33,9 +33,9 @@
                 <thead>
                     <tr class="nk-tb-item nk-tb-head">
                         <th class="nk-tb-col tb-col-mb text-left"><span class="sub-text">Hotel Name</span></th>
-                        <th class="nk-tb-col tb-col-mb text-left"><span class="sub-text">Classification</span></th>
+                        
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Room Type</span></th>
-                        <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Total Alloted <br/>Inventory</span></th>
+                        <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Alloted Rooms</span></th>
                         <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">MPT Reserve</span></th>
                         <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">06 JAN</span></th>
                         <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">07 JAN</span></th>
@@ -51,18 +51,17 @@
                     @forelse($rooms as $key => $room)
                     <tr class="nk-tb-item">
                         <td class="nk-tb-col tb-col-lg">{{ $room->name }} </td>
-                        <td class="nk-tb-col tb-col-lg">{{ $room->classification }} </td>
                         <td class="nk-tb-col tb-col-lg">{{ $room->room_type_name }} </td>
-                        <td class="nk-tb-col tb-col-lg">{{ $room->allocated_rooms }} </td>
-                        <td class="nk-tb-col tb-col-lg">{{ $room->mpt_reserve }} </td>
-                        <td class="nk-tb-col tb-col-lg">{{ $room->six }} </td>
-                        <td class="nk-tb-col tb-col-lg">{{ $room->seven }} </td>
-                        <td class="nk-tb-col tb-col-lg">{{ $room->eight }} </td>
-                        <td class="nk-tb-col tb-col-lg">{{ $room->nine }} </td>
-                        <td class="nk-tb-col tb-col-lg">{{ $room->ten }} </td>
-                        <td class="nk-tb-col tb-col-lg">{{ $room->eleven }} </td>
-                        <td class="nk-tb-col tb-col-lg">{{ $room->twelve }} </td>
-                        <td class="nk-tb-col tb-col-lg">{{ $room->thirteen }} </td>
+                        <td class="nk-tb-col tb-col-lg text-center">{{ $room->allocated_rooms }} </td>
+                        <td class="nk-tb-col tb-col-lg text-center">{{ $room->mpt_reserve }} </td>
+                        <td class="nk-tb-col tb-col-lg text-center">{{ $room->six }} </td>
+                        <td class="nk-tb-col tb-col-lg text-center">{{ $room->seven }} </td>
+                        <td class="nk-tb-col tb-col-lg text-center">{{ $room->eight }} </td>
+                        <td class="nk-tb-col tb-col-lg text-center">{{ $room->nine }} </td>
+                        <td class="nk-tb-col tb-col-lg text-center">{{ $room->ten }} </td>
+                        <td class="nk-tb-col tb-col-lg text-center">{{ $room->eleven }} </td>
+                        <td class="nk-tb-col tb-col-lg text-center">{{ $room->twelve }} </td>
+                        <td class="nk-tb-col tb-col-lg text-center">{{ $room->thirteen }} </td>
                     </tr>
                     @empty
                     @endforelse
@@ -106,21 +105,6 @@
                         </div>
                         <div class="row g-3 align-center">
                             <div class="col-lg-5">
-                                <x-inputs.verticalFormLabel label="Classification" for="star_rating" suggestion="Select the classification." />
-                            </div>
-                            <div class="col-lg-7">
-                                <x-inputs.select  size="sm" name="star_rating" for="star_rating" placeholder="Select Classification" id="star_rating">
-                                    <option value="">Select</option>
-                                    @forelse ($classifications as $classification)
-                                        <option value="{{ $classification->classification }}">{{ $classification->classification }}</option>
-                                    @empty
-                                        {{-- empty expr --}}
-                                    @endforelse
-                                </x-inputs.select>
-                            </div>
-                        </div>
-                        <div class="row g-3 align-center">
-                            <div class="col-lg-5">
                                 <x-inputs.verticalFormLabel label="Room Type" for="room_type" suggestion="Select the room type." />
                             </div>
                             <div class="col-lg-7">
@@ -143,7 +127,7 @@
                         <div class="col-lg-12 p-0 text-right">
                             <button class="btn btn-outline-light" data-dismiss="modal" aria-label="Close">Cancel</button>
                             <button class="btn btn-danger resetFilter" data-dismiss="modal" aria-label="Close">Clear Filter</button>
-                            <button data-href="{{ url('admin/report/booking-inventory') }}" class="btn btn-primary submitBtn" type="button">Submit</button>
+                            <button data-href="{{ url('admin/report/current-inventory') }}" class="btn btn-primary submitBtn" type="button">Submit</button>
                         </div>
                     </div>
                 </div>
@@ -169,9 +153,6 @@
 
             if($('#hotel_name').val() != ""){
                 myUrl = addQSParm(myUrl,'hotel_name', $('#hotel_name').val());
-            }
-            if($('#star_rating').val() != ""){
-                myUrl = addQSParm(myUrl,'star_rating', $('#star_rating').val());
             }
             if($('#room_type').val() != ""){
                 myUrl = addQSParm(myUrl,'room_type', $('#room_type').val());

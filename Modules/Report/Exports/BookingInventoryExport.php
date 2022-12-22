@@ -36,7 +36,6 @@ class BookingInventoryExport implements FromArray, WithHeadings, ShouldAutoSize,
     {
         return [
             'Hotel Name',
-            'Classification',
             'Room Type',
             'Total Alloted',
             'MPT Reserved',
