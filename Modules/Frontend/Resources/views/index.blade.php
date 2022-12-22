@@ -7,9 +7,8 @@
         <img src="{{ url('images/mobile-slider-2_new.png') }}" alt="mobile-slider-2" class="d-hide" />
 
         <!-- <img src="{{ url('images/big-booking-closing-very-soon.gif') }}" alt="Booking Closing Very Soon" class="very-soon-gif m-hide" /> -->
-        <div class="banner-book-now">
-            <p>MP Government Offers FREE Home Stay</p>
-            <a href="{{ url('/search') }}" class="primary-button sm">Book Now</a>
+        <div class="banner-book-now" style="background-color:#ffff00">
+            <p>MP Government Offers FREE Home Stay <a href="{{ url('/free-home-stay') }}" class="primary-button">Book Now</a></p>
         </div>
     </div>
     <div class="booking-form-wrap booking-form-wrap-home desktop">

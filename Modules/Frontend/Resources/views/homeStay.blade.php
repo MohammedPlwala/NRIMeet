@@ -24,15 +24,18 @@
         </div>
         @endif
 
-        @if ($registered)
+        @if ($registered == 1)
         <div class="alert alert-info alert-block">
             {{-- <button type="button" class="close" data-dismiss="alert">×</button>     --}}
             <strong>You have successfully registered for Free Home Stay.</strong>
         </div>
-        @else
-        
 
-        
+        @elseif ($soldOut == 1)
+        <div class="alert alert-info alert-block">
+            {{-- <button type="button" class="close" data-dismiss="alert">×</button>     --}}
+            <strong>Sorry, request for registrations are closed for now. Please check later. </strong>
+        </div>
+        @else
         <div class="custom-form">
           {!! NoCaptcha::renderJs() !!}
           <form action="{{url('/home-stay-registration')}}" method="post" enctype="multipart/form-data" autocomplete="off" data-parsley-validate="">
@@ -70,18 +73,18 @@
                 <input type="text" name="city" value="" size="40" placeholder="City" required />
               </div>
               <div class="form-item large">
-                <label class="form-label">Adult 1 <span class="required" title="required">*</span></label>
+                <label class="form-label">Adult & Age 1 <span class="required" title="required">*</span></label>
                 <div class="row g-3 align-center">
                 <div class="col-lg-6">
-                    <input type="text" name="adult_name_1" value="" size="40" placeholder="Name" required />
+                    <input type="text" name="adult_name_1" value="" size="40" placeholder="Name*" required />
                 </div>
                 <div class="col-lg-6">
-                    <input type="number" name="adult_age_1" value="" size="40" placeholder="Age" required />
+                    <input type="number" name="adult_age_1" value="" size="40" placeholder="Age*" required />
                 </div>
               </div>
               </div>
               <div class="form-item large">
-                <label class="form-label">Adult 2 </label>
+                <label class="form-label">Adult & Age 2 </label>
                 <div class="row g-3 align-center">
                     <div class="col-lg-6">
                         <input type="text" name="adult_name_2" value="" size="40" placeholder="Name" />
