@@ -227,7 +227,7 @@ class HotelController extends Controller
 
             return view('hotel::index', ['classifications' => $classifications, 'room_types' => $room_types, 'hotels' => $hotels])->with(compact('hotelsCount'));
         } catch (\Exception $e) {
-
+            echo $e->getMessage(); die;
             return redirect()->back()->with('error', $e->getMessage());
 
         }
@@ -546,7 +546,7 @@ class HotelController extends Controller
 
         $data = Booking::from('bookings as b')
                             ->select('h.name as hotel','b.*','u.full_name as guest',
-                                \DB::Raw('COALESCE((select count(booking_rooms.id) from booking_rooms where booking_rooms.booking_id = b.id ),0) as rooms'),
+                                \DB::Raw('COALESCE((select count(booking_rooms.id) from booking_rooms where booking_rooms.booking_id = b.id ),0) as rooms')
                             )
                             ->leftJoin('hotels as h','h.id','=','b.hotel_id')
                             ->leftJoin('users as u','u.id','=','b.user_id')
@@ -606,6 +606,28 @@ class HotelController extends Controller
                             $confirmation_number = $row->confirmation_number;
                         }
                         return $confirmation_number;
+                    })
+                    ->addColumn('room_guests', function ($row) {
+                        $booking_rooms =    BookingRoom::select('guest_one_name','guest_two_name','guest_three_name','child_name')->where('booking_id',$row->id)->get();
+                        $guestName = array();
+                        if(!empty($booking_rooms->toArray())){
+                            foreach ($booking_rooms as $key => $booking_room) {
+                                if(!is_null($booking_room->guest_one_name) && $booking_room->guest_one_name !=''){
+                                    $guestName[] = $booking_room->guest_one_name;
+                                }
+                                if(!is_null($booking_room->guest_two_name) && $booking_room->guest_two_name !=''){
+                                    $guestName[] = $booking_room->guest_two_name;
+                                }
+                                if(!is_null($booking_room->guest_three_name) && $booking_room->guest_three_name !=''){
+                                    $guestName[] = $booking_room->guest_three_name;
+                                }
+                                if(!is_null($booking_room->child_name) && $booking_room->child_name !=''){
+                                    $guestName[] = $booking_room->child_name;
+                                }
+                            }
+                        }
+                        $guestName = implode('<br>', $guestName);
+                        return $guestName;
                     })
                     ->addColumn('amount', function ($row) {
                         return '₹'.number_format($row->amount, 2);
@@ -703,7 +725,7 @@ class HotelController extends Controller
                                     </ul>";
                         return $btn;
                     })
-                    ->rawColumns(['action','status','order_id', 'booking_type','booking_status','confirmation_number'])
+                    ->rawColumns(['action','status','order_id', 'booking_type','booking_status','confirmation_number','room_guests'])
                     ->make(true);
         }
 

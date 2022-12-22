@@ -58,6 +58,9 @@ $rolePermissions = \Session::get('rolePermissions');
                                 <a href="{{url('/admin/bulk-bookings')}}" class="nk-menu-link"><span class="nk-menu-text">Bulk Booking</span></a>
                             </li>
                             <li class="nk-menu-item">
+                                <a href="{{url('admin/report/bulk-booking-rooms')}}" class="nk-menu-link"><span class="nk-menu-text">Bulk Booking Rooms</span></a>
+                            </li>
+                            <li class="nk-menu-item">
                                 <a href="{{url('/admin/available-inventory')}}" class="nk-menu-link"><span class="nk-menu-text">Update Inventory</span></a>
                             </li>
                         </ul>
@@ -147,9 +150,7 @@ $rolePermissions = \Session::get('rolePermissions');
                             <li class="nk-menu-item">
                                 <a href="{{url('admin/report/combined')}}" class="nk-menu-link"><span class="nk-menu-text">Combined</span></a>
                             </li>
-                            <li class="nk-menu-item">
-                                <a href="{{url('admin/report/bulk-booking-rooms')}}" class="nk-menu-link"><span class="nk-menu-text">Bulk Booking Rooms</span></a>
-                            </li>
+                            
                             <li class="nk-menu-item">
                                 <a href="{{url('admin/report/pending-confirmation')}}" class="nk-menu-link"><span class="nk-menu-text">Pending Confirmation</span></a>
                             </li>

@@ -2472,7 +2472,7 @@ class ReportController extends Controller
         try{
             
             $rooms =   Hotel::from('hotels as h')
-                        ->select('h.name','h.classification','hr.allocated_rooms', 'hr.mpt_reserve' ,'rt.name as room_type_name','hr.id as room_id'
+                        ->select('h.name','hr.allocated_rooms', 'hr.mpt_reserve' ,'rt.name as room_type_name','hr.id as room_id'
                         )
                         ->join('hotel_rooms as hr','hr.hotel_id','=','h.id')
                         ->leftJoin('room_types as rt','rt.id','=','hr.type_id')
@@ -2542,6 +2542,42 @@ class ReportController extends Controller
 
                     }
                 }
+
+
+                $bulkBookings = BulkBookingRoom::from('bulk_booking_rooms as bbr')
+                            ->select('bbr.room_id as booking_room_id','bb.checkin_date as check_in_date','bb.checkout_date as check_out_date')
+                            ->leftJoin('bulk_bookings as bb','bbr.bulk_booking_id','=','bb.id')
+                            ->where('bbr.room_id',$room->room_id)
+                            ->get();
+
+ 
+
+                if(!empty($bulkBookings->toArray())){
+                    foreach ($bulkBookings as $bkey => $bulkbooking) {
+                        $checkInDate = date('d',strtotime($bulkbooking->check_in_date));
+                        $checkOutDate = date('d',strtotime($bulkbooking->check_out_date));
+
+                        if(isset($dateData[$checkInDate])){
+                            $dateData[$checkInDate] = $dateData[$checkInDate]+1;
+                        }
+                        
+                        $daysDiff = $checkOutDate-$checkInDate;
+                        for ($i=1; $i <=$daysDiff ; $i++) {
+
+                            $dateKey = $checkInDate+$i;
+                            $dateKey = sprintf("%02d", $dateKey);
+
+                            if(isset($dateData[$dateKey])){
+                                $dateData[$dateKey] = $dateData[$dateKey]+1;
+                            }    
+                        }
+
+                        if(isset($dateData[$checkOutDate])){
+                            $dateData[$checkOutDate] = $dateData[$checkOutDate]-1;
+                        }
+                    }
+                }
+
                 $room['six'] = (string)$dateData['06'];
                 $room['seven'] = (string)$dateData['07'];
                 $room['eight'] = (string)$dateData['08'];
@@ -2560,19 +2596,19 @@ class ReportController extends Controller
                       unset($a['room_id']); 
                     });
 
-                    return (new BookingInventoryExport($rooms))->download('booking-inventory' . '.xlsx', \Maatwebsite\Excel\Excel::XLSX);
+                    return (new BookingInventoryExport($rooms))->download('current-inventory' . '.xlsx', \Maatwebsite\Excel\Excel::XLSX);
                 }else{
-                    return redirect('admin/report/booking-inventory')->with('error', 'No data');
+                    return redirect('admin/report/current-inventory')->with('error', 'No data');
                 }
             }else{
                 $classifications = \Helpers::hotelClassifications();
                 $hotels = \Helpers::hotels();
                 $room_types = \Helpers::roomTypes();
-                return view('report::booking_inventory', ['rooms' => $rooms, 'request' => $request,'classifications' => $classifications, 'hotels' => $hotels, 'room_types' => $room_types]);
+                return view('report::current_inventory', ['rooms' => $rooms, 'request' => $request, 'hotels' => $hotels, 'room_types' => $room_types]);
             }
 
         } catch (\Exception $e) {
-            return redirect('admin/report/booking-inventory')->back()->with('error', $e->getMessage());
+            return redirect('admin/report/current-inventory')->back()->with('error', $e->getMessage());
 
         }
     }

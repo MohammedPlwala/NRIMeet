@@ -40,7 +40,8 @@
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Booked On</span></th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Order #</span></th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Confirmation #</span></th>
-                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Guest</span></th>
+                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Logged In Guest</span></th>
+                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Room Guests</span></th>
                         <th class="nk-tb-col tb-col-md"><span class="sub-text">Hotel</span></th>
                         <th class="nk-tb-col tb-col-md"><span class="sub-text">Rooms</span></th>
                         <th class="nk-tb-col tb-col-md"><span class="sub-text">Checkin Date</span></th>
@@ -215,6 +216,11 @@
                             "class": "nk-tb-col tb-col-lg",
                             data: 'guest',
                             name: 'guest'
+                        },
+                        {
+                            "class": "nk-tb-col tb-col-lg",
+                            data: 'room_guests',
+                            name: 'room_guests'
                         },
 
                         {
