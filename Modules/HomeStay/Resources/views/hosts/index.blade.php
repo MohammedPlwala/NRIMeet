@@ -39,11 +39,11 @@
                 <thead>
                     <tr class="nk-tb-item nk-tb-head">
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Name</span></th>
-                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">City</span></th>
-                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Classification</span></th>
-                        <th class="nk-tb-col tb-col-md"><span class="sub-text">Contact Number</span></th>
-                        <th class="nk-tb-col tb-col-md"><span class="sub-text">Distance From Airport(Km)</span></th>
-                        <th class="nk-tb-col tb-col-md"><span class="sub-text">Distance From Venue(Km)</span></th>
+                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Email</span></th>
+                        <th class="nk-tb-col tb-col-md"><span class="sub-text">Mobile</span></th>
+                        <th class="nk-tb-col tb-col-md"><span class="sub-text">Address</span></th>
+                        <th class="nk-tb-col tb-col-md"><span class="sub-text">Food Habit</span></th>
+                        <th class="nk-tb-col tb-col-md"><span class="sub-text">Vehicle</span></th>
                         <th class="nk-tb-col tb-col-md w-1 text-center" nowrap="true"><span class="sub-text">Status</span>
                         </th>
                         <th class="nk-tb-col nk-tb-col-tools text-right w-1" nowrap="true">
@@ -161,7 +161,7 @@
                     ordering: false,
                     ajax: {
                         type: "GET",
-                        url: "{{ url('admin/hotel') }}",
+                        url: "{{ url('admin/homestay/hosts') }}",
                     },
                     columns: [
                         {
@@ -171,28 +171,28 @@
                         },
                         {
                             "class": "nk-tb-col tb-col-lg",
-                            data: 'city',
-                            name: 'city'
+                            data: 'email',
+                            name: 'email'
                         },
                         {
                             "class": "nk-tb-col tb-col-lg text-center",
-                            data: 'classification',
-                            name: 'classification'
+                            data: 'mobile',
+                            name: 'mobile'
                         },
                         {
                             "class": "nk-tb-col tb-col-lg text-center",
-                            data: 'contact_number',
-                            name: 'contact_number'
+                            data: 'address',
+                            name: 'address'
                         },
                         {
                             "class": "nk-tb-col tb-col-lg text-center",
-                            data: 'airport_distance',
-                            name: 'airport_distance'
+                            data: 'food_habit',
+                            name: 'food_habit'
                         },
                         {
                             "class": "nk-tb-col tb-col-lg text-center",
-                            data: 'venue_distance',
-                            name: 'venue_distance'
+                            data: 'vehicle',
+                            name: 'vehicle'
                         },
                         {
                             "class": "nk-tb-col tb-col-lg text-center",

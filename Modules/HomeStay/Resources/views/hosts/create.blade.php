@@ -48,7 +48,7 @@ $organization_type = \Session::get('organization_type');
                                     <x-inputs.verticalFormLabel label="Mobile" for="mobile" suggestion="Specify the host Mobile." required="true" />
                                 </div>
                                 <div class="col-lg-7">
-                                    <x-inputs.text value="{{ isset($host) ? $host->mobile : '' }}" for="mobile" class="" icon="building-fill" required="true" placeholder="mobile" name="mobile" />
+                                    <x-inputs.number value="{{ isset($host) ? $host->mobile : '' }}" for="mobile" class="" icon="building-fill" required="true" placeholder="mobile" name="mobile" />
                                 </div>
                             </div>
                             <div class="row g-3 align-center">
@@ -69,13 +69,49 @@ $organization_type = \Session::get('organization_type');
                                     </x-inputs.select>
                                 </div>
                             </div>
+
+                            <div class="row g-3 align-center">
+                                <div class="col-lg-5">
+                                    <x-inputs.verticalFormLabel label="Food Habit" for="" suggestion="Specify the host food habit." required="true" />
+                                </div>
+                                <div class="col-lg-7">
+                                    <x-inputs.select for="food_habit" icon="" required="true" class="" placeholder="Select food habit" name="food_habit" >
+
+                                        <option 
+                                        @if (isset($host) && $host->food_habit == 'Pure Veg') selected  @endif
+                                        value="Pure Veg">Pure Veg</option>
+
+                                        <option 
+                                        @if (isset($host) && $host->food_habit == 'Veg + Non Veg') selected  @endif
+                                        value="Veg + Non Veg">Veg + Non Veg</option>
+                                    </x-inputs.select>
+                                </div>
+                            </div>
+
+                            <div class="row g-3 align-center">
+                                <div class="col-lg-5">
+                                    <x-inputs.verticalFormLabel label="Vehicle" for="vehicle" suggestion="Specify the host vehicle." required="true" />
+                                </div>
+                                <div class="col-lg-7">
+                                    <x-inputs.text value="{{ isset($host) ? $host->vehicle : '' }}" for="vehicle" class="" icon="map-pin-fill" required="true" placeholder="vehicle" name="vehicle" />
+                                </div>
+                            </div>
+
+                            <div class="row g-3 align-center">
+                                <div class="col-lg-5">
+                                    <x-inputs.verticalFormLabel label="Vehicle number" for="vehicle_number" suggestion="Specify the host vehicle number." required="true" />
+                                </div>
+                                <div class="col-lg-7">
+                                    <x-inputs.text value="{{ isset($host) ? $host->vehicle_number : '' }}" for="vehicle_number" class="" icon="map-pin-fill" required="true" placeholder="vehicle number" name="vehicle_number" />
+                                </div>
+                            </div>
                             
                             <div class="row g-3 align-center">
                                 <div class="col-lg-5">
-                                    <x-inputs.verticalFormLabel label="Location" for="map_link" suggestion="Specify the host location." required="true" />
+                                    <x-inputs.verticalFormLabel label="Location" for="map_link" suggestion="Specify the host location."  />
                                 </div>
                                 <div class="col-lg-7">
-                                    <x-inputs.text value="{{ isset($host) ? $host->map_link : '' }}" for="map_link" class="" icon="map-pin-fill" required="true" placeholder="Location" name="map_link" />
+                                    <x-inputs.text value="{{ isset($host) ? $host->map_link : '' }}" for="map_link" class="" icon="map-pin-fill"  placeholder="Location" name="map_link" />
                                 </div>
                             </div>
                             <div class="row g-3 align-center">
@@ -83,7 +119,7 @@ $organization_type = \Session::get('organization_type');
                                     <x-inputs.verticalFormLabel label="Airport Distance" for="airport_distance" suggestion="Specify the host airport distance." required="true" />
                                 </div>
                                 <div class="col-lg-7">
-                                    <x-inputs.text value="{{ isset($host) ? $host->airport_distance : '' }}" for="airport_distance" class="" icon="map-pin-fill" required="true" placeholder="Airport Distance" name="airport_distance" />
+                                    <x-inputs.number value="{{ isset($host) ? $host->airport_distance : '' }}" for="airport_distance" class="" icon="map-pin-fill" required="true" placeholder="Airport Distance" name="airport_distance" />
                                 </div>
                             </div>
                             <div class="row g-3 align-center">
@@ -91,18 +127,20 @@ $organization_type = \Session::get('organization_type');
                                     <x-inputs.verticalFormLabel label="Venue Distance" for="venue_distance" suggestion="Specify the host venue distance." required="true" />
                                 </div>
                                 <div class="col-lg-7">
-                                    <x-inputs.text value="{{ isset($host) ? $host->venue_distance : '' }}" for="venue_distance" class="" icon="map-pin-fill" required="true" placeholder="Venue Distance" name="venue_distance" />
+                                    <x-inputs.number value="{{ isset($host) ? $host->venue_distance : '' }}" for="venue_distance" class="" icon="map-pin-fill" required="true" placeholder="Venue Distance" name="venue_distance" />
                                 </div>
                             </div>
                             
                             <div class="row g-3 align-center">
                                 <div class="col-lg-5">
-                                    <x-inputs.verticalFormLabel label="Image" for="image_one" suggestion="Specify the host image." required="true" />
+                                    <x-inputs.verticalFormLabel label="Image" for="image_one" suggestion="Specify the host image." />
                                 </div>
                                 <div class="col-lg-7">
-                                    <input value="" type="file" id="image_one" class="" icon="img-fill" @if(isset($host))  @else required="true" @endif  placeholder="Image" name="image_one" />
+                                    <input value="" type="file" id="image_one" class="" icon="img-fill"   placeholder="Image" name="image_one" />
                                     @if(isset($host))
+                                        @if(file_exists(url('uploads/hosts/'.$host->image_one)))
                                         <img height="150" width="150" src="{{ url('uploads/hosts/'.$host->image_one) }}">
+                                        @endif
                                     @endif
                                 </div>
                             </div>
@@ -114,7 +152,9 @@ $organization_type = \Session::get('organization_type');
                                 <div class="col-lg-7">
                                     <input value="" type="file" id="image_two" class="" icon="img-fill"   placeholder="Image" name="image_two" />
                                     @if(isset($host))
+                                        @if(file_exists(url('uploads/hosts/'.$host->image_two)))
                                         <img height="150" width="150" src="{{ url('uploads/hosts/'.$host->image_two) }}">
+                                        @endif
                                     @endif
                                 </div>
                             </div>
@@ -126,7 +166,9 @@ $organization_type = \Session::get('organization_type');
                                 <div class="col-lg-7">
                                     <input value="" type="file" id="image_three" class="" icon="img-fill" placeholder="Image" name="image_three" />
                                     @if(isset($host))
+                                        @if(file_exists(url('uploads/hosts/'.$host->image_three)))
                                         <img height="150" width="150" src="{{ url('uploads/hosts/'.$host->image_three) }}">
+                                        @endif
                                     @endif
                                 </div>
                             </div>
