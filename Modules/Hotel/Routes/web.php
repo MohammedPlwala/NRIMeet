@@ -10,6 +10,11 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::prefix('cron')->group(function() {
+    Route::get('/mahankal-lok-darshan', 'CronController@mahankalLokDarshan');
+    Route::get('/home-stays', 'CronController@homeStayRequests');
+});
+
 Route::group(['middleware' => 'admin'], function(){
     Route::prefix('admin')->group(function() {
         Route::prefix('hotel')->group(function() {
