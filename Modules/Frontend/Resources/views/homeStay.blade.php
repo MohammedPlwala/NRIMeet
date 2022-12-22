@@ -40,20 +40,20 @@
             <div class="grid grid-cols-1 md:grid-cols-2 md:gap-x-4 md:gap-y-2 gap-2">
               <div class="form-item large">
                 <label class="form-label">Full Name: <span class="required" title="required">*</span></label>
-                <input type="text" name="full_name" id="full_name" value="" placeholder="Full Name" required />
+                <input type="text" name="full_name" id="full_name" value="{{ old('full_name') }}" placeholder="Full Name" required />
               </div>
               <div class="form-item large">
                 <label class="form-label">Email Id: <span class="required" title="required">*</span></label>
-                <input type="email" name="email_id" id="email_id" value="" placeholder="Email Id" required />
+                <input type="email" name="email_id" id="email_id" value="{{ old('email_id') }}" placeholder="Email Id" required />
               </div>
               <div class="form-item large">
                 <label class="form-label">Phone/Mobile No: <span class="required" title="required">*</span></label>
                 <div class="form-input-group">
                   <div class="country-code">
-                    <input type="tel" name="country_code" id="country_code" value="" size="40" placeholder="Country Code" required />
+                    <input type="tel" name="country_code" id="country_code" value="{{ old('country_code') }}" size="40" placeholder="Country Code" required />
                   </div>
                   <div class="phone-or-mobile-no">
-                    <input type="tel" name="phone_or_mobile_no" id="phone_or_mobile_no" data-parsley-type="number" value="" size="40" placeholder="Phone/Mobile No." required />
+                    <input type="tel" name="phone_or_mobile_no" id="phone_or_mobile_no" data-parsley-type="number" size="40" placeholder="Phone/Mobile No." value="{{ old('phone_or_mobile_no') }}" required />
                   </div>
                 </div>
               </div>
@@ -63,20 +63,20 @@
               </div>
               <div class="form-item large">
                 <label class="form-label">Country of Residence <span class="required" title="required">*</span></label>
-                <input type="text" name="country" value="" size="40" placeholder="Country of Residence" required />
+                <input type="text" name="country" size="40" value="{{ old('country') }}" placeholder="Country of Residence" required />
               </div>
               <div class="form-item large">
                 <label class="form-label">City <span class="required" title="required">*</span></label>
-                <input type="text" name="city" value="" size="40" placeholder="City" required />
+                <input type="text" name="city" value="{{ old('city') }}" size="40" placeholder="City" required />
               </div>
               <div class="form-item large">
                 <label class="form-label">Adult 1 <span class="required" title="required">*</span></label>
                 <div class="row g-3 align-center">
                 <div class="col-lg-6">
-                    <input type="text" name="adult_name_1" value="" size="40" placeholder="Name" required />
+                    <input type="text" name="adult_name_1" value="{{ old('adult_name_1') }}" size="40" placeholder="Name" required />
                 </div>
                 <div class="col-lg-6">
-                    <input type="number" name="adult_age_1" value="" size="40" placeholder="Age" required />
+                    <input type="number" name="adult_age_1" value="{{ old('adult_age_1') }}" size="40" placeholder="Age" required />
                 </div>
               </div>
               </div>
