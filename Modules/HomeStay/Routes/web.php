@@ -13,5 +13,14 @@
 
 Route::prefix('admin/homestay')->group(function() {
     Route::get('/requests', 'HomeStayController@index');
-    Route::get('/hosts', 'HomeStayController@index');
+
+
+    
+    Route::prefix('hosts')->group(function() {
+        Route::get('/', 'HostController@index');
+        Route::get('/add', 'HostController@create');
+        Route::post('/add', 'HostController@store');
+        Route::get('/edit/{hotel_id}', 'HostController@edit');
+        Route::get('/delete/{hotel_id}', 'HostController@destroy');
+    });
 });
