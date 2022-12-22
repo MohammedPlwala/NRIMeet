@@ -15,6 +15,7 @@ Route::prefix('admin/homestay')->group(function() {
     Route::get('/requests', 'HomeStayController@index');
     Route::get('/edit/{id}', 'HomeStayController@edit');
     Route::post('/update/{id}', 'HomeStayController@update');
+    Route::get('/delegate-export', 'HomeStayController@delegateRequestExport');
 
 
     

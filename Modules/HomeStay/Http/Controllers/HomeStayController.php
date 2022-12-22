@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Modules\HomeStay\Entities\HomeStay;
 use Modules\HomeStay\Entities\Host;
+use Modules\HomeStay\Exports\DelegateRequestExport;
 use DataTables;
 
 
@@ -22,21 +23,13 @@ class HomeStayController extends Controller
         $data = HomeStay::from('home_stay as hs')->select('hs.id','hs.name','hs.email','hs.mobile','hs.address','hs.country','hs.check_in_date','hs.check_out_date','hs.status','h.name as hostName')->leftjoin('hosts as h','h.id','hs.host_id')
         ->where(function ($query) use ($request) {
                     if (!empty($request->toArray())) {
-                        if ($request->get('hotel_id') != '') {
-                            $query->where('bulk_bookings.hotel_id', $request->get('hotel_id'));
-                        }
+                         if ($request->get('delegate_name') != '') {
+                                $query->where('hs.name', $request->get('delegate_name'));
+                            }
 
-                        if ($request->get('room_type') != '') {
-                            $query->where('hr.type_id', $request->get('room_type'));
-                        }
-
-                        if ($request->get('from') != '') {
-                            $query->where('bulk_bookings.booking_person', $request->get('from'));
-                        }
-
-                        if ($request->get('fromDate') != '') {
-                            $query->whereDate('bulk_bookings.created_at', date('Y-m-d', strtotime($request->get('fromDate'))));
-                        }
+                            if ($request->get('status') != '') {
+                                $query->where('hs.status', $request->get('status'));
+                            }
                     }
                 })
         ->orderby('id','desc')
@@ -88,6 +81,37 @@ class HomeStayController extends Controller
 
         return view('homestay::index')->with(compact('homeStayCount'));
         
+    }
+
+    public function delegateRequestExport(Request $request)
+    {
+
+        try {
+            $guests =   HomeStay::from('home_stay as hs')->select('hs.name','hs.email','hs.mobile','hs.address','hs.country',\DB::raw('DATE_FORMAT(hs.check_in_date, "%d-%b-%Y") as check_in_date'),\DB::raw('DATE_FORMAT(hs.check_out_date, "%d-%b-%Y") as check_out_date'),'h.name as hostName','hs.status')->leftjoin('hosts as h','h.id','hs.host_id')
+                ->where(function ($query) use ($request) {
+                            if (!empty($request->toArray())) {
+                                if ($request->get('delegate_name') != '') {
+                                    $query->where('hs.name', $request->get('delegate_name'));
+                                }
+
+                                if ($request->get('status') != '') {
+                                    $query->where('hs.status', $request->get('status'));
+                                }
+                            }
+                        })
+                ->orderby('hs.id','desc')
+                ->get();
+
+            if(!empty($guests->toArray())){
+                return (new DelegateRequestExport($guests->toArray()))->download('delegate-requests' . '.xlsx', \Maatwebsite\Excel\Excel::XLSX);
+            }else{
+                return redirect('admin/homestay/requests')->with('error', 'No request');
+            }
+        } catch (\Exception $e) {
+
+            return redirect()->back()->with('error', $e->getMessage());
+
+        }
     }
 
     /**

@@ -86,11 +86,11 @@
 				</tr>
 				<tr>
 					<td width="30%" style="color:000; font-size: 14px; font-family: arial; padding:5px;font-weight: 600; border-right: 1px solid #D6D4D4; border-bottom: 1px solid #D6D4D4;">City:</td>
-					<td width="70%" style="color:000; font-size: 14px; font-family: arial; padding:5px;font-weight: 400; border-right: 1px solid #D6D4D4; border-bottom: 1px solid #D6D4D4;">{{ $requestDetails->host_city }}</td>
+					<td width="70%" style="color:000; font-size: 14px; font-family: arial; padding:5px;font-weight: 400; border-right: 1px solid #D6D4D4; border-bottom: 1px solid #D6D4D4;">{{ $requestDetails->host_city }} KM</td>
 				</tr>
 				<tr>
 					<td width="30%" style="color:000; font-size: 14px; font-family: arial; padding:5px;font-weight: 600; border-right: 1px solid #D6D4D4; border-bottom: 1px solid #D6D4D4;">Distance From venue:</td>
-					<td width="70%" style="color:000; font-size: 14px; font-family: arial; padding:5px;font-weight: 400; border-right: 1px solid #D6D4D4; border-bottom: 1px solid #D6D4D4;">{{ $requestDetails->venue_distance }}</td>
+					<td width="70%" style="color:000; font-size: 14px; font-family: arial; padding:5px;font-weight: 400; border-right: 1px solid #D6D4D4; border-bottom: 1px solid #D6D4D4;">{{ $requestDetails->venue_distance }} KM</td>
 				</tr>
 				<tr>
 					<td width="30%" style="color:000; font-size: 14px; font-family: arial; padding:5px;font-weight: 600; border-right: 1px solid #D6D4D4; border-bottom: 1px solid #D6D4D4;">Distance From Airport:</td>

@@ -19,6 +19,9 @@
                                     <em class="icon ni ni-filter"></em><span>Filter</span>
                                 </a>
                             </li>
+                            <li class="nk-block-tools-opt">
+                                <a href="javascript::void(0)" data-href="{{ url('admin/homestay/delegate-export') }}" class="btn btn-primary export_data"><em class="icon ni ni-download"></em><span>Export</span></a>
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -64,87 +67,30 @@
                     </div>
                     <form role="form" class="mb-0" method="get" action="#">
                         @csrf
-                        <!-- <div class="modal-body modal-body-lg">
+                        <div class="modal-body modal-body-lg">
                             <div class="gy-3">
                                 <div class="row g-3 align-center">
                                     <div class="col-lg-5">
-                                        <x-inputs.verticalFormLabel label="Hotel Name" for="hotel_name" suggestion="Select the hotel name." />
+                                        <x-inputs.verticalFormLabel label="Delegate Name" for="delegate_name" suggestion="Insert the delegate name." />
                                     </div>
                                     <div class="col-lg-7">
-                                        <x-inputs.select  size="sm" name="hotel_name" for="hotel_name" placeholder="Select Hotel Name">
-                                            <option value="">Select</option>
-                                           
-                                        </x-inputs.select>
+                                        <x-inputs.text  value="" for="delegate_name" id="delegate_name" name="delegate_name" placeholder="Enter Booking Name" />
                                     </div>
                                 </div>
                                 <div class="row g-3 align-center">
                                     <div class="col-lg-5">
-                                        <x-inputs.verticalFormLabel label="Hotel City" for="hotel_city" suggestion="Select the hotel city." />
+                                        <x-inputs.verticalFormLabel label="Status" for="status" suggestion="Select the hotel city." />
                                     </div>
                                     <div class="col-lg-7">
-                                        <x-inputs.select  size="sm" name="hotel_city" for="hotel_city" placeholder="Select Hotel City">
+                                        <x-inputs.select  size="sm" name="status" for="status" id="status" placeholder="Select Hotel City">
                                             <option value="">Select</option>
-                                            <option value="Indore">Indore</option>
-                                            <option value="Ujjain">Ujjain</option>
-                                        </x-inputs.select>
-                                    </div>
-                                </div>
-                                <div class="row g-3 align-center">
-                                    <div class="col-lg-5">
-                                        <x-inputs.verticalFormLabel label="Classification" for="star_rating" suggestion="Select the classification." />
-                                    </div>
-                                    <div class="col-lg-7">
-                                        <x-inputs.select  size="sm" name="star_rating" for="star_rating" placeholder="Select Classification" id="star_rating">
-                                            <option value="">Select</option>
-                                            
-                                        </x-inputs.select>
-                                    </div>
-                                </div>
-                                <div class="row g-3 align-center">
-                                    <div class="col-lg-5">
-                                        <x-inputs.verticalFormLabel label="Distance From Airport" for="distance_from_airport" suggestion="Select the distance from airport." />
-                                    </div>
-                                    <div class="col-lg-7">
-                                        <x-inputs.select  size="sm" name="distance_from_airport" for="distance_from_airport" placeholder="Select Distance From Airport" id="distance_from_airport">
-                                            <option value="">Select</option>
-                                            <option value="5">Under 5 km</option>
-                                            <option value="10">Under 10 km</option>
-                                            <option value="15">Under 15 km</option>
-                                            <option value="25">Under 25 km</option>
-                                            <option value="2000">Above 25 km</option>
-                                        </x-inputs.select>
-                                    </div>
-                                </div>
-                                <div class="row g-3 align-center">
-                                    <div class="col-lg-5">
-                                        <x-inputs.verticalFormLabel label="Distance From Venue" for="distance_from_venue" suggestion="Select the distance from venue." />
-                                    </div>
-                                    <div class="col-lg-7">
-                                        <x-inputs.select  size="sm" name="distance_from_venue" for="distance_from_venue" placeholder="Select Distance From Venue" id="distance_from_venue">
-                                            <option value="">Select</option>
-                                            <option value="5">Under 5 km</option>
-                                            <option value="10">Under 10 km</option>
-                                            <option value="15">Under 15 km</option>
-                                            <option value="25">Under 25 km</option>
-                                            <option value="2000">Above 25 km</option>
-                                        </x-inputs.select>
-                                    </div>
-                                </div>
-                                <div class="row g-3 align-center">
-                                    <div class="col-lg-5">
-                                        <x-inputs.verticalFormLabel label="Status" for="status" suggestion="Select the status." />
-                                    </div>
-                                    <div class="col-lg-7">
-                                        <x-inputs.select  size="sm" name="status" for="status" placeholder="Select Status">
-                                            <option value="">Select</option>
-                                            <option value="active">Active</option>
-                                            <option value="inactive">Inactive</option>
-                                            {{-- <option value="Out of stock">Out of stock</option> --}}
+                                            <option value="Request Received">Request Received</option>
+                                            <option value="Alloted">Alloted</option>
                                         </x-inputs.select>
                                     </div>
                                 </div>
                             </div>
-                        </div> -->
+                        </div>
                         <input type="hidden" id="userId" name="user_id" value="0">
                         <div class="modal-footer bg-light">
                             <div class="row">
@@ -166,6 +112,41 @@
 @push('footerScripts')
     <script src="{{url('js/tableFlow.js')}}"></script>
     <script type="text/javascript">
+        $('.export_data').on('click', function (e) {
+        var myUrl = $(this).attr('data-href');
+
+        if($('#delegate_name').val() != ""){
+            myUrl = addQSParm(myUrl,'delegate_name', $('#delegate_name').val());
+        }
+        if($('#status').val() != ""){
+            myUrl = addQSParm(myUrl,'status', $('#status').val());
+        }
+
+        location.href = myUrl;
+    });
+
+    function addQSParm(myUrl,name, value) {
+       var re = new RegExp("([?&]" + name + "=)[^&]+", "");
+
+       function add(sep) {
+          myUrl += sep + name + "=" + encodeURIComponent(value);
+       }
+
+       function change() {
+          myUrl = myUrl.replace(re, "$1" + encodeURIComponent(value));
+       }
+       if (myUrl.indexOf("?") === -1) {
+          add("?");
+       } else {
+          if (re.test(myUrl)) {
+             change();
+          } else {
+             add("&");
+          }
+       }
+       return myUrl;
+    }
+
         $(function() {
             var root_url = "<?php echo url('/'); ?>";
 
@@ -173,11 +154,7 @@
             NioApp.getAuditLogs('.broadcast-init', '.audit_logs', 'resourceid', logUrl, '#modalLogs');
 
             var items = [
-                '#hotel_name',
-                '#hotel_city',
-                '#star_rating',
-                '#distance_from_airport',
-                '#distance_from_venue',
+                '#delegate_name',
                 '#status'
             ];
             var user_table = "";
@@ -260,7 +237,7 @@
                 },
                 filterClearSubmit: '.resetFilter',
                 filterModalId: '#modalFilterUser',
-                // filterItems: items,
+                filterItems: items,
                 tagId: '#filter_tag_list',
             });
 
