@@ -52,7 +52,7 @@ Route::group(['middleware' => 'auth:web'], function(){
 	Route::get('terms-and-conditions', 'FrontendController@termsAndConditions');
 	Route::get('refund-cancellation-policy', 'FrontendController@refundCancellationPolicy');
 	Route::get('free-home-stay', 'FrontendController@homeStay');
-	Route::get('home-stay-registration', 'FrontendController@homeStayRegistration');
+	Route::post('home-stay-registration', 'FrontendController@homeStayRegistration');
 });
 
 Route::any('payu-payment-success','HotelController@payuSuccess');

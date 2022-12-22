@@ -3,13 +3,14 @@
 @section('content')
   <!-- Page Header -->
   <div class="page-header">
-    <h1>Home Stay Registration</h1>
+    <h1>MP Government Offer FREE Home Stay</h1>
   </div>
   <section class="mahakal-lok-darshan-wrap">
     <div class="container">
       
       <div class="ujjain">
-        <h3 class="heading3">Registration</h3>
+        <h3 class="heading3">FREE Home Stay Registration</h3>
+
         @if ($message = Session::get('success'))
         <div class="alert alert-success alert-block">
             <button type="button" class="close" data-dismiss="alert">×</button>    
@@ -22,6 +23,19 @@
             <strong>{{ $message }}</strong>
         </div>
         @endif
+
+        @if ($registered == 1)
+        <div class="alert alert-info alert-block">
+            {{-- <button type="button" class="close" data-dismiss="alert">×</button>     --}}
+            <strong>You have successfully registered for Free Home Stay.</strong>
+        </div>
+
+        @elseif ($soldOut == 1)
+        <div class="alert alert-info alert-block">
+            {{-- <button type="button" class="close" data-dismiss="alert">×</button>     --}}
+            <strong>Sorry, request for registrations are closed for now. Please check later. </strong>
+        </div>
+        @else
         <div class="custom-form">
           {!! NoCaptcha::renderJs() !!}
           <form action="{{url('/home-stay-registration')}}" method="post" enctype="multipart/form-data" autocomplete="off" data-parsley-validate="">
@@ -48,7 +62,7 @@
               </div>
               <div class="form-item large">
                 <label class="form-label">Address <span class="required" title="required">*</span></label>
-                <textarea name="adress" required></textarea>
+                <textarea name="address" required></textarea>
               </div>
               <div class="form-item large">
                 <label class="form-label">Country of Residence <span class="required" title="required">*</span></label>
@@ -59,24 +73,24 @@
                 <input type="text" name="city" value="" size="40" placeholder="City" required />
               </div>
               <div class="form-item large">
-                <label class="form-label">Adult 1 <span class="required" title="required">*</span></label>
+                <label class="form-label">Adult & Age 1 <span class="required" title="required">*</span></label>
                 <div class="row g-3 align-center">
                 <div class="col-lg-6">
-                    <input type="text" name="adult_name_1" value="" size="40" placeholder="Name" required />
+                    <input type="text" name="adult_name_1" value="" size="40" placeholder="Name*" required />
                 </div>
                 <div class="col-lg-6">
-                    <input type="text" name="adult_age_1" value="" size="40" placeholder="Age" required />
+                    <input type="number" name="adult_age_1" value="" size="40" placeholder="Age*" required />
                 </div>
               </div>
               </div>
               <div class="form-item large">
-                <label class="form-label">Adult 2 </label>
+                <label class="form-label">Adult & Age 2 </label>
                 <div class="row g-3 align-center">
                     <div class="col-lg-6">
                         <input type="text" name="adult_name_2" value="" size="40" placeholder="Name" />
                     </div>
                     <div class="col-lg-6">
-                        <input type="text" name="adult_age_2" value="" size="40" placeholder="Age" />
+                        <input type="number" name="adult_age_2" value="" size="40" placeholder="Age" />
                     </div>
                 </div>
               </div>
@@ -95,7 +109,14 @@
                   <div class="time_select">
                     <label class="form-label">Check In Date <span class="required" title="required">*</span></label>
                     <span class="wpcf7-form-control-wrap" data-name="menu-998">
-                        <input type="date" name="check_in_date" required="">
+                        <select name="check_in_date" required>
+                          <option value="06-01-2023">06 Jan 2023</option>
+                          <option value="07-01-2023">07 Jan 2023</option>
+                          <option value="08-01-2023">08 Jan 2023</option>
+                          <option value="09-01-2023">09 Jan 2023</option>
+                          <option value="10-01-2023">10 Jan 2023</option>
+                          <option value="11-01-2023">11 Jan 2023</option>
+                        </select>
                     </span>
                   </div>
                 </div>
@@ -103,16 +124,20 @@
                   <div class="time_select">
                     <label class="form-label">Check Out Date <span class="required" title="required">*</span></label>
                     <span class="wpcf7-form-control-wrap" data-name="menu-573">
-                        <input type="date" name="check_out_date" required="">
+                        <select name="check_out_date" required>
+                          <option value="06-01-2023">06 Jan 2023</option>
+                          <option value="07-01-2023">07 Jan 2023</option>
+                          <option value="08-01-2023">08 Jan 2023</option>
+                          <option value="09-01-2023">09 Jan 2023</option>
+                          <option value="10-01-2023">10 Jan 2023</option>
+                          <option value="11-01-2023">11 Jan 2023</option>
+                        </select>
                     </span>
                   </div>
                 </div>
               </div>
             </div>
 
-            <p class="mahakal_lok">Shuttle service is organised by MP Govt on 10th Jan 2023.<br>
-              Shuttle service are complimentary.
-            </p>
             <div class="form-item large">
               {!! app('captcha')->display() !!}
             </div>
@@ -122,6 +147,7 @@
             </div>
           </form>
         </div>
+        @endif
       </div>
     </div>
   </section>

@@ -5,7 +5,7 @@
         <div class="nk-block-between">
             <div class="nk-block-head-content">
                 <h3 class="nk-block-title page-title">Free Home Stay</h3>
-                <p>You have total <span class="record_count">{{ '0' }}</span> Requests.</p>
+                <p>You have total <span class="record_count">{{ $homeStayCount }}</span> Requests.</p>
             </div><!-- .nk-block-head-content -->
             <div class="nk-block-head-content">
                 <div class="toggle-wrap nk-block-tools-toggle">
@@ -63,7 +63,7 @@
                     </div>
                     <form role="form" class="mb-0" method="get" action="#">
                         @csrf
-                        <div class="modal-body modal-body-lg">
+                        <!-- <div class="modal-body modal-body-lg">
                             <div class="gy-3">
                                 <div class="row g-3 align-center">
                                     <div class="col-lg-5">
@@ -72,11 +72,7 @@
                                     <div class="col-lg-7">
                                         <x-inputs.select  size="sm" name="hotel_name" for="hotel_name" placeholder="Select Hotel Name">
                                             <option value="">Select</option>
-                                            @forelse ($hotels as $hotel)
-                                                <option value="{{ $hotel->name }}">{{ $hotel->name }}</option>
-                                            @empty
-                                                {{-- empty expr --}}
-                                            @endforelse
+                                           
                                         </x-inputs.select>
                                     </div>
                                 </div>
@@ -99,11 +95,7 @@
                                     <div class="col-lg-7">
                                         <x-inputs.select  size="sm" name="star_rating" for="star_rating" placeholder="Select Classification" id="star_rating">
                                             <option value="">Select</option>
-                                            @forelse ($classifications as $classification)
-                                                <option value="{{ $classification->classification }}">{{ $classification->classification }}</option>
-                                            @empty
-                                                {{-- empty expr --}}
-                                            @endforelse
+                                            
                                         </x-inputs.select>
                                     </div>
                                 </div>
@@ -151,7 +143,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                         <input type="hidden" id="userId" name="user_id" value="0">
                         <div class="modal-footer bg-light">
                             <div class="row">
@@ -196,7 +188,7 @@
                     ordering: false,
                     ajax: {
                         type: "GET",
-                        url: "{{ url('admin/hotel') }}",
+                        url: "{{ url('admin/homestay/requests') }}",
                     },
                     columns: [
                         {
@@ -206,28 +198,33 @@
                         },
                         {
                             "class": "nk-tb-col tb-col-lg",
-                            data: 'city',
-                            name: 'city'
+                            data: 'email',
+                            name: 'email'
                         },
                         {
                             "class": "nk-tb-col tb-col-lg text-center",
-                            data: 'classification',
-                            name: 'classification'
+                            data: 'mobile',
+                            name: 'mobile'
                         },
                         {
                             "class": "nk-tb-col tb-col-lg text-center",
-                            data: 'contact_number',
-                            name: 'contact_number'
+                            data: 'address',
+                            name: 'address'
                         },
                         {
                             "class": "nk-tb-col tb-col-lg text-center",
-                            data: 'airport_distance',
-                            name: 'airport_distance'
+                            data: 'country',
+                            name: 'country'
                         },
                         {
                             "class": "nk-tb-col tb-col-lg text-center",
-                            data: 'venue_distance',
-                            name: 'venue_distance'
+                            data: 'check_in_date',
+                            name: 'check_in_date'
+                        },
+                        {
+                            "class": "nk-tb-col tb-col-lg text-center",
+                            data: 'check_out_date',
+                            name: 'check_out_date'
                         },
                         {
                             "class": "nk-tb-col tb-col-lg text-center",
@@ -257,7 +254,7 @@
                 },
                 filterClearSubmit: '.resetFilter',
                 filterModalId: '#modalFilterUser',
-                filterItems: items,
+                // filterItems: items,
                 tagId: '#filter_tag_list',
             });
 

@@ -1,12 +1,10 @@
 <?php
-namespace Modules\Frontend\Entities;
+namespace Modules\HomeStay\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 use Auth;
 
-class HomeStayRegistration extends Model
+class HomeStay extends Model
 {
-
     protected $table = 'home_stay';
-
 }

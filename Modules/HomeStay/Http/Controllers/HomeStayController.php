@@ -5,6 +5,9 @@ namespace Modules\HomeStay\Http\Controllers;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Modules\HomeStay\Entities\HomeStay;
+use DataTables;
+
 
 class HomeStayController extends Controller
 {
@@ -12,16 +15,10 @@ class HomeStayController extends Controller
      * Display a listing of the resource.
      * @return Renderable
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('homestay::index');
 
-
-
-        $hotels = Hotel::get();
-        $room_types = \Helpers::roomTypes();
-
-        $data = BulkBooking::select('bulk_bookings.*','h.name as hotel_name','rt.name as room_type')->leftJoin('hotels as h','h.id','bulk_bookings.hotel_id')->leftJoin('hotel_rooms as hr','hr.id','bulk_bookings.room_type_id')->leftJoin('room_types as rt','rt.id','hr.type_id')
+        $data = HomeStay::from('home_stay as hs')->select('hs.id','hs.name','hs.email','hs.mobile','hs.address','hs.country','hs.check_in_date','hs.check_out_date','hs.status')
         ->where(function ($query) use ($request) {
                     if (!empty($request->toArray())) {
                         if ($request->get('hotel_id') != '') {
@@ -43,37 +40,22 @@ class HomeStayController extends Controller
                 })
         ->orderby('id','desc')
         ->get();
-        $bulkBookingCount = 0;
+        $homeStayCount = 0;
         if(!empty($data->toArray())){
-            $bulkBookingCount = count($data);
+            $homeStayCount = count($data);
         }
 
         if ($request->ajax()) {
             return DataTables::of($data)
                     ->addIndexColumn()
-                    ->addColumn('order_id', function ($row) {
-                        $order_id = 'PBD-BULK-'.$row->id;
-                        return $order_id;
-                    })
                     ->addColumn('action', function($row) {
-                           $edit = url('/').'/admin/bulk-bookings/edit/'.$row->id;
-                           $delete = url('/').'/admin/bulk-bookings/delete/'.$row->id;
-                           $confirm = '"Are you sure, you want to delete it?"';
+                           $edit = url('/').'/admin/homestay/edit/'.$row->id;
 
                             $editBtn = "<li>
                                         <a href='".$edit."'>
                                             <em class='icon ni ni-edit'></em> <span>Edit</span>
                                         </a>
                                     </li>";
-                           // $editBtn = "";
-                            
-                            $deleteBtn = "<li>
-                                        <a href='".$delete."' onclick='return confirm(".$confirm.")'  class='delete'>
-                                            <em class='icon ni ni-trash'></em> <span>Delete</span>
-                                        </a>
-                                    </li>"; 
-
-                            $logbtn = '<li><a href="#" data-resourceId="'.$row->id.'" class="audit_logs"><em class="icon ni ni-list"></em> <span>Audit Logs</span></a></li>';
 
 
                             $btn = '';
@@ -85,8 +67,7 @@ class HomeStayController extends Controller
                                                     <ul class="link-list-opt no-bdr">
                                         ';
 
-                           $btn .=       $editBtn."
-                                        ".$deleteBtn;
+                           $btn .=       $editBtn;
 
                             $btn .= "</ul>
                                             </div>
@@ -99,12 +80,12 @@ class HomeStayController extends Controller
                         $created_at = date(\Config::get('constants.DATE.DATE_FORMAT') , strtotime($row->created_at));
                         return $created_at;
                     })
-                    ->rawColumns(['action','created_at','name','updated_at','status',])
+                    ->rawColumns(['action','created_at'])
                     ->make(true);
         }
 
 
-        return view('homestay::index')->with(compact('bulkBookingCount','hotels','room_types'));
+        return view('homestay::index')->with(compact('homeStayCount'));
         
     }
 
@@ -144,7 +125,8 @@ class HomeStayController extends Controller
      */
     public function edit($id)
     {
-        return view('homestay::edit');
+        $request = HomeStay::from('home_stay as hs')->where('id',$id)->first();
+        return view('homestay::edit', compact('request'));
     }
 
     /**

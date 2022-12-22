@@ -13,6 +13,8 @@
 
 Route::prefix('admin/homestay')->group(function() {
     Route::get('/requests', 'HomeStayController@index');
+    Route::get('/edit/{id}', 'HomeStayController@edit');
+    Route::get('/hosts', 'HomeStayController@index');
 
 
     
