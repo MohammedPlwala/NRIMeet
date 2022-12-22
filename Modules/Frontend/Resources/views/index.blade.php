@@ -7,9 +7,16 @@
         <img src="{{ url('images/mobile-slider-2_new.png') }}" alt="mobile-slider-2" class="d-hide" />
 
         <!-- <img src="{{ url('images/big-booking-closing-very-soon.gif') }}" alt="Booking Closing Very Soon" class="very-soon-gif m-hide" /> -->
+
+        <h3 class="banner-heading animate-charcter"> Booking Closing Very Soon</h3>
         <div class="banner-book-now">
-            <p>MP Government Offers FREE Home Stay</p>
-            <a href="{{ url('/search') }}" class="primary-button sm">Book Now</a>
+            <p class="animate-charcter">
+                MADHYA PRADESH GOVERNMENT OFFERS FREE HOME STAY.
+            </p>
+            <p class="animate-charcter">
+                HURRY LIMITED AVAILABILITY…..
+            </p>
+            <a href="{{ url('/free-home-stay') }}" class="primary-button"><span style="color: #FFF">Book Now</span></a>
         </div>
     </div>
     <div class="booking-form-wrap booking-form-wrap-home desktop">

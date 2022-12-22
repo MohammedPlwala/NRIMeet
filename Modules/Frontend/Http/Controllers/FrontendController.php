@@ -6,6 +6,7 @@ use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Modules\Frontend\Entities\HomeStayRegistration;
+use Modules\HomeStay\Entities\Host;
 use DB;
 use Session;
 use Exception;
@@ -177,13 +178,20 @@ class FrontendController extends Controller
     {
         $user = \Auth::user();
 
-        $registered = 0;
+        $totalHosts = Host::count();
+        $totalRequests = HomeStayRegistration::count();
+
+        $soldOut = $registered = 0;
+        if($totalRequests >= $totalHosts){
+            $soldOut = 1;
+        }
+
         $checkRequest = HomeStayRegistration::where('user_id',$user->id)->first();
         if($checkRequest){
             $registered = 1;
         }
 
-        return view('frontend::homeStay',['registered' => $registered]);
+        return view('frontend::homeStay',['registered' => $registered,'soldOut' => $soldOut]);
     }
 
     public function homeStayRegistration(Request $request)
