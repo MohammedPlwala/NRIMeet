@@ -53,7 +53,7 @@
 			<tbody>
 				<tr>
 					<td style="padding-left:0px; padding-top: 10px; font-size: 14px; padding-bottom: 10px; font-family: Arial, Helvetica, sans-serif; line-height: 1.5;">
-            <p style="margin-bottom: 0;">Thank you for your request.</p>
+            <p style="margin-bottom: 0;">{{ $requestDetails->host_name }} home is alloted to {{ $requestDetails->name }}. Below are the details:</p>
           </td>
 				</tr>
 			</tbody>

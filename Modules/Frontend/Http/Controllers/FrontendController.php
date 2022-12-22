@@ -204,7 +204,7 @@ class FrontendController extends Controller
         $checkInDate = date('d',strtotime($input['check_in_date']));
         $checkOutDate = date('d',strtotime($input['check_out_date']));
         if($checkOutDate<$checkInDate){
-            return redirect('/free-home-stay')->with('error', 'Check Out Date cannot be less then Check In Date');
+            return redirect('/free-home-stay')->with('error', 'Check Out Date cannot be less then Check In Date')->withInput();
         }
 
 

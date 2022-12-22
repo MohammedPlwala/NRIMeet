@@ -19,7 +19,7 @@ class HomeStayController extends Controller
     public function index(Request $request)
     {
 
-        $data = HomeStay::from('home_stay as hs')->select('hs.id','hs.name','hs.email','hs.mobile','hs.address','hs.country','hs.check_in_date','hs.check_out_date','hs.status')
+        $data = HomeStay::from('home_stay as hs')->select('hs.id','hs.name','hs.email','hs.mobile','hs.address','hs.country','hs.check_in_date','hs.check_out_date','hs.status','h.name as hostName')->leftjoin('hosts as h','h.id','hs.host_id')
         ->where(function ($query) use ($request) {
                     if (!empty($request->toArray())) {
                         if ($request->get('hotel_id') != '') {

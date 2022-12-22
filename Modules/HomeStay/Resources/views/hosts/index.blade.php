@@ -44,6 +44,8 @@
                         <th class="nk-tb-col tb-col-md"><span class="sub-text">Address</span></th>
                         <th class="nk-tb-col tb-col-md"><span class="sub-text">Food Habit</span></th>
                         <th class="nk-tb-col tb-col-md"><span class="sub-text">Vehicle</span></th>
+                        <th class="nk-tb-col tb-col-md"><span class="sub-text">Is Alloted</span></th>
+                        <th class="nk-tb-col tb-col-md"><span class="sub-text">Delegate Name</span></th>
                         <th class="nk-tb-col tb-col-md w-1 text-center" nowrap="true"><span class="sub-text">Status</span>
                         </th>
                         <th class="nk-tb-col nk-tb-col-tools text-right w-1" nowrap="true">
@@ -193,6 +195,16 @@
                             "class": "nk-tb-col tb-col-lg text-center",
                             data: 'vehicle',
                             name: 'vehicle'
+                        },
+                        {
+                            "class": "nk-tb-col tb-col-lg text-center",
+                            data: 'is_alloted',
+                            name: 'is_alloted'
+                        },
+                        {
+                            "class": "nk-tb-col tb-col-lg text-center",
+                            data: 'delegate_name',
+                            name: 'delegate_name'
                         },
                         {
                             "class": "nk-tb-col tb-col-lg text-center",

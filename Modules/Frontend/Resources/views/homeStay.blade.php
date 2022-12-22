@@ -62,7 +62,7 @@
               </div>
               <div class="form-item large">
                 <label class="form-label">Address <span class="required" title="required">*</span></label>
-                <textarea name="address" required></textarea>
+                <textarea name="address" required>{{ old('address') }}</textarea>
               </div>
               <div class="form-item large">
                 <label class="form-label">Country of Residence <span class="required" title="required">*</span></label>
@@ -96,7 +96,7 @@
               </div>
               <div class="form-item large">
                 <label class="form-label">Special Request </label>
-                <textarea name="special_request" placeholder="Special Request"></textarea>
+                <textarea name="special_request" placeholder="Special Request">{{ old('special_request') }}</textarea>
               </div>
             </div>
 

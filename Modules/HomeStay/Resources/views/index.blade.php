@@ -4,7 +4,7 @@
     <div class="nk-block-head nk-block-head-sm">
         <div class="nk-block-between">
             <div class="nk-block-head-content">
-                <h3 class="nk-block-title page-title">Free Home Stay</h3>
+                <h3 class="nk-block-title page-title">Delegate Request</h3>
                 <p>You have total <span class="record_count">{{ $homeStayCount }}</span> Requests.</p>
             </div><!-- .nk-block-head-content -->
             <div class="nk-block-head-content">
@@ -40,6 +40,7 @@
                         <th class="nk-tb-col tb-col-md"><span class="sub-text">Country</span></th>
                         <th class="nk-tb-col tb-col-md"><span class="sub-text">Check In Date</span></th>
                         <th class="nk-tb-col tb-col-md"><span class="sub-text">Check Out Date</span></th>
+                        <th class="nk-tb-col tb-col-md"><span class="sub-text">Host Name</span></th>
                         <th class="nk-tb-col tb-col-md w-1 text-center" nowrap="true"><span class="sub-text">Status</span>
                         </th>
                         <th class="nk-tb-col nk-tb-col-tools text-right w-1" nowrap="true">
@@ -225,6 +226,11 @@
                             "class": "nk-tb-col tb-col-lg text-center",
                             data: 'check_out_date',
                             name: 'check_out_date'
+                        },
+                        {
+                            "class": "nk-tb-col tb-col-lg text-center",
+                            data: 'hostName',
+                            name: 'hostName'
                         },
                         {
                             "class": "nk-tb-col tb-col-lg text-center",

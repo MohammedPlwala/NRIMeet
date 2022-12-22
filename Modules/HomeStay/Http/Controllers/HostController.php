@@ -9,6 +9,7 @@ use App\Models\User;
 use Modules\User\Entities\UserRole;
 use Modules\User\Entities\Role;
 use Modules\HomeStay\Entities\Host;
+use Modules\HomeStay\Entities\HomeStay;
 use DataTables;
 
 class HostController extends Controller
@@ -23,7 +24,8 @@ class HostController extends Controller
 
             $room_types = \Helpers::roomTypes();
             $data = Host::from('hosts as h')
-                    ->select('h.*')
+                    ->select('h.*','hs.name as delegate_name')
+                    ->leftjoin('home_stay as hs','hs.host_id', 'h.id')
                     ->where(function ($query) use ($request) {
                         if (!empty($request->toArray())) {
 
@@ -60,6 +62,15 @@ class HostController extends Controller
             if ($request->ajax()) {
                 return Datatables::of($data)
                         ->addIndexColumn()
+                        ->addColumn('is_alloted', function ($row) {
+                            if($row->is_alloted == 0){
+                                $isAlloted = 'No';
+                            }else{
+                                $isAlloted = 'Yes';
+                            }
+
+                            return $isAlloted;
+                        })
                         
                         ->addColumn('status', function ($row) {
                             if($row->status == 'active'){
@@ -227,9 +238,14 @@ class HostController extends Controller
     }
 
     public function destroy(Request $request,$id){
-        $host = Host::findorfail($id);
-        if($host->forceDelete()){
-            return redirect('admin/homestay/hosts')->with('message', 'Deleted Successfully');
+        $stayRequest = HomeStay::where('host_id',$id)->first();
+        if($stayRequest){
+            return redirect('/admin/homestay/hosts')->with('error', 'Sorry ! This host is already allocated to delegate.');
+        }else{
+            $host = Host::findorfail($id);
+            if($host->forceDelete()){
+                return redirect('admin/homestay/hosts')->with('message', 'Deleted Successfully');
+            }
         }
     }
 }
