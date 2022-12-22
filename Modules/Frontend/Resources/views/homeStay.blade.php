@@ -58,36 +58,52 @@
                 <label class="form-label">City <span class="required" title="required">*</span></label>
                 <input type="text" name="city" value="" size="40" placeholder="City" required />
               </div>
+              <div class="form-item large">
+                <label class="form-label">Adult 1 <span class="required" title="required">*</span></label>
+                <div class="row g-3 align-center">
+                <div class="col-lg-6">
+                    <input type="text" name="adult_name_1" value="" size="40" placeholder="Name" required />
+                </div>
+                <div class="col-lg-6">
+                    <input type="text" name="adult_age_1" value="" size="40" placeholder="Age" required />
+                </div>
+              </div>
+              </div>
+              <div class="form-item large">
+                <label class="form-label">Adult 2 </label>
+                <div class="row g-3 align-center">
+                    <div class="col-lg-6">
+                        <input type="text" name="adult_name_2" value="" size="40" placeholder="Name" />
+                    </div>
+                    <div class="col-lg-6">
+                        <input type="text" name="adult_age_2" value="" size="40" placeholder="Age" />
+                    </div>
+                </div>
+              </div>
+              <div class="form-item large">
+                <label class="form-label">Special Request </label>
+                <textarea name="special_request" placeholder="Special Request"></textarea>
+              </div>
             </div>
 
-            <div>
-              <div class="form-item large">
-                <label class="form-label">Adult 1: <span class="required" title="required">*</span></label>
-                <input type="text" name="guest_1_name" id="guest_1_name" value="" placeholder="Full Name" required />
-                <input type="text" name="guest_1_age" id="guest_1_age" value="" placeholder="Age" required />
-              </div>
-              <div class="form-item large">
-                <label class="form-label">Adult 2: <span class="required" title="required">*</span></label>
-                <input type="text" name="guest_2_name" id="guest_2_name" value="" placeholder="Full Name" required />
-                <input type="text" name="guest_2_age" id="guest_2_age" value="" placeholder="Full Name" required />
-              </div>
-            </div>
+             <!-- <div class="sp-plan-info card-inner pt-0"> -->
+            <!-- </div> -->
 
             <div class="form-item-box">
               <div class="grid grid-cols-1 md:grid-cols-2 md:gap-x-4 md:gap-y-2 gap-2">
                 <div class="form-item large">
                   <div class="time_select">
-                    <label class="form-label">From </label>
+                    <label class="form-label">Check In Date <span class="required" title="required">*</span></label>
                     <span class="wpcf7-form-control-wrap" data-name="menu-998">
-                        <input type="date" name="from_date">
+                        <input type="date" name="check_in_date" required="">
                     </span>
                   </div>
                 </div>
                 <div class="form-item large">
                   <div class="time_select">
-                    <label class="form-label">To   </label>
+                    <label class="form-label">Check Out Date <span class="required" title="required">*</span></label>
                     <span class="wpcf7-form-control-wrap" data-name="menu-573">
-                        <input type="date" name="to_date">
+                        <input type="date" name="check_out_date" required="">
                     </span>
                   </div>
                 </div>

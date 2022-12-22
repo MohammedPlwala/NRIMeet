@@ -1,11 +1,11 @@
 {
-    "name": "Blog",
-    "alias": "blog",
+    "name": "HomeStay",
+    "alias": "homestay",
     "description": "",
     "keywords": [],
     "priority": 0,
     "providers": [
-        "Modules\\Blog\\Providers\\BlogServiceProvider"
+        "Modules\\HomeStay\\Providers\\HomeStayServiceProvider"
     ],
     "aliases": {},
     "files": [],
