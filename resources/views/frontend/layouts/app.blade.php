@@ -90,7 +90,7 @@
                         <a href="{{ url('/mahakal-lok-darshan') }}">Mahakal Lok Darshan</a>
                     </li>
                     <li>
-                        <a href="{{ url('/free-home-stay') }}">Home Stay Registration</a>
+                        <a href="{{ url('/free-home-stay') }}" style="color: yellow;">Book FREE Home Stay</a>
                     </li>
                     <li>
                         <a href="{{ url('/my-bookings') }}">My Bookings</a>
@@ -121,8 +121,8 @@
                     </div>
                     <div class="login-modal-right">
                         <div class="login-modal-header">
-                            <h3 class="login-modal-heading1"><i>Hurry…….</i> Last date to book your accommodation is 25 December 2022.</h3>
-                            <div class="login-modal-gif"><img src="{{ url('images/booking-closing-very-soon.gif') }}" alt="Booking Closing Very Soon" /></div>
+                            <h3 class="login-modal-heading1">Booking Closing Very Soon</h3>
+                            <!-- <div class="login-modal-gif"><img src="{{ url('images/booking-closing-very-soon.gif') }}" alt="Booking Closing Very Soon" /></div> -->
                             <h2 class="login-modal-heading">Login account</h2>
                         </div>
                         {!! NoCaptcha::renderJs() !!}
