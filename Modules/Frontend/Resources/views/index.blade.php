@@ -6,7 +6,11 @@
         <img src="{{ url('images/PBD2023-slider_new.png') }}" alt="PBD2023-slider" class="m-hide" />
         <img src="{{ url('images/mobile-slider-2_new.png') }}" alt="mobile-slider-2" class="d-hide" />
 
-        <img src="{{ url('images/big-booking-closing-very-soon.gif') }}" alt="Booking Closing Very Soon" class="very-soon-gif m-hide" />
+        <!-- <img src="{{ url('images/big-booking-closing-very-soon.gif') }}" alt="Booking Closing Very Soon" class="very-soon-gif m-hide" /> -->
+        <div class="banner-book-now">
+            <p>MP Government Offers FREE Home Stay</p>
+            <a href="{{ url('/search') }}" class="primary-button sm">Book Now</a>
+        </div>
     </div>
     <div class="booking-form-wrap booking-form-wrap-home desktop">
         <form action="{{ url('/search') }}" method="post"
