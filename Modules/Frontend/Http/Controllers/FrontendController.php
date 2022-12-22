@@ -9,6 +9,7 @@ use Modules\Frontend\Entities\HomeStayRegistration;
 use DB;
 use Session;
 use Exception;
+use Helpers;
 
 class FrontendController extends Controller
 {
@@ -183,27 +184,31 @@ class FrontendController extends Controller
 
         try {
 
-              $data = array(
-                'name' => $input['full_name'],
-                'email' => $input['email_id'],
-                'country_code' => $input['country_code'],
-                'mobile' => $input['phone_or_mobile_no'],
-                'address' => $input['address'],
-                'country'  => $input['country'],
-                'city'  => $input['city'],
-                'guest_name_1' => $input['adult_name_1'],
-                'guest_age_1' => $input['adult_age_1'],
-                'guest_name_2' => $input['adult_name_2'],
-                'guest_age_2' => $input['adult_age_2'],
-                'check_in_date'  => $input['check_in_date'],
-                'check_out_date'  => $input['check_out_date'],
-                'status'  => 'Request Received',
-                'created_at' => date('Y-m-d H:i:s')
-            );
+            $request = new HomeStayRegistration();
+            $request->name = $input['full_name'];
+            $request->email = $input['email_id'];
+            $request->country_code = $input['country_code'];
+            $request->mobile = $input['phone_or_mobile_no'];
+            $request->address = $input['address'];
+            $request->country = $input['country'];
+            $request->city = $input['city'];
+            $request->guest_name_1 = $input['adult_name_1'];
+            $request->guest_age_1 = $input['adult_age_1'];
+            $request->guest_name_2 = $input['adult_name_2'];
+            $request->guest_age_2 = $input['adult_age_2'];
+            $request->check_in_date = $input['check_in_date'];
+            $request->check_out_date = $input['check_out_date'];
+            $request->status = 'Request Received';
+            $request->created_at = date('Y-m-d H:i:s');
 
-            HomeStayRegistration::insert($data);
+            if($request->save()){
+                \Helpers::sendStayRequestMailToDelegate($request->id);
+                \Helpers::sendStayRequestMailToOverseas($request->id);
+                return redirect()->back()->with('success', 'Registration successful');
+            }else{
+                return redirect('/free-home-stay')->with('error', 'Something went wrong');
+            }
               
-            return redirect()->back()->with('success', 'Registration successful');
 
         } catch (\Exception $e) {
 

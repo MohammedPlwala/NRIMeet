@@ -10,6 +10,7 @@ use Kreait\Firebase\Database;
 use Modules\User\Entities\OrganizationStaff;
 
 use Modules\Hotel\Entities\Booking;
+use Modules\HomeStay\Entities\HomeStay;
 use Modules\Hotel\Entities\BookingRoom;
 use Modules\Hotel\Entities\BillingDetail;
 use Modules\Hotel\Entities\Transaction;
@@ -237,6 +238,51 @@ class Helpers {
 		}else{
 			return array();
 		}
+	}
+
+	public static function sendStayRequestMailToDelegate($request_id) {
+
+
+		$requestDetails = HomeStay::where('id',$request_id)->first();
+		$to_name = $requestDetails->name;
+		$to_email = $requestDetails->email;
+		// $to_email = $bookingDetails->guest_email;
+
+		$emails = array($to_email);
+
+		// $emails[] = \Config::get('constants.MPT_EMAIL');
+		// $emails[] = \Config::get('constants.OVERSEAS_EMAIL');
+
+		$data = array('requestDetails'=>$requestDetails);
+		Mail::send('emails.stay-request-delegate', $data, function ($message)  use ($to_name, $to_email,$emails) {
+			// $message->to($to_email, $to_name)
+			$message->to($emails, $to_name)
+			->subject('FREE Home Stay Request')
+			->from(\Config::get('constants.MAIL_FROM'),'Pravasi Bhartiya Divas');
+		});
+	}
+
+
+	public static function sendStayRequestMailToOverseas($request_id) {
+
+
+		$requestDetails = HomeStay::where('id',$request_id)->first();
+		$to_name = $requestDetails->name;
+		$to_email = \Config::get('constants.OVERSEAS_EMAIL');
+		// $to_email = $bookingDetails->guest_email;
+
+		$emails = array($to_email);
+
+		// $emails[] = \Config::get('constants.MPT_EMAIL');
+		// $emails[] = \Config::get('constants.OVERSEAS_EMAIL');
+
+		$data = array('requestDetails'=>$requestDetails);
+		Mail::send('emails.home-stay-request-overseas-team', $data, function ($message)  use ($to_name, $to_email,$emails) {
+			// $message->to($to_email, $to_name)
+			$message->to($emails, $to_name)
+			->subject('FREE Home Stay Request')
+			->from(\Config::get('constants.MAIL_FROM'),'Pravasi Bhartiya Divas');
+		});
 	}
 
 	

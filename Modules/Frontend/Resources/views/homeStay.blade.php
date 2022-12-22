@@ -48,7 +48,7 @@
               </div>
               <div class="form-item large">
                 <label class="form-label">Address <span class="required" title="required">*</span></label>
-                <textarea name="adress" required></textarea>
+                <textarea name="address" required></textarea>
               </div>
               <div class="form-item large">
                 <label class="form-label">Country of Residence <span class="required" title="required">*</span></label>

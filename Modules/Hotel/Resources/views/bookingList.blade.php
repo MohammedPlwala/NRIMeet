@@ -42,7 +42,6 @@
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Confirmation #</span></th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Guest</span></th>
                         <th class="nk-tb-col tb-col-md"><span class="sub-text">Hotel</span></th>
-                        <th class="nk-tb-col tb-col-md"><span class="sub-text">Room Type</span></th>
                         <th class="nk-tb-col tb-col-md"><span class="sub-text">Rooms</span></th>
                         <th class="nk-tb-col tb-col-md"><span class="sub-text">Checkin Date</span></th>
                         <th class="nk-tb-col tb-col-md"><span class="sub-text">Checkout Date</span></th>
