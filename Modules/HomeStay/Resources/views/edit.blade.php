@@ -1,7 +1,7 @@
 @extends('admin.layouts.app')
 
 @section('content')
-    <form role="form" method="post" enctype="multipart/form-data">
+    <form role="form" method="post" enctype="multipart/form-data" action="{{ url('admin/homestay/update/' . $request->id) }}">
         @csrf
         <div class="nk-block">
             <div class="card card-bordered sp-plan">
@@ -78,6 +78,7 @@
                                     {{ $request->guest_age_1 }}
                                 </div>
                             </div>
+                            @if($request->guest_name_2!='')
                             <div class="row g-3 align-center">
                                 <div class="col-lg-4">
                                     <x-inputs.verticalFormLabel label="Adult 2 :  Name" for="adult_2_name" suggestion=""/>
@@ -92,6 +93,7 @@
                                     {{ $request->guest_age_2 }}
                                 </div>
                             </div>
+                            @endif
                             <div class="row g-3 align-center">
                                 <div class="col-lg-4">
                                     <x-inputs.verticalFormLabel label="Check In & Check Out Date" for="hotel"
@@ -136,7 +138,7 @@
             </div>
         </div><!-- .nk-block -->
 
-         {{-- Status & Confirmation --}}
+        {{-- Status & Confirmation --}}
         <div class="nk-block">
             <div class="card card-bordered sp-plan">
                 <div class="row no-gutters">
@@ -144,7 +146,7 @@
                         <div class="sp-plan-action card-inner">
                             <div class="icon">
                                 
-                                <h5 class="o-5">Host Allocation</h5>
+                                <h5 class="o-5">Allotment</h5>
                             </div>
                         </div>
                     </div>
@@ -152,13 +154,28 @@
                         <div class="sp-plan-info card-inner">
                             <div class="row g-3 align-center">
                                 <div class="col-lg-4">
-                                    <x-inputs.verticalFormLabel label="Host" for="hotel" suggestion=""
+                                    <x-inputs.verticalFormLabel label="Status" for="status" suggestion=""
                                         required="true" />
                                 </div>
                                 <div class="col-lg-8">
-                                    <x-inputs.select for="status" icon="mail" required="true" class=""
-                                        placeholder="Select Status" name="status">
-                                        
+                                    <x-inputs.select for="status" required="true" class=""
+                                        placeholder="Select Status" id="status" name="status">
+                                        <option @if($request->status=='Request Recived') selected @endif value="Request Recived">Request Recived</option>
+                                        <option @if($request->status=='Alloted') selected @endif value="Alloted">Alloted</option>
+                                    </x-inputs.select>
+                                </div>
+                            </div>
+                            <div class="row g-3 align-center">
+                                <div class="col-lg-4">
+                                    <x-inputs.verticalFormLabel label="Alloted To" for="host_id" suggestion="" />
+                                </div>
+                                <div class="col-lg-8">
+                                    <x-inputs.select for="host_id" class=""
+                                        placeholder="Select Host" id="host_id" name="host_id">
+                                        <option value="">Select</option>
+                                        @foreach($hosts as $host)
+                                        <option @if($request->host_id==$host->id) selected @endif value="{{ $host->id }}">{{ $host->name }}</option>
+                                        @endforeach
                                     </x-inputs.select>
                                 </div>
                             </div>
@@ -187,7 +204,6 @@
                 </div><!-- .col -->
             </div><!-- .row -->
         </div>
-        <input type="hidden" name="home_stay_request_id" id="home_stay_request_id" value="{{ $request->id }}">
     </form>
 
     <input type="hidden" name="role_type" id="role_type" value="{{ \Config::get('constants.ROLES.BUYER') }}">
@@ -197,8 +213,19 @@
 
     <script type="text/javascript">
         $(document).ready(function() {
+            $('#host_id').on('select2:select', function (e) {
+                var data = e.params.data;
+                if(data.selected){
+                    $("#status").val('Alloted').trigger('change');
+                }
+            });
 
-
+            $('#status').on('select2:select', function (e) {
+                var data = e.params.data;
+                if(data.text=='Request Recived'){
+                    $("#host_id").val('').trigger('change');
+                }
+            });
         });
     </script>
 @endpush

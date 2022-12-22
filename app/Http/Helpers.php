@@ -285,6 +285,63 @@ class Helpers {
 		});
 	}
 
+
+	public static function sendAllotmentMailToDelegate($request_id) {
+
+
+		$requestDetails = HomeStay::from('home_stay as hs')->select('hs.name','hs.email','h.name as host_name','h.email as host_email','h.mobile as host_mobile','h.address as host_address','h.city as host_city','h.venue_distance','h.airport_distance','h.map_link','h.food_habit','h.vehicle','h.vehicle_number')->leftjoin('hosts as h','h.id','hs.host_id')->where('hs.id',$request_id)->first();
+		$to_name = $requestDetails->name;
+		$to_email = $requestDetails->email;
+
+		$emails = array($to_email);
+
+		$data = array('requestDetails'=>$requestDetails);
+		Mail::send('emails.home-stay-allotted-delegate', $data, function ($message)  use ($to_name, $to_email,$emails,$requestDetails) {
+			// $message->to($to_email, $to_name)
+			$message->to($emails, $to_name)
+			->subject('FREE Home Stay Alloted | Host Detail')
+			->from(\Config::get('constants.MAIL_FROM'),'Pravasi Bhartiya Divas');
+		});
+	}
+
+
+	public static function sendAllotmentMailToOverseas($request_id) {
+
+
+		$requestDetails =  HomeStay::from('home_stay as hs')->select('hs.name','hs.email','hs.mobile','hs.address','hs.country','hs.city','hs.guest_name_1','hs.guest_age_1','hs.guest_name_2','hs.guest_age_2','hs.check_in_date','hs.check_out_date','h.name as host_name','h.email as host_email','h.mobile as host_mobile','h.address as host_address','h.city as host_city','h.venue_distance','h.airport_distance','h.map_link','h.food_habit','h.vehicle','h.vehicle_number')->leftjoin('hosts as h','h.id','hs.host_id')->where('hs.id',$request_id)->first();
+		$to_name = 'Overseas Team';
+		$to_email = \Config::get('constants.OVERSEAS_EMAIL');
+
+		$emails = array($to_email);
+
+		$data = array('requestDetails'=>$requestDetails);
+		Mail::send('emails.home-stay-allotted-overseas', $data, function ($message)  use ($to_name, $to_email,$emails,$requestDetails) {
+			// $message->to($to_email, $to_name)
+			$message->to($emails, $to_name)
+			->subject('FREE Home Stay Alloted | Host Details & Delegate Details')
+			->from(\Config::get('constants.MAIL_FROM'),'Pravasi Bhartiya Divas');
+		});
+	}
+
+
+	public static function sendAllotmentMailToHost($request_id) {
+
+
+		$requestDetails =  HomeStay::from('home_stay as hs')->select('hs.name','hs.email','hs.mobile','hs.address','hs.country','hs.city','hs.guest_name_1','hs.guest_age_1','hs.guest_name_2','hs.guest_age_2','hs.check_in_date','hs.check_out_date','h.name as host_name','h.email as host_email')->leftjoin('hosts as h','h.id','hs.host_id')->where('hs.id',$request_id)->first();
+		$to_name = $requestDetails->host_name;
+		$to_email = $requestDetails->host_email;
+
+		$emails = array($to_email);
+
+		$data = array('requestDetails'=>$requestDetails);
+		Mail::send('emails.home-stay-allotted-host', $data, function ($message)  use ($to_name, $to_email,$emails,$requestDetails) {
+			// $message->to($to_email, $to_name)
+			$message->to($emails, $to_name)
+			->subject('FREE Home Stay Alloted | Delegate Detail')
+			->from(\Config::get('constants.MAIL_FROM'),'Pravasi Bhartiya Divas');
+		});
+	}
+
 	
 
 

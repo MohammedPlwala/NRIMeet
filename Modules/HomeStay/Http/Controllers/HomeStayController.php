@@ -6,6 +6,7 @@ use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Modules\HomeStay\Entities\HomeStay;
+use Modules\HomeStay\Entities\Host;
 use DataTables;
 
 
@@ -123,10 +124,11 @@ class HomeStayController extends Controller
      * @param int $id
      * @return Renderable
      */
-    public function edit($id)
+    public function edit(Request $request, $id)
     {
         $request = HomeStay::from('home_stay as hs')->where('id',$id)->first();
-        return view('homestay::edit', compact('request'));
+        $hosts = Host::where('is_alloted',0)->orwhere('id',$request->host_id)->get();
+        return view('homestay::edit', compact('request','hosts'));
     }
 
     /**
@@ -137,7 +139,38 @@ class HomeStayController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $input = $request->all();
+        // dd($input['host_id']);
+        $stayRequest = HomeStay::findorfail($id);
+
+        $oldHost = $stayRequest->host_id;
+
+        if($input['host_id']==''){
+
+            if($oldHost != 0){
+                $host = Host::findorfail($oldHost);
+                if($host){
+                    $host->is_alloted = 0;
+                    $host->save();
+                }
+            }
+            $stayRequest->status = 'Request Received';
+            $stayRequest->host_id = 0;
+            $stayRequest->allotment_date = Null;
+            $stayRequest->save();
+        }else{
+            $stayRequest->status = 'Alloted';
+            $stayRequest->host_id = $input['host_id'];
+            $stayRequest->allotment_date = date('Y-m-d');
+            $stayRequest->save();
+            Host::where('id',$input['host_id'])->update(['is_alloted'=>1]);
+            \Helpers::sendAllotmentMailToDelegate($id);
+            \Helpers::sendAllotmentMailToOverseas($id);
+            \Helpers::sendAllotmentMailToHost($id);
+        }
+
+
+         return redirect('/admin/homestay/requests')->with('message', 'Updated Successfully');
     }
 
     /**
