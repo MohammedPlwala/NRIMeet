@@ -200,6 +200,7 @@ class FrontendController extends Controller
         $user = \Auth::user();
 
         $input = $request->all();
+
         
         $checkInDate = date('d',strtotime($input['check_in_date']));
         $checkOutDate = date('d',strtotime($input['check_out_date']));
@@ -207,36 +208,43 @@ class FrontendController extends Controller
             return redirect('/free-home-stay')->with('error', 'Check Out Date cannot be less then Check In Date')->withInput();
         }
 
-
         try {
-
-            $request = new HomeStayRegistration();
-            $request->name = $input['full_name'];
-            $request->email = $input['email_id'];
-            $request->country_code = $input['country_code'];
-            $request->mobile = $input['phone_or_mobile_no'];
-            $request->address = $input['address'];
-            $request->country = $input['country'];
-            $request->city = $input['city'];
-            $request->guest_name_1 = $input['adult_name_1'];
-            $request->guest_age_1 = $input['adult_age_1'];
-            $request->guest_name_2 = $input['adult_name_2'];
-            $request->guest_age_2 = $input['adult_age_2'];
-            $request->check_in_date = date('Y-m-d',strtotime($input['check_in_date']));
-            $request->check_out_date = date('Y-m-d',strtotime($input['check_out_date']));
-            $request->status = 'Request Received';
-            $request->created_at = date('Y-m-d H:i:s');
-            $request->user_id = $user->id;
-
-            if($request->save()){
-                \Helpers::sendStayRequestMailToDelegate($request->id);
-                \Helpers::sendStayRequestMailToOverseas($request->id);
-                return redirect()->back()->with('success', 'Registration successful');
+            $totalHosts = Host::count();
+            $totalRequests = HomeStayRegistration::count();
+            $soldOut = 0;
+            $isExist = HomeStayRegistration::where('user_id',$user->id)->first();
+            if($isExist){
+                return redirect('/free-home-stay')->with('error', 'Sorry, you have already registered for free home stay.');
+            }elseif($totalRequests >= $totalHosts){
+                return redirect('/free-home-stay')->with('error', 'Sorry, request for registrations are closed for now. Please check later.')->withInput();
             }else{
-                return redirect('/free-home-stay')->with('error', 'Something went wrong');
+                $request = new HomeStayRegistration();
+                $request->name = $input['full_name'];
+                $request->email = $input['email_id'];
+                $request->country_code = $input['country_code'];
+                $request->mobile = $input['phone_or_mobile_no'];
+                $request->address = $input['address'];
+                $request->country = $input['country'];
+                $request->city = $input['city'];
+                $request->guest_name_1 = $input['adult_name_1'];
+                $request->guest_age_1 = $input['adult_age_1'];
+                $request->guest_name_2 = $input['adult_name_2'];
+                $request->guest_age_2 = $input['adult_age_2'];
+                $request->check_in_date = date('Y-m-d',strtotime($input['check_in_date']));
+                $request->check_out_date = date('Y-m-d',strtotime($input['check_out_date']));
+                $request->status = 'Request Received';
+                $request->created_at = date('Y-m-d H:i:s');
+                $request->user_id = $user->id;
+
+                if($request->save()){
+                    \Helpers::sendStayRequestMailToDelegate($request->id);
+                    \Helpers::sendStayRequestMailToOverseas($request->id);
+                    return redirect()->back()->with('success', 'Registration successful');
+                }else{
+                    return redirect('/free-home-stay')->with('error', 'Something went wrong');
+                }
             }
               
-
         } catch (\Exception $e) {
 
             return redirect()->back()->with('error', $e->getMessage());

@@ -26,7 +26,6 @@
 
         @if ($registered == 1)
         <div class="alert alert-info alert-block">
-            {{-- <button type="button" class="close" data-dismiss="alert">×</button>     --}}
             <strong>You have successfully registered for Free Home Stay.</strong>
         </div>
 
@@ -35,7 +34,9 @@
             {{-- <button type="button" class="close" data-dismiss="alert">×</button>     --}}
             <strong>Sorry, request for registrations are closed for now. Please check later. </strong>
         </div>
-        @else
+        @endif
+
+        @if ($registered == 0 && $soldOut == 0)
         <div class="custom-form">
           {!! NoCaptcha::renderJs() !!}
           <form action="{{url('/home-stay-registration')}}" method="post" enctype="multipart/form-data" autocomplete="off" data-parsley-validate="">
@@ -143,7 +144,7 @@
             </div>
 
             <div class="form-button">	
-              <button type="submit" class="primary-button md" name="mahakal_lok_darshan_form" id="mahakal_lok_darshan_form" value="Submit">Submit</button>
+              <button type="submit" class="primary-button md submitBtn" name="mahakal_lok_darshan_form" id="mahakal_lok_darshan_form" value="Submit">Submit</button>
             </div>
           </form>
         </div>
@@ -154,6 +155,12 @@
 @endsection
 @push('footerScripts')
 <script type="text/javascript">
+  $(document).ready(function(){
+    var checkValid = function(){
+      $('.submitBtn').attr("disabled", "disabled");
+    }
+    $.listen('parsley:form:success', checkValid)
+  });
   window.Parsley.addValidator('maxFileSize', {
     validateString: function(_value, maxSize, parsleyInstance) {
       var files = parsleyInstance.$element[0].files;
