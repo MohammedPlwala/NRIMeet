@@ -34,17 +34,14 @@ class CronController extends Controller
             // $html = view('user::visit/mail_report', compact('visiters'))->render();
 
             $to_name = 'Vikalp';
-            $to_email = 'vikalp@yopmail.com';
-
-            $to_name = 'Vikalp';
             $to_email = 's.kurrey@mpstdc.com';
-            $emails = array($to_email,'sachin@softude.com','events@overseastravels.co.in');
+            $emails = array($to_email,'sachin@softude.com','events@overseastravels.co.in','transportsectionbpl@mpstdc.com');
 
             $data = array('visiters'=>$visiters);
             \Mail::send('user::visit/mail_report', $data, function ($message)  use ($to_name, $to_email,$emails) {
                 // $message->to($to_email, $to_name)
                 $message->to($emails, $to_name)
-                ->subject('Mahankal Lok Darshan Requests | '.date('d M').' | '. date('h:i A'))
+                ->subject('Mahakal Lok Darshan Requests | '.date('d M').' | '. date('h:i A'))
                 ->from(\Config::get('constants.MAIL_FROM'),'Pravasi Bhartiya Divas');
             });
 
