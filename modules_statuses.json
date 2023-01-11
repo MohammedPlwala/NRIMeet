@@ -1,0 +1,9 @@
+{
+    "Blog": true,
+    "Dashboard": true,
+    "Frontend": true,
+    "Hotel": true,
+    "User": true,
+    "Report": true,
+    "HomeStay": true
+}

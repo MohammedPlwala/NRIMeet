@@ -1,0 +1,13 @@
+{
+    "name": "HomeStay",
+    "alias": "homestay",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\HomeStay\\Providers\\HomeStayServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

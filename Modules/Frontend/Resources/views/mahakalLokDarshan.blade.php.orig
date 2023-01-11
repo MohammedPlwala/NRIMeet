@@ -1,0 +1,141 @@
+@extends('frontend.layouts.app')
+
+@section('content')
+  <!-- Page Header -->
+  <div class="page-header">
+    <h1>Mahakal Lok Darshan</h1>
+  </div>
+  <section class="mahakal-lok-darshan-wrap">
+    <div class="container">
+      <div class="u_heading">
+        <h4>Immerse yourself in the spirituality of</h4>
+        <h2>Mahakal Lok</h2>
+        <h6>Visit the mesmerising 900 meter long corridor comprising of<br>
+        192 statues, 53 murals, and 108 pillars of Lord Shiva.</h6>
+      </div>
+      
+      <div class="ujjain">
+        <h3 class="heading3">Registration</h3>
+        @if(session()->has('message'))
+            <div class="alert alert-success">
+                {{ session()->get('message') }}
+            </div>
+        @endif
+
+        <div class="custom-form">
+          {!! NoCaptcha::renderJs() !!}
+          <form action="{{url('/darshan-registration')}}" method="post" enctype="multipart/form-data" autocomplete="off">
+            @csrf
+            <div class="grid grid-cols-1 md:grid-cols-2 md:gap-x-4 md:gap-y-2 gap-2">
+              <div class="form-item large">
+                <label class="form-label">Full Name: <span class="required" title="required">*</span></label>
+                <input type="text" name="full_name" id="full_name" value="" placeholder="Full Name" required />
+              </div>
+              <div class="form-item large">
+                <label class="form-label">Email Id: <span class="required" title="required">*</span></label>
+                <input type="email" name="email_id" id="email_id" value="" placeholder="Email Id" required />
+              </div>
+              <div class="form-item large">
+                <label class="form-label">Phone/Mobile No: <span class="required" title="required">*</span></label>
+                <div class="form-input-group">
+                  <div class="country-code">
+                    <input type="tel" name="country_code" id="country_code" value="" size="40" placeholder="Country Code" required />
+                  </div>
+                  <div class="phone-or-mobile-no">
+                    <input type="tel" name="phone_or_mobile_no" id="phone_or_mobile_no" value="" size="40" placeholder="Phone/Mobile No." required />
+                  </div>
+                </div>
+              </div>
+              <div class="form-item large">
+                <label class="form-label">PBD Registration No: <span class="required" title="required">*</span></label>
+                <input type="text" name="registration_number" value="" size="40" placeholder="PBD Registration No" required />
+              </div>
+              <div class="form-item large">
+                <label class="form-label">Country of Residence <span class="required" title="required">*</span></label>
+                <input type="text" name="country" value="" size="40" placeholder="Country of Residence" required />
+              </div>
+              <div class="form-item large">
+                <label class="form-label">Total number of members <span class="required" title="required">*</span></label>
+                <input type="tel" name="members" value="" size="40" placeholder="Total number of members" required />
+              </div>
+            </div>
+
+            <div class="form-item-box">
+              <div class="form-item large">
+                <label class="form-label2 mb-3">Upload member's deatils (Name | Email ID | Phone No. | Relationship)<br>
+                Details can be upload in (JPG | JPEG | PDF | Excel | MS Word)<br>
+                Maximum Size: 5MB<br>
+                </label> 
+                <input type="file" name="file" size="40" accept=".jpg,.jpeg,.pdf,.excel,.msword" />
+              </div>
+            </div>
+
+            <div class="form-item-box">
+              <label class="form-label2 mb-3">Shuttle Timings:<br>
+              Indore To Ujjain - 1 hour: 30 minutes approx</label>
+              <div class="grid grid-cols-1 md:grid-cols-2 md:gap-x-4 md:gap-y-2 gap-2">
+                <div class="form-item large">
+                  <div class="time_select">
+                    <label class="form-label">Select Departure From Indore </label>
+                    <span class="wpcf7-form-control-wrap" data-name="menu-998">
+<<<<<<< HEAD
+                        <select name="departure_from_indore" class="wpcf7-form-control wpcf7-select wpcf7-validates-as-required" aria-required="true" aria-invalid="false">
+=======
+                        <select name="menu-998">
+>>>>>>> 354af79c283da9ce6bace182e2e9429d76db05dd
+                          <option value="01:30 AM BHASMARTI">01:30 AM BHASMARTI</option>
+                          <option value="07:00 AM">07:00 AM</option>
+                          <option value="08:00 AM">08:00 AM</option>
+                          <option value="09:00 AM">09:00 AM</option>
+                          <option value="10:00 AM">10:00 AM</option>
+                          <option value="11:00 AM">11:00 AM</option>
+                          <option value="12:00 PM">12:00 PM</option>
+                          <option value="01:00 PM">01:00 PM</option>
+                          <option value="02:00 PM">02:00 PM</option>
+                          <option value="03:00 PM">03:00 PM</option>
+                          <option value="04:00 PM">04:00 PM</option>
+                          <option value="05:00 PM">05:00 PM</option>
+                        </select>
+                    </span>
+                  </div>
+                </div>
+                <div class="form-item large">
+                  <div class="time_select">
+                    <label class="form-label">Select Departure From Ujjain   </label>
+                    <span class="wpcf7-form-control-wrap" data-name="menu-573">
+                        <select name="departure_from_ujjain" class="wpcf7-form-control wpcf7-select wpcf7-validates-as-required" aria-required="true" aria-invalid="false">
+                          <option value="06:30 AM">06:30 AM</option>
+                          <option value="11:00 AM">11:00 AM</option>
+                          <option value="12:00 PM">12:00 PM</option>
+                          <option value="01:00 PM">01:00 PM</option>
+                          <option value="02:00 PM">02:00 PM</option>
+                          <option value="03:00 PM">03:00 PM</option>
+                          <option value="04:00 PM">04:00 PM</option>
+                          <option value="05:00 PM">05:00 PM</option>
+                          <option value="06:00 PM">06:00 PM</option>
+                          <option value="07:00 PM">07:00 PM</option>
+                          <option value="08:00 PM">08:00 PM</option>
+                          <option value="09:00 PM">09:00 PM</option>
+                        </select>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <p class="mahakal_lok">Shuttle service is organised by MP Tourism Corporation on 11th Jan 2023.<br>
+              Shuttle service are complimentary.
+            </p>
+            <div class="form-item large">
+              {!! app('captcha')->display() !!}
+            </div>
+
+            <div class="form-button">	
+              <button type="submit" class="primary-button md" name="mahakal_lok_darshan_form" id="mahakal_lok_darshan_form" value="Submit">Submit</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+@endsection
