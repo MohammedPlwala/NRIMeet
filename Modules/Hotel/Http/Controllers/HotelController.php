@@ -694,6 +694,32 @@ class HotelController extends Controller
                         $booked_on = date(\Config::get('constants.DATE.DATE_FORMAT_FULL') , strtotime($row->created_at));
                         return $booked_on;
                     })
+                    ->addColumn('notify', function ($row) {
+                        $notify = "-";
+
+                        if(!is_null($row->confirmation_number)){
+                            $onclick = "$(this).attr('disabled',true)";
+                            $notify = '<a onclick="'.$onclick.'" style="white-space:nowrap;" class="btn btn-sm btn-info" href="'.url('/admin/bookings/resend-booking-mail?booking_id='.$row->id.'&mailType=Booking Confirmation').'">Confirmation Mail</a>';
+                        }
+
+                        return $notify;
+                        // $notifyOptions .= '<li><a href="'.url('/admin/bookings/resend-booking-mail?booking_id='.$row->id.'&mailType=Booking Confirmation').'">Booking Confirmation</a></li>';
+                        // $notifyOptions .= '<li><a href="'.url('/admin/bookings/resend-booking-mail?booking_id='.$row->id.'&mailType=Cancellation Received').'">Cancellation Received</a></li>';
+                        // $notifyOptions .= '<li><a href="'.url('/admin/bookings/resend-booking-mail?booking_id='.$row->id.'&mailType=Cancellation Approved').'">Cancellation Approved</a></li>';
+                        // $notifyOptions .= '<li><a href="'.url('/admin/bookings/resend-booking-mail?booking_id='.$row->id.'&mailType=Refund Processed').'">Refund Processed</a></li>';
+                        // $notifyOptions .= '<li><a href="'.url('/admin/bookings/resend-booking-mail?booking_id='.$row->id.'&mailType=Refund Approved').'">Refund Approved</a></li>';
+
+                        // return $notify = '<div class="dropdown">
+                        //         <span class="dot bg-success d-mb-none"></span>
+                        //         <span class="badge badge-sm badge-dot has-bg d-none d-mb-inline-flex cursor-pointer d-mb-inline-flex" data-toggle="dropdown">Notify <em class="icon ni ni-chevron-down"></em></span>
+                        //         <div class="dropdown-menu dropdown-menu-right">
+                        //             <ul class="link-check">
+                        //                 '.$notifyOptions.'
+                        //             </ul>
+                        //         </div>
+                        //     </div>';
+
+                    })
                     ->addColumn('action', function($row) {
                             if($row->booking_status == 'Void'){
                                 return $btn = '';
@@ -725,11 +751,32 @@ class HotelController extends Controller
                                     </ul>";
                         return $btn;
                     })
-                    ->rawColumns(['action','status','order_id', 'booking_type','booking_status','confirmation_number','room_guests'])
+                    ->rawColumns(['action','status','order_id', 'booking_type','booking_status','confirmation_number','room_guests','notify'])
                     ->make(true);
         }
 
         return view('hotel::bookingList')->with(compact('bookingsCount','hotels'));
+    }
+
+    public function resendBookingMail(Request $request){
+        
+        if(isset($request->booking_id) && isset($request->mailType) && $request->mailType == 'Booking Confirmation'){
+            \Helpers::sendBookingConfirmationMails($request->booking_id);
+        }
+        if(isset($request->booking_id) && isset($request->mailType) && $request->mailType == 'Cancellation Received'){
+            \Helpers::sendCancellationReceivedMail($request->booking_id);
+        }
+        if(isset($request->booking_id) && isset($request->mailType) && $request->mailType == 'Cancellation Approved'){
+            \Helpers::sendCancellationApprovedMail($request->booking_id);
+        }
+        if(isset($request->booking_id) && isset($request->mailType) && $request->mailType == 'Refund Processed'){
+            \Helpers::sendRefundProcessedMail($request->booking_id);
+        }
+        if(isset($request->booking_id) && isset($request->mailType) && $request->mailType == 'Refund Approved'){
+            \Helpers::sendRefundApprovedMail($request->booking_id);
+        }
+
+        return redirect('/admin/bookings')->with('message', 'Mail sent successfully.');
     }
 
     public function createOrderNumber()

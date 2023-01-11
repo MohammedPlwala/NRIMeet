@@ -326,7 +326,8 @@ class ReportController extends Controller
             $room_types = \Helpers::roomTypes();
 
             $data = BookingRoom::from('booking_rooms as br')
-                    ->select('b.id as booking_id','b.created_at as booked_on','br.id','u.full_name as guest_name','u.email','u.mobile','b.order_id','b.confirmation_number','h.classification','h.name as hotel','rt.name as room_type_name','br.guests','b.check_in_date','b.check_out_date','br.adults','br.childs','br.extra_bed','br.amount','b.booking_status')
+                    ->select('b.id as booking_id','b.created_at as booked_on','br.id','u.full_name as guest_name','u.email','u.mobile','b.order_id','b.confirmation_number','h.classification','h.name as hotel','rt.name as room_type_name','br.guests','b.check_in_date','b.check_out_date','br.adults','br.childs','br.extra_bed','br.amount','b.booking_status','br.guest_one_name','br.guest_two_name','br.guest_three_name','br.child_name','b.special_request'
+                )
                     ->Join('bookings as b','b.id','=','br.booking_id')
                     ->leftJoin('hotel_rooms as hr','br.room_id','=','hr.id')
                     ->join('room_types as rt','rt.id','=','hr.type_id')
@@ -438,7 +439,35 @@ class ReportController extends Controller
                         ->addColumn('amount', function ($row) { 
                             return '₹'.number_format($row->amount, 2);
                         })
-                        ->rawColumns(['order_id', 'booking_status'])
+                        ->addColumn('special_request', function ($row) { 
+                            if(!is_null($row->special_request)){
+                                return $row->special_request;
+                            }
+
+                            return '-';
+                        })
+                        ->addColumn('room_guests', function ($row) {
+                            
+                            $guestName = array();
+                            if(!is_null($row->guest_one_name)){
+                                $guestName[] = $row->guest_one_name;
+                            }
+
+                            if(!is_null($row->guest_two_name)){
+                                $guestName[] = $row->guest_two_name;
+                            }
+
+                            if(!is_null($row->guest_three_name)){
+                                $guestName[] = $row->guest_three_name;
+                            }
+
+                            if(!is_null($row->child_name)){
+                                $guestName[] = $row->child_name;
+                            }
+                            $guestName = implode('<br>', $guestName);
+                            return $guestName;
+                        })
+                        ->rawColumns(['order_id', 'booking_status','room_guests'])
                         ->make(true);
             }
 
@@ -458,7 +487,13 @@ class ReportController extends Controller
             $bookings = BookingRoom::from('booking_rooms as br')
                     ->select(
                         \DB::raw('DATE_FORMAT(b.created_at, "%d-%b-%Y") as booked_on'),
-                        'b.order_id','u.full_name as guest_name','u.email','u.mobile','b.confirmation_number','h.classification','h.name as hotel','rt.name as room_type_name','br.guests','b.check_in_date','b.check_out_date','b.booking_status','br.adults','br.childs','br.extra_bed','br.amount')
+                        'b.order_id','u.full_name as guest_name',
+                        \DB::raw("CONCAT(IFNULL(br.guest_one_name,''),
+                                ', ',IFNULL(br.guest_two_name,''),
+                                ', ',IFNULL(br.guest_three_name,''),
+                                ', ',IFNULL(br.child_name,'')) AS 'room_guest'"),
+                        'u.email','u.mobile','b.confirmation_number','h.classification','h.name as hotel','rt.name as room_type_name','b.special_request','br.guests','b.check_in_date','b.check_out_date','b.booking_status','br.adults','br.childs','br.extra_bed','br.amount'
+                    )
                     ->Join('bookings as b','b.id','=','br.booking_id')
                     ->leftJoin('hotel_rooms as hr','br.room_id','=','hr.id')
                     ->join('room_types as rt','rt.id','=','hr.type_id')
@@ -510,7 +545,19 @@ class ReportController extends Controller
                     ->orderby('u.full_name','asc')
                     ->get();
 
+
             if(!empty($bookings->toArray())){
+
+                foreach ($bookings as $key => $booking) {
+                    $room_guest = str_replace(', , ', ', ', $booking->room_guest);
+                    $room_guest = str_replace(', ,', ', ', $room_guest);
+                    $room_guest = str_replace(', ,', ', ', $room_guest);
+                    $room_guest = str_replace(', ', ',', $room_guest);
+                    $room_guest = trim($room_guest);
+                    $room_guest = rtrim($room_guest, ',');
+                    $booking->room_guest = $room_guest;
+                }
+
                 return (new BookingExport($bookings->toArray()))->download('bookings' . '.xlsx', \Maatwebsite\Excel\Excel::XLSX);
             }else{
                 return redirect('admin/report/booking')->with('error', 'No order');
@@ -527,7 +574,7 @@ class ReportController extends Controller
         $booking_detail = Booking::from('bookings as b')->select('b.order_id','b.booking_type','b.created_at as booking_date','u.full_name as guest_name','u.email as guest_email','u.mobile as guest_contact','u.country as guest_country','u.registration_delegate_category as guest_category','h.classification as hotel_rating','h.name as hotel','rt.name as room_type','b.check_in_date','b.check_out_date','b.nights','b.amount as total_charge','b.special_request','b.confirmation_number','b.booking_status','t.payment_method','t.payment_mode','t.transaction_id','t.status','b.utr_number','b.settlement_date','b.settlement_id','t.created_at as payment_date','b.cancellation_request_date','b.cancellation_date','b.cancellation_charges','b.refund_request_date','b.refund_date','b.refundable_amount','b.refund_transaction_utr','u.registration_name','u.registration_email','u.registration_contact','u.registration_country','b.email_receipt','b.payment_receipt')->leftjoin('users as u','b.user_id','u.id')->leftjoin('hotels as h','b.hotel_id','h.id')->leftjoin('booking_rooms as br','b.id','br.booking_id')->leftjoin('hotel_rooms as hr','br.room_id','hr.id')->leftjoin('room_types as rt','rt.id','hr.type_id')->leftjoin('transactions as t','t.booking_id','b.id')->where('b.id',$id)->first();
 
         $bookingRooms = BookingRoom::from('booking_rooms as br')
-                    ->select('br.*','hr.rate','rt.name as room_type')
+                    ->select('br.*','hr.rate','rt.name as room_type','hr.extra_bed_rate')
                     ->leftJoin('hotel_rooms as hr','br.room_id','=','hr.id')
                     ->leftJoin('room_types as rt','hr.type_id','=','rt.id')
                     ->where('br.booking_id',$id)

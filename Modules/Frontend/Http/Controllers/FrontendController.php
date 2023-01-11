@@ -14,6 +14,11 @@ use Helpers;
 
 class FrontendController extends Controller
 {
+    
+    public function __construct() {
+        $this->homeStayRequests =  50;
+    }
+
     public function booking()
     {
         return view('frontend::booking');
@@ -182,7 +187,7 @@ class FrontendController extends Controller
         $totalRequests = HomeStayRegistration::count();
 
         $soldOut = $registered = 0;
-        if($totalRequests >= $totalHosts){
+        if($totalRequests >= $this->homeStayRequests){
             $soldOut = 1;
         }
 
@@ -210,6 +215,7 @@ class FrontendController extends Controller
 
         try {
             $totalHosts = Host::count();
+            $totalHosts = $this->homeStayRequests;
             $totalRequests = HomeStayRegistration::count();
             $soldOut = 0;
             $isExist = HomeStayRegistration::where('user_id',$user->id)->first();

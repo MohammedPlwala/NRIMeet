@@ -461,7 +461,7 @@
                             @empty
                             <div class="no-data-found">
                                 <img src="{{url('images/hotel_icon2.png')}}" alt="" />
-                                <p>No Record Found!</p>
+                                <p>MP Government has released the blocked Hotel Room Inventories to the respective hotels. To book the hotel accommodation,delegates are requested to directly get in touch with Hotels. We look forward meeting you all at Indore - 17th Pravasi Bharatiya Divas 2023.</p>
                             </div>
                             @endforelse
                         </ul>

@@ -54,7 +54,7 @@
 				<tr>
 					<td style="padding-left:0px; padding-top: 10px; font-size: 14px; padding-bottom: 10px; font-family: Arial, Helvetica, sans-serif; line-height: 1.5;">
             <h3 style="color:#000000; font-size: 16px; font-family: arial; font-weight: 600">Thank you for registring <span style="color:#FF8000;">FREE</span> Home Stay.</h3>
-						<p>We have received your request & team is processing yur details.</p>
+						<p>We have received your request & team is processing your details.</p>
 						<p>We will update you once the host is allocated to you.</p>
           </td>
 				</tr>

@@ -14,7 +14,7 @@
 	  	<div class="shb-booking-summary-wrapper">
 			<div class="shb-booking-summary-item">
 				<div class="shb-booking-summary-item-header">
-					<h4>{{ $booking->hotel_name }} </h4>
+					<h4>{{ $booking->hotel_name }} @if(!is_null($booking->confirmation_number))<span class="small">(Confirmation No.: <strong>{{ $booking->confirmation_number }}</strong>)</span> @endif </h4>
 					<div>
 						<span class="badge badge-info" style="padding: 8px;"> {{ $booking->customer_booking_status }}</span>
 						<a href="{{ url('booking-invoice/'.$booking->id) }}" class="primary-button sm"><em class="fas fa-download"></em> Download Invoice</a>

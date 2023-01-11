@@ -34,13 +34,15 @@
                     <tr class="nk-tb-item nk-tb-head">
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Booked On</span></th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Order Id</span></th>
-                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Guest Name</span></th>
+                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Logged In Guest</span></th>
+                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Room Guests</span></th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Guest Email</span></th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Guest Contact #</span></th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Hotel</span></th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Confirmation No</span></th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Classification</span></th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Room Type</span></th>
+                        <th class="nk-tb-col tb-col-mb"><span class="sub-text">Special Request</span></th>
                         <th class="nk-tb-col tb-col-mb text-center"><span class="sub-text">Guest Count</span></th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Check In</span></th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">Check Out</span></th>
@@ -326,6 +328,11 @@
                         },
                         {
                             "class": "nk-tb-col tb-col-lg",
+                            data: 'room_guests',
+                            name: 'room_guests'
+                        },
+                        {
+                            "class": "nk-tb-col tb-col-lg",
                             data: 'email',
                             name: 'email'
                         },
@@ -354,6 +361,11 @@
                             "class": "nk-tb-col tb-col-lg",
                             data: 'room_type_name',
                             name: 'room_type_name'
+                        },
+                        {
+                            "class": "nk-tb-col tb-col-lg",
+                            data: 'special_request',
+                            name: 'special_request'
                         },
                         {
                             "class": "nk-tb-col tb-col-lg text-center",

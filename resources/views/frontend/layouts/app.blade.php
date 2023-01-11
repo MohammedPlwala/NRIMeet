@@ -86,12 +86,12 @@
                     <li>
                         <a href="{{ url('/') }}">Accommodation</a>
                     </li>
-                    <li>
+                    {{-- <li>
                         <a href="{{ url('/mahakal-lok-darshan') }}">Mahakal Lok Darshan</a>
                     </li>
                     <li>
                         <a href="{{ url('/free-home-stay') }}" style="color: yellow;">Book FREE Home Stay</a>
-                    </li>
+                    </li> --}}
                     <li>
                         <a href="{{ url('/my-bookings') }}">My Bookings</a>
                     </li>
@@ -121,7 +121,7 @@
                     </div>
                     <div class="login-modal-right">
                         <div class="login-modal-header">
-                            <h3 class="login-modal-heading1">Booking Closing Very Soon</h3>
+                            {{-- <h3 class="login-modal-heading1">Booking Closed</h3> --}}
                             <!-- <div class="login-modal-gif"><img src="{{ url('images/booking-closing-very-soon.gif') }}" alt="Booking Closing Very Soon" /></div> -->
                             <h2 class="login-modal-heading">Login account</h2>
                         </div>
@@ -177,7 +177,7 @@
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    NRIMeet
+                    PBD
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
@@ -247,7 +247,7 @@
                 </p>
                 <p class="sohohotel-footer-message">Copyright © 2022, Madhya Pradesh State Tourism Development
                     Corporation Ltd. All Rights Reserved.</p>
-                <p class="sohohotel-footer-message" style="width: 100%;">Visitor: 70046</p>
+                <p class="sohohotel-footer-message" style="width: 100%;">Visitor: 112546</p>
             </div>
         </footer>
     </div>

@@ -14,7 +14,7 @@
         192 statues, 53 murals, and 108 pillars of Lord Shiva.</h6>
       </div>
       
-      <div class="ujjain">
+      {{-- <div class="ujjain">
         <h3 class="heading3">Registration</h3>
         @if ($message = Session::get('success'))
         <div class="alert alert-success alert-block">
@@ -52,10 +52,6 @@
                   </div>
                 </div>
               </div>
-              {{-- <div class="form-item large">
-                <label class="form-label">PBD Registration No: <span class="required" title="required">*</span></label>
-                <input type="text" name="registration_number" value="" size="40" placeholder="PBD Registration No" required />
-              </div> --}}
               <div class="form-item large">
                 <label class="form-label">Country of Residence <span class="required" title="required">*</span></label>
                 <input type="text" name="country" value="" size="40" placeholder="Country of Residence" required />
@@ -119,7 +115,7 @@
             </div>
           </form>
         </div>
-      </div>
+      </div> --}}
     </div>
   </section>
 @endsection

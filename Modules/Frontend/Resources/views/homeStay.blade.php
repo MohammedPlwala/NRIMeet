@@ -39,7 +39,7 @@
         @if ($registered == 0 && $soldOut == 0)
         <div class="custom-form">
           {!! NoCaptcha::renderJs() !!}
-          <form action="{{url('/home-stay-registration')}}" method="post" enctype="multipart/form-data" autocomplete="off" data-parsley-validate="">
+          {{-- <form action="{{url('/home-stay-registration')}}" method="post" enctype="multipart/form-data" autocomplete="off" data-parsley-validate="">
             @csrf
             <div class="grid grid-cols-1 md:grid-cols-2 md:gap-x-4 md:gap-y-2 gap-2">
               <div class="form-item large">
@@ -146,7 +146,7 @@
             <div class="form-button">	
               <button type="submit" class="primary-button md submitBtn" name="mahakal_lok_darshan_form" id="mahakal_lok_darshan_form" value="Submit">Submit</button>
             </div>
-          </form>
+          </form> --}}
         </div>
         @endif
       </div>
