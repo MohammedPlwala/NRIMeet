@@ -43,6 +43,8 @@ Route::group(['middleware' => 'admin'], function(){
             Route::get('/edit/{booking_id}', 'HotelController@editBooking');
             Route::post('/update-booking/{booking_id}', 'HotelController@updateBooking');
 
+            Route::get('/resend-booking-mail', 'HotelController@resendBookingMail');
+
             Route::get('/import', 'BookingController@import');
             Route::post('/import', 'BookingController@importProduct');
             

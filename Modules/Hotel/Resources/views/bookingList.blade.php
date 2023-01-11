@@ -48,6 +48,7 @@
                         <th class="nk-tb-col tb-col-md"><span class="sub-text">Checkout Date</span></th>
                         <th class="nk-tb-col tb-col-md"><span class="sub-text">Amount</span></th>
                         <th class="nk-tb-col tb-col-md"><span class="sub-text">Booking Type</span></th>
+                        <th class="nk-tb-col tb-col-md"><span class="sub-text">Resend</span></th>
                         <th class="nk-tb-col tb-col-md w-1 text-center" nowrap="true"><span class="sub-text">Status</span>
                         </th>
                         <th class="nk-tb-col nk-tb-col-tools text-right w-1" nowrap="true">
@@ -254,6 +255,10 @@
                             name: 'booking_type',
                         },
                         {
+                            "class": "nk-tb-col tb-col-lg text-center",
+                            data: 'notify',
+                            name: 'notify'
+                        },{
                             "class": "nk-tb-col tb-col-lg text-center",
                             data: 'booking_status',
                             name: 'booking_status'

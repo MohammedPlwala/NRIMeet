@@ -35,7 +35,7 @@ class CronController extends Controller
 
             $to_name = 'Vikalp';
             $to_email = 's.kurrey@mpstdc.com';
-            $emails = array($to_email,'sachin@softude.com','events@overseastravels.co.in','transportsectionbpl@mpstdc.com');
+            $emails = array($to_email,'transportsectionbpl@mpstdc.com');
 
             $data = array('visiters'=>$visiters);
             \Mail::send('user::visit/mail_report', $data, function ($message)  use ($to_name, $to_email,$emails) {
@@ -68,7 +68,7 @@ class CronController extends Controller
 
             $to_name = 'Vikalp';
             $to_email = 's.kurrey@mpstdc.com';
-            $emails = array($to_email,'sachin@softude.com','events@overseastravels.co.in');
+            $emails = array($to_email);
 
 
             $data = array('stays'=>$stays);

@@ -8,8 +8,8 @@
 
         <!-- <img src="{{ url('images/big-booking-closing-very-soon.gif') }}" alt="Booking Closing Very Soon" class="very-soon-gif m-hide" /> -->
 
-        <h3 class="banner-heading animate-charcter"> Booking Closing Very Soon</h3>
-        <div class="banner-book-now">
+        {{-- <h3 class="banner-heading animate-charcter"> Booking Closed</h3> --}}
+        {{-- <div class="banner-book-now">
             <p class="animate-charcter">
                 MADHYA PRADESH GOVERNMENT OFFERS FREE HOME STAY.
             </p>
@@ -17,8 +17,9 @@
                 HURRY LIMITED AVAILABILITY…..
             </p>
             <a href="{{ url('/free-home-stay') }}" class="primary-button"><span style="color: #FFF">Book Now</span></a>
-        </div>
+        </div> --}}
     </div>
+    <?php /*
     <div class="booking-form-wrap booking-form-wrap-home desktop">
         <form action="{{ url('/search') }}" method="post"
             class="shb-booking-form-style-1 shb-booking-form-1-column-4 shb-clearfix" autocomplete="off">
@@ -244,7 +245,11 @@
 
             <!-- END .shb-booking-form-style-1 -->
         </form>
-    </div>
+    </div> */ ?>
+
+    <div class="booking-form-wrap booking-form-wrap-home desktop" style="background-color: #FFF; padding: 15px;max-width: 1200px;width: 100%; margin: 0 auto; display: table;">
+    <p style="font-size: 24px; line-height: 28px;  font-weight: bold; text-align: center;">MP Government has released the blocked Hotel Room Inventories to the respective hotels. To book the hotel accommodation,delegates are requested to directly get in touch with Hotels. We look forward meeting you all at Indore - 17th Pravasi Bharatiya Divas 2023.</p>
+</div>
     <div class="container mx-auto">
         <ul class="client-logos">
             <li>
