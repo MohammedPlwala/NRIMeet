@@ -80,18 +80,19 @@
                     <div class="logo-5"><img src="{{ url('images/MP-t.png') }}" alt="MP-t" /></div>
                 </div>
             </div>
+            {{-- 
             <a href="javascript:void(0)" class="mobile-navigation-button"><i class="fas fa-bars"></i></a>
             <div class="navigation">
                 <ul>
                     <li>
                         <a href="{{ url('/') }}">Accommodation</a>
                     </li>
-                    {{-- <li>
+                    <li>
                         <a href="{{ url('/mahakal-lok-darshan') }}">Mahakal Lok Darshan</a>
                     </li>
                     <li>
                         <a href="{{ url('/free-home-stay') }}" style="color: yellow;">Book FREE Home Stay</a>
-                    </li> --}}
+                    </li>
                     <li>
                         <a href="{{ url('/my-bookings') }}">My Bookings</a>
                     </li>
@@ -109,6 +110,7 @@
                     </li>
                 </ul>
             </div>
+            --}}
         </header>
 
         @guest

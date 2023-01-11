@@ -2553,11 +2553,24 @@ label.filter_label {
 .banner-heading{
   font-size: 28px;
   font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: 0.03em;
   color: var(--secondary-color);
   position: absolute;
-  top: 50%;
+  top: 51%;
   left: 8.5%;
   max-width: 672px;
+}
+.banner-heading span{
+  display: block;
+  padding-bottom: 15px;
+}
+@media only screen and (max-width: 1023px) {
+  .banner-heading{
+    font-size: 20px;
+    bottom: auto;
+    top: 51%;
+  }
 }
 @media only screen and (max-width: 600px) {
   .banner-heading{

@@ -7,7 +7,10 @@
         <img src="{{ url('images/mobile-slider-2_new.png') }}" alt="mobile-slider-2" class="d-hide" />
 
         <!-- <img src="{{ url('images/big-booking-closing-very-soon.gif') }}" alt="Booking Closing Very Soon" class="very-soon-gif m-hide" /> -->
-
+        <h3 class="banner-heading">
+            <span>Dear PBD Delegate's,</span>
+            We would like to thank you for all your support in making this event successful and we do hope you really had lovely experience of Indore. We look forward meeting you all in next PBD.
+        </h3>
         {{-- <h3 class="banner-heading animate-charcter"> Booking Closed</h3> --}}
         {{-- <div class="banner-book-now">
             <p class="animate-charcter">
@@ -247,9 +250,9 @@
         </form>
     </div> */ ?>
 
-    <div class="booking-form-wrap booking-form-wrap-home desktop" style="background-color: #FFF; padding: 15px;max-width: 1200px;width: 100%; margin: 0 auto; display: table;">
-    <p style="font-size: 24px; line-height: 28px;  font-weight: bold; text-align: center;">MP Government has released the blocked Hotel Room Inventories to the respective hotels. To book the hotel accommodation,delegates are requested to directly get in touch with Hotels. We look forward meeting you all at Indore - 17th Pravasi Bharatiya Divas 2023.</p>
-</div>
+    {{-- <div class="booking-form-wrap booking-form-wrap-home desktop" style="background-color: #FFF; padding: 15px;max-width: 1200px;width: 100%; margin: 0 auto; display: table;">
+        <p style="font-size: 24px; line-height: 28px;  font-weight: bold; text-align: center;">MP Government has released the blocked Hotel Room Inventories to the respective hotels. To book the hotel accommodation,delegates are requested to directly get in touch with Hotels. We look forward meeting you all at Indore - 17th Pravasi Bharatiya Divas 2023.</p>
+    </div> --}}
     <div class="container mx-auto">
         <ul class="client-logos">
             <li>
